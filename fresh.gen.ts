@@ -4,9 +4,12 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
-import * as $api_joke from "./routes/api/joke.ts";
-import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
+import * as $quotes_index from "./routes/quotes/index.tsx";
+import * as $random_characters from "./routes/random/characters.tsx";
+import * as $random_index from "./routes/random/index.tsx";
+import * as $random_letters from "./routes/random/letters.tsx";
+import * as $random_words from "./routes/random/words.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -14,9 +17,12 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
-    "./routes/api/joke.ts": $api_joke,
-    "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
+    "./routes/quotes/index.tsx": $quotes_index,
+    "./routes/random/characters.tsx": $random_characters,
+    "./routes/random/index.tsx": $random_index,
+    "./routes/random/letters.tsx": $random_letters,
+    "./routes/random/words.tsx": $random_words,
   },
   islands: {
     "./islands/Counter.tsx": $Counter,
