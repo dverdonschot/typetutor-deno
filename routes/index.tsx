@@ -1,24 +1,30 @@
 import { useSignal } from "@preact/signals";
-import Counter from "../islands/Counter.tsx";
+import Countdown from "../islands/Countdown.tsx";
 
 export default function Home() {
-  const count = useSignal(3);
+  const date = new Date();
+  date.setHours(date.getHours() + 1);
   return (
-    <div class="px-4 py-8 mx-auto bg-[#86efac]">
-      <div class="max-w-screen-md mx-auto flex flex-col items-center justify-center">
-        <img
-          class="my-6"
-          src="/logo.svg"
-          width="128"
-          height="128"
-          alt="the Fresh logo: a sliced lemon dripping with juice"
-        />
-        <h1 class="text-4xl font-bold">Welcome to Fresh</h1>
-        <p class="my-4">
-          Will try to make a small game that can help learn touch typing.
-          <code class="mx-2">./routes/index.tsx</code> file, and refresh.
-        </p>
-        <Counter count={count} />
+    <div class="container mx-auto">
+      <header class="bg-emerald-800" >
+        <h1>Typetutor: The place to train your Touch Typing skills!!</h1>
+      </header>
+      <div class="main-content">
+        <nav class="menu">
+          <ul>
+            <li><a href="#">Random Words</a></li>
+            <li><a href="#">Letters</a></li>
+            <li><a href="#">Quotes</a></li>
+            <li><a href="#">Custom Text</a></li>
+          </ul>
+        </nav>
+        <div class="typing-field">
+          <p>
+            The big event is happening <Countdown target={date.toISOString()} />.
+          </p>
+
+          <textarea id="typefield" rows = {10} placeholder="Start typing here..."></textarea>
+        </div>
       </div>
     </div>
   );

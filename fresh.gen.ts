@@ -10,6 +10,7 @@ import * as $random_characters from "./routes/random/characters.tsx";
 import * as $random_index from "./routes/random/index.tsx";
 import * as $random_letters from "./routes/random/letters.tsx";
 import * as $random_words from "./routes/random/words.tsx";
+import * as $Countdown from "./islands/Countdown.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -25,6 +26,7 @@ const manifest = {
     "./routes/random/words.tsx": $random_words,
   },
   islands: {
+    "./islands/Countdown.tsx": $Countdown,
     "./islands/Counter.tsx": $Counter,
   },
   baseUrl: import.meta.url,
