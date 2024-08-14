@@ -4,6 +4,7 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $index_backup from "./routes/index-backup.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $quotes_index from "./routes/quotes/index.tsx";
 import * as $random_characters from "./routes/random/characters.tsx";
@@ -12,12 +13,14 @@ import * as $random_letters from "./routes/random/letters.tsx";
 import * as $random_words from "./routes/random/words.tsx";
 import * as $Countdown from "./islands/Countdown.tsx";
 import * as $Counter from "./islands/Counter.tsx";
+import * as $KeyLogger from "./islands/KeyLogger.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
+    "./routes/index-backup.tsx": $index_backup,
     "./routes/index.tsx": $index,
     "./routes/quotes/index.tsx": $quotes_index,
     "./routes/random/characters.tsx": $random_characters,
@@ -28,6 +31,7 @@ const manifest = {
   islands: {
     "./islands/Countdown.tsx": $Countdown,
     "./islands/Counter.tsx": $Counter,
+    "./islands/KeyLogger.tsx": $KeyLogger,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
