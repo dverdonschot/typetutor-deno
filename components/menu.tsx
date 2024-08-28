@@ -1,7 +1,7 @@
 
 export function Menu() {
   return (
-      <div class="col-span-2 min-h-[300px] bg-white shadow-lg rounded-lg max-w-xs mx-auto relative">
+    <div class="col-span-2 min-w-full min-h-[500px] bg-white shadow-lg rounded-lg max-w-xs mx-auto relative">
         <li class="flex mt-2 mb-2 ml-2 mr-2 items-center text-gray-900 text-md py-1">
           <span class="text-gray-400 mr-5">
             <svg class="w-7 h-7  text-gray-800 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
