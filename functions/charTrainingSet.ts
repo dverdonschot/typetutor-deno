@@ -1,6 +1,7 @@
 export interface TrainingChar {
     char: string;
     state: 'correct' | 'incorrect' | 'none';
+    typedChar: string;
     time?: number;
 }
 
@@ -17,6 +18,7 @@ export function charTrainingSet(lenght: number, chars?: string): TrainingChar[] 
         TrainingSet.push({
             char: availableChars[randomIndex],
             state: 'none',
+            typedChar: 'none',
         })
         counter++;
     }

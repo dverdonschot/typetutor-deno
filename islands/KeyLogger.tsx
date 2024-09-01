@@ -1,7 +1,9 @@
 import { h } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
-import { charTrainingSet } from "../functions/charTrainingSet.ts";
+import { TrainingChar, charTrainingSet } from "../functions/charTrainingSet.ts";
+import GamestateRandom2 from "./GamestateRandom2.tsx";
 
+const codeableKeys: TrainingChar[] = charTrainingSet(10);
 const KeyLogger = () => {
   const [typedKeys, setTypedKeys] = useState<string[]>([]);
 
@@ -16,11 +18,12 @@ const KeyLogger = () => {
     };
   }, []);
 
-  const codeableKeys: string[] = []
-  
+  //const codeableKeys: string[] = []
+  let typedCount = 0;
   typedKeys.map((key) => {
     if (key === 'Backspace') {
-      codeableKeys.pop();
+      //codeableKeys.pop();
+      typedCount--
     } else if (key === 'Control') {
       // do nothing
     } else if (key === 'Shift') {
@@ -30,26 +33,34 @@ const KeyLogger = () => {
     } else if (key === 'Tab') {
       // do nothing 
     } else if (key === 'Enter') {
-      codeableKeys.push(' \nbla \n');
+      // do nothing
     } else {
-      codeableKeys.push(key);
+      codeableKeys[typedCount].typedChar = key
+      if (codeableKeys[typedCount].char === key) {
+        codeableKeys[typedCount].state = "correct"
+      } else {
+        codeableKeys[typedCount].state = "incorrect"
+      }
+      typedCount++
     }
   })
 
-  const Trainingset = charTrainingSet(10);
-  console.log(Trainingset);
+  
+  const state = GamestateRandom2(codeableKeys)
 
   return (
     <div>
-      <h1>Type something:</h1>
+      <h1>Type something Big:</h1>
+
       <h1>
-        {Trainingset.map((item, index) => (
-          <span key={index}>{item.char}</span>
+        {state}
+        {codeableKeys.map((item, index) => (
+          <span key={index}>{item.typedChar}</span>
         ))}
       </h1>
       <div class="key-logger">
         {codeableKeys.map((key, index) => (
-          <span key={index}>{key}</span>
+          <span key={index}>{key.typedChar}{' '}</span>
         ))}
       </div>
     </div>

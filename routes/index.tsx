@@ -3,6 +3,7 @@ import { Menu } from "../components/menu.tsx";
 import { Logo } from "../components/logo.tsx";
 import { Description } from "../components/description.tsx";
 import { Userinput } from "../components/userinput.tsx";
+import { TodoList } from "../islands/useState.tsx";
 
 export default function Home(props: PageProps) {
   const date = new Date();
@@ -13,6 +14,7 @@ export default function Home(props: PageProps) {
       <Description description="The place to train your Touch Typing skills!!" />
       <Menu />
       <Userinput />
+      <TodoList />
     </div>
   );
 }
