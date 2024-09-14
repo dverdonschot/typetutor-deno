@@ -8,6 +8,8 @@ interface KeyLoggerNewProps {
 
 const KeyLogger: React.FC<KeyLoggerNewProps> = ({codeableKeys}) => {
   const [typedKeys, setTypedKeys] = useState<string[]>([]);
+  const [typedCount, setTypedCount] = useState(0);
+
 
   const handleKeyPress = (event: KeyboardEvent) => {
     setTypedKeys((prevKeys) => [...prevKeys, event.key]);
@@ -21,11 +23,11 @@ const KeyLogger: React.FC<KeyLoggerNewProps> = ({codeableKeys}) => {
   }, []);
 
   //const codeableKeys: string[] = []
-  let typedCount = 0;
+  //let typedCount = 0;
   typedKeys.map((key) => {
     codeableKeys[typedCount].time = Math.floor(Date.now() / 1000)
     if (key === 'Backspace') {
-      if (typedCount > 0) typedCount--
+      if (typedCount > 0) setTypedCount(typedCount - 1);
       codeableKeys[typedCount].state = "none"
       codeableKeys[typedCount].typedChar = "none"
     } else if (key === 'Control') {
@@ -47,7 +49,7 @@ const KeyLogger: React.FC<KeyLoggerNewProps> = ({codeableKeys}) => {
       } else {
         codeableKeys[typedCount].state = "incorrect"
       }
-      typedCount++
+      setTypedCount(typedCount + 1);
     }
   })
 

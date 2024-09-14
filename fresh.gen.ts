@@ -4,40 +4,24 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
-import * as $index_backup from "./routes/index-backup.tsx";
 import * as $index from "./routes/index.tsx";
-import * as $quotes_index from "./routes/quotes/index.tsx";
-import * as $random_characters from "./routes/random/characters.tsx";
-import * as $random_index from "./routes/random/index.tsx";
-import * as $random_letters from "./routes/random/letters.tsx";
-import * as $random_words from "./routes/random/words.tsx";
-import * as $Countdown from "./islands/Countdown.tsx";
-import * as $Counter from "./islands/Counter.tsx";
-import * as $GamestateRandom from "./islands/GamestateRandom.tsx";
-import * as $GamestateRandom2 from "./islands/GamestateRandom2.tsx";
 import * as $KeyLogger from "./islands/KeyLogger.tsx";
-import * as $useState from "./islands/useState.tsx";
+import * as $KeyLoggerTypedCount from "./islands/KeyLoggerTypedCount.tsx";
+import * as $RenderedQuoteResult from "./islands/RenderedQuoteResult.tsx";
+import * as $alert from "./islands/alert.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
-    "./routes/index-backup.tsx": $index_backup,
     "./routes/index.tsx": $index,
-    "./routes/quotes/index.tsx": $quotes_index,
-    "./routes/random/characters.tsx": $random_characters,
-    "./routes/random/index.tsx": $random_index,
-    "./routes/random/letters.tsx": $random_letters,
-    "./routes/random/words.tsx": $random_words,
   },
   islands: {
-    "./islands/Countdown.tsx": $Countdown,
-    "./islands/Counter.tsx": $Counter,
-    "./islands/GamestateRandom.tsx": $GamestateRandom,
-    "./islands/GamestateRandom2.tsx": $GamestateRandom2,
     "./islands/KeyLogger.tsx": $KeyLogger,
-    "./islands/useState.tsx": $useState,
+    "./islands/KeyLoggerTypedCount.tsx": $KeyLoggerTypedCount,
+    "./islands/RenderedQuoteResult.tsx": $RenderedQuoteResult,
+    "./islands/alert.tsx": $alert,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
