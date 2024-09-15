@@ -2,7 +2,7 @@ import { PageProps } from '$fresh/server.ts';
 import { Menu } from "../components/menu.tsx";
 import { Logo } from "../components/logo.tsx";
 import { Description } from "../components/description.tsx";
-import { Userinput } from "../components/userinput.tsx";
+import { Random } from "../components/random.tsx";
 import {
   Alert,
   AlertDescription,
@@ -17,7 +17,7 @@ export default function Home(props: PageProps) {
       <Logo />
       <Description description="The place to train your Touch Typing skills!!" />
       <Menu />
-      <Userinput />
+      <Random />
       <Alert>
         <AlertTitle>Heads up!</AlertTitle>
         <AlertDescription>

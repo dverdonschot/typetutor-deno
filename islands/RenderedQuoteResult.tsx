@@ -1,4 +1,4 @@
-import { TrainingChar } from "../functions/charTrainingSet.ts";
+import { TrainingChar } from "../functions/randomTrainingSet.ts";
 
 
 export default function RenderedQuoteResult(results: TrainingChar[]) {

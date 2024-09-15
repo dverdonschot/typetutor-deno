@@ -1,8 +1,8 @@
 import KeyLogger from '../islands/KeyLogger.tsx';
-import { charTrainingSet } from "../functions/charTrainingSet.ts";
+import { PredefinedTrainingSet } from "../functions/predefinedTrainingSet.ts";
 
-export function Userinput() {
-  const trainingSet = charTrainingSet(20);
+export function Alphabet() {
+  const trainingSet = PredefinedTrainingSet();
   const date = new Date();
   return (
      <div class="col-span-10 min-h-[300px] rounded-lg bg-white shadow">

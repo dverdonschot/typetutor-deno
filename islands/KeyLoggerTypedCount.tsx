@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'preact/hooks';
-import { TrainingChar } from "../functions/charTrainingSet.ts";
+import { TrainingChar } from "../functions/randomTrainingSet.ts";
 import RenderedQuoteResult from "./RenderedQuoteResult.tsx";
 
 interface KeyLoggerNewProps {

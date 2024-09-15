@@ -5,7 +5,7 @@ export interface TrainingChar {
     time?: number;
 }
 
-export function charTrainingSet(lenght: number, chars?: string): TrainingChar[] {
+export function randomTrainingSet(lenght: number, chars?: string): TrainingChar[] {
     const dlenght: number  = lenght || 10;
     const TrainingSet: TrainingChar[] = [];
     const availableChars = chars || 'abcdefghijklmnopqrstuvwxzABCDEFGHIJKLMOPQRSTUVWXYZ1234567890*&-+;:./,~][)(}{|`!@$#%^'
