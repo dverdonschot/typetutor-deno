@@ -8,7 +8,7 @@ export function Menu() {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
             </svg>
           </span>
-          <a class="font-medium text-emerald-500 hover:underline" href="/">Random Words</a>
+          <a class="font-medium text-emerald-500 hover:underline" href="/">Random</a>
         </li>
         <li class="flex mt-2 mb-2 ml-2 mr-2 items-center text-gray-900 text-md py-1">
           <span class="text-gray-400 mr-5">
