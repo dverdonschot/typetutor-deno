@@ -4,12 +4,6 @@ import { Logo } from "../components/logo.tsx";
 import { Description } from "../components/description.tsx";
 import { Random } from "../components/random.tsx";
 
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "../islands/alert.tsx";
-
 export default function Home(props: PageProps) {
   const date = new Date();
   date.setHours(date.getHours() + 1);
@@ -19,12 +13,6 @@ export default function Home(props: PageProps) {
       <Description description="The place to train your Touch Typing skills!!" />
       <Menu />
       <Random />
-      <Alert>
-        <AlertTitle>Heads up!</AlertTitle>
-        <AlertDescription>
-          You can add components and dependencies to your app using the cli.
-        </AlertDescription>
-      </Alert>
     </div>
   );
 }

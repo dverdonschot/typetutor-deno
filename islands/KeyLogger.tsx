@@ -23,29 +23,26 @@ const KeyLogger: React.FC<KeyLoggerNewProps> = ({codeableKeys}) => {
   //const codeableKeys: string[] = []
   let typedCount = 0;
   typedKeys.map((key) => {
+    const currentChar = codeableKeys[typedCount];
+
+    if (!currentChar) return; //prevent accessing undefined array elements
+
     codeableKeys[typedCount].time = Math.floor(Date.now() / 1000)
+
     if (key === 'Backspace') {
       if (typedCount > 0) typedCount--
-      codeableKeys[typedCount].state = "none"
-      codeableKeys[typedCount].typedChar = "none"
-    } else if (key === 'Control') {
-      // do nothing
-    } else if (key === 'Shift') {
-      // do nothing
-    } else if (key === 'Alt') {
-      // do nothing
-    } else if (key === 'Tab') {
-      // do nothing 
-    } else if (key === 'Enter') {
-      // do nothing
-    } else if (key === 'Escape') {
+      currentChar.state = "none"
+      currentChar.typedChar = "none"
+    } else if (
+     ['Control', 'Shift', 'Alt', 'Tab', 'Enter', 'Escape' ].includes(key)
+    ) {
       // do nothing
     } else {
-      codeableKeys[typedCount].typedChar = key
-      if (codeableKeys[typedCount].char === key) {
-        codeableKeys[typedCount].state = "correct"
+      currentChar.typedChar = key
+      if (currentChar.char === key) {
+        currentChar.state = "correct"
       } else {
-        codeableKeys[typedCount].state = "incorrect"
+        currentChar.state = "incorrect"
       }
       typedCount++
     }
