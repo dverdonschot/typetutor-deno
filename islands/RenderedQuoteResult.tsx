@@ -19,7 +19,7 @@ export default function RenderedQuoteResult(results: TrainingChar[]) {
   return (
     <div>
       <div class="flex">"Hey there Type over this random string:"</div>
-      <div class="flex justify-center items-center gap-8 py-6 mt-2 mb-2 ml-6 mr-0">
+      <div class="flex justify-center items-center gap-8 py-6 mt-2 mb-2 ml-6 mr-0 flex-wrap">
         {RenderedQuoteResult}
       </div>
     </div>

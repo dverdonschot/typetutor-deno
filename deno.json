@@ -29,7 +29,7 @@
     "tailwindcss": "npm:tailwindcss@3.4.1"
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
-  "nodeModulesDir": true,
+  "nodeModulesDir": "auto",
   "scopes": {
     "https://esm.sh/v135/": {
       "loose-envify": "https://esm.sh/v135/loose-envify@1.4.0",
