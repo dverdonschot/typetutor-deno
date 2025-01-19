@@ -2,11 +2,11 @@ import { useState, useEffect } from 'preact/hooks';
 import { TrainingChar } from "../functions/randomTrainingSet.ts";
 import RenderedQuoteResult from "./RenderedQuoteResult.tsx";
 
-interface KeyLoggerNewProps {
+interface KeyLoggerProps {
   codeableKeys: TrainingChar[];
 }
 
-const KeyLogger: React.FC<KeyLoggerNewProps> = ({codeableKeys}) => {
+const KeyLogger: React.FC<KeyLoggerProps> = ({codeableKeys}) => {
   const [typedKeys, setTypedKeys] = useState<string[]>([]);
 
   const handleKeyPress = (event: KeyboardEvent) => {
@@ -24,6 +24,7 @@ const KeyLogger: React.FC<KeyLoggerNewProps> = ({codeableKeys}) => {
   let typedCount = 0;
   typedKeys.map((key) => {
     const currentChar = codeableKeys[typedCount];
+    const prevChar = codeableKeys[typedCount - 1];
 
     if (!currentChar) return; //prevent accessing undefined array elements
 
@@ -31,10 +32,10 @@ const KeyLogger: React.FC<KeyLoggerNewProps> = ({codeableKeys}) => {
 
     if (key === 'Backspace') {
       if (typedCount > 0) typedCount--
-      currentChar.state = "none"
-      currentChar.typedChar = "none"
+      prevChar.state = "none"
+      prevChar.typedChar = "none"
     } else if (
-     ['Control', 'Shift', 'Alt', 'Tab', 'Enter', 'Escape' ].includes(key)
+     ['Control', 'Shift', 'Alt', 'Tab', 'Enter', 'Escape', 'Delete' ].includes(key)
     ) {
       // do nothing
     } else {
@@ -54,7 +55,6 @@ const KeyLogger: React.FC<KeyLoggerNewProps> = ({codeableKeys}) => {
 
   return (
     <div>
-      <h1>Type something Big:</h1>
       {quoteResult}
     </div>
   )
