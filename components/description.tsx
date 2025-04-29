@@ -6,9 +6,8 @@ interface DescriptionProps {
 
 export function Description({ description }: DescriptionProps) {
   return (
-    <div class="flex items-center col-span-10 min-h-[100px] rounded-lg bg-white shadow">
-      <p class="flex-auto text-tt-darkblue text-center">{description}</p>
-    </div>
- 
+    <p class="flex-auto text-tt-darkblue text-center text-xl font-medium min-h-[60px] flex items-center justify-center w-full">
+      {description}
+    </p>
   );
 }

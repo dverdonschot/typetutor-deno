@@ -1,29 +1,44 @@
+import { useSignal } from "@preact/signals";
+import { useEffect, useRef } from "preact/hooks";
 
-import { useState } from 'preact/hooks';
-
-export function Menu() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function HamburgerMenu() {
+  const isOpen = useSignal(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
+    isOpen.value = !isOpen.value;
   };
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node) && isOpen.value) {
+        isOpen.value = false;
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div class="relative">
+    <div class="relative" ref={menuRef}>
       {/* Hamburger Button */}
-      <button
+      <button 
         onClick={toggleMenu}
         class="flex items-center justify-center p-2 rounded-md text-tt-darkblue hover:bg-gray-100 focus:outline-none"
-        aria-expanded={isOpen ? "true" : "false"}
+        aria-expanded={isOpen.value ? "true" : "false"}
       >
         <span class="sr-only">Open main menu</span>
         {/* Hamburger Icon */}
         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d={isOpen
+          <path 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            stroke-width="2" 
+            d={isOpen.value 
               ? "M6 18L18 6M6 6l12 12" // X icon when open
               : "M4 6h16M4 12h16M4 18h16" // Hamburger icon when closed
             }
@@ -32,14 +47,14 @@ export function Menu() {
       </button>
 
       {/* Dropdown Menu */}
-      <div
+      <div 
         class={`absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10 transition-all duration-200 ${
-          isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
+          isOpen.value ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
         }`}
       >
         <div class="py-1" role="menu" aria-orientation="vertical">
-          <a
-            href="/"
+          <a 
+            href="/" 
             class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
             role="menuitem"
           >
@@ -49,8 +64,8 @@ export function Menu() {
             Random
           </a>
           
-          <a
-            href="/alphabet"
+          <a 
+            href="/alphabet" 
             class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
             role="menuitem"
           >
@@ -60,8 +75,8 @@ export function Menu() {
             Alphabet
           </a>
           
-          <a
-            href="/numpad"
+          <a 
+            href="/numpad" 
             class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
             role="menuitem"
           >
@@ -71,8 +86,8 @@ export function Menu() {
             Numpad
           </a>
           
-          <a
-            href="/quotes"
+          <a 
+            href="/quotes" 
             class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
             role="menuitem"
           >
@@ -82,8 +97,8 @@ export function Menu() {
             Quotes
           </a>
           
-          <a
-            href="/custom"
+          <a 
+            href="/custom" 
             class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
             role="menuitem"
           >

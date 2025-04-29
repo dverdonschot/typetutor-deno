@@ -5,7 +5,7 @@ export function Random() {
   const trainingSet = randomTrainingSet(20);
   const startTime = Math.floor(Date.now() / 1000);
   return (
-     <div class="col-span-10 min-h-[300px] rounded-lg bg-white shadow">
+     <div class="w-full min-h-[300px] rounded-lg bg-white shadow">
         <KeyLogger codeableKeys={trainingSet} startTime/>
       </div>
   );
