@@ -9,6 +9,12 @@ interface KeyPressState {
   backspaceCount: number;
 }
 
+
+/*  This hook tracks key presses and updates the state of the typed characters.
+    It handles key events, including backspace, and updates the state of each character
+    in the codeableKeys array based on whether it was typed correctly or incorrectly.
+    Deprecated because it only support physical keyboards, and not mobile inputs.
+*/
 export function useKeyPress(codeableKeys: TrainingChar[]) {
   const [state, setState] = useState<KeyPressState>({
     typedKeys: [],
