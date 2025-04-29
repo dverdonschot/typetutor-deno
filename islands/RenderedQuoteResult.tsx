@@ -10,8 +10,8 @@ export default function RenderedQuoteResult(results: TrainingChar[]) {
       return <span class="text-green-500 text-3xl sm:text-4xl md:text-5xl" key={index}>{item.typedChar}</span>
     } else if (item.state == 'incorrect') {
       return <div>
-        <div class="text-green-500 text-3xl sm:text-4xl md:text-5xl" key={index}>{item.char}</div>
-        <span class="text-red-500 text-3xl sm:text-4xl md:text-5xl" key={index}>{item.typedChar}</span>
+        <div class="text-green-500 text-3xl sm:text-4xl md:text-5xl" key={`${index}-char`}>{item.char}</div>
+        <span class="text-red-500 text-3xl sm:text-4xl md:text-5xl" key={`${index}-typed`}>{item.typedChar}</span>
       </div>
     }
   });
