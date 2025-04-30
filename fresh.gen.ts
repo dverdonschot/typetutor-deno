@@ -11,6 +11,7 @@ import * as $numpad from "./routes/numpad.tsx";
 import * as $quotes from "./routes/quotes.tsx";
 import * as $HamburgerMenu from "./islands/HamburgerMenu.tsx";
 import * as $KeyLogger from "./islands/KeyLogger.tsx";
+import * as $RandomSettings from "./islands/RandomSettings.tsx";
 import * as $RenderedQuoteResult from "./islands/RenderedQuoteResult.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -27,6 +28,7 @@ const manifest = {
   islands: {
     "./islands/HamburgerMenu.tsx": $HamburgerMenu,
     "./islands/KeyLogger.tsx": $KeyLogger,
+    "./islands/RandomSettings.tsx": $RandomSettings,
     "./islands/RenderedQuoteResult.tsx": $RenderedQuoteResult,
   },
   baseUrl: import.meta.url,
