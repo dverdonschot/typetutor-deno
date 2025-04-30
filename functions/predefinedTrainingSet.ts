@@ -5,9 +5,9 @@ export interface TrainingChar {
     time?: number;
 }
 
-export function PredefinedTrainingSet(charsInOrder?: string): TrainingChar[] {
+export function PredefinedTrainingSet(charsInOrder: string): TrainingChar[] {
     const TrainingSet: TrainingChar[] = [];
-    const availableChars = charsInOrder || 'abcdefghijklmnopqrstuvwxz'
+    const availableChars = charsInOrder;
     const availableCharsLenght = availableChars.length;
     let counter: number = 0;
 

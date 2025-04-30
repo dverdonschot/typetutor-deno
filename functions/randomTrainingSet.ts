@@ -5,10 +5,10 @@ export interface TrainingChar {
     time?: number;
 }
 
-export function randomTrainingSet(lenght: number, chars?: string): TrainingChar[] {
-    const dlenght: number  = lenght || 10;
+export function randomTrainingSet(lenght: number, chars: string): TrainingChar[] {
+    const dlenght: number  = lenght;
     const TrainingSet: TrainingChar[] = [];
-    const availableChars = chars || 'abcdefghijklmnopqrstuvwxzABCDEFGHIJKLMOPQRSTUVWXYZ1234567890*&-+;:./,~][)(}{|`!@$#%^'
+    const availableChars = chars
     const availableCharsLenght = availableChars.length;
     let counter: number = 0;
 
@@ -22,6 +22,5 @@ export function randomTrainingSet(lenght: number, chars?: string): TrainingChar[
         })
         counter++;
     }
-    
     return TrainingSet;
 }
