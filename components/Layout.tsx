@@ -10,26 +10,20 @@ type LayoutProps = {
 
 export function Layout({ children, descriptionText }: LayoutProps) {
   return (
-    <div class="m-4 flex flex-col gap-1 flex-grow min-h-screen">
+    <div class="m-4 flex flex-col gap-6 flex-grow min-h-screen">
       {/* Header Section */}
-      <header class="relative p-4 bg-white rounded-lg shadow">
-        {/* Centered Logo */}
-        <div class="w-full flex justify-center items-center">
-          <Logo />
-        </div>
-        {/* Hamburger Menu positioned absolutely in the right, vertically centered */}
-        <nav class="absolute top-1/2 right-4 transform -translate-y-1/2">
-          <HamburgerMenu />
-        </nav>
+      <header class="flex flex-col sm:flex-row justify-between items-center p-4 bg-white rounded-lg shadow">
+        <div class="order-1 w-full sm:w-auto flex justify-center"><Logo /></div>
+        <nav class="order-2 w-full sm:w-auto flex justify-end"><HamburgerMenu /></nav>
       </header>
 
       {/* Description Section - Hidden on mobile */}
-      <section class="hidden sm:block p-4 bg-white rounded-lg shadow mt-3">
+      <section class="hidden sm:block p-4 bg-white rounded-lg shadow">
         <Description description={descriptionText} />
       </section>
 
       {/* Main Content Section (Typing Area) */}
-      <main class="w-full mt-1">
+      <main class="w-full">
         {children}
       </main>
 
