@@ -1,10 +1,9 @@
-import { cn } from "../functions/utils.ts"; // Assuming utils.ts is in functions/
+import { cn } from "../functions/utils.ts";
 
-// Define the state for each character to be displayed
 export interface DisplayCharState {
-  original: string; // The character that should be typed
-  typed: string | null; // The character the user actually typed, null if not typed yet or backspaced
-  state: 'none' | 'correct' | 'incorrect' | 'current'; // Typing state + current cursor position
+  original: string;
+  typed: string | null;
+  state: 'none' | 'correct' | 'incorrect' | 'current';
 }
 
 interface QuoteTextDisplayProps {
@@ -24,32 +23,32 @@ export default function QuoteTextDisplay({ charStates }: QuoteTextDisplayProps) 
 
           // Handle special whitespace characters for visibility
           if (charState.original === ' ') {
-            charToShow = ' '; // Render space normally, background will show cursor/errors
+            charToShow = ' ';
           } else if (charState.original === '\n') {
             // Render a visible character for newline and ensure a line break
-            charToShow = '↵'; // Use a visible character for newline
+            charToShow = '↵';
             return (
-              <div key={index} class="inline-block"> {/* Use inline-block to keep it in text flow */}
+              <div key={index} class="inline-block">
                 <span
                   class={cn(
-                    "transition-colors duration-100 ease-in-out", // Smooth color transition
-                    "font-bold", // Make the newline character stand out
+                    "transition-colors duration-100 ease-in-out",
+                    "font-bold",
                     {
-                      "text-gray-500": charState.state === 'none', // Untyped
-                      "text-green-600": charState.state === 'correct', // Correct
-                      "text-red-600 bg-red-100": charState.state === 'incorrect', // Incorrect
-                      "bg-blue-200 rounded": charState.state === 'current', // Current cursor
-                      "text-gray-700": charState.state === 'current', // Darker text for current
+                      "text-gray-500": charState.state === 'none',
+                      "text-green-600": charState.state === 'correct',
+                      "text-red-600 bg-red-100": charState.state === 'incorrect',
+                      "bg-blue-200 rounded": charState.state === 'current',
+                      "text-gray-700": charState.state === 'current',
                     }
                   )}
                 >
                   {charToShow}
                 </span>
-                <br /> {/* Explicit line break */}
+                <br />
               </div>
             );
           } else if (charState.original === '\t') {
-             charToShow = '    '; // Replace tab with spaces for consistent rendering
+             charToShow = '    ';
           }
 
 
@@ -57,14 +56,14 @@ export default function QuoteTextDisplay({ charStates }: QuoteTextDisplayProps) 
             <span
               key={index}
               class={cn(
-                "transition-colors duration-100 ease-in-out", // Smooth color transition
+                "transition-colors duration-100 ease-in-out",
                 {
-                  "text-gray-500": charState.state === 'none', // Untyped characters
-                  "text-green-600": charState.state === 'correct', // Correctly typed
-                  "text-red-600 bg-red-100": charState.state === 'incorrect', // Incorrectly typed
-                  "bg-blue-200 rounded": charState.state === 'current', // Current cursor position
-                  "text-gray-700": charState.state === 'current' && charState.original !== ' ', // Darker text for current char unless space
-                  "bg-blue-100": charState.state === 'current' && charState.original === ' ', // Lighter bg for space cursor
+                  "text-gray-500": charState.state === 'none',
+                  "text-green-600": charState.state === 'correct',
+                  "text-red-600 bg-red-100": charState.state === 'incorrect',
+                  "bg-blue-200 rounded": charState.state === 'current',
+                  "text-gray-700": charState.state === 'current' && charState.original !== ' ',
+                  "bg-blue-100": charState.state === 'current' && charState.original === ' ',
                   // Removed specific red-700 for incorrect newline as the general red-600 bg-red-100 should suffice
                 }
               )}

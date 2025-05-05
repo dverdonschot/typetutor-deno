@@ -185,7 +185,7 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
         event.preventDefault(); // Prevent default Enter key behavior (e.g., form submission, scrolling)
         hiddenInput.focus();
       }
-    }; // Semicolon removed here
+    };
 
     globalThis.addEventListener('keydown', handleGlobalKeyDown);
 
