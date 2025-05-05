@@ -1,18 +1,13 @@
-import { PageProps } from '$fresh/server.ts';
-import { Menu } from "../components/menu.tsx";
-import { Logo } from "../components/logo.tsx";
-import { Description } from "../components/description.tsx";
-import { Random } from "../components/random.tsx";
+import { PageProps } from "$fresh/server.ts";
+import { Layout } from "../components/Layout.tsx"; // Import the new Layout component
+import { Random } from "../components/random.tsx"; // Keep Random component import
 
 export default function Home(props: PageProps) {
-  const date = new Date();
-  date.setHours(date.getHours() + 1);
+  // const date = new Date(); // Date logic seems unused, commenting out for now
+  // date.setHours(date.getHours() + 1);
   return (
-    <div class="m-4 grid gap-2 sm:grid-cols-12 flex-grow">
-      <Logo />
-      <Description description="The place to train your Touch Typing skills!!" />
-      <Menu />
+    <Layout descriptionText="The place to train your Touch Typing skills!!">
       <Random />
-    </div>
+    </Layout>
   );
 }

@@ -1,11 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* Import Fira Code - a monospaced font with programming ligatures and excellent character distinction */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
+
+/* Specific class for typing text to ensure font is applied */
+.typing-text {
+    font-family: 'Fira Code', monospace !important;
+    letter-spacing: 0.05em;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: 'Fira Code', monospace;
 }
 
 body {
