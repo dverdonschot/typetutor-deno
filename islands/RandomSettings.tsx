@@ -9,7 +9,27 @@ interface RandomSettingsProps {
 
 export default function RandomSettings({ initialCharacterLength, initialCharacterSet }: RandomSettingsProps) {
   const [characterLength, setCharacterLength] = useState<number>(initialCharacterLength);
-  const [characterSet, setCharacterSet] = useState<string>(initialCharacterSet);
+  const localStorageKey = 'typetutor_random_character_set';
+
+  // Initialize characterSet state directly from localStorage if available
+  const [characterSet, setCharacterSet] = useState<string>(() => {
+    // This function runs only on initial mount
+    let initialSet = initialCharacterSet; // Default to prop
+    // localStorage is only available on the client
+    if (typeof localStorage !== 'undefined') {
+      try {
+        const savedSet = localStorage.getItem(localStorageKey);
+        if (savedSet) {
+          initialSet = savedSet;
+        }
+      } catch (error) {
+        // localStorage might not be available or accessible
+        console.warn("Error accessing localStorage:", error);
+      }
+    }
+    return initialSet;
+  });
+
   const [trainingSet, setTrainingSet] = useState<TrainingChar[]>([]);
   // Add a key state to force KeyLogger remount when training set changes
   const [keyLoggerKey, setKeyLoggerKey] = useState<number>(0);
@@ -43,7 +63,15 @@ export default function RandomSettings({ initialCharacterLength, initialCharacte
   // Handle character set change
   const handleSetChange = (e: Event) => {
     const target = e.target as HTMLSelectElement;
-    setCharacterSet(characterSetOptions[target.value as keyof typeof characterSetOptions]);
+    const selectedOption = target.value as keyof typeof characterSetOptions;
+    const newSet = characterSetOptions[selectedOption];
+    setCharacterSet(newSet);
+    // Save the new selection to localStorage
+    try {
+      localStorage.setItem(localStorageKey, newSet);
+    } catch (error) {
+      console.error("Failed to save character set to localStorage:", error);
+    }
   };
   
   // Regenerate training set with current settings
@@ -81,6 +109,8 @@ export default function RandomSettings({ initialCharacterLength, initialCharacte
           <label class="block text-sm font-medium text-gray-700 mb-1">Character Set</label>
           <select 
             onChange={handleSetChange}
+            // Calculate the display name corresponding to the current characterSet state
+            value={Object.keys(characterSetOptions).find(key => characterSetOptions[key as keyof typeof characterSetOptions] === characterSet) || 'All Characters'}
             class="block w-48 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
             {Object.keys(characterSetOptions).map((option) => (
