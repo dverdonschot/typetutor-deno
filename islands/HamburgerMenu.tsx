@@ -1,7 +1,12 @@
 import { useSignal } from "@preact/signals";
 import { useEffect, useRef } from "preact/hooks";
 
-export default function HamburgerMenu() {
+interface HamburgerMenuProps {
+  currentPath: string;
+}
+
+export default function HamburgerMenu(props: HamburgerMenuProps) {
+  const { currentPath } = props; // currentPath is not used yet, but defined for future use
   const isOpen = useSignal(false);
   const menuRef = useRef<HTMLDivElement>(null);
 

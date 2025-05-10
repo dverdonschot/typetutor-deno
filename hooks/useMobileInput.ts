@@ -111,7 +111,7 @@ export function useMobileInput(codeableKeys: TrainingChar[]) {
       autoCapitalize: "none",
       autoCorrect: "off",
       spellCheck: false,
-    },
+    } as const,
     resetInput,
   };
 }

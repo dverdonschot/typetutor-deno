@@ -1,3 +1,4 @@
+import { FC } from "preact";
 import { useEffect, useRef, useState } from "preact/hooks"; // Import useRef and useEffect
 import { TrainingChar } from "../functions/randomTrainingSet.ts";
 import RenderedQuoteResult from "./RenderedQuoteResult.tsx";
@@ -9,7 +10,7 @@ interface KeyLoggerProps {
   codeableKeys: TrainingChar[];
 }
 
-const KeyLogger: React.FC<KeyLoggerProps> = ({ codeableKeys }) => {
+const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys }) => {
   const [startTime] = useState<number>(Date.now());
   const inputRef = useRef<HTMLInputElement>(null);
   const [isInputActive, setIsInputActive] = useState(false);

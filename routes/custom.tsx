@@ -3,9 +3,12 @@ import { Layout } from "../components/Layout.tsx";
 // We'll need to create a Custom component
 import { Random } from "../components/random.tsx"; // Temporarily using Random until we create a Custom component
 
-export default function Custom(_props: PageProps) {
+export default function Custom(props: PageProps) {
   return (
-    <Layout descriptionText="Practice typing with your own custom text!">
+    <Layout
+      descriptionText="Practice typing with your own custom text!"
+      currentPath={props.url.pathname}
+    >
       {/* Replace with Custom component when created */}
       <Random />
     </Layout>
