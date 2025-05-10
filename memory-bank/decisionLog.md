@@ -8,3 +8,4 @@ This file records significant architectural and implementation decisions made du
 - [2025-05-10 07:36:06] - Added WPM and Backspace Ratio display to `TypingMetricsDisplay.tsx`.
 - [2025-05-10 07:39:53] - Implemented quote randomization in `QuoteTyperMode.tsx`.
 [2025-05-10 08:10:28] - Added Deno syntax and security checks to the GitHub workflow (.github/workflows/deploy.yml).
+- [2025-05-10 12:47:17] - Enhanced CI/CD pipeline with dependency auditing (deno audit) and static code analysis (GitHub CodeQL) in `.github/workflows/deploy.yml` and configured `deno.json` for lock file usage.

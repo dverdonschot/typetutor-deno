@@ -13,6 +13,7 @@ jobs:
     permissions:
       id-token: write # Needed for auth with Deno Deploy
       contents: read # Needed to clone the repository
+      security-events: write # Needed for CodeQL to write findings
 
     steps:
       - name: Clone repository
@@ -22,6 +23,21 @@ jobs:
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
+
+      - name: Cache dependencies
+        run: deno cache main.ts --lock=deno.lock
+
+      - name: Audit dependencies
+        run: deno audit --lock=deno.lock
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: 'javascript-typescript'
+          # queries: +security-extended # Optional: Uncomment to include more security queries
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
 
       - name: Check code formatting
         run: deno fmt --check
