@@ -20,3 +20,10 @@ during the project's development.
 - [2025-05-10 12:58:41] - Modified CI/CD pipeline: Removed `deno audit` step due
   to user feedback and CI errors. Retained GitHub CodeQL for static analysis and
   existing `deno check` for type checking.
+
+- [2025-05-10 21:16:58] - Corrected various TypeScript errors:
+  - Added `currentPath` prop to `HamburgerMenu` component.
+  - Switched `React.FC` to Preact's `FC` in `KeyLogger`.
+  - Used `as const` for `inputProps` in `useMobileInput` hook to preserve literal types for attributes like `autoCapitalize`.
+  - Refactored `Layout` component and route files to correctly pass `currentPath` (derived from `props.url.pathname` in routes) to avoid `RouteContext` import issues.
+  - Addressed `no-unused-vars` linting error in `HamburgerMenu` by prefixing unused prop with an underscore.

@@ -6,7 +6,7 @@ interface HamburgerMenuProps {
 }
 
 export default function HamburgerMenu(props: HamburgerMenuProps) {
-  const { currentPath } = props; // currentPath is not used yet, but defined for future use
+  const { currentPath: _currentPath } = props; // currentPath is not used yet, but defined for future use
   const isOpen = useSignal(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
