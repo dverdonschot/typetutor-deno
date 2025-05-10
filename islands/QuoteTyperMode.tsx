@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
-import { ContentItem } from "../config/typingContent.ts"; // Import config type
 import typingContentData from "../config/typingContent.ts"; // Import the actual data
 import ContentSelector from "../components/ContentSelector.tsx";
 import QuoteTextDisplay from "../components/QuoteTextDisplay.tsx";
@@ -165,7 +164,6 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
 
   // Initialize the input hook with the fetched target text
   const {
-    inputValue,
     charStates,
     typedCount,
     correctCount,
@@ -330,6 +328,7 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
           <div class="text-center my-4">
             {/* Adjusted margin for better spacing */}
             <button
+              type="button"
               onClick={loadRandomItem}
               class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
             >
@@ -353,12 +352,14 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
               }
 
               <button
+                type="button"
                 onClick={resetInput} // Use reset from the hook
                 class="ml-4 px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700"
               >
                 Practice Again
               </button>
               <button
+                type="button"
                 onClick={loadRandomItem} // Or load a new random one
                 class="ml-2 px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600"
               >

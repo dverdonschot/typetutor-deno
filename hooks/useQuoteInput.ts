@@ -81,7 +81,7 @@ export function useQuoteInput(targetText: string) {
       // --- Process Current Input ---
       let newCorrectCount = 0;
       let newMistakeCount = 0;
-      let typedIndex = -1; // Index of the last character processed
+      let _typedIndex = -1; // Index of the last character processed
 
       for (let i = 0; i < targetLength; i++) {
         const targetChar = targetText[i];
@@ -92,7 +92,7 @@ export function useQuoteInput(targetText: string) {
 
         if (i < currentLength) {
           const typedChar = currentValue[i];
-          typedIndex = i; // Update last processed index
+          _typedIndex = i; // Update last processed index
 
           // Explicitly handle newline character comparison
           if (targetChar === "\n") {
