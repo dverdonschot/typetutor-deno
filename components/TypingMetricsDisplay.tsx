@@ -12,9 +12,10 @@ export function TypingMetricsDisplay({ metrics }: TypingMetricsDisplayProps) {
       <h2 class="text-2xl font-bold mb-4">Typing Summary</h2>
       <div class="grid grid-cols-2 gap-4">
         <div>
-          <p class="text-lg">Speed: {metrics.charactersPerMinute} CPM</p>
+          <p class="text-lg">Speed: {metrics.charactersPerMinute} CPM / {metrics.wordsPerMinute} WPM</p>
           <p class="text-lg">Mistakes: {metrics.mistakes}</p>
           <p class="text-lg">Backspaces: {metrics.backspaceCount}</p>
+          <p class="text-lg">Backspace Ratio: {metrics.backspaceRatioPercent}%</p>
         </div>
         <div>
           <p class="text-lg">Accuracy: {metrics.accuracyPercentage}%</p>
