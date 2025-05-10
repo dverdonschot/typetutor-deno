@@ -23,6 +23,15 @@ jobs:
         with:
           deno-version: v2.x
 
+      - name: Check code formatting
+        run: deno fmt --check
+
+      - name: Lint code
+        run: deno lint
+
+      - name: Check for type and module errors
+        run: deno check main.ts # Specify relevant entry points/files
+
       - name: Build step
         run: "deno task build"
 
