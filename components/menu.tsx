@@ -11,6 +11,7 @@ export function Menu() {
     <div class="relative">
       {/* Hamburger Button */}
       <button
+        type="button"
         onClick={toggleMenu}
         class="flex items-center justify-center p-2 rounded-md text-tt-darkblue hover:bg-gray-100 focus:outline-none"
         aria-expanded={isOpen ? "true" : "false"}

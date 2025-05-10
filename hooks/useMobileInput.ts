@@ -45,10 +45,7 @@ const processInput = (
         newMistakeCount++;
       }
       newTypedCount = i + 1;
-    } else if (i >= currentValue.length && targetChar.state !== "none") {
-      if (targetChar.state !== "none" && i >= currentValue.length) {
-      }
-    } else {
+    } else { // i >= currentValue.length
       targetChar.state = "none";
       targetChar.typedChar = "none";
     }
