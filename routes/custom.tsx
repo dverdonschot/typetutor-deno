@@ -5,7 +5,10 @@ import { Random } from "../components/random.tsx"; // Temporarily using Random u
 
 export default function Custom(props: PageProps) {
   return (
-    <Layout descriptionText="Practice typing with your own custom text!">
+    <Layout
+      descriptionText="Practice typing with your own custom text!"
+      currentPath={props.url.pathname}
+    >
       {/* Replace with Custom component when created */}
       <Random />
     </Layout>

@@ -2,84 +2,84 @@
 @tailwind components;
 @tailwind utilities;
 /* Import Fira Code - a monospaced font with programming ligatures and excellent character distinction */
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap");
 
 /* Specific class for typing text to ensure font is applied */
 .typing-text {
-    font-family: 'Fira Code', monospace !important;
-    letter-spacing: 0.05em;
+  font-family: "Fira Code", monospace !important;
+  letter-spacing: 0.05em;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Fira Code', monospace;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Fira Code", monospace;
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
 }
 
 .container {
-    width: 80%;
-    max-width: 1200px;
-    background: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
+  width: 80%;
+  max-width: 1200px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 header {
-    background-color: #4CAF50;
-    color: white;
-    text-align: center;
-    padding: 1em 0;
+  background-color: #4caf50;
+  color: white;
+  text-align: center;
+  padding: 1em 0;
 }
 
 .main-content {
-    display: flex;
+  display: flex;
 }
 
 .menu {
-    width: 200px;
-    background: #f4f4f4;
-    border-right: 1px solid #ddd;
-    padding: 20px;
+  width: 200px;
+  background: #f4f4f4;
+  border-right: 1px solid #ddd;
+  padding: 20px;
 }
 
 .menu ul {
-    list-style: none;
+  list-style: none;
 }
 
 .menu ul li {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 .menu ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    display: block;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  display: block;
 }
 
 .menu ul li a:hover {
-    color: #4CAF50;
+  color: #4caf50;
 }
 
 .typing-field {
-    flex: 1;
-    padding: 20px;
+  flex: 1;
+  padding: 20px;
 }
 
 #typefield {
-    width: 100%;
-    padding: 10px;
-    font-size: 1.2em;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+  width: 100%;
+  padding: 10px;
+  font-size: 1.2em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }

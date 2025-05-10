@@ -6,7 +6,10 @@ export default function Home(props: PageProps) {
   // const date = new Date(); // Date logic seems unused, commenting out for now
   // date.setHours(date.getHours() + 1);
   return (
-    <Layout descriptionText="The place to train your Touch Typing skills!!">
+    <Layout
+      descriptionText="The place to train your Touch Typing skills!!"
+      currentPath={props.url.pathname}
+    >
       <Random />
     </Layout>
   );

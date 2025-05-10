@@ -4,7 +4,10 @@ import QuoteTyperMode from "../islands/QuoteTyperMode.tsx"; // Import the new is
 
 export default function Quotes(props: PageProps) {
   return (
-    <Layout descriptionText="Practice typing with famous quotes!">
+    <Layout
+      descriptionText="Practice typing with famous quotes!"
+      currentPath={props.url.pathname}
+    >
       <QuoteTyperMode contentType="quote" />
     </Layout>
   );

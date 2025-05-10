@@ -4,7 +4,10 @@ import { Alphabet } from "../components/alphabet.tsx";
 
 export default function alphabet(props: PageProps) {
   return (
-    <Layout descriptionText="Type the Alphabet as fast as you can!!">
+    <Layout
+      descriptionText="Type the Alphabet as fast as you can!!"
+      currentPath={props.url.pathname}
+    >
       <Alphabet />
     </Layout>
   );

@@ -13,6 +13,7 @@ jobs:
     permissions:
       id-token: write # Needed for auth with Deno Deploy
       contents: read # Needed to clone the repository
+      security-events: write # Needed for CodeQL to write findings
 
     steps:
       - name: Clone repository
@@ -23,14 +24,30 @@ jobs:
         with:
           deno-version: v2.x
 
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: "javascript-typescript"
+          # queries: +security-extended # Optional: Uncomment to include more security queries
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+      - name: Check code formatting
+        run: deno fmt --check --ignore="components/QuoteTextDisplay.tsx" --ignore="memory-bank/*"
+
+      - name: Lint code
+        run: deno lint
+
+      - name: Check for type and module errors
+        run: deno check main.ts # Specify relevant entry points/files
+
       - name: Build step
         run: "deno task build"
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "heavy-amoeba-30"
+          project: "typetutor"
           entrypoint: "main.ts"
           root: "."
-          
-          
