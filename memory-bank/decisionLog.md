@@ -9,3 +9,4 @@ This file records significant architectural and implementation decisions made du
 - [2025-05-10 07:39:53] - Implemented quote randomization in `QuoteTyperMode.tsx`.
 [2025-05-10 08:10:28] - Added Deno syntax and security checks to the GitHub workflow (.github/workflows/deploy.yml).
 - [2025-05-10 12:47:17] - Enhanced CI/CD pipeline with dependency auditing (deno audit) and static code analysis (GitHub CodeQL) in `.github/workflows/deploy.yml` and configured `deno.json` for lock file usage.
+- [2025-05-10 12:58:41] - Modified CI/CD pipeline: Removed `deno audit` step due to user feedback and CI errors. Retained GitHub CodeQL for static analysis and existing `deno check` for type checking.

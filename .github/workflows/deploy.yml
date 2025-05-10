@@ -24,12 +24,6 @@ jobs:
         with:
           deno-version: v2.x
 
-      - name: Cache dependencies
-        run: deno cache main.ts --lock=deno.lock
-
-      - name: Audit dependencies
-        run: deno audit --lock=deno.lock
-
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
