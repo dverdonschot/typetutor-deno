@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'preact/hooks';
+import { useEffect, useState } from "preact/hooks";
 import { TrainingChar } from "../functions/randomTrainingSet.ts";
 
 interface KeyPressState {
@@ -8,7 +8,6 @@ interface KeyPressState {
   correctCount: number;
   backspaceCount: number;
 }
-
 
 /*  This hook tracks key presses and updates the state of the typed characters.
     It handles key events, including backspace, and updates the state of each character
@@ -21,16 +20,16 @@ export function useKeyPress(codeableKeys: TrainingChar[]) {
     typedCount: 0,
     mistakeCount: 0,
     correctCount: 0,
-    backspaceCount: 0
+    backspaceCount: 0,
   });
 
   const handleKeyPress = (event: KeyboardEvent) => {
     if (state.typedCount >= codeableKeys.length) return;
-    
+
     const key = event.key;
-    setState(prevState => ({
+    setState((prevState) => ({
       ...prevState,
-      typedKeys: [...prevState.typedKeys, key]
+      typedKeys: [...prevState.typedKeys, key],
     }));
 
     const currentChar = codeableKeys[state.typedCount];
@@ -38,43 +37,53 @@ export function useKeyPress(codeableKeys: TrainingChar[]) {
 
     currentChar.time = Math.floor(Date.now() / 1000);
 
-    if (key === 'Backspace') {
+    if (key === "Backspace") {
       if (state.typedCount > 0) {
         const prevChar = codeableKeys[state.typedCount - 1];
         prevChar.state = "none";
         prevChar.typedChar = "none";
-        setState(prevState => ({
+        setState((prevState) => ({
           ...prevState,
           typedCount: prevState.typedCount - 1,
           backspaceCount: prevState.backspaceCount + 1,
-          correctCount: prevChar.state === "correct" ? prevState.correctCount - 1 : prevState.correctCount,
-          mistakeCount: prevChar.state === "incorrect" ? prevState.mistakeCount - 1 : prevState.mistakeCount
+          correctCount: prevChar.state === "correct"
+            ? prevState.correctCount - 1
+            : prevState.correctCount,
+          mistakeCount: prevChar.state === "incorrect"
+            ? prevState.mistakeCount - 1
+            : prevState.mistakeCount,
         }));
       }
     } else if (
-      ['Control', 'Shift', 'Alt', 'Tab', 'Enter', 'Escape', 'Delete'].includes(key)
+      ["Control", "Shift", "Alt", "Tab", "Enter", "Escape", "Delete"].includes(
+        key,
+      )
     ) {
       // do nothing for special keys
     } else {
       currentChar.typedChar = key;
       const isCorrect = currentChar.char === key;
       currentChar.state = isCorrect ? "correct" : "incorrect";
-      
-      setState(prevState => ({
+
+      setState((prevState) => ({
         ...prevState,
         typedCount: prevState.typedCount + 1,
-        correctCount: isCorrect ? prevState.correctCount + 1 : prevState.correctCount,
-        mistakeCount: !isCorrect ? prevState.mistakeCount + 1 : prevState.mistakeCount
+        correctCount: isCorrect
+          ? prevState.correctCount + 1
+          : prevState.correctCount,
+        mistakeCount: !isCorrect
+          ? prevState.mistakeCount + 1
+          : prevState.mistakeCount,
       }));
     }
   };
 
   useEffect(() => {
-    globalThis.addEventListener('keydown', handleKeyPress);
+    globalThis.addEventListener("keydown", handleKeyPress);
     return () => {
-      globalThis.removeEventListener('keydown', handleKeyPress);
+      globalThis.removeEventListener("keydown", handleKeyPress);
     };
   }, [state.typedCount, state.correctCount, state.mistakeCount]);
 
   return state;
-} 
+}

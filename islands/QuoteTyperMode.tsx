@@ -1,15 +1,18 @@
-import { useState, useEffect, useCallback, useRef } from "preact/hooks";
+import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import { ContentItem } from "../config/typingContent.ts"; // Import config type
 import typingContentData from "../config/typingContent.ts"; // Import the actual data
 import ContentSelector from "../components/ContentSelector.tsx";
 import QuoteTextDisplay from "../components/QuoteTextDisplay.tsx";
-import { fetchContentFromUrl, FetchResult } from "../functions/contentFetcher.ts";
+import {
+  fetchContentFromUrl,
+  FetchResult,
+} from "../functions/contentFetcher.ts";
 import { useQuoteInput } from "../hooks/useQuoteInput.ts";
 import { useTypingMetrics } from "../hooks/useTypingMetrics.ts"; // Assuming this exists and is compatible
 import { TypingMetricsDisplay } from "../components/TypingMetricsDisplay.tsx"; // Assuming this exists
 
 interface QuoteTyperModeProps {
-  contentType?: 'quote' | 'code'; // Accept contentType prop
+  contentType?: "quote" | "code"; // Accept contentType prop
 }
 
 export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { // Accept contentType
@@ -23,24 +26,34 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
     return newArray;
   }
 
-  const [selectedContentId, setSelectedContentId] = useState<string | null>(null);
+  const [selectedContentId, setSelectedContentId] = useState<string | null>(
+    null,
+  );
   const [targetText, setTargetText] = useState<string>(""); // The text for the current typing task (single quote or code block)
   const [allQuotes, setAllQuotes] = useState<string[]>([]); // Array of quotes if the content type is 'quote'
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState<number>(0); // Index of the current quote being typed
   const [isLoading, setIsLoading] = useState<boolean>(true); // Start loading initially
   const [error, setError] = useState<string | null>(null);
   const [startTime, setStartTime] = useState<number | null>(null); // For metrics calculation
-  const [initialLoadComplete, setInitialLoadComplete] = useState<boolean>(false); // Track initial load
+  const [initialLoadComplete, setInitialLoadComplete] = useState<boolean>(
+    false,
+  ); // Track initial load
   const hiddenInputRef = useRef<HTMLInputElement>(null); // Ref for the hidden input
 
   // Determine the localStorage key based on content type
-  const localStorageKey = contentType === 'code' ? 'lastSelectedCodeId' : 'lastSelectedQuoteId';
+  const localStorageKey = contentType === "code"
+    ? "lastSelectedCodeId"
+    : "lastSelectedQuoteId";
 
   // Filter content items based on the current contentType
-  const relevantContentItems = typingContentData.filter(item => !contentType || item.type === contentType);
+  const relevantContentItems = typingContentData.filter((item) =>
+    !contentType || item.type === contentType
+  );
 
   // Find the selected ContentItem based on ID
-  const selectedContentItem = relevantContentItems.find(item => item.id === selectedContentId);
+  const selectedContentItem = relevantContentItems.find((item) =>
+    item.id === selectedContentId
+  );
 
   // Fetch content when selectedContentId changes
   useEffect(() => {
@@ -61,13 +74,17 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
       setCurrentQuoteIndex(0); // Reset index
       setStartTime(null); // Reset start time
 
-      const result: FetchResult = await fetchContentFromUrl(selectedContentItem.sourceUrl);
+      const result: FetchResult = await fetchContentFromUrl(
+        selectedContentItem.sourceUrl,
+      );
 
       if (result.success) {
-        if (selectedContentItem.type === 'quote') {
+        if (selectedContentItem.type === "quote") {
           // Split fetched content into individual quotes by newline
-          let quotes = result.content.split('\n').filter(quote => quote.trim() !== ''); // Filter out empty lines
-          
+          let quotes = result.content.split("\n").filter((quote) =>
+            quote.trim() !== ""
+          ); // Filter out empty lines
+
           // Shuffle the quotes if there are any
           if (quotes.length > 0) {
             quotes = shuffleArray(quotes);
@@ -95,18 +112,27 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
 
   // Function to load a new random item (memoized with useCallback)
   const loadRandomItem = useCallback(() => {
-      if (relevantContentItems.length === 0) {
-          console.warn(`No content items found for type: ${contentType}`);
-          setError(`No content available for the selected type (${contentType || 'any'}).`);
-          setIsLoading(false); // Ensure loading state is off
-          return; // Exit if no relevant items
-      }
-      const randomIndex = Math.floor(Math.random() * relevantContentItems.length);
-      const randomId = relevantContentItems[randomIndex].id;
-      setSelectedContentId(randomId);
-      localStorage.setItem(localStorageKey, randomId); // Save random selection to the correct key
-      console.log(`Loaded random ${contentType || 'item'}:`, randomId);
-  }, [relevantContentItems, contentType, localStorageKey, setSelectedContentId, setError, setIsLoading]); // Dependencies for useCallback
+    if (relevantContentItems.length === 0) {
+      console.warn(`No content items found for type: ${contentType}`);
+      setError(
+        `No content available for the selected type (${contentType || "any"}).`,
+      );
+      setIsLoading(false); // Ensure loading state is off
+      return; // Exit if no relevant items
+    }
+    const randomIndex = Math.floor(Math.random() * relevantContentItems.length);
+    const randomId = relevantContentItems[randomIndex].id;
+    setSelectedContentId(randomId);
+    localStorage.setItem(localStorageKey, randomId); // Save random selection to the correct key
+    console.log(`Loaded random ${contentType || "item"}:`, randomId);
+  }, [
+    relevantContentItems,
+    contentType,
+    localStorageKey,
+    setSelectedContentId,
+    setError,
+    setIsLoading,
+  ]); // Dependencies for useCallback
 
   // Effect for initial load logic (localStorage or random)
   useEffect(() => {
@@ -114,13 +140,23 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
 
     const lastSelectedId = localStorage.getItem(localStorageKey);
     // Validate the ID against the *relevant* content items
-    if (lastSelectedId && relevantContentItems.some(item => item.id === lastSelectedId)) {
+    if (
+      lastSelectedId &&
+      relevantContentItems.some((item) => item.id === lastSelectedId)
+    ) {
       // Found a valid last selection for the current content type
       setSelectedContentId(lastSelectedId);
-      console.log(`Loaded last selected ${contentType || 'item'}:`, lastSelectedId);
+      console.log(
+        `Loaded last selected ${contentType || "item"}:`,
+        lastSelectedId,
+      );
     } else {
       // No valid last selection found, load random
-      console.log(`No valid last selection found for ${contentType || 'item'}, loading random.`);
+      console.log(
+        `No valid last selection found for ${
+          contentType || "item"
+        }, loading random.`,
+      );
       loadRandomItem(); // This will now load a random item of the correct type
     }
     setInitialLoadComplete(true); // Mark initial load as done
@@ -150,10 +186,10 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
   // Calculate typing metrics
   // Note: Ensure useTypingMetrics is adapted if its input differs from the random mode
   const metrics = useTypingMetrics(
-    charStates.map(cs => ({
+    charStates.map((cs) => ({
       char: cs.original,
       // Map 'current' state to 'none' for TrainingChar compatibility, or handle as needed
-      state: cs.state === 'current' ? 'none' : cs.state,
+      state: cs.state === "current" ? "none" : cs.state,
       typedChar: cs.typed ?? "", // Convert null to empty string
       // time is optional in TrainingChar, not present in DisplayCharState
     })),
@@ -161,13 +197,16 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
     correctCount,
     mistakeCount,
     backspaceCount,
-    startTime ?? Date.now() // Provide a start time
+    startTime ?? Date.now(), // Provide a start time
   );
 
   // Effect to advance to the next quote when the current one is completed
   useEffect(() => {
     // Check if the current target text is complete, if it's a quote type, and if there are more quotes
-    if (isComplete && selectedContentItem?.type === 'quote' && currentQuoteIndex < allQuotes.length - 1) {
+    if (
+      isComplete && selectedContentItem?.type === "quote" &&
+      currentQuoteIndex < allQuotes.length - 1
+    ) {
       // Use a timeout to allow the completion state to render briefly before moving to the next quote
       const timer = setTimeout(() => {
         const nextQuoteIndex = currentQuoteIndex + 1;
@@ -179,10 +218,15 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
 
       return () => clearTimeout(timer); // Cleanup the timer if the component unmounts or state changes
     }
-     // If it's complete and the last quote (or not a quote type), the entire content is finished.
-     // The completion message will be displayed based on the isComplete state.
-  }, [isComplete, currentQuoteIndex, allQuotes, selectedContentItem, resetInput]); // Dependencies
-
+    // If it's complete and the last quote (or not a quote type), the entire content is finished.
+    // The completion message will be displayed based on the isComplete state.
+  }, [
+    isComplete,
+    currentQuoteIndex,
+    allQuotes,
+    selectedContentItem,
+    resetInput,
+  ]); // Dependencies
 
   // Handler for the ContentSelector change
   const handleSelectContent = useCallback((id: string) => {
@@ -201,25 +245,33 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
   // Global keydown listener to focus the hidden input on Enter key press
   useEffect(() => {
     const handleGlobalKeyDown = (event: KeyboardEvent) => {
-      const hiddenInput = document.querySelector('input[aria-hidden="true"]') as HTMLInputElement;
+      const hiddenInput = document.querySelector(
+        'input[aria-hidden="true"]',
+      ) as HTMLInputElement;
       // Check if the pressed key is Enter and the hidden input is not already focused
-      if (event.key === 'Enter' && hiddenInput && document.activeElement !== hiddenInput) {
+      if (
+        event.key === "Enter" && hiddenInput &&
+        document.activeElement !== hiddenInput
+      ) {
         event.preventDefault(); // Prevent default Enter key behavior (e.g., form submission, scrolling)
         hiddenInput.focus();
       }
     };
 
-    globalThis.addEventListener('keydown', handleGlobalKeyDown);
+    globalThis.addEventListener("keydown", handleGlobalKeyDown);
 
     // Cleanup the event listener on component unmount
     return () => {
-      globalThis.removeEventListener('keydown', handleGlobalKeyDown);
+      globalThis.removeEventListener("keydown", handleGlobalKeyDown);
     };
   }, []); // Empty dependency array means this effect runs once on mount and cleans up on unmount
 
   // Effect to focus the input after initial content load
   useEffect(() => {
-    if (!isLoading && !error && targetText && initialLoadComplete && hiddenInputRef.current) {
+    if (
+      !isLoading && !error && targetText && initialLoadComplete &&
+      hiddenInputRef.current
+    ) {
       // Use a small timeout to ensure the element is focusable after render updates
       const focusTimer = setTimeout(() => {
         hiddenInputRef.current?.focus();
@@ -233,42 +285,57 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
   return (
     <div class="container mx-auto p-4">
       {isLoading && <div class="text-center p-4">Loading content...</div>}
-      {error && <div class="text-center p-4 text-red-600 bg-red-100 rounded-md">{error}</div>}
+      {error && (
+        <div class="text-center p-4 text-red-600 bg-red-100 rounded-md">
+          {error}
+        </div>
+      )}
 
       {!isLoading && !error && targetText && (
         <>
           {/* Hidden input field to capture typing */}
           <input
             ref={hiddenInputRef} // Assign the ref
-            {...inputProps} // Spread props from the hook (value, onInput, etc.)
+            {...inputProps}
+            // Spread props from the hook (value, onInput, etc.)
             type="text"
             // Basic styling to hide it, but keep it accessible
-            style={{ position: 'absolute', top: '-9999px', left: '-9999px', opacity: 0, pointerEvents: 'none' }}
+            style={{
+              position: "absolute",
+              top: "-9999px",
+              left: "-9999px",
+              opacity: 0,
+              pointerEvents: "none",
+            }}
             aria-hidden="true" // Hide from screen readers as interaction is visual
           />
 
           {/* Display the text to be typed */}
           {/* Wrap display in a div to allow focusing the hidden input on click */}
-           <div onClick={() => hiddenInputRef.current?.focus()} style={{ cursor: 'text' }}>
-                <QuoteTextDisplay charStates={charStates} />
-           </div>
-
-      <ContentSelector
-        contentItems={relevantContentItems} // Pass only relevant items to selector
-        selectedId={selectedContentId}
-        onSelect={handleSelectContent}
-        contentType={contentType} // Pass contentType prop
-      />
-
-      {/* Optional: Button to load a random item */}
-      <div class="text-center my-4"> {/* Adjusted margin for better spacing */}
-          <button
-            onClick={loadRandomItem}
-            class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+          <div
+            onClick={() => hiddenInputRef.current?.focus()}
+            style={{ cursor: "text" }}
           >
-            Load Random
-          </button>
-      </div>
+            <QuoteTextDisplay charStates={charStates} />
+          </div>
+
+          <ContentSelector
+            contentItems={relevantContentItems} // Pass only relevant items to selector
+            selectedId={selectedContentId}
+            onSelect={handleSelectContent}
+            contentType={contentType} // Pass contentType prop
+          />
+
+          {/* Optional: Button to load a random item */}
+          <div class="text-center my-4">
+            {/* Adjusted margin for better spacing */}
+            <button
+              onClick={loadRandomItem}
+              class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+            >
+              Load Random
+            </button>
+          </div>
 
           {/* Display Typing Metrics */}
           <TypingMetricsDisplay metrics={metrics} />
@@ -276,20 +343,22 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
           {/* Optional: Reset button or completion message */}
           {isComplete && (
             <div class="text-center mt-4 p-4 bg-green-100 text-green-800 rounded-md">
-              {selectedContentItem?.type === 'quote' && currentQuoteIndex === allQuotes.length - 1
-                ? 'All quotes completed! Well done.' // Message for completing all quotes
-                : selectedContentItem?.type === 'quote'
+              {
+                selectedContentItem?.type === "quote" &&
+                  currentQuoteIndex === allQuotes.length - 1
+                  ? "All quotes completed! Well done." // Message for completing all quotes
+                  : selectedContentItem?.type === "quote"
                   ? `Quote ${currentQuoteIndex + 1} completed!` // Message for completing a single quote
-                  : 'Completed! Well done.' // Message for completing code or other types
+                  : "Completed! Well done." // Message for completing code or other types
               }
-              
+
               <button
                 onClick={resetInput} // Use reset from the hook
                 class="ml-4 px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700"
               >
                 Practice Again
               </button>
-               <button
+              <button
                 onClick={loadRandomItem} // Or load a new random one
                 class="ml-2 px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600"
               >
@@ -299,9 +368,11 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
           )}
         </>
       )}
-       {!isLoading && !error && !targetText && !selectedContentId && (
-            <div class="text-center p-4 text-gray-500">Please select content to start typing.</div>
-       )}
+      {!isLoading && !error && !targetText && !selectedContentId && (
+        <div class="text-center p-4 text-gray-500">
+          Please select content to start typing.
+        </div>
+      )}
     </div>
   );
 }

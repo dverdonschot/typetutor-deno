@@ -27,7 +27,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: 'javascript-typescript'
+          languages: "javascript-typescript"
           # queries: +security-extended # Optional: Uncomment to include more security queries
 
       - name: Perform CodeQL Analysis
@@ -51,5 +51,3 @@ jobs:
           project: "heavy-amoeba-30"
           entrypoint: "main.ts"
           root: "."
-          
-          

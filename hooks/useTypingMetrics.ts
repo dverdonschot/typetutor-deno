@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'preact/hooks';
+import { useEffect, useState } from "preact/hooks";
 import { TrainingChar } from "../functions/randomTrainingSet.ts";
 
 export interface TypingMetrics {
@@ -18,7 +18,7 @@ export function useTypingMetrics(
   correctCount: number,
   mistakeCount: number,
   backspaceCount: number,
-  startTime: number
+  startTime: number,
 ) {
   const [metrics, setMetrics] = useState<TypingMetrics>({
     charactersPerMinute: 0,
@@ -28,7 +28,7 @@ export function useTypingMetrics(
     totalTimeSeconds: 0,
     isComplete: false,
     backspaceCount: 0,
-    backspaceRatioPercent: 0 // Added backspace ratio
+    backspaceRatioPercent: 0, // Added backspace ratio
   });
 
   useEffect(() => {
@@ -38,13 +38,21 @@ export function useTypingMetrics(
 
       // Prevent division by zero if totalTimeSeconds is very small or zero
       if (totalTimeSeconds > 0) {
-        const charactersPerMinute = Math.round((correctCount / totalTimeSeconds) * 60);
+        const charactersPerMinute = Math.round(
+          (correctCount / totalTimeSeconds) * 60,
+        );
         // WPM = (Keystrokes / 5) / Time in Minutes
         // Keystrokes = typedCount (includes correct and incorrect, as per standard WPM)
         // Time in Minutes = totalTimeSeconds / 60
-        const wordsPerMinute = Math.round((typedCount / 5) / (totalTimeSeconds / 60));
-        const accuracyPercentage = Math.round((correctCount / typedCount) * 100); // Accuracy based on typed chars
-        const backspaceRatioPercent = codeableKeys.length > 0 ? Math.round((backspaceCount / codeableKeys.length) * 100) : 0;
+        const wordsPerMinute = Math.round(
+          (typedCount / 5) / (totalTimeSeconds / 60),
+        );
+        const accuracyPercentage = Math.round(
+          (correctCount / typedCount) * 100,
+        ); // Accuracy based on typed chars
+        const backspaceRatioPercent = codeableKeys.length > 0
+          ? Math.round((backspaceCount / codeableKeys.length) * 100)
+          : 0;
 
         const isNowComplete = typedCount === codeableKeys.length;
 
@@ -56,17 +64,19 @@ export function useTypingMetrics(
           totalTimeSeconds,
           isComplete: isNowComplete,
           backspaceCount,
-          backspaceRatioPercent
+          backspaceRatioPercent,
         });
       } else {
         // Handle case where time is too short to calculate, or set to 0
-        const backspaceRatioPercent = codeableKeys.length > 0 ? Math.round((backspaceCount / codeableKeys.length) * 100) : 0;
-        setMetrics(prevMetrics => ({
+        const backspaceRatioPercent = codeableKeys.length > 0
+          ? Math.round((backspaceCount / codeableKeys.length) * 100)
+          : 0;
+        setMetrics((prevMetrics) => ({
           ...prevMetrics,
           mistakes: mistakeCount,
           backspaceCount,
           backspaceRatioPercent,
-          isComplete: typedCount === codeableKeys.length
+          isComplete: typedCount === codeableKeys.length,
         }));
       }
     } else if (typedCount === 0) {
@@ -79,10 +89,17 @@ export function useTypingMetrics(
         totalTimeSeconds: 0,
         isComplete: false,
         backspaceCount: 0,
-        backspaceRatioPercent: 0 // Added backspace ratio
+        backspaceRatioPercent: 0, // Added backspace ratio
       });
     }
-  }, [typedCount, correctCount, mistakeCount, backspaceCount, startTime, codeableKeys.length]);
+  }, [
+    typedCount,
+    correctCount,
+    mistakeCount,
+    backspaceCount,
+    startTime,
+    codeableKeys.length,
+  ]);
 
   return metrics;
-} 
+}

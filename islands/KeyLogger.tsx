@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'preact/hooks'; // Import useRef and useEffect
+import { useEffect, useRef, useState } from "preact/hooks"; // Import useRef and useEffect
 import { TrainingChar } from "../functions/randomTrainingSet.ts";
 import RenderedQuoteResult from "./RenderedQuoteResult.tsx";
 import { useMobileInput } from "../hooks/useMobileInput.ts";
@@ -26,40 +26,43 @@ const KeyLogger: React.FC<KeyLoggerProps> = ({ codeableKeys }) => {
     correctCount,
     mistakeCount,
     backspaceCount,
-    startTime
+    startTime,
   );
 
   const inputStyle = {
-    position: 'absolute',
-    top: '-9999px',
-    left: '-9999px',
+    position: "absolute",
+    top: "-9999px",
+    left: "-9999px",
     opacity: 0,
-    pointerEvents: 'none',
+    pointerEvents: "none",
   };
   const focusInput = () => {
     inputRef.current?.focus();
   };
- 
+
   useEffect(() => {
     const handleGlobalKeyDown = (event: KeyboardEvent) => {
-      if (!isInputActive && !(event.target instanceof HTMLInputElement) && !(event.target instanceof HTMLTextAreaElement)) {
-        if (event.key.length === 1 || event.key === 'Backspace') {
-           if (event.key === ' ') {
-               event.preventDefault();
-           }
-           inputRef.current?.focus();
+      if (
+        !isInputActive && !(event.target instanceof HTMLInputElement) &&
+        !(event.target instanceof HTMLTextAreaElement)
+      ) {
+        if (event.key.length === 1 || event.key === "Backspace") {
+          if (event.key === " ") {
+            event.preventDefault();
+          }
+          inputRef.current?.focus();
         }
       }
     };
- 
-    globalThis.addEventListener('keydown', handleGlobalKeyDown);
+
+    globalThis.addEventListener("keydown", handleGlobalKeyDown);
     return () => {
-      globalThis.removeEventListener('keydown', handleGlobalKeyDown);
+      globalThis.removeEventListener("keydown", handleGlobalKeyDown);
     };
   }, [isInputActive]);
- 
+
   return (
-    <div onClick={focusInput} style={{ cursor: 'pointer' }}>
+    <div onClick={focusInput} style={{ cursor: "pointer" }}>
       {RenderedQuoteResult(codeableKeys)}
       <input
         {...inputProps}
