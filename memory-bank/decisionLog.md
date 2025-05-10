@@ -33,3 +33,8 @@ during the project's development.
     unused prop with an underscore.
 - [2025-05-10 21:48:30] - Resolved TS2305 error in `islands/KeyLogger.tsx` by changing `import { FC } from "preact"` to `import { FunctionComponent as FC } from "preact"`.
 - [2025-05-10 21:50:30] - Resolved TS2322 error in `islands/QuoteTyperMode.tsx` by adding `as const` to the `inputProps` object in the `hooks/useQuoteInput.ts` hook. This ensures that properties like `autoCapitalize` retain their specific literal types.
+- [2025-05-10 22:39:39] - Implemented server-side unique visitor analytics:
+  - Created `middleware/analytics.ts` to capture client IP, determine game mode, hash IP with a daily salt (using `ANALYTICS_SALT_SECRET` env var), and store in Deno KV with a 36-hour TTL. Key structure: `["daily_game_uniques", "YYYY-MM-DD", "<gameModeId>", "<hashed_ip>"]`.
+  - Created public statistics page `routes/stats.tsx` to display daily unique visitors per game mode and total daily unique visitors, by querying Deno KV.
+  - Registered the analytics middleware globally in `fresh.config.ts`.
+  - Decision: Statistics page will be public, as per user confirmation. Privacy policy update and `ANALYTICS_SALT_SECRET` configuration are pending.
