@@ -7,8 +7,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        'tt-darkblue': '#0044aa',
-        'tt-lightblue': '#5fbcd3',
+        "tt-darkblue": "#0044aa",
+        "tt-lightblue": "#5fbcd3",
       },
     },
   },

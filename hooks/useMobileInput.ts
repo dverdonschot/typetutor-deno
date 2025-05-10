@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'preact/hooks';
+import { useCallback, useState } from "preact/hooks";
 import { TrainingChar } from "../functions/randomTrainingSet.ts";
 
 interface MobileInputState {
@@ -13,7 +13,7 @@ const processInput = (
   currentValue: string,
   previousValue: string,
   codeableKeys: TrainingChar[],
-  currentState: MobileInputState
+  currentState: MobileInputState,
 ): MobileInputState => {
   let newTypedCount = 0;
   let newCorrectCount = 0;
@@ -21,13 +21,13 @@ const processInput = (
   let newBackspaceCount = currentState.backspaceCount;
 
   if (currentValue.length < previousValue.length) {
-      newBackspaceCount += (previousValue.length - currentValue.length);
-      for (let i = currentValue.length; i < previousValue.length; i++) {
-          if (codeableKeys[i]) {
-              codeableKeys[i].state = "none";
-              codeableKeys[i].typedChar = "none";
-          }
+    newBackspaceCount += previousValue.length - currentValue.length;
+    for (let i = currentValue.length; i < previousValue.length; i++) {
+      if (codeableKeys[i]) {
+        codeableKeys[i].state = "none";
+        codeableKeys[i].typedChar = "none";
       }
+    }
   }
 
   for (let i = 0; i < codeableKeys.length; i++) {
@@ -45,16 +45,13 @@ const processInput = (
         newMistakeCount++;
       }
       newTypedCount = i + 1;
-    } else if (i >= currentValue.length && targetChar.state !== "none") {
-        if (targetChar.state !== 'none' && i >= currentValue.length) {
-        }
-    } else {
-         targetChar.state = "none";
-         targetChar.typedChar = "none";
+    } else { // i >= currentValue.length
+      targetChar.state = "none";
+      targetChar.typedChar = "none";
     }
   }
 
-   newTypedCount = Math.min(newTypedCount, codeableKeys.length);
+  newTypedCount = Math.min(newTypedCount, codeableKeys.length);
 
   return {
     typedCount: newTypedCount,
@@ -64,7 +61,6 @@ const processInput = (
     inputValue: currentValue,
   };
 };
-
 
 export function useMobileInput(codeableKeys: TrainingChar[]) {
   const [state, setState] = useState<MobileInputState>({
@@ -79,30 +75,33 @@ export function useMobileInput(codeableKeys: TrainingChar[]) {
     const target = event.target as HTMLInputElement;
     const newValue = target.value;
 
-    if (state.typedCount >= codeableKeys.length && newValue.length > state.inputValue.length) {
-        target.value = state.inputValue;
-        return;
+    if (
+      state.typedCount >= codeableKeys.length &&
+      newValue.length > state.inputValue.length
+    ) {
+      target.value = state.inputValue;
+      return;
     }
 
-
-    setState(prevState => processInput(newValue, prevState.inputValue, codeableKeys, prevState));
+    setState((prevState) =>
+      processInput(newValue, prevState.inputValue, codeableKeys, prevState)
+    );
   }, [codeableKeys, state.typedCount, state.inputValue]);
 
   const resetInput = useCallback(() => {
-      setState({
-          typedCount: 0,
-          mistakeCount: 0,
-          correctCount: 0,
-          backspaceCount: 0,
-          inputValue: "",
-      });
-      codeableKeys.forEach(key => {
-          key.state = "none";
-          key.typedChar = "none";
-          key.time = undefined;
-      });
+    setState({
+      typedCount: 0,
+      mistakeCount: 0,
+      correctCount: 0,
+      backspaceCount: 0,
+      inputValue: "",
+    });
+    codeableKeys.forEach((key) => {
+      key.state = "none";
+      key.typedChar = "none";
+      key.time = undefined;
+    });
   }, [codeableKeys]);
-
 
   return {
     ...state,
@@ -112,7 +111,7 @@ export function useMobileInput(codeableKeys: TrainingChar[]) {
       autoCapitalize: "none",
       autoCorrect: "off",
       spellCheck: false,
-    },
-    resetInput
+    } as const,
+    resetInput,
   };
 }

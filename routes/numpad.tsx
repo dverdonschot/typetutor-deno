@@ -5,7 +5,10 @@ import { Random } from "../components/random.tsx"; // Temporarily using Random u
 
 export default function Numpad(props: PageProps) {
   return (
-    <Layout descriptionText="Practice your numpad typing skills!">
+    <Layout
+      descriptionText="Practice your numpad typing skills!"
+      currentPath={props.url.pathname}
+    >
       {/* Replace with Numpad component when created */}
       <Random />
     </Layout>
