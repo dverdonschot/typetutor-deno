@@ -13,6 +13,16 @@ interface QuoteTyperModeProps {
 }
 
 export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { // Accept contentType
+  // Helper function to shuffle an array (Fisher-Yates shuffle)
+  function shuffleArray<T>(array: T[]): T[] {
+    const newArray = [...array]; // Create a copy
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  }
+
   const [selectedContentId, setSelectedContentId] = useState<string | null>(null);
   const [targetText, setTargetText] = useState<string>(""); // The text for the current typing task (single quote or code block)
   const [allQuotes, setAllQuotes] = useState<string[]>([]); // Array of quotes if the content type is 'quote'
@@ -56,10 +66,16 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
       if (result.success) {
         if (selectedContentItem.type === 'quote') {
           // Split fetched content into individual quotes by newline
-          const quotes = result.content.split('\n').filter(quote => quote.trim() !== ''); // Filter out empty lines
+          let quotes = result.content.split('\n').filter(quote => quote.trim() !== ''); // Filter out empty lines
+          
+          // Shuffle the quotes if there are any
+          if (quotes.length > 0) {
+            quotes = shuffleArray(quotes);
+          }
+
           setAllQuotes(quotes);
           setCurrentQuoteIndex(0);
-          setTargetText(quotes[0] || ""); // Set the first quote as the target text
+          setTargetText(quotes[0] || ""); // Set the first (now random) quote as the target text
         } else {
           // For code or other types, the entire content is the target text
           setTargetText(result.content);
@@ -159,7 +175,7 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
         setTargetText(allQuotes[nextQuoteIndex]); // Set the next quote as the new target text
         resetInput(); // Reset the input hook state for the new quote
         setStartTime(Date.now()); // Restart the timer for the new quote
-      }, 500); // Short delay before loading the next quote (adjust as needed)
+      }, 6000); // Short delay before loading the next quote (adjust as needed)
 
       return () => clearTimeout(timer); // Cleanup the timer if the component unmounts or state changes
     }
