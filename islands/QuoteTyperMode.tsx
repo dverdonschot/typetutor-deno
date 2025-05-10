@@ -134,7 +134,13 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
   // Calculate typing metrics
   // Note: Ensure useTypingMetrics is adapted if its input differs from the random mode
   const metrics = useTypingMetrics(
-    charStates, // Pass the detailed charStates array
+    charStates.map(cs => ({
+      char: cs.original,
+      // Map 'current' state to 'none' for TrainingChar compatibility, or handle as needed
+      state: cs.state === 'current' ? 'none' : cs.state,
+      typedChar: cs.typed ?? "", // Convert null to empty string
+      // time is optional in TrainingChar, not present in DisplayCharState
+    })),
     typedCount,
     correctCount,
     mistakeCount,
@@ -210,26 +216,6 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
 
   return (
     <div class="container mx-auto p-4">
-      <h2 class="text-2xl font-bold mb-4 text-center text-tt-darkblue">Quotes & Code Typing Practice</h2>
-
-      <ContentSelector
-        contentItems={relevantContentItems} // Pass only relevant items to selector
-        selectedId={selectedContentId}
-        onSelect={handleSelectContent}
-        contentType={contentType} // Pass contentType prop
-      />
-
-      {/* Optional: Button to load a random item */}
-      <div class="text-center mb-4">
-          <button
-            onClick={loadRandomItem}
-            class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
-          >
-            Load Random
-          </button>
-      </div>
-
-
       {isLoading && <div class="text-center p-4">Loading content...</div>}
       {error && <div class="text-center p-4 text-red-600 bg-red-100 rounded-md">{error}</div>}
 
@@ -251,6 +237,22 @@ export default function QuoteTyperMode({ contentType }: QuoteTyperModeProps) { /
                 <QuoteTextDisplay charStates={charStates} />
            </div>
 
+      <ContentSelector
+        contentItems={relevantContentItems} // Pass only relevant items to selector
+        selectedId={selectedContentId}
+        onSelect={handleSelectContent}
+        contentType={contentType} // Pass contentType prop
+      />
+
+      {/* Optional: Button to load a random item */}
+      <div class="text-center my-4"> {/* Adjusted margin for better spacing */}
+          <button
+            onClick={loadRandomItem}
+            class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+          >
+            Load Random
+          </button>
+      </div>
 
           {/* Display Typing Metrics */}
           <TypingMetricsDisplay metrics={metrics} />
