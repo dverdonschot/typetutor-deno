@@ -1,4 +1,4 @@
-import { FC } from "preact";
+import { FunctionComponent as FC } from "preact";
 import { useEffect, useRef, useState } from "preact/hooks"; // Import useRef and useEffect
 import { TrainingChar } from "../functions/randomTrainingSet.ts";
 import RenderedQuoteResult from "./RenderedQuoteResult.tsx";

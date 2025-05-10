@@ -31,3 +31,5 @@ during the project's development.
     `RouteContext` import issues.
   - Addressed `no-unused-vars` linting error in `HamburgerMenu` by prefixing
     unused prop with an underscore.
+- [2025-05-10 21:48:30] - Resolved TS2305 error in `islands/KeyLogger.tsx` by changing `import { FC } from "preact"` to `import { FunctionComponent as FC } from "preact"`.
+- [2025-05-10 21:50:30] - Resolved TS2322 error in `islands/QuoteTyperMode.tsx` by adding `as const` to the `inputProps` object in the `hooks/useQuoteInput.ts` hook. This ensures that properties like `autoCapitalize` retain their specific literal types.

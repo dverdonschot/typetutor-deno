@@ -221,7 +221,7 @@ export function useQuoteInput(targetText: string) {
       autoCorrect: "off",
       spellCheck: false,
       // Consider adding maxLength={targetText.length} if strict length limit is desired
-    },
+    } as const,
     resetInput,
   };
 }
