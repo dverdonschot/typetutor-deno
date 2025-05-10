@@ -48,6 +48,6 @@ jobs:
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "heavy-amoeba-30"
+          project: "typetutor"
           entrypoint: "main.ts"
           root: "."
