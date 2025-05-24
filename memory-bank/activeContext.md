@@ -2,13 +2,15 @@
 
 ## Current Focus
 
-Resolved TS2322 error in `islands/QuoteTyperMode.tsx` by adding `as const` to `inputProps` in `hooks/useQuoteInput.ts`.
-Awaiting next task.
+Resolved TS2322 error in `islands/QuoteTyperMode.tsx` by adding `as const` to
+`inputProps` in `hooks/useQuoteInput.ts`. Awaiting next task.
 
 ## Recent Changes
 
-- [2025-05-10 21:50:30] - Resolved TS2322 error in `islands/QuoteTyperMode.tsx` by adding `as const` to `inputProps` in `hooks/useQuoteInput.ts`.
-- [2025-05-10 21:48:30] - Resolved TS2305 error in `islands/KeyLogger.tsx` by importing `FunctionComponent as FC` from "preact".
+- [2025-05-10 21:50:30] - Resolved TS2322 error in `islands/QuoteTyperMode.tsx`
+  by adding `as const` to `inputProps` in `hooks/useQuoteInput.ts`.
+- [2025-05-10 21:48:30] - Resolved TS2305 error in `islands/KeyLogger.tsx` by
+  importing `FunctionComponent as FC` from "preact".
 - [2025-05-10 21:16:48] - Resolved multiple TypeScript errors and a linting
   warning.
 - [2025-05-10 12:58:49] - CI/CD pipeline modified: `deno audit` step removed.

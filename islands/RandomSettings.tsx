@@ -132,13 +132,18 @@ export default function RandomSettings(
           </select>
         </div>
 
-        <button
-          type="button"
-          onClick={handleRegenerate}
-          class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Regenerate
-        </button>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1 opacity-0">
+            Regenerate
+          </label>
+          <button
+            type="button"
+            onClick={handleRegenerate}
+            class="px-4 py-2 border-tt-lightblue border-2 rounded-md bg-tt-lightblue hover:bg-tt-lightblue-darker text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            Regenerate
+          </button>
+        </div>
       </div>
     </div>
   );
