@@ -70,7 +70,9 @@ const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys }) => {
   }, [typedCount, codeableKeys.length]);
 
   const handleReload = () => {
-    window.location.reload();
+    if (typeof window !== "undefined") {
+      globalThis.location.reload();
+    }
   };
 
   return (
@@ -88,6 +90,7 @@ const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys }) => {
           <TypingMetricsDisplay metrics={metrics} />
           {isFinished && (
             <button
+              type="button"
               onClick={handleReload}
               class="mt-4 px-4 py-2 bg-tt-darkblue text-white rounded"
             >
