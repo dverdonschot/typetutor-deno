@@ -15,3 +15,11 @@ export default function App({ Component }: PageProps) {
     </html>
   );
 }
+
+export const handler: Handlers = {
+  async GET(_req, ctx) {
+    const resp = await ctx.render();
+    resp.headers.set("X-Content-Type-Options", "nosniff");
+    return resp;
+  },
+};

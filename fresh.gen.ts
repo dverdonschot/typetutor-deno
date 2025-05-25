@@ -8,7 +8,6 @@ import * as $alphabet from "./routes/alphabet.tsx";
 import * as $code from "./routes/code.tsx";
 import * as $custom from "./routes/custom.tsx";
 import * as $index from "./routes/index.tsx";
-import * as $numpad from "./routes/numpad.tsx";
 import * as $quotes from "./routes/quotes.tsx";
 import * as $HamburgerMenu from "./islands/HamburgerMenu.tsx";
 import * as $KeyLogger from "./islands/KeyLogger.tsx";
@@ -25,7 +24,6 @@ const manifest = {
     "./routes/code.tsx": $code,
     "./routes/custom.tsx": $custom,
     "./routes/index.tsx": $index,
-    "./routes/numpad.tsx": $numpad,
     "./routes/quotes.tsx": $quotes,
   },
   islands: {

@@ -21,6 +21,7 @@ const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys }) => {
     backspaceCount,
     inputProps,
   } = useMobileInput(codeableKeys);
+  const [isFinished, setIsFinished] = useState(false);
   const metrics = useTypingMetrics(
     codeableKeys,
     typedCount,
@@ -62,6 +63,16 @@ const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys }) => {
     };
   }, [isInputActive]);
 
+  useEffect(() => {
+    if (typedCount === codeableKeys.length && codeableKeys.length > 0) {
+      setIsFinished(true);
+    }
+  }, [typedCount, codeableKeys.length]);
+
+  const handleReload = () => {
+    window.location.reload();
+  };
+
   return (
     <div onClick={focusInput} style={{ cursor: "pointer" }}>
       {RenderedQuoteResult(codeableKeys)}
@@ -72,7 +83,19 @@ const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys }) => {
         onFocus={() => setIsInputActive(true)}
         onBlur={() => setIsInputActive(false)}
       />
-      <TypingMetricsDisplay metrics={metrics} />
+      {metrics.isComplete && (
+        <div class="mt-8 p-4 bg-tt-lightblue rounded-lg text-white">
+          <TypingMetricsDisplay metrics={metrics} />
+          {isFinished && (
+            <button
+              onClick={handleReload}
+              class="mt-4 px-4 py-2 bg-tt-darkblue text-white rounded"
+            >
+              Reload Game
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };
