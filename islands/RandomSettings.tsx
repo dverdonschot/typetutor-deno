@@ -92,6 +92,7 @@ export default function RandomSettings(
         <KeyLogger
           key={keyLoggerKey}
           codeableKeys={trainingSet}
+          gameType="random"
         />
       </div>
 

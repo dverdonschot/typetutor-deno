@@ -6,7 +6,7 @@ export function Alphabet() {
   const trainingSet = PredefinedTrainingSet(alphabet);
   return (
     <div class="w-full min-h-[300px] rounded-lg bg-white shadow">
-      <KeyLogger codeableKeys={trainingSet} />
+      <KeyLogger codeableKeys={trainingSet} gameType="alphabet" />
     </div>
   );
 }
