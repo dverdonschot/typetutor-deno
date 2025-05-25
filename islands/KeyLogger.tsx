@@ -8,9 +8,10 @@ import { TypingMetricsDisplay } from "../components/TypingMetricsDisplay.tsx";
 
 interface KeyLoggerProps {
   codeableKeys: TrainingChar[];
+  gameType: string;
 }
 
-const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys }) => {
+const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys, gameType }) => {
   const [startTime] = useState<number>(Date.now());
   const inputRef = useRef<HTMLInputElement>(null);
   const [isInputActive, setIsInputActive] = useState(false);
@@ -63,11 +64,48 @@ const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys }) => {
     };
   }, [isInputActive]);
 
+  const finishedSentRef = useRef(false);
+  const halfwaySentRef = useRef(false);
+
   useEffect(() => {
-    if (typedCount === codeableKeys.length && codeableKeys.length > 0) {
+    const totalChars = codeableKeys.length;
+    const isHalfway = totalChars > 0 && typedCount >= totalChars / 2;
+    const isGameFinished = totalChars > 0 && typedCount === totalChars;
+
+    if (isGameFinished && !finishedSentRef.current) {
       setIsFinished(true);
+      // Send finished game data to API
+      fetch('/api/game-stats', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ gameType, isFinished: true, isHalfway: isHalfway }),
+      }).then(response => response.json()).then(data => {
+        console.log('Finished game stats sent:', data);
+      }).catch(error => {
+        console.error('Error sending finished game stats:', error);
+      });
+      finishedSentRef.current = true;
     }
-  }, [typedCount, codeableKeys.length]);
+
+    if (isHalfway && !halfwaySentRef.current) {
+      // Send halfway game data to API
+       fetch('/api/game-stats', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ gameType, isFinished: isGameFinished, isHalfway: true }),
+      }).then(response => response.json()).then(data => {
+        console.log('Halfway game stats sent:', data);
+      }).catch(error => {
+        console.error('Error sending halfway game stats:', error);
+      });
+      halfwaySentRef.current = true;
+    }
+
+  }, [typedCount, codeableKeys.length, gameType]); // Add gameType to dependencies
 
   const handleReload = () => {
     if (typeof window !== "undefined") {
