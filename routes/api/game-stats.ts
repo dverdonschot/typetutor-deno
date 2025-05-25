@@ -2,7 +2,7 @@ import { Handlers } from "$fresh/server.ts";
 import gameStats from "../../utils/gameStats.ts";
 
 export const handler: Handlers = {
-  async GET(_req, _ctx) {
+  GET(_req, _ctx) {
     return new Response(JSON.stringify(gameStats), {
       headers: { "Content-Type": "application/json" },
     });
@@ -36,10 +36,16 @@ export const handler: Handlers = {
         headers: { "Content-Type": "application/json" },
       });
     } catch (error) {
-      return new Response(JSON.stringify({ success: false, error: error.message }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      });
+      const errorMessage = error instanceof Error
+        ? error.message
+        : "An unknown error occurred";
+      return new Response(
+        JSON.stringify({ success: false, error: errorMessage }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
     }
   },
 };

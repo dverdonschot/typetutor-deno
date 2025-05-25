@@ -93,10 +93,6 @@ export default function RandomSettings(
           key={keyLoggerKey}
           codeableKeys={trainingSet}
           gameType="random"
-          category={Object.keys(characterSetOptions).find((key) =>
-            characterSetOptions[key as keyof typeof characterSetOptions] ===
-              characterSet
-          ) || "All Characters"} // Use the display name as the category
         />
       </div>
 

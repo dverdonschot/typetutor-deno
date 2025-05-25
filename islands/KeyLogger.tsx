@@ -75,36 +75,43 @@ const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys, gameType }) => {
     if (isGameFinished && !finishedSentRef.current) {
       setIsFinished(true);
       // Send finished game data to API
-      fetch('/api/game-stats', {
-        method: 'POST',
+      fetch("/api/game-stats", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ gameType, isFinished: true, isHalfway: isHalfway }),
-      }).then(response => response.json()).then(data => {
-        console.log('Finished game stats sent:', data);
-      }).catch(error => {
-        console.error('Error sending finished game stats:', error);
+        body: JSON.stringify({
+          gameType,
+          isFinished: true,
+          isHalfway: isHalfway,
+        }),
+      }).then((response) => response.json()).then((data) => {
+        console.log("Finished game stats sent:", data);
+      }).catch((error) => {
+        console.error("Error sending finished game stats:", error);
       });
       finishedSentRef.current = true;
     }
 
     if (isHalfway && !halfwaySentRef.current) {
       // Send halfway game data to API
-       fetch('/api/game-stats', {
-        method: 'POST',
+      fetch("/api/game-stats", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ gameType, isFinished: isGameFinished, isHalfway: true }),
-      }).then(response => response.json()).then(data => {
-        console.log('Halfway game stats sent:', data);
-      }).catch(error => {
-        console.error('Error sending halfway game stats:', error);
+        body: JSON.stringify({
+          gameType,
+          isFinished: isGameFinished,
+          isHalfway: true,
+        }),
+      }).then((response) => response.json()).then((data) => {
+        console.log("Halfway game stats sent:", data);
+      }).catch((error) => {
+        console.error("Error sending halfway game stats:", error);
       });
       halfwaySentRef.current = true;
     }
-
   }, [typedCount, codeableKeys.length, gameType]); // Add gameType to dependencies
 
   const handleReload = () => {

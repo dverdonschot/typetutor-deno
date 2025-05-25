@@ -14,7 +14,9 @@ interface QuoteTyperModeProps {
   contentType?: "quote" | "code"; // Accept contentType prop
 }
 
-export default function QuoteTyperMode({ contentType = "other" }: QuoteTyperModeProps) { // Accept contentType and provide default
+export default function QuoteTyperMode(
+  { contentType }: QuoteTyperModeProps,
+) { // Accept contentType
   // Helper function to shuffle an array (Fisher-Yates shuffle)
   function shuffleArray<T>(array: T[]): T[] {
     const newArray = [...array]; // Create a copy
@@ -199,7 +201,6 @@ export default function QuoteTyperMode({ contentType = "other" }: QuoteTyperMode
   );
 
   const finishedSentRef = useRef(false);
-  const halfwaySentRef = useRef(false);
 
   // Effect to advance to the next quote when the current one is completed and send stats
   useEffect(() => {
@@ -208,39 +209,52 @@ export default function QuoteTyperMode({ contentType = "other" }: QuoteTyperMode
         currentQuoteIndex === allQuotes.length - 1);
 
     // Send finished stat for individual quote completion (if it's a quote game)
-    if (isComplete && selectedContentItem?.type === "quote" && !finishedSentRef.current) {
-      fetch('/api/game-stats', {
-        method: 'POST',
+    if (
+      isComplete && selectedContentItem?.type === "quote" &&
+      !finishedSentRef.current
+    ) {
+      fetch("/api/game-stats", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ gameType: contentType, category: selectedContentItem?.name, isFinished: true }), // Use name as category
-      }).then(response => response.json()).then(data => {
-        console.log('Finished quote stats sent:', data); // Keep this log for now
-      }).catch(error => {
-        console.error('Error sending finished quote stats:', error);
+        body: JSON.stringify({
+          gameType: contentType,
+          category: selectedContentItem?.name,
+          isFinished: true,
+        }), // Use name as category
+      }).then((response) => response.json()).then((data) => {
+        console.log("Finished quote stats sent:", data); // Keep this log for now
+      }).catch((error) => {
+        console.error("Error sending finished quote stats:", error);
       });
       finishedSentRef.current = true; // Mark as sent for this quote
     }
 
     // Send finished game data to API (for non-quotes or the very last quote)
-    if (isGameFinished && selectedContentItem?.type !== "quote" && !finishedSentRef.current) {
-       fetch('/api/game-stats', {
-        method: 'POST',
+    if (
+      isGameFinished && selectedContentItem?.type !== "quote" &&
+      !finishedSentRef.current
+    ) {
+      fetch("/api/game-stats", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ gameType: contentType, category: selectedContentItem?.name, isFinished: true }), // Use name as category
-      }).then(response => response.json()).then(data => {
-        console.log('Finished game stats sent:', data); // Keep this log for now
-      }).catch(error => {
-        console.error('Error sending finished game stats:', error);
+        body: JSON.stringify({
+          gameType: contentType,
+          category: selectedContentItem?.name,
+          isFinished: true,
+        }), // Use name as category
+      }).then((response) => response.json()).then((data) => {
+        console.log("Finished game stats sent:", data); // Keep this log for now
+      }).catch((error) => {
+        console.error("Error sending finished game stats:", error);
       });
       finishedSentRef.current = true;
     }
 
     // Removed halfway game data sending logic
-
 
     // Logic to advance to the next quote
     if (
@@ -260,7 +274,6 @@ export default function QuoteTyperMode({ contentType = "other" }: QuoteTyperMode
 
       return () => clearTimeout(timer);
     }
-
   }, [
     isComplete,
     currentQuoteIndex,
@@ -268,7 +281,7 @@ export default function QuoteTyperMode({ contentType = "other" }: QuoteTyperMode
     selectedContentItem,
     resetInput,
     targetText, // Add targetText to dependencies
-    contentType // Add contentType to dependencies
+    contentType, // Add contentType to dependencies
   ]); // Dependencies
 
   // Handler for the ContentSelector change
