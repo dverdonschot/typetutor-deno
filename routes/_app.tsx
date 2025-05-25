@@ -1,4 +1,8 @@
-import { type PageProps, type Handlers, type FreshContext } from "$fresh/server.ts";
+import {
+  type FreshContext,
+  type Handlers,
+  type PageProps,
+} from "$fresh/server.ts";
 
 export default function App({ Component }: PageProps) {
   return (
