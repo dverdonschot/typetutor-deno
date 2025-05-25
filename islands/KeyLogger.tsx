@@ -71,7 +71,7 @@ const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys }) => {
 
   const handleReload = () => {
     if (typeof window !== "undefined") {
-      window.location.reload();
+      globalThis.location.reload();
     }
   };
 
