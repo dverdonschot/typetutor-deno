@@ -156,6 +156,33 @@ export default function HamburgerMenu(props: HamburgerMenuProps) {
             </svg>
             Custom Text
           </a>
+          <a
+            href="/stats"
+            class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
+            role="menuitem"
+          >
+            <svg
+              class="w-5 h-5 mr-3 text-tt-lightblue"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15.045 4.29A9.001 9.001 0 0120.707 9H15.045V4.29z"
+              />
+            </svg>
+            Stats
+          </a>
         </div>
       </div>
     </div>
