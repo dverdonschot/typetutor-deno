@@ -65,11 +65,9 @@ const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys, gameType }) => {
   }, [isInputActive]);
 
   const finishedSentRef = useRef(false);
-  const halfwaySentRef = useRef(false);
 
   useEffect(() => {
     const totalChars = codeableKeys.length;
-    const isHalfway = totalChars > 0 && typedCount >= totalChars / 2;
     const isGameFinished = totalChars > 0 && typedCount === totalChars;
 
     if (isGameFinished && !finishedSentRef.current) {
@@ -83,7 +81,6 @@ const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys, gameType }) => {
         body: JSON.stringify({
           gameType,
           isFinished: true,
-          isHalfway: isHalfway,
         }),
       }).then((response) => response.json()).then((data) => {
         console.log("Finished game stats sent:", data);
@@ -91,26 +88,6 @@ const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys, gameType }) => {
         console.error("Error sending finished game stats:", error);
       });
       finishedSentRef.current = true;
-    }
-
-    if (isHalfway && !halfwaySentRef.current) {
-      // Send halfway game data to API
-      fetch("/api/game-stats", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          gameType,
-          isFinished: isGameFinished,
-          isHalfway: true,
-        }),
-      }).then((response) => response.json()).then((data) => {
-        console.log("Halfway game stats sent:", data);
-      }).catch((error) => {
-        console.error("Error sending halfway game stats:", error);
-      });
-      halfwaySentRef.current = true;
     }
   }, [typedCount, codeableKeys.length, gameType]); // Add gameType to dependencies
 

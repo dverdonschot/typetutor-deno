@@ -254,8 +254,6 @@ export default function QuoteTyperMode(
       finishedSentRef.current = true;
     }
 
-    // Removed halfway game data sending logic
-
     // Logic to advance to the next quote
     if (
       isComplete && selectedContentItem?.type === "quote" &&

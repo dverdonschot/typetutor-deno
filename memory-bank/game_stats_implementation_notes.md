@@ -2,7 +2,9 @@
 
 **Date:** 2025-05-25
 
-**Goal:** Implement in-memory tracking and nested visualization of game statistics (finished and halfway) for different game types (alphabet, quotes, code, random).
+**Goal:** Implement in-memory tracking and nested visualization of game statistics (finished) for different game types (alphabet, quotes, code, random).
+
+**Update:** The implementation plan has been revised to only track and visualize finished game statistics. 
 
 **Files Modified:**
 - `utils/gameStats.ts`: Updated data structure to support nested categories.
