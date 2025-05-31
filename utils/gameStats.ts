@@ -89,7 +89,11 @@ export async function getGameStats(): Promise<GameStats> {
 }
 
 // Update stats
-export async function updateGameStats(gameType: string, category?: string, isFinished?: boolean): Promise<GameStats> {
+export async function updateGameStats(
+  gameType: string,
+  category?: string,
+  isFinished?: boolean,
+): Promise<GameStats> {
   await initKv(); // Ensure KV is initialized before loading/saving
   const currentStats = await loadStats();
 

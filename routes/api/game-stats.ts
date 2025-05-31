@@ -12,11 +12,18 @@ export const handler: Handlers = {
   async POST(req) {
     try {
       const { gameType, category, isFinished } = await req.json();
-      const updatedStats = await updateGameStats(gameType, category, isFinished);
+      const updatedStats = await updateGameStats(
+        gameType,
+        category,
+        isFinished,
+      );
 
-      return new Response(JSON.stringify({ success: true, gameStats: updatedStats }), {
-        headers: { "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ success: true, gameStats: updatedStats }),
+        {
+          headers: { "Content-Type": "application/json" },
+        },
+      );
     } catch (error) {
       const errorMessage = error instanceof Error
         ? error.message

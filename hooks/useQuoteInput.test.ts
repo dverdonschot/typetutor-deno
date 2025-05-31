@@ -1,10 +1,10 @@
 import { assertEquals } from "https://deno.land/std@0.224.0/assert/mod.ts";
-import { renderHook, act } from "npm:@testing-library/preact@^11.0.0/hooks";
+import { act, renderHook } from "npm:@testing-library/preact@^11.0.0/hooks";
 import { useQuoteInput } from "./useQuoteInput.ts";
 import { DisplayCharState } from "../components/QuoteTextDisplay.tsx"; // Import the state interface
 
 // Helper function to create initial char states
-const createInitialCharStates = (text: string): DisplayCharState[] => {
+const _createInitialCharStates = (text: string): DisplayCharState[] => {
   return text.split("").map((char) => ({
     original: char,
     typed: null,
@@ -158,6 +158,8 @@ Deno.test("initializeCharStates should create correct initial states", () => {
   // For now, assuming it's not exported and testing via initial state
   const { result } = renderHook(() => useQuoteInput(text));
   // Compare the charStates from the initial render
-  const initialStatesWithoutCurrent = result.current.charStates.map(state => ({...state, state: 'none'})); // Ignore 'current' state for comparison
+  const initialStatesWithoutCurrent = result.current.charStates.map(
+    (state: DisplayCharState) => ({ ...state, state: "none" }), // Add type annotation for state
+  ); // Ignore 'current' state for comparison
   assertEquals(initialStatesWithoutCurrent, expected);
 });
