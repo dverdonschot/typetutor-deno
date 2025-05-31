@@ -51,3 +51,6 @@ jobs:
           project: "typetutor"
           entrypoint: "main.ts"
           root: "."
+        env:
+          USE_DENO_KV: "true"
+          # DENO_KV_PATH: "./data/kv.db" # Optional: configure KV path if needed for your Deno Deploy setup. Deno Deploy provides a managed KV store.

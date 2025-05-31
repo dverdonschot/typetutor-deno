@@ -265,9 +265,7 @@ export default function QuoteTyperMode(
         setTargetText(allQuotes[nextQuoteIndex]);
         resetInput();
         setStartTime(Date.now());
-        // Reset finishedSentRef for the new quote
         finishedSentRef.current = false;
-        // Removed halfwaySentRef reset
       }, 6000);
 
       return () => clearTimeout(timer);

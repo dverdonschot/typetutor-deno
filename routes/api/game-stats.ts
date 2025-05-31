@@ -1,9 +1,10 @@
 import { Handlers } from "$fresh/server.ts";
-import gameStats from "../../utils/gameStats.ts";
+import { getGameStats, updateGameStats } from "../../utils/gameStats.ts";
 
 export const handler: Handlers = {
-  GET(_req, _ctx) {
-    return new Response(JSON.stringify(gameStats), {
+  async GET(_req, _ctx) {
+    const stats = await getGameStats();
+    return new Response(JSON.stringify(stats), {
       headers: { "Content-Type": "application/json" },
     });
   },
@@ -11,28 +12,9 @@ export const handler: Handlers = {
   async POST(req) {
     try {
       const { gameType, category, isFinished } = await req.json();
+      const updatedStats = await updateGameStats(gameType, category, isFinished);
 
-      if (!gameStats[gameType]) {
-        gameStats[gameType] = { finished: 0 };
-      }
-
-      if (category) {
-        if (!gameStats[gameType].categories) {
-          gameStats[gameType].categories = {};
-        }
-        if (!gameStats[gameType].categories[category]) {
-          gameStats[gameType].categories[category] = { finished: 0 };
-        }
-        if (isFinished) {
-          gameStats[gameType].categories[category].finished++;
-        }
-      } else {
-        if (isFinished) {
-          gameStats[gameType].finished++;
-        }
-      }
-
-      return new Response(JSON.stringify({ success: true, gameStats }), {
+      return new Response(JSON.stringify({ success: true, gameStats: updatedStats }), {
         headers: { "Content-Type": "application/json" },
       });
     } catch (error) {
