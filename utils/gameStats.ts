@@ -13,30 +13,25 @@ interface GameStats {
 }
 
 // Determine if we are using Deno KV based on environment variable
-let useDenoKv = Deno.env.get("USE_DENO_KV") === "true";
-const kvPath = Deno.env.get("DENO_KV_PATH");
-
 let kv: Deno.Kv | undefined;
-let inMemoryStats: GameStats = {};
 
-// Initialize Deno KV if enabled
+// Initialize Deno KV
 async function initKv() {
-  if (useDenoKv) {
+  if (!kv) {
     try {
-      kv = await Deno.openKv(kvPath ? join(Deno.cwd(), kvPath) : undefined);
+      kv = await Deno.openKv();
       console.log("Deno KV initialized.");
     } catch (error) {
       console.error("Failed to initialize Deno KV:", error);
-      // Fallback to in-memory storage if KV fails
-      useDenoKv = false;
-      console.log("Falling back to in-memory storage.");
+      // Log error but don't prevent the application from running
     }
   }
 }
 
-// Load stats from Deno KV or return in-memory stats
+// Load stats from Deno KV
 async function loadStats(): Promise<GameStats> {
-  if (useDenoKv && kv) {
+  await initKv(); // Ensure KV is initialized
+  if (kv) {
     try {
       const entries = kv.list({ prefix: ["gameStats"] });
       const stats: GameStats = {};
@@ -47,19 +42,17 @@ async function loadStats(): Promise<GameStats> {
       return stats;
     } catch (error) {
       console.error("Failed to load stats from Deno KV:", error);
-      // Fallback to in-memory storage if loading fails
-      useDenoKv = false;
-      console.log("Falling back to in-memory storage.");
-      return inMemoryStats;
+      return {}; // Return empty stats on failure
     }
   } else {
-    return inMemoryStats;
+    return {}; // Return empty stats if KV is not initialized
   }
 }
 
-// Save stats to Deno KV or update in-memory stats
+// Save stats to Deno KV
 async function saveStats(stats: GameStats): Promise<void> {
-  if (useDenoKv && kv) {
+  await initKv(); // Ensure KV is initialized
+  if (kv) {
     try {
       const atomic = kv.atomic();
       // Clear existing stats before writing new ones (simple approach, can be optimized)
@@ -74,17 +67,13 @@ async function saveStats(stats: GameStats): Promise<void> {
       await atomic.commit();
     } catch (error) {
       console.error("Failed to save stats to Deno KV:", error);
-      // If saving to KV fails, log the error but don't necessarily switch back to in-memory
-      // as the in-memory state might be inconsistent with the failed KV write.
+      // Log the error but don't prevent the application from running
     }
-  } else {
-    inMemoryStats = stats;
   }
 }
 
 // Get current stats
 export async function getGameStats(): Promise<GameStats> {
-  await initKv(); // Ensure KV is initialized before loading
   return loadStats();
 }
 
@@ -94,7 +83,6 @@ export async function updateGameStats(
   category?: string,
   isFinished?: boolean,
 ): Promise<GameStats> {
-  await initKv(); // Ensure KV is initialized before loading/saving
   const currentStats = await loadStats();
 
   if (!currentStats[gameType]) {
@@ -120,6 +108,3 @@ export async function updateGameStats(
   await saveStats(currentStats);
   return currentStats;
 }
-
-// Export the initialization function if needed elsewhere
-export { initKv };
