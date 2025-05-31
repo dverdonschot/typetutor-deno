@@ -1,5 +1,3 @@
-import { join } from "https://deno.land/std/path/mod.ts";
-
 // Define the interface for game statistics
 interface GameStats {
   [gameType: string]: {
@@ -73,7 +71,7 @@ async function saveStats(stats: GameStats): Promise<void> {
 }
 
 // Get current stats
-export async function getGameStats(): Promise<GameStats> {
+export function getGameStats(): Promise<GameStats> {
   return loadStats();
 }
 
