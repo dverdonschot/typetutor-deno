@@ -13,7 +13,8 @@ export function Layout(
   { children, descriptionText, currentPath }: LayoutProps,
 ) {
   return (
-    <div class="flex flex-col gap-6 flex-grow min-h-screen"> {/* Removed m-4 class */}
+    <div class="flex flex-col gap-6 flex-grow min-h-screen">
+      {/* Removed m-4 class */}
       {/* Header Section */}
       <header class="flex flex-col sm:flex-row justify-between items-center p-4 bg-white rounded-lg shadow">
         <div class="order-1 w-full sm:w-auto flex justify-center">

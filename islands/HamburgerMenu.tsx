@@ -183,7 +183,7 @@ export default function HamburgerMenu(props: HamburgerMenuProps) {
             </svg>
             Stats
           </a>
-<a
+          <a
             href="/trigraphs"
             class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
             role="menuitem"
@@ -197,7 +197,15 @@ export default function HamburgerMenu(props: HamburgerMenuProps) {
               stroke-width="2"
             >
               {/* Simple text "tri" as an icon placeholder */}
-              <text x="2" y="18" font-family="monospace" font-size="10px" fill="currentColor">tri</text>
+              <text
+                x="2"
+                y="18"
+                font-family="monospace"
+                font-size="10px"
+                fill="currentColor"
+              >
+                tri
+              </text>
             </svg>
             Trigraphs
           </a>

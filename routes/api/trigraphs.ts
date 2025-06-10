@@ -15,10 +15,13 @@ export const handler: Handlers = {
       });
     } catch (error) {
       console.error("Error reading trigraphs directory:", error);
-      return new Response(JSON.stringify({ error: "Failed to read trigraphs directory." }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ error: "Failed to read trigraphs directory." }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
     }
   },
 };

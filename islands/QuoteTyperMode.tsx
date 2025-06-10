@@ -335,7 +335,8 @@ export default function QuoteTyperMode(
   }, [isLoading, error, targetText, initialLoadComplete]); // Dependencies
 
   return (
-    <> {/* Use a fragment to avoid an extra div */}
+    <>
+      {/* Use a fragment to avoid an extra div */}
       {isLoading && <div class="text-center p-4">Loading content...</div>}
       {error && (
         <div class="text-center p-4 text-red-600 bg-red-100 rounded-md">

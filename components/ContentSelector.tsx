@@ -25,11 +25,11 @@ const groupContentItems = (items: ContentItem[]) => {
       }
       grouped[groupName].push(item);
     } else if (item.type === "trigraph") { // Handle 'trigraph' type
-       const groupName = "Trigraphs";
-       if (!grouped[groupName]) {
-         grouped[groupName] = [];
-       }
-       grouped[groupName].push(item);
+      const groupName = "Trigraphs";
+      if (!grouped[groupName]) {
+        grouped[groupName] = [];
+      }
+      grouped[groupName].push(item);
     }
   });
 
@@ -48,7 +48,8 @@ const groupContentItems = (items: ContentItem[]) => {
 };
 
 export default function ContentSelector(
-  { contentItems, selectedId, onSelect, contentType, hideLabel }: ContentSelectorProps, // Destructure hideLabel
+  { contentItems, selectedId, onSelect, contentType, hideLabel }:
+    ContentSelectorProps, // Destructure hideLabel
 ) {
   // Filter content items based on the contentType prop
   const filteredItems = useMemo(() => {

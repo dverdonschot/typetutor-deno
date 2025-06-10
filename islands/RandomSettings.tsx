@@ -50,7 +50,7 @@ export default function RandomSettings(
     "Top Row": "QWERTYUIOP[]{}qwertyuiop|\\",
     "Bottom Row": "ZXCVBNM,./zxcvbnm<>?",
     "Index Fingers": "4567$%^&rtRTYUyuFGfgHJhjVBvbNMnm",
-    "Middle Fingers":  "3#eEdDcC8*IKik<,",
+    "Middle Fingers": "3#eEdDcC8*IKik<,",
     "Ring Fingers": "2@wWsSxX9(OolL>.",
     "Pinky Fingers": "1!qQaAzZ0)Pp;:/'\"/?|\\[]){}",
   };

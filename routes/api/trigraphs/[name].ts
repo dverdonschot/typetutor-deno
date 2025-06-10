@@ -9,16 +9,19 @@ export const handler: Handlers = {
     if (!name) {
       // This case should ideally be handled by a separate route or return an error
       // For now, we'll return an error as this route is for specific trigraphs
-       return new Response(JSON.stringify({ error: "Trigraph name not provided." }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ error: "Trigraph name not provided." }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
     }
 
     const filePath = `./static/content/trigraphs/${name}.txt`;
     try {
       const content = await Deno.readTextFile(filePath);
-      const words = content.split(/\s+/).filter(word => word.length > 0);
+      const words = content.split(/\s+/).filter((word) => word.length > 0);
 
       // Shuffle and select words
       for (let i = words.length - 1; i > 0; i--) {
@@ -33,10 +36,13 @@ export const handler: Handlers = {
       });
     } catch (error) {
       console.error(`Error reading trigraph file ${filePath}:`, error);
-      return new Response(JSON.stringify({ error: `Failed to read trigraph file ${name}.` }), {
-        status: 404,
-        headers: { "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ error: `Failed to read trigraph file ${name}.` }),
+        {
+          status: 404,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
     }
   },
 };

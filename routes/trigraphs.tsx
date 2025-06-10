@@ -8,7 +8,5 @@ export const handler: Handlers = {
 };
 
 export default function TrigraphsPage() {
-  return (
-    <TrigraphsTyperMode />
-  );
+  return <TrigraphsTyperMode />;
 }

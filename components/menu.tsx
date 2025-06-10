@@ -146,7 +146,15 @@ export function Menu() {
               stroke-width="2"
             >
               {/* Simple text "tri" as an icon placeholder */}
-              <text x="2" y="18" font-family="monospace" font-size="10px" fill="currentColor">tri</text>
+              <text
+                x="2"
+                y="18"
+                font-family="monospace"
+                font-size="10px"
+                fill="currentColor"
+              >
+                tri
+              </text>
             </svg>
             Trigraphs
           </a>
