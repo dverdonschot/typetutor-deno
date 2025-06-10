@@ -286,7 +286,7 @@ const TrigraphsTyperMode: FC = () => {
                       selectedId={selectedTrigraph}
                       onSelect={handleSelectTrigraph}
                       contentType="trigraph" // Specify content type
-                      hideLabel={true} // Hide the "Select Content:" label
+                      hideLabel // Hide the "Select Content:" label
                     />
                   )}
                 </div>
@@ -342,6 +342,7 @@ const TrigraphsTyperMode: FC = () => {
                 <div class="text-center mt-4">
                   {/* Keep text-center and margin-top for spacing */}
                   <button
+                    type="button"
                     onClick={resetInputAndMaybeRandom}
                     class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
                   >
