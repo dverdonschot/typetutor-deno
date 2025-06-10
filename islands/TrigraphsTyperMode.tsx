@@ -1,4 +1,3 @@
-import { useSignal } from "@preact/signals";
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import { FunctionComponent as FC } from "preact";
 
@@ -13,7 +12,6 @@ import { Layout } from "../components/Layout.tsx"; // Import Layout component as
 // Import content fetching logic
 import {
   fetchAvailableTrigraphs,
-  FetchResult,
   fetchTrigraphWords,
 } from "../functions/contentFetcher.ts";
 
@@ -53,7 +51,7 @@ const TrigraphsTyperMode: FC = () => {
   // Effect to set the current path on the client side
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setCurrentPath(window.location.pathname);
+      setCurrentPath(globalThis.location.pathname);
     }
   }, []); // Empty dependency array ensures this runs once on mount
 

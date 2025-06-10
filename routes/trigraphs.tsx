@@ -1,4 +1,4 @@
-import { Handlers, PageProps } from "$fresh/server.ts";
+import { Handlers } from "$fresh/server.ts";
 import TrigraphsTyperMode from "../islands/TrigraphsTyperMode.tsx";
 
 export const handler: Handlers = {
