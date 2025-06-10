@@ -45,7 +45,14 @@ export default function RandomSettings(
     "Uppercase Letters": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
     "Numbers": "1234567890",
     "Numpad": "1234567890/*-+",
-    "Special Characters": "*&-+;:./,~][)(}{|`!@$#%^",
+    "Special Characters": "*&-+;:./,~][)(}{|`!@$#%^\\_",
+    "Home Row": "ASDFGHJKL;asdfghjkl:",
+    "Top Row": "QWERTYUIOP[]{}qwertyuiop|\\",
+    "Bottom Row": "ZXCVBNM,./zxcvbnm<>?",
+    "Index Fingers": "4567$%^&rtRTYUyuFGfgHJhjVBvbNMnm",
+    "Middle Fingers":  "3#eEdDcC8*IKik<,",
+    "Ring Fingers": "2@wWsSxX9(OolL>.",
+    "Pinky Fingers": "1!qQaAzZ0)Pp;:/'\"/?|\\[]){}",
   };
 
   // Generate training set when component mounts or when values change

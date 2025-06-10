@@ -1,7 +1,7 @@
 export interface ContentItem {
   id: string;
   name: string;
-  type: "quote" | "code";
+  type: "quote" | "code" | "trigraph"; // Add 'trigraph' to the union type
   sourceUrl: string;
   language?: string;
 }

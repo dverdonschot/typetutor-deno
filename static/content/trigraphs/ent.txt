@@ -1,0 +1,36 @@
+content
+present
+ absent
+ client
+ confident
+ dependent
+ different
+ efficient
+ excellent
+ frequent
+ impatient
+ independent
+ innocent
+ intelligent
+ patient
+ permanent
+ persistent
+ pleasant
+ reluctant
+ silent
+ sufficient
+ urgent
+ violent
+ apparent
+ consistent
+ convenient
+ equivalent
+ evident
+ important
+ magnificent
+ prominent
+ reluctant
+ significant
+ transparent
+ vibrant
+ eloquent

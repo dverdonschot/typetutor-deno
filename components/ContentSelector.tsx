@@ -1,11 +1,12 @@
-import { ContentItem } from "../config/typingContent.ts";
+import { ContentItem } from "../config/typingContent.ts"; // Assuming ContentItem type needs to include 'trigraph'
 import { useMemo } from "preact/hooks";
 
 interface ContentSelectorProps {
   contentItems: ContentItem[];
   selectedId: string | null;
   onSelect: (id: string) => void;
-  contentType?: "quote" | "code";
+  contentType?: "quote" | "code" | "trigraph"; // Add 'trigraph' to the union type
+  hideLabel?: boolean; // Add optional hideLabel prop
 }
 
 const groupContentItems = (items: ContentItem[]) => {
@@ -23,6 +24,12 @@ const groupContentItems = (items: ContentItem[]) => {
         grouped[groupName] = [];
       }
       grouped[groupName].push(item);
+    } else if (item.type === "trigraph") { // Handle 'trigraph' type
+       const groupName = "Trigraphs";
+       if (!grouped[groupName]) {
+         grouped[groupName] = [];
+       }
+       grouped[groupName].push(item);
     }
   });
 
@@ -31,14 +38,17 @@ const groupContentItems = (items: ContentItem[]) => {
     .filter(([, items]) => items.length > 0)
     .sort(([groupA], [groupB]) => {
       // Ensure "Quotes" comes first, then sort languages alphabetically
+      // Ensure "Quotes" comes first, then "Trigraphs", then sort others alphabetically
       if (groupA === "Quotes") return -1;
       if (groupB === "Quotes") return 1;
+      if (groupA === "Trigraphs") return -1;
+      if (groupB === "Trigraphs") return 1;
       return groupA.localeCompare(groupB);
     });
 };
 
 export default function ContentSelector(
-  { contentItems, selectedId, onSelect, contentType }: ContentSelectorProps,
+  { contentItems, selectedId, onSelect, contentType, hideLabel }: ContentSelectorProps, // Destructure hideLabel
 ) {
   // Filter content items based on the contentType prop
   const filteredItems = useMemo(() => {
@@ -60,12 +70,14 @@ export default function ContentSelector(
 
   return (
     <div class="mb-4">
-      <label
-        htmlFor="content-selector"
-        class="block text-sm font-medium text-gray-700 mb-1"
-      >
-        Select Content:
-      </label>
+      {!hideLabel && ( // Conditionally render the label
+        <label
+          htmlFor="content-selector"
+          class="block text-sm font-medium text-gray-700 mb-1"
+        >
+          Select Content:
+        </label>
+      )}
       <select
         id="content-selector"
         value={selectedId || ""}
