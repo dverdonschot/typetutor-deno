@@ -24,7 +24,8 @@ export default function GameScoreDisplayIsland(
 
       <div class="text-center mt-4">
         {onPracticeAgain && (
-          <button type="button"
+          <button
+            type="button"
             onClick={onPracticeAgain}
             class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
           >
@@ -32,7 +33,8 @@ export default function GameScoreDisplayIsland(
           </button>
         )}
         {onNextGame && (
-          <button type="button"
+          <button
+            type="button"
             onClick={onNextGame}
             class="ml-2 px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600"
           >
