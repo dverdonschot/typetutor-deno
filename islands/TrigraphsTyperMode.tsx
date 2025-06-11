@@ -4,7 +4,7 @@ import { FunctionComponent as FC } from "preact";
 // Import reusable components and hooks
 import ContentSelector from "../components/ContentSelector.tsx"; // Import ContentSelector
 import QuoteTextDisplay from "../components/QuoteTextDisplay.tsx";
-import { TypingMetricsDisplay } from "../components/TypingMetricsDisplay.tsx";
+//import { TypingMetricsDisplay } from "../components/TypingMetricsDisplay.tsx";
 import { useQuoteInput } from "../hooks/useQuoteInput.ts"; // Assuming this hook is adaptable
 import { useTypingMetrics } from "../hooks/useTypingMetrics.ts"; // Assuming this hook is adaptable
 import { Layout } from "../components/Layout.tsx"; // Import Layout component as named import

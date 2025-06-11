@@ -1,10 +1,9 @@
 import { FunctionComponent as FC } from "preact";
-import { useEffect, useRef, useState } from "preact/hooks"; // Import useRef and useEffect
+import { useEffect, useRef, useState } from "preact/hooks"; 
 import { TrainingChar } from "../functions/randomTrainingSet.ts";
 import RenderedQuoteResult from "./RenderedQuoteResult.tsx";
 import { useMobileInput } from "../hooks/useMobileInput.ts";
 import { useTypingMetrics } from "../hooks/useTypingMetrics.ts";
-import { TypingMetricsDisplay } from "../components/TypingMetricsDisplay.tsx";
 import GameScoreDisplayIsland from "./GameScoreDisplayIsland.tsx";
 import { recordGameStats } from "../utils/recordGameStats.ts";
 
@@ -90,12 +89,6 @@ const KeyLogger: FC<KeyLoggerProps> = (
       finishedSentRef.current = true;
     }
   }, [typedCount, codeableKeys.length, gameType]); // Add gameType to dependencies
-
-  const handleReload = () => {
-    if (typeof window !== "undefined") {
-      globalThis.location.reload();
-    }
-  };
 
   return (
     <div onClick={focusInput} style={{ cursor: "pointer" }}>
