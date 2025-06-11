@@ -4,7 +4,9 @@ interface GameStatsPayload {
   isFinished: boolean;
 }
 
-export async function recordGameStats(payload: GameStatsPayload): Promise<void> {
+export async function recordGameStats(
+  payload: GameStatsPayload,
+): Promise<void> {
   try {
     const response = await fetch("/api/game-stats", {
       method: "POST",

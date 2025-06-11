@@ -10,7 +10,8 @@ interface GameScoreDisplayIslandProps {
 }
 
 export default function GameScoreDisplayIsland(
-  { metrics, isComplete, onPracticeAgain, onNextGame, gameType }: GameScoreDisplayIslandProps,
+  { metrics, isComplete, onPracticeAgain, onNextGame, gameType }:
+    GameScoreDisplayIslandProps,
 ) {
   if (!isComplete) {
     return null;
@@ -35,7 +36,10 @@ export default function GameScoreDisplayIsland(
             onClick={onNextGame}
             class="ml-2 px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600"
           >
-            {gameType === "quote" && metrics.isComplete && metrics.totalTimeSeconds > 0 ? "Next Quote" : "Next Random"}
+            {gameType === "quote" && metrics.isComplete &&
+                metrics.totalTimeSeconds > 0
+              ? "Next Quote"
+              : "Next Random"}
           </button>
         )}
       </div>

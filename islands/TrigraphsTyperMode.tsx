@@ -140,7 +140,7 @@ const TrigraphsTyperMode: FC = () => {
       setHasCompleted(true);
     }
   }, [isComplete]); // Depend on isComplete from the hook
-// Effect to send game stats when the game is completed
+  // Effect to send game stats when the game is completed
   useEffect(() => {
     if (hasCompleted && selectedTrigraph) {
       recordGameStats({

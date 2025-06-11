@@ -48,10 +48,13 @@ export default function StatsPage() {
                             category,
                             finished: data.finished,
                           }))
-                          .sort((a, b) => b.finished - a.finished) // Sort by finished count descending
+                          .sort((a, b) =>
+                            b.finished - a.finished
+                          ) // Sort by finished count descending
                           .map(({ category, finished }) => (
                             <div key={category}>
-                              <p>{category}: {finished}</p> {/* Compact format */}
+                              <p>{category}: {finished}</p>{" "}
+                              {/* Compact format */}
                             </div>
                           ))
                       )
@@ -61,7 +64,8 @@ export default function StatsPage() {
                         ) => (
                           <div key={category}>
                             <h4>
-                              {category.charAt(0).toUpperCase() + category.slice(1)}
+                              {category.charAt(0).toUpperCase() +
+                                category.slice(1)}
                             </h4>
                             <p>
                               Finished:{" "}
