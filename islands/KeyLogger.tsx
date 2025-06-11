@@ -1,5 +1,5 @@
 import { FunctionComponent as FC } from "preact";
-import { useEffect, useRef, useState } from "preact/hooks"; 
+import { useEffect, useRef, useState } from "preact/hooks";
 import { TrainingChar } from "../functions/randomTrainingSet.ts";
 import RenderedQuoteResult from "./RenderedQuoteResult.tsx";
 import { useMobileInput } from "../hooks/useMobileInput.ts";
