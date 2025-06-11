@@ -41,19 +41,39 @@ export default function StatsPage() {
                   Object.keys(stats[gameType].categories).length > 0 && (
                   <div style={{ marginLeft: "20px" }}>
                     <h3>Categories:</h3>
-                    {Object.keys(stats[gameType].categories!).map((
-                      category,
-                    ) => (
-                      <div key={category}>
-                        <h4>
-                          {category.charAt(0).toUpperCase() + category.slice(1)}
-                        </h4>
-                        <p>
-                          Finished:{" "}
-                          {stats[gameType].categories![category].finished}
-                        </p>
-                      </div>
-                    ))}
+                    {gameType === "Trigraphs"
+                      ? ( // Special handling for Trigraphs
+                        Object.entries(stats[gameType].categories!)
+                          .map(([category, data]) => ({
+                            category,
+                            finished: data.finished,
+                          }))
+                          .sort((a, b) =>
+                            b.finished - a.finished
+                          ) // Sort by finished count descending
+                          .map(({ category, finished }) => (
+                            <div key={category}>
+                              <p>{category}: {finished}</p>{" "}
+                              {/* Compact format */}
+                            </div>
+                          ))
+                      )
+                      : ( // Existing handling for other categories (like Quotes)
+                        Object.keys(stats[gameType].categories!).map((
+                          category,
+                        ) => (
+                          <div key={category}>
+                            <h4>
+                              {category.charAt(0).toUpperCase() +
+                                category.slice(1)}
+                            </h4>
+                            <p>
+                              Finished:{" "}
+                              {stats[gameType].categories![category].finished}
+                            </p>
+                          </div>
+                        ))
+                      )}
                   </div>
                 )}
               </div>

@@ -1,17 +1,22 @@
 import { FunctionComponent as FC } from "preact";
-import { useEffect, useRef, useState } from "preact/hooks"; // Import useRef and useEffect
+import { useEffect, useRef, useState } from "preact/hooks";
 import { TrainingChar } from "../functions/randomTrainingSet.ts";
 import RenderedQuoteResult from "./RenderedQuoteResult.tsx";
 import { useMobileInput } from "../hooks/useMobileInput.ts";
 import { useTypingMetrics } from "../hooks/useTypingMetrics.ts";
-import { TypingMetricsDisplay } from "../components/TypingMetricsDisplay.tsx";
+import GameScoreDisplayIsland from "./GameScoreDisplayIsland.tsx";
+import { recordGameStats } from "../utils/recordGameStats.ts";
 
 interface KeyLoggerProps {
   codeableKeys: TrainingChar[];
   gameType: string;
+  onPracticeAgain?: () => void; // Add callback prop
+  onNextGame?: () => void; // Add callback prop
 }
 
-const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys, gameType }) => {
+const KeyLogger: FC<KeyLoggerProps> = (
+  { codeableKeys, gameType, onPracticeAgain, onNextGame }, // Destructure new props
+) => {
   const [startTime] = useState<number>(Date.now());
   const inputRef = useRef<HTMLInputElement>(null);
   const [isInputActive, setIsInputActive] = useState(false);
@@ -22,7 +27,7 @@ const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys, gameType }) => {
     backspaceCount,
     inputProps,
   } = useMobileInput(codeableKeys);
-  const [isFinished, setIsFinished] = useState(false);
+  const [isComplete, setIsComplete] = useState(false); // Rename state to isComplete
   const metrics = useTypingMetrics(
     codeableKeys,
     typedCount,
@@ -71,31 +76,19 @@ const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys, gameType }) => {
     const isGameFinished = totalChars > 0 && typedCount === totalChars;
 
     if (isGameFinished && !finishedSentRef.current) {
-      setIsFinished(true);
+      setIsComplete(true); // Use setIsComplete
       // Send finished game data to API
-      fetch("/api/game-stats", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          gameType,
-          isFinished: true,
-        }),
-      }).then((response) => response.json()).then((data) => {
-        console.log("Finished game stats sent:", data);
+      recordGameStats({
+        gameType,
+        isFinished: true,
+      }).then(() => {
+        console.log("Finished game stats sent");
       }).catch((error) => {
         console.error("Error sending finished game stats:", error);
       });
       finishedSentRef.current = true;
     }
   }, [typedCount, codeableKeys.length, gameType]); // Add gameType to dependencies
-
-  const handleReload = () => {
-    if (typeof window !== "undefined") {
-      globalThis.location.reload();
-    }
-  };
 
   return (
     <div onClick={focusInput} style={{ cursor: "pointer" }}>
@@ -107,20 +100,14 @@ const KeyLogger: FC<KeyLoggerProps> = ({ codeableKeys, gameType }) => {
         onFocus={() => setIsInputActive(true)}
         onBlur={() => setIsInputActive(false)}
       />
-      {metrics.isComplete && (
-        <div class="mt-8 p-4 bg-tt-lightblue rounded-lg text-white">
-          <TypingMetricsDisplay metrics={metrics} />
-          {isFinished && (
-            <button
-              type="button"
-              onClick={handleReload}
-              class="mt-4 px-4 py-2 bg-tt-darkblue text-white rounded"
-            >
-              Reload Game
-            </button>
-          )}
-        </div>
-      )}
+      {/* Render GameScoreDisplayIsland */}
+      <GameScoreDisplayIsland
+        metrics={metrics}
+        isComplete={isComplete} // Use isComplete state
+        onPracticeAgain={onPracticeAgain} // Pass callback prop
+        onNextGame={onNextGame} // Pass callback prop
+        gameType={gameType} // Pass gameType prop
+      />
     </div>
   );
 };

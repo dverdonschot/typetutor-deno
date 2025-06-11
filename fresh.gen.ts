@@ -14,6 +14,7 @@ import * as $index from "./routes/index.tsx";
 import * as $quotes from "./routes/quotes.tsx";
 import * as $stats from "./routes/stats.tsx";
 import * as $trigraphs from "./routes/trigraphs.tsx";
+import * as $GameScoreDisplayIsland from "./islands/GameScoreDisplayIsland.tsx";
 import * as $HamburgerMenu from "./islands/HamburgerMenu.tsx";
 import * as $KeyLogger from "./islands/KeyLogger.tsx";
 import * as $QuoteTyperMode from "./islands/QuoteTyperMode.tsx";
@@ -39,6 +40,7 @@ const manifest = {
     "./routes/trigraphs.tsx": $trigraphs,
   },
   islands: {
+    "./islands/GameScoreDisplayIsland.tsx": $GameScoreDisplayIsland,
     "./islands/HamburgerMenu.tsx": $HamburgerMenu,
     "./islands/KeyLogger.tsx": $KeyLogger,
     "./islands/QuoteTyperMode.tsx": $QuoteTyperMode,
