@@ -100,6 +100,8 @@ export default function RandomSettings(
           key={keyLoggerKey}
           codeableKeys={trainingSet}
           gameType="random"
+          onPracticeAgain={handleRegenerate} // Pass handleRegenerate as onPracticeAgain
+          onNextGame={handleRegenerate} // Pass handleRegenerate as onNextGame
         />
       </div>
 

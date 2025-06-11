@@ -8,12 +8,14 @@ import { TypingMetricsDisplay } from "../components/TypingMetricsDisplay.tsx";
 import { useQuoteInput } from "../hooks/useQuoteInput.ts"; // Assuming this hook is adaptable
 import { useTypingMetrics } from "../hooks/useTypingMetrics.ts"; // Assuming this hook is adaptable
 import { Layout } from "../components/Layout.tsx"; // Import Layout component as named import
+import GameScoreDisplayIsland from "./GameScoreDisplayIsland.tsx";
 
 // Import content fetching logic
 import {
   fetchAvailableTrigraphs,
   fetchTrigraphWords,
 } from "../functions/contentFetcher.ts";
+import { recordGameStats } from "../utils/recordGameStats.ts";
 
 const TrigraphsTyperMode: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -138,6 +140,20 @@ const TrigraphsTyperMode: FC = () => {
       setHasCompleted(true);
     }
   }, [isComplete]); // Depend on isComplete from the hook
+// Effect to send game stats when the game is completed
+  useEffect(() => {
+    if (hasCompleted && selectedTrigraph) {
+      recordGameStats({
+        gameType: "trigraphs",
+        category: selectedTrigraph,
+        isFinished: true,
+      }).then(() => {
+        console.log("Trigraphs game stats sent");
+      }).catch((error) => {
+        console.error("Error sending trigraphs game stats:", error);
+      });
+    }
+  }, [hasCompleted, selectedTrigraph]); // Depend on hasCompleted and selectedTrigraph
 
   // Start timer on first valid input
   useEffect(() => {
@@ -332,25 +348,13 @@ const TrigraphsTyperMode: FC = () => {
 
             {/* Display Typing Metrics */}
             {/* Display Typing Metrics and Practice Again Button */}
-            {hasCompleted && ( // Show the blue box and button when game is complete
-              <div class="mt-8 p-4 bg-tt-lightblue rounded-lg text-white">
-                {/* Blue box styling */}
-                {targetText && <TypingMetricsDisplay metrics={metrics} />}{" "}
-                {/* Show metrics */}
-
-                {/* Reset/Next Button */}
-                <div class="text-center mt-4">
-                  {/* Keep text-center and margin-top for spacing */}
-                  <button
-                    type="button"
-                    onClick={resetInputAndMaybeRandom}
-                    class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
-                  >
-                    Practice Again
-                  </button>
-                </div>
-              </div>
-            )}
+            {/* Render GameScoreDisplayIsland */}
+            <GameScoreDisplayIsland
+              metrics={metrics}
+              isComplete={hasCompleted}
+              onPracticeAgain={resetInputAndMaybeRandom}
+              // onNextGame is not needed for trigraphs unless "Next Trigraph" is implemented
+            />
           </>
         )}
         {/* Effect to focus the input after initial content load */}
