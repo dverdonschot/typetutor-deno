@@ -27,7 +27,7 @@ export default function GameScoreDisplayIsland(
           <button
             type="button"
             onClick={onPracticeAgain}
-            class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+            class="px-4 py-2 bg-tt-darkblue text-white rounded hover:bg-tt-darkblue"
           >
             Practice Again
           </button>
