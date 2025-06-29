@@ -92,6 +92,16 @@ export default function RandomSettings(
     setKeyLoggerKey((prev) => prev + 1);
   };
 
+  // Select a random character set and regenerate
+  const handleNextRandom = () => {
+    const options = Object.values(characterSetOptions);
+    const randomSet = options[Math.floor(Math.random() * options.length)];
+    setCharacterSet(randomSet);
+    setTrainingSet(randomTrainingSet(characterLength, randomSet));
+    // Increment key to force KeyLogger remount
+    setKeyLoggerKey((prev) => prev + 1);
+  };
+
   return (
     <div>
       {/* KeyLogger Component with key prop to force remount */}
@@ -101,7 +111,7 @@ export default function RandomSettings(
           codeableKeys={trainingSet}
           gameType="random"
           onPracticeAgain={handleRegenerate} // Pass handleRegenerate as onPracticeAgain
-          onNextGame={handleRegenerate} // Pass handleRegenerate as onNextGame
+          onNextGame={handleNextRandom} // Pass handleNextRandom as onNextGame
         />
       </div>
 

@@ -8,7 +8,8 @@ import {
 } from "../functions/contentFetcher.ts";
 import { useQuoteInput } from "../hooks/useQuoteInput.ts";
 import { useTypingMetrics } from "../hooks/useTypingMetrics.ts"; // Assuming this exists and is compatible
-import { TypingMetricsDisplay } from "../components/TypingMetricsDisplay.tsx"; // Assuming this exists
+//import { TypingMetricsDisplay } from "../components/TypingMetricsDisplay.tsx"; // Assuming this exists
+import GameScoreDisplayIsland from "./GameScoreDisplayIsland.tsx";
 
 interface QuoteTyperModeProps {
   contentType?: "quote" | "code"; // Accept contentType prop
@@ -390,9 +391,6 @@ export default function QuoteTyperMode(
               Load Random
             </button>
           </div>
-
-          {/* Display Typing Metrics */}
-          <TypingMetricsDisplay metrics={metrics} />
 
           {/* Optional: Reset button or completion message */}
           {isComplete && (

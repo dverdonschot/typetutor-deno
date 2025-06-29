@@ -6,17 +6,17 @@ export interface TrainingChar {
 }
 
 export function randomTrainingSet(
-  lenght: number,
+  length: number,
   chars: string,
 ): TrainingChar[] {
-  const dlenght: number = lenght;
+  const dlength: number = length;
   const TrainingSet: TrainingChar[] = [];
   const availableChars = chars;
-  const availableCharsLenght = availableChars.length;
+  const availableCharsLength = availableChars.length;
   let counter: number = 0;
 
-  while (counter < dlenght) {
-    const randomIndex = Math.floor(Math.random() * availableCharsLenght);
+  while (counter < dlength) {
+    const randomIndex = Math.floor(Math.random() * availableCharsLength);
 
     TrainingSet.push({
       char: availableChars[randomIndex],
