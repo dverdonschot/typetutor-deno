@@ -8,7 +8,8 @@ import {
 } from "../functions/contentFetcher.ts";
 import { useQuoteInput } from "../hooks/useQuoteInput.ts";
 import { useTypingMetrics } from "../hooks/useTypingMetrics.ts"; // Assuming this exists and is compatible
-import { TypingMetricsDisplay } from "../components/TypingMetricsDisplay.tsx"; // Assuming this exists
+//import { TypingMetricsDisplay } from "../components/TypingMetricsDisplay.tsx"; // Assuming this exists
+import GameScoreDisplayIsland from "./GameScoreDisplayIsland.tsx";
 
 interface QuoteTyperModeProps {
   contentType?: "quote" | "code"; // Accept contentType prop
@@ -391,36 +392,15 @@ export default function QuoteTyperMode(
             </button>
           </div>
 
-          {/* Display Typing Metrics */}
-          <TypingMetricsDisplay metrics={metrics} />
-
           {/* Optional: Reset button or completion message */}
           {isComplete && (
-            <div class="text-center mt-4 p-4 bg-green-100 text-green-800 rounded-md">
-              {
-                selectedContentItem?.type === "quote" &&
-                  currentQuoteIndex === allQuotes.length - 1
-                  ? "All quotes completed! Well done." // Message for completing all quotes
-                  : selectedContentItem?.type === "quote"
-                  ? `Quote ${currentQuoteIndex + 1} completed!` // Message for completing a single quote
-                  : "Completed! Well done." // Message for completing code or other types
-              }
-
-              <button
-                type="button"
-                onClick={resetInput} // Use reset from the hook
-                class="ml-4 px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700"
-              >
-                Practice Again
-              </button>
-              <button
-                type="button"
-                onClick={loadRandomItem} // Or load a new random one
-                class="ml-2 px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600"
-              >
-                Next Random
-              </button>
-            </div>
+            <GameScoreDisplayIsland
+              metrics={metrics}
+              isComplete={isComplete}
+              onPracticeAgain={resetInput}
+              onNextGame={loadRandomItem}
+              gameType="quote"
+            />
           )}
         </>
       )}
