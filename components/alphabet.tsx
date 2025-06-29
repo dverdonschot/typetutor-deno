@@ -7,12 +7,12 @@ export function Alphabet() {
 
   const handlePracticeAgain = () => {
     // Reload the page to restart the alphabet practice
-    window.location.reload();
+    globalThis.location.reload();
   };
 
   const handleReplay = () => {
     // Reload the page to restart the alphabet practice
-    window.location.reload();
+    globalThis.location.reload();
   };
 
   return (
