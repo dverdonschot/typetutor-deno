@@ -33,19 +33,20 @@ export default function GameScoreDisplayIsland(
           </button>
         )}
         {onNextGame && (
-         <button
-           type="button"
-           onClick={onNextGame}
-           class="ml-2 px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600"
-         >
-           {gameType === "quote" && metrics.isComplete && metrics.totalTimeSeconds > 0
-             ? "Next Quote"
-             : gameType === "alphabet"
-             ? "Replay"
-             : gameType === "random"
-             ? "Next Random"
-             : "Next"}
-         </button>
+          <button
+            type="button"
+            onClick={onNextGame}
+            class="ml-2 px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600"
+          >
+            {gameType === "quote" && metrics.isComplete &&
+                metrics.totalTimeSeconds > 0
+              ? "Next Quote"
+              : gameType === "alphabet"
+              ? "Replay"
+              : gameType === "random"
+              ? "Next Random"
+              : "Next"}
+          </button>
         )}
       </div>
     </div>
