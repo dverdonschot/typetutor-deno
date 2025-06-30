@@ -37,23 +37,30 @@ A new interface, `UserGameData`, will define the structure for each game record 
 
 ```typescript
 // types/gameData.ts (New file)
-export interface UserGameData {
-  gameId: string; // UUID for this specific game
-  timestamp: number; // Unix timestamp of game completion
-  gameType: string; // e.g., "random", "alphabet", "quote", "trigraphs"
-  charactersPerMinute: number;
-  wordsPerMinute: number;
-  mistakes: number;
-  accuracyPercentage: number;
-  backspaceCount: number;
-  backspaceRatioPercent: number;
-  wronglyTypedChars: Record<string, number>; // Key: character, Value: count of wrong presses
-}
+import { z } from "https://deno.land/x/zod@v3.23.0/mod.ts";
 
-export interface UserSessionData {
-  sessionId: string; // UUID for the user session
-  games: UserGameData[]; // Array of the last 30 games
-}
+export const UserGameDataSchema = z.object({
+  gameId: z.string().uuid(), // UUID for this specific game
+  timestamp: z.number(), // Unix timestamp of game completion
+  gameType: z.string(), // e.g., "random", "alphabet", "quote", "trigraphs"
+  charactersPerMinute: z.number(),
+  wordsPerMinute: z.number(),
+  mistakes: z.number(),
+  accuracyPercentage: z.number(),
+  backspaceCount: z.number(),
+  backspaceRatioPercent: z.number(),
+  wronglyTypedChars: z.record(z.string(), z.number()), // Key: character, Value: count of wrong presses
+});
+
+export type UserGameData = z.infer<typeof UserGameDataSchema>;
+
+export const UserSessionDataSchema = z.object({
+  sessionId: z.string().uuid(), // UUID for the user session
+  games: z.array(UserGameDataSchema), // Array of the last 30 games
+  totalGamesCompleted: z.number().default(0), // New: Total number of games completed
+});
+
+export type UserSessionData = z.infer<typeof UserSessionDataSchema>;
 ```
 
 ### 4.2. `wronglyTypedChars` Tracking
@@ -88,12 +95,14 @@ export interface UserSessionData {
     *   **`getOrCreateSessionId(): string`:** A function to retrieve an existing session UUID from `localStorage` or generate a new one if none exists. This function will also manage a flag in `localStorage` (e.g., `sessionSentToServer: boolean`) to prevent redundant server calls.
     *   **`saveUserGameData(gameData: UserGameData): void`:**
         *   Retrieves the current `UserSessionData` from `localStorage`.
+        *   **Zod Validation:** The retrieved data will be parsed and validated against `UserSessionDataSchema` using Zod. If parsing or validation fails, a default empty `UserSessionData` object will be used to prevent application errors.
         *   **UUID Sending Logic:** Before adding the new `gameData`, check if the retrieved `UserSessionData` is empty or if the `games` array within it is empty. If so, this indicates the very first game being saved for this user session. In this case, call `getOrCreateSessionId()` to ensure a `sessionId` exists, and then send this `sessionId` to the server via the new API endpoint. After sending, set a flag in `localStorage` (e.g., `sessionSentToServer: true`) to prevent future redundant sends within the same session.
         *   Adds the new `gameData` to the `games` array.
         *   Ensures the `games` array contains only the last 30 entries (e.g., by slicing the array).
+        *   Increments `totalGamesCompleted` in `UserSessionData`.
         *   Saves the updated `UserSessionData` back to `localStorage`.
         *   Includes `try-catch` blocks for robust error handling with `localStorage` operations, logging errors to the console without disrupting the user experience.
-    *   **`getUserSessionData(): UserSessionData`:** Retrieves and parses the `UserSessionData` from `localStorage`. Includes `try-catch` blocks for error handling, logging errors to the console.
+    *   **`getUserSessionData(): UserSessionData`:** Retrieves and parses the `UserSessionData` from `localStorage`. Includes `try-catch` blocks for error handling, logging errors to the console. The retrieved data will also be validated against `UserSessionDataSchema` using Zod.
     *   **Displaying Message on Stats Page:** The `islands/StatsPage.tsx` component will import `isLocalStorageAvailable()` from `utils/clientGameData.ts`. If `isLocalStorageAvailable()` returns `false`, `StatsPage.tsx` will display a user-friendly message indicating that `localStorage` is not enabled and historical stats cannot be saved, potentially with a generic instruction on how to enable it (e.g., "Please check your browser settings to enable local storage for this site.").
 
 ### 4.4. Heatmap Display Component
