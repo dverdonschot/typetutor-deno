@@ -7,12 +7,13 @@
   # https://devenv.sh/packages/
   packages = [ 
     pkgs.git 
-    pkgs.deno
+    pkgs.nodejs_20
   ];
 
 
   # https://devenv.sh/languages/
-  # languages.rust.enable = true;
+  languages.deno.enable = true;
+  languages.javascript.enable = true;
 
   # https://devenv.sh/processes/
   # processes.cargo-watch.exec = "cargo-watch";
@@ -25,9 +26,16 @@
     echo hello from $GREET
   '';
 
+  env = {
+    NPM_CONFIG_PREFIX = "/home/ewt/.npm-global";
+    PATH = "/home/ewt/.npm-global/bin:$PATH"; 
+  };
+
+
   enterShell = ''
-    hello
-    git --version
+    mkdir -p /home/ewt/.npm-global/bin
+    export PATH="/home/ewt/.npm-global/bin:$PATH"
+    npm install -g @anthropic-ai/claude-code
   '';
 
   # https://devenv.sh/tasks/
