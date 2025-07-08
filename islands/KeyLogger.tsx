@@ -1,11 +1,13 @@
 import { FunctionComponent as FC } from "preact";
-import { useEffect, useRef, useState } from "preact/hooks";
+import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import { TrainingChar } from "../functions/randomTrainingSet.ts";
 import RenderedQuoteResult from "./RenderedQuoteResult.tsx";
 import { useMobileInput } from "../hooks/useMobileInput.ts";
 import { useTypingMetrics } from "../hooks/useTypingMetrics.ts";
 import GameScoreDisplayIsland from "./GameScoreDisplayIsland.tsx";
 import { recordGameStats } from "../utils/recordGameStats.ts";
+import { UserStatsManager } from "../utils/userStatsManager.ts";
+import { DetailedGameResult } from "../types/userStats.ts";
 
 interface KeyLoggerProps {
   codeableKeys: TrainingChar[];
@@ -26,8 +28,10 @@ const KeyLogger: FC<KeyLoggerProps> = (
     mistakeCount,
     backspaceCount,
     inputProps,
+    getWrongCharactersArray,
   } = useMobileInput(codeableKeys);
   const [isComplete, setIsComplete] = useState(false); // Rename state to isComplete
+  const [gameResult, setGameResult] = useState<DetailedGameResult | null>(null); // Store game result
   const metrics = useTypingMetrics(
     codeableKeys,
     typedCount,
@@ -36,6 +40,87 @@ const KeyLogger: FC<KeyLoggerProps> = (
     backspaceCount,
     startTime,
   );
+
+  // Function to generate a unique game ID
+  const generateGameId = (): string => {
+    return `game_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`;
+  };
+
+  // Function to send detailed stats to UserStatsManager
+  const sendDetailedStats = useCallback(async () => {
+    if (!isComplete) return;
+
+    try {
+      const userStatsManager = UserStatsManager.getInstance();
+      await userStatsManager.initialize();
+
+      const endTime = Date.now();
+      const duration = (endTime - startTime) / 1000; // Duration in seconds
+
+      // Generate keystroke data from the training characters
+      const keystrokeData = codeableKeys.map((char, index) => ({
+        key: char.char,
+        keyCode: char.char,
+        expectedChar: char.char,
+        actualChar: char.typedChar || char.char,
+        correct: char.state === "correct",
+        timeSinceLastKey: index === 0 ? 0 : 100, // Approximate timing
+        timestamp: startTime + (index * 100),
+        position: { row: 0, col: index % 10 }, // Approximate position
+      }));
+
+      // Generate character stats from training characters
+      const characterStats: { [char: string]: any } = {};
+      codeableKeys.forEach((char) => {
+        if (!characterStats[char.char]) {
+          characterStats[char.char] = {
+            attempts: 0,
+            errors: 0,
+            avgTimeBetweenKeys: 100,
+          };
+        }
+        characterStats[char.char].attempts += 1;
+        if (char.state === "incorrect") {
+          characterStats[char.char].errors += 1;
+        }
+      });
+
+      const gameResult: DetailedGameResult = {
+        gameId: generateGameId(),
+        userId: userStatsManager.getUserId(),
+        mode: "random",
+        startTime: new Date(startTime).toISOString(),
+        endTime: new Date(endTime).toISOString(),
+        duration,
+        wpm: metrics.wordsPerMinute,
+        cpm: metrics.charactersPerMinute,
+        accuracy: metrics.accuracyPercentage,
+        mistakeCount,
+        backspaceCount,
+        keystrokeData,
+        characterStats,
+        contentMetadata: {
+          source: "random-characters",
+          totalCharacters: codeableKeys.length,
+          uniqueCharacters: new Set(codeableKeys.map((c) => c.char)).size,
+        },
+        wrongCharacters: getWrongCharactersArray(),
+      };
+
+      await userStatsManager.updateStats(gameResult);
+      setGameResult(gameResult); // Store the game result for heatmap
+      console.log("Detailed random mode stats updated successfully");
+    } catch (error) {
+      console.error("Failed to update detailed random mode stats:", error);
+    }
+  }, [
+    isComplete,
+    startTime,
+    metrics,
+    mistakeCount,
+    backspaceCount,
+    codeableKeys,
+  ]);
 
   const inputStyle = {
     position: "absolute",
@@ -86,9 +171,12 @@ const KeyLogger: FC<KeyLoggerProps> = (
       }).catch((error) => {
         console.error("Error sending finished game stats:", error);
       });
+
+      // Send detailed stats to UserStatsManager
+      sendDetailedStats();
       finishedSentRef.current = true;
     }
-  }, [typedCount, codeableKeys.length, gameType]); // Add gameType to dependencies
+  }, [typedCount, codeableKeys.length, gameType, sendDetailedStats]); // Add sendDetailedStats to dependencies
 
   return (
     <div onClick={focusInput} style={{ cursor: "pointer" }}>
@@ -107,6 +195,7 @@ const KeyLogger: FC<KeyLoggerProps> = (
         onPracticeAgain={onPracticeAgain} // Pass callback prop
         onNextGame={onNextGame} // Pass callback prop
         gameType={gameType} // Pass gameType prop
+        gameResult={gameResult || undefined} // Pass game result for heatmap
       />
     </div>
   );

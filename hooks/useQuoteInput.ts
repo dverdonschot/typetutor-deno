@@ -1,5 +1,15 @@
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { DisplayCharState } from "../components/QuoteTextDisplay.tsx"; // Import the state interface
+import {
+  CharacterStats,
+  GameWrongCharacterData,
+  KeystrokeData,
+} from "../types/userStats.ts";
+import {
+  getKeyLabel,
+  getKeyPosition,
+  mapCharToKeyCode,
+} from "../utils/keyboardLayout.ts";
 
 // Helper function to initialize character states from the target text
 const initializeCharStates = (text: string): DisplayCharState[] => {
@@ -18,6 +28,10 @@ interface QuoteInputState {
   mistakeCount: number;
   backspaceCount: number;
   isComplete: boolean;
+  keystrokeData: KeystrokeData[];
+  startTime: number | null;
+  lastKeystrokeTime: number;
+  wrongCharactersInGame: Map<string, GameWrongCharacterData>; // Track wrong characters per game
 }
 
 export function useQuoteInput(targetText: string) {
@@ -34,6 +48,10 @@ export function useQuoteInput(targetText: string) {
       mistakeCount: 0,
       backspaceCount: 0,
       isComplete: false,
+      keystrokeData: [],
+      startTime: null,
+      lastKeystrokeTime: 0,
+      wrongCharactersInGame: new Map(),
     };
   });
 
@@ -51,8 +69,37 @@ export function useQuoteInput(targetText: string) {
       mistakeCount: 0,
       backspaceCount: 0,
       isComplete: false,
+      keystrokeData: [],
+      startTime: null,
+      lastKeystrokeTime: 0,
+      wrongCharactersInGame: new Map(),
     });
   }, [targetText]); // Dependency array ensures this runs when targetText changes
+
+  // Function to record keystroke data
+  const recordKeystroke = useCallback((
+    key: string,
+    correct: boolean,
+    expectedChar: string,
+    timestamp: number,
+    lastKeystrokeTime: number,
+  ): KeystrokeData => {
+    const keyCode = mapCharToKeyCode(key);
+    const position = getKeyPosition(keyCode) || { row: -1, col: -1 };
+
+    return {
+      key,
+      keyCode,
+      timestamp,
+      correct,
+      expectedChar,
+      actualChar: key,
+      timeSinceLastKey: lastKeystrokeTime > 0
+        ? timestamp - lastKeystrokeTime
+        : 0,
+      position,
+    };
+  }, []);
 
   const processInput = useCallback(
     (
@@ -60,7 +107,20 @@ export function useQuoteInput(targetText: string) {
       previousValue: string,
       currentStates: DisplayCharState[],
     ): QuoteInputState => {
+      console.log(`processInput called: currentValue="${currentValue}", previousValue="${previousValue}"`);
+      
+      const now = Date.now();
       let newBackspaceCount = state.backspaceCount;
+      let newKeystrokeData = [...state.keystrokeData];
+      let newStartTime = state.startTime;
+      let newLastKeystrokeTime = state.lastKeystrokeTime;
+      let newWrongCharactersInGame = new Map(state.wrongCharactersInGame);
+
+      // Set start time on first keystroke
+      if (newStartTime === null && currentValue.length > 0) {
+        newStartTime = now;
+      }
+
       const newStates = [...currentStates]; // Create a mutable copy
       const currentLength = currentValue.length;
       const previousLength = previousValue.length;
@@ -83,6 +143,28 @@ export function useQuoteInput(targetText: string) {
       let newMistakeCount = 0;
       let _typedIndex = -1; // Index of the last character processed
 
+      // Record keystrokes for new characters typed
+      if (currentLength > previousLength) {
+        for (let i = previousLength; i < currentLength; i++) {
+          const typedChar = currentValue[i];
+          const expectedChar = i < targetLength ? targetText[i] : "";
+          const correct = typedChar === expectedChar;
+
+          const keystroke = recordKeystroke(
+            typedChar,
+            correct,
+            expectedChar,
+            now,
+            newLastKeystrokeTime,
+          );
+
+          newKeystrokeData.push(keystroke);
+          newLastKeystrokeTime = now;
+
+          // Character error tracking moved to second loop for accuracy
+        }
+      }
+
       for (let i = 0; i < targetLength; i++) {
         const targetChar = targetText[i];
         // Reset 'current' state before potentially setting it again
@@ -93,6 +175,9 @@ export function useQuoteInput(targetText: string) {
         if (i < currentLength) {
           const typedChar = currentValue[i];
           _typedIndex = i; // Update last processed index
+          
+          // Debug: Log every character comparison
+          console.log(`Processing position ${i}: expected "${targetChar}", typed "${typedChar}", match: ${typedChar === targetChar}`);
 
           // Explicitly handle newline character comparison
           if (targetChar === "\n") {
@@ -103,6 +188,26 @@ export function useQuoteInput(targetText: string) {
               newStates[i].state = "incorrect";
               newStates[i].typed = typedChar; // Store the incorrect typed character
             }
+            
+            // Always track character errors when state is incorrect for newlines too
+            if (newStates[i].state === "incorrect") {
+              const existing = newWrongCharactersInGame.get(targetChar);
+              if (existing) {
+                existing.errorCount++;
+                if (!existing.positions.includes(i)) {
+                  existing.positions.push(i);
+                }
+              } else {
+                newWrongCharactersInGame.set(targetChar, {
+                  expectedChar: targetChar,
+                  errorCount: 1,
+                  positions: [i],
+                });
+              }
+              
+              // Debug logging
+              console.log(`Character error tracked (newline): expected "${targetChar}" at position ${i}, got "${typedChar}"`);
+            }
           } else {
             // Existing logic for non-newline characters
             if (newStates[i].typed === null || currentLength > previousLength) {
@@ -112,6 +217,26 @@ export function useQuoteInput(targetText: string) {
               } else {
                 newStates[i].state = "incorrect";
               }
+            }
+            
+            // Always track character errors when state is incorrect, regardless of the condition above
+            if (newStates[i].state === "incorrect") {
+              const existing = newWrongCharactersInGame.get(targetChar);
+              if (existing) {
+                existing.errorCount++;
+                if (!existing.positions.includes(i)) {
+                  existing.positions.push(i);
+                }
+              } else {
+                newWrongCharactersInGame.set(targetChar, {
+                  expectedChar: targetChar,
+                  errorCount: 1,
+                  positions: [i],
+                });
+              }
+              
+              // Debug logging
+              console.log(`Character error tracked: expected "${targetChar}" at position ${i}, got "${typedChar}"`);
             }
           }
 
@@ -170,9 +295,21 @@ export function useQuoteInput(targetText: string) {
         mistakeCount: newMistakeCount,
         backspaceCount: newBackspaceCount,
         isComplete: isComplete,
+        keystrokeData: newKeystrokeData,
+        startTime: newStartTime,
+        lastKeystrokeTime: newLastKeystrokeTime,
+        wrongCharactersInGame: newWrongCharactersInGame,
       };
     },
-    [targetText, state.backspaceCount],
+    [
+      targetText,
+      state.backspaceCount,
+      state.keystrokeData,
+      state.startTime,
+      state.lastKeystrokeTime,
+      state.wrongCharactersInGame,
+      recordKeystroke,
+    ],
   ); // Include dependencies
 
   const handleInput = useCallback((event: Event) => {
@@ -203,8 +340,50 @@ export function useQuoteInput(targetText: string) {
       mistakeCount: 0,
       backspaceCount: 0,
       isComplete: false,
+      keystrokeData: [],
+      startTime: null,
+      lastKeystrokeTime: 0,
+      wrongCharactersInGame: new Map(),
     });
   }, [targetText]);
+
+  // Function to get character-level statistics
+  const getCharacterStats = useCallback((): Record<string, CharacterStats> => {
+    const charStats: Record<string, CharacterStats> = {};
+
+    state.keystrokeData.forEach((keystroke, index) => {
+      const char = keystroke.expectedChar;
+      if (!charStats[char]) {
+        charStats[char] = {
+          attempts: 0,
+          errors: 0,
+          avgTimeBetweenKeys: 0,
+        };
+      }
+
+      charStats[char].attempts++;
+      if (!keystroke.correct) {
+        charStats[char].errors++;
+      }
+
+      // Calculate average time between keys
+      if (keystroke.timeSinceLastKey > 0) {
+        charStats[char].avgTimeBetweenKeys =
+          (charStats[char].avgTimeBetweenKeys * (charStats[char].attempts - 1) +
+            keystroke.timeSinceLastKey) /
+          charStats[char].attempts;
+      }
+    });
+
+    return charStats;
+  }, [state.keystrokeData]);
+
+  // Get wrong characters array from Map
+  const getWrongCharactersArray = useCallback((): GameWrongCharacterData[] => {
+    const wrongChars = Array.from(state.wrongCharactersInGame.values());
+    console.log(`getWrongCharactersArray called, returning ${wrongChars.length} wrong characters:`, wrongChars);
+    return wrongChars;
+  }, [state.wrongCharactersInGame]);
 
   return {
     inputValue: state.inputValue,
@@ -214,6 +393,10 @@ export function useQuoteInput(targetText: string) {
     mistakeCount: state.mistakeCount,
     backspaceCount: state.backspaceCount,
     isComplete: state.isComplete,
+    keystrokeData: state.keystrokeData,
+    startTime: state.startTime,
+    getCharacterStats,
+    getWrongCharactersArray,
     inputProps: {
       value: state.inputValue,
       onInput: handleInput,

@@ -16,6 +16,8 @@ import {
   fetchTrigraphWords,
 } from "../functions/contentFetcher.ts";
 import { recordGameStats } from "../utils/recordGameStats.ts";
+import { UserStatsManager } from "../utils/userStatsManager.ts";
+import { DetailedGameResult } from "../types/userStats.ts";
 
 const TrigraphsTyperMode: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -27,6 +29,7 @@ const TrigraphsTyperMode: FC = () => {
   const hiddenInputRef = useRef<HTMLInputElement>(null); // Ref for the hidden input
   const [currentPath, setCurrentPath] = useState(""); // State to store the current path
   const [hasCompleted, setHasCompleted] = useState(false); // New state to track if the game has been completed at least once
+  const [gameResult, setGameResult] = useState<DetailedGameResult | null>(null); // Store game result
   const [isRandomTrigraphEnabled, setIsRandomTrigraphEnabled] = useState(() => { // Load state from local storage
     if (typeof localStorage !== "undefined") {
       const savedState = localStorage.getItem(
@@ -113,6 +116,10 @@ const TrigraphsTyperMode: FC = () => {
     mistakeCount,
     backspaceCount,
     isComplete,
+    keystrokeData,
+    startTime: inputStartTime,
+    getCharacterStats,
+    getWrongCharactersArray,
     inputProps,
     resetInput,
   } = useQuoteInput(targetText); // Hook recalculates internally when targetText changes
@@ -121,6 +128,7 @@ const TrigraphsTyperMode: FC = () => {
   const resetInputAndMaybeRandom = useCallback(() => {
     resetInput(); // Call the original resetInput from the hook
     setHasCompleted(false); // Always reset hasCompleted when practicing again
+    setGameResult(null); // Clear previous game result
     if (isRandomTrigraphEnabled && availableTrigraphs.length > 0) {
       // Select a new random trigraph if random mode is enabled
       const randomIndex = Math.floor(Math.random() * availableTrigraphs.length);
@@ -134,26 +142,17 @@ const TrigraphsTyperMode: FC = () => {
     setHasCompleted,
   ]); // Add setHasCompleted to dependencies
 
+  // Function to generate a unique game ID
+  const generateGameId = (): string => {
+    return `game_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`;
+  };
+
   // Effect to update hasCompleted when isComplete from the hook becomes true
   useEffect(() => {
     if (isComplete) {
       setHasCompleted(true);
     }
   }, [isComplete]); // Depend on isComplete from the hook
-  // Effect to send game stats when the game is completed
-  useEffect(() => {
-    if (hasCompleted && selectedTrigraph) {
-      recordGameStats({
-        gameType: "trigraphs",
-        category: selectedTrigraph,
-        isFinished: true,
-      }).then(() => {
-        console.log("Trigraphs game stats sent");
-      }).catch((error) => {
-        console.error("Error sending trigraphs game stats:", error);
-      });
-    }
-  }, [hasCompleted, selectedTrigraph]); // Depend on hasCompleted and selectedTrigraph
 
   // Start timer on first valid input
   useEffect(() => {
@@ -176,6 +175,77 @@ const TrigraphsTyperMode: FC = () => {
     backspaceCount,
     startTime ?? Date.now(), // Provide a start time
   );
+
+  // Function to send detailed stats to UserStatsManager
+  const sendDetailedStats = useCallback(async () => {
+    if (!inputStartTime || !isComplete || !selectedTrigraph) return;
+
+    try {
+      const userStatsManager = UserStatsManager.getInstance();
+      await userStatsManager.initialize();
+
+      const endTime = Date.now();
+      const duration = (endTime - inputStartTime) / 1000; // Duration in seconds
+
+      const gameResult: DetailedGameResult = {
+        gameId: generateGameId(),
+        userId: userStatsManager.getUserId(),
+        mode: "trigraphs",
+        startTime: new Date(inputStartTime).toISOString(),
+        endTime: new Date(endTime).toISOString(),
+        duration,
+        wpm: metrics.wordsPerMinute,
+        cpm: metrics.charactersPerMinute,
+        accuracy: metrics.accuracyPercentage,
+        mistakeCount,
+        backspaceCount,
+        keystrokeData,
+        characterStats: getCharacterStats(),
+        contentMetadata: {
+          source: selectedTrigraph,
+          totalCharacters: targetText.length,
+          uniqueCharacters: new Set(targetText).size,
+          difficulty: "medium", // Trigraphs are generally medium difficulty
+        },
+        wrongCharacters: getWrongCharactersArray(),
+      };
+
+      await userStatsManager.updateStats(gameResult);
+      setGameResult(gameResult); // Store the game result for heatmap
+      console.log("Detailed trigraphs stats updated successfully");
+    } catch (error) {
+      console.error("Failed to update detailed trigraphs stats:", error);
+    }
+  }, [
+    inputStartTime,
+    isComplete,
+    selectedTrigraph,
+    metrics,
+    mistakeCount,
+    backspaceCount,
+    keystrokeData,
+    getCharacterStats,
+    targetText,
+  ]);
+
+  // Effect to send game stats when the game is completed
+  useEffect(() => {
+    if (hasCompleted && selectedTrigraph) {
+      // Send to existing API
+      recordGameStats({
+        gameType: "trigraphs",
+        category: selectedTrigraph,
+        isFinished: true,
+      }).then(() => {
+        console.log("Trigraphs game stats sent");
+      }).catch((error) => {
+        console.error("Error sending trigraphs game stats:", error);
+      });
+
+      // Send detailed stats to UserStatsManager
+      sendDetailedStats();
+    }
+  }, [hasCompleted, selectedTrigraph, sendDetailedStats]); // Depend on hasCompleted, selectedTrigraph, and sendDetailedStats
 
   const localStorageKey = "lastSelectedTrigraph"; // Local storage key for trigraphs
 
@@ -353,6 +423,7 @@ const TrigraphsTyperMode: FC = () => {
               metrics={metrics}
               isComplete={hasCompleted}
               onPracticeAgain={resetInputAndMaybeRandom}
+              gameResult={gameResult || undefined}
               // onNextGame is not needed for trigraphs unless "Next Trigraph" is implemented
             />
           </>
