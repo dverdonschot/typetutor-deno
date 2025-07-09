@@ -1,6 +1,10 @@
 import { useCallback, useState } from "preact/hooks";
 import { TrainingChar } from "../functions/randomTrainingSet.ts";
-import { CharacterStats, KeystrokeData, GameWrongCharacterData } from "../types/userStats.ts";
+import {
+  CharacterStats,
+  GameWrongCharacterData,
+  KeystrokeData,
+} from "../types/userStats.ts";
 import { getKeyPosition, mapCharToKeyCode } from "../utils/keyboardLayout.ts";
 
 interface MobileInputState {
@@ -102,7 +106,7 @@ const processInput = (
       } else {
         targetChar.state = "incorrect";
         newMistakeCount++;
-        
+
         // Track wrong character for this game
         const expectedChar = targetChar.char;
         const existing = newWrongCharactersInGame.get(expectedChar);
@@ -118,9 +122,11 @@ const processInput = (
             positions: [i],
           });
         }
-        
+
         // Debug logging
-        console.log(`Character error tracked (mobile): expected "${expectedChar}" at position ${i}, got "${typedChar}"`);
+        console.log(
+          `Character error tracked (mobile): expected "${expectedChar}" at position ${i}, got "${typedChar}"`,
+        );
       }
       newTypedCount = i + 1;
     } else { // i >= currentValue.length
@@ -227,7 +233,10 @@ export function useMobileInput(codeableKeys: TrainingChar[]) {
   // Get wrong characters array from Map
   const getWrongCharactersArray = useCallback((): GameWrongCharacterData[] => {
     const wrongChars = Array.from(state.wrongCharactersInGame.values());
-    console.log(`getWrongCharactersArray called (mobile), returning ${wrongChars.length} wrong characters:`, wrongChars);
+    console.log(
+      `getWrongCharactersArray called (mobile), returning ${wrongChars.length} wrong characters:`,
+      wrongChars,
+    );
     return wrongChars;
   }, [state.wrongCharactersInGame]);
 

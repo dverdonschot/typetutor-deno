@@ -107,8 +107,10 @@ export function useQuoteInput(targetText: string) {
       previousValue: string,
       currentStates: DisplayCharState[],
     ): QuoteInputState => {
-      console.log(`processInput called: currentValue="${currentValue}", previousValue="${previousValue}"`);
-      
+      console.log(
+        `processInput called: currentValue="${currentValue}", previousValue="${previousValue}"`,
+      );
+
       const now = Date.now();
       let newBackspaceCount = state.backspaceCount;
       let newKeystrokeData = [...state.keystrokeData];
@@ -175,9 +177,13 @@ export function useQuoteInput(targetText: string) {
         if (i < currentLength) {
           const typedChar = currentValue[i];
           _typedIndex = i; // Update last processed index
-          
+
           // Debug: Log every character comparison
-          console.log(`Processing position ${i}: expected "${targetChar}", typed "${typedChar}", match: ${typedChar === targetChar}`);
+          console.log(
+            `Processing position ${i}: expected "${targetChar}", typed "${typedChar}", match: ${
+              typedChar === targetChar
+            }`,
+          );
 
           // Explicitly handle newline character comparison
           if (targetChar === "\n") {
@@ -188,7 +194,7 @@ export function useQuoteInput(targetText: string) {
               newStates[i].state = "incorrect";
               newStates[i].typed = typedChar; // Store the incorrect typed character
             }
-            
+
             // Always track character errors when state is incorrect for newlines too
             if (newStates[i].state === "incorrect") {
               const existing = newWrongCharactersInGame.get(targetChar);
@@ -204,9 +210,11 @@ export function useQuoteInput(targetText: string) {
                   positions: [i],
                 });
               }
-              
+
               // Debug logging
-              console.log(`Character error tracked (newline): expected "${targetChar}" at position ${i}, got "${typedChar}"`);
+              console.log(
+                `Character error tracked (newline): expected "${targetChar}" at position ${i}, got "${typedChar}"`,
+              );
             }
           } else {
             // Existing logic for non-newline characters
@@ -218,7 +226,7 @@ export function useQuoteInput(targetText: string) {
                 newStates[i].state = "incorrect";
               }
             }
-            
+
             // Always track character errors when state is incorrect, regardless of the condition above
             if (newStates[i].state === "incorrect") {
               const existing = newWrongCharactersInGame.get(targetChar);
@@ -234,9 +242,11 @@ export function useQuoteInput(targetText: string) {
                   positions: [i],
                 });
               }
-              
+
               // Debug logging
-              console.log(`Character error tracked: expected "${targetChar}" at position ${i}, got "${typedChar}"`);
+              console.log(
+                `Character error tracked: expected "${targetChar}" at position ${i}, got "${typedChar}"`,
+              );
             }
           }
 
@@ -381,7 +391,10 @@ export function useQuoteInput(targetText: string) {
   // Get wrong characters array from Map
   const getWrongCharactersArray = useCallback((): GameWrongCharacterData[] => {
     const wrongChars = Array.from(state.wrongCharactersInGame.values());
-    console.log(`getWrongCharactersArray called, returning ${wrongChars.length} wrong characters:`, wrongChars);
+    console.log(
+      `getWrongCharactersArray called, returning ${wrongChars.length} wrong characters:`,
+      wrongChars,
+    );
     return wrongChars;
   }, [state.wrongCharactersInGame]);
 
