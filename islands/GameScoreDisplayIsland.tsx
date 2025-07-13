@@ -1,6 +1,67 @@
 import { TypingMetricsDisplay } from "../components/TypingMetricsDisplay.tsx";
 import { TypingMetrics } from "../hooks/useTypingMetrics.ts";
-import { DetailedGameResult } from "../types/userStats.ts";
+import { DetailedGameResult, KeyboardHeatmapData } from "../types/userStats.ts";
+import KeyboardHeatmap from "../components/KeyboardHeatmap.tsx";
+import { getKeyPosition, mapCharToKeyCode } from "../utils/keyboardLayout.ts";
+
+// Convert game result to keyboard heatmap data
+function createGameHeatmapData(
+  gameResult: DetailedGameResult,
+): KeyboardHeatmapData {
+  const heatmapData: KeyboardHeatmapData = {};
+
+  // Group wrong characters by their key code (physical key)
+  const keyErrorMap = new Map<string, {
+    keyCode: string;
+    position: { row: number; col: number };
+    characters: { char: string; count: number }[];
+  }>();
+
+  // Add all the wrong characters to the grouped map
+  gameResult.wrongCharacters.forEach((wrongChar) => {
+    const keyCode = mapCharToKeyCode(wrongChar.expectedChar);
+    const position = getKeyPosition(keyCode) || { row: 0, col: 0 };
+
+    if (!keyErrorMap.has(keyCode)) {
+      keyErrorMap.set(keyCode, {
+        keyCode,
+        position,
+        characters: [],
+      });
+    }
+
+    const keyData = keyErrorMap.get(keyCode)!;
+    keyData.characters.push({
+      char: wrongChar.expectedChar,
+      count: wrongChar.errorCount,
+    });
+  });
+
+  // Convert grouped data to heatmap format
+  keyErrorMap.forEach((keyData, keyCode) => {
+    const totalErrors = keyData.characters.reduce(
+      (sum, char) => sum + char.count,
+      0,
+    );
+
+    // Create label showing both cases if applicable
+    const labelParts = keyData.characters.map((char) =>
+      `${char.char}: ${char.count}`
+    );
+    const combinedLabel = labelParts.join("\n");
+
+    heatmapData[keyCode] = {
+      keyCode,
+      keyLabel: combinedLabel,
+      totalPresses: totalErrors,
+      errorCount: totalErrors,
+      averageSpeed: 0,
+      position: keyData.position,
+    };
+  });
+
+  return heatmapData;
+}
 
 interface GameScoreDisplayIslandProps {
   metrics: TypingMetrics;
@@ -55,7 +116,7 @@ export default function GameScoreDisplayIsland(
         </div>
       </div>
 
-      {/* Character Errors Section */}
+      {/* Character Errors Heatmap Section */}
       <div class="p-4 bg-white rounded-lg shadow-md">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">
           Character Errors This Game
@@ -63,28 +124,37 @@ export default function GameScoreDisplayIsland(
 
         {gameResult && gameResult.wrongCharacters.length > 0
           ? (
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {gameResult.wrongCharacters.map((wrongChar) => (
-                <div
-                  key={wrongChar.expectedChar}
-                  class="bg-red-50 border border-red-200 rounded-lg p-3 text-center"
-                >
-                  <div class="font-mono text-2xl mb-1">
-                    {wrongChar.expectedChar === " "
-                      ? "⎵"
-                      : wrongChar.expectedChar}
-                  </div>
-                  <div class="text-sm text-red-600">
-                    {wrongChar.errorCount}{" "}
-                    error{wrongChar.errorCount > 1 ? "s" : ""}
-                  </div>
-                  <div class="text-xs text-gray-500">
-                    {wrongChar.expectedChar === " "
-                      ? "Space"
-                      : `"${wrongChar.expectedChar}"`}
-                  </div>
-                </div>
-              ))}
+            <div class="space-y-4">
+              <div class="flex justify-center">
+                <KeyboardHeatmap
+                  heatmapData={createGameHeatmapData(gameResult)}
+                  colorScheme="game-errors"
+                  showLabels={true}
+                  className="max-w-4xl"
+                />
+              </div>
+              <div class="text-sm text-gray-600 text-center">
+                <p>Red keys show characters you had trouble with this game.</p>
+                <p>
+                  {(() => {
+                    const totalErrors = gameResult.wrongCharacters.reduce(
+                      (sum, char) => sum + char.errorCount,
+                      0,
+                    );
+                    const uniqueChars = gameResult.wrongCharacters.length;
+
+                    if (totalErrors === uniqueChars) {
+                      return `${totalErrors} character${
+                        totalErrors > 1 ? "s" : ""
+                      } with errors`;
+                    } else {
+                      return `${totalErrors} total errors across ${uniqueChars} character${
+                        uniqueChars > 1 ? "s" : ""
+                      }`;
+                    }
+                  })()}
+                </p>
+              </div>
             </div>
           )
           : (

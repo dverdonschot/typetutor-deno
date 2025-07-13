@@ -178,7 +178,11 @@ export interface UserStatsExport {
 }
 
 // Color scheme types for heatmap
-export type HeatmapColorScheme = "errors" | "speed" | "accuracy";
+export type HeatmapColorScheme =
+  | "errors"
+  | "speed"
+  | "accuracy"
+  | "game-errors";
 
 // Game mode types
 export type GameMode = "quotes" | "trigraphs" | "code" | "alphabet" | "random";

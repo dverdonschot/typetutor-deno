@@ -27,6 +27,30 @@ function calculateErrorIntensity(
 }
 
 /**
+ * Calculate color intensity for game errors with gradual red progression
+ */
+function calculateGameErrorIntensity(
+  errorCount: number,
+  heatmapData: KeyboardHeatmapData,
+): string {
+  if (errorCount === 0) return "bg-gray-100 hover:bg-gray-200";
+
+  // Find the maximum error count for scaling
+  const allErrorCounts = Object.values(heatmapData).map((k) => k.errorCount)
+    .filter((c) => c > 0);
+  const maxErrors = allErrorCounts.length > 0 ? Math.max(...allErrorCounts) : 1;
+
+  // Calculate intensity based on error count relative to max errors
+  const intensity = Math.min(errorCount / maxErrors, 1);
+
+  if (intensity <= 0.2) return "bg-red-100 hover:bg-red-200";
+  if (intensity <= 0.4) return "bg-red-200 hover:bg-red-300";
+  if (intensity <= 0.6) return "bg-red-300 hover:bg-red-400";
+  if (intensity <= 0.8) return "bg-red-400 hover:bg-red-500 text-white";
+  return "bg-red-600 hover:bg-red-700 text-white";
+}
+
+/**
  * Calculate color intensity for speed-based heatmap
  */
 function calculateSpeedIntensity(averageSpeed: number): string {
@@ -63,6 +87,7 @@ function calculateAccuracyIntensity(
 function getKeyColor(
   keyData: KeyboardHeatmapData[string] | undefined,
   colorScheme: HeatmapColorScheme,
+  allHeatmapData?: KeyboardHeatmapData,
 ): string {
   if (!keyData) return "bg-gray-100 hover:bg-gray-200";
 
@@ -75,6 +100,11 @@ function getKeyColor(
       return calculateAccuracyIntensity(
         keyData.errorCount,
         keyData.totalPresses,
+      );
+    case "game-errors":
+      return calculateGameErrorIntensity(
+        keyData.errorCount,
+        allHeatmapData || {},
       );
     default:
       return "bg-gray-100 hover:bg-gray-200";
@@ -134,7 +164,7 @@ export default function KeyboardHeatmap({
           <div key={rowIndex} className="flex gap-1 mb-1 justify-center">
             {row.keys.map((key) => {
               const keyData = heatmapData[key.keyCode];
-              const colorClass = getKeyColor(keyData, colorScheme);
+              const colorClass = getKeyColor(keyData, colorScheme, heatmapData);
               const widthClass = getKeyWidthClass(key.width);
 
               return (
@@ -154,10 +184,18 @@ export default function KeyboardHeatmap({
                   title={getKeyTooltip(key.keyCode, keyData, colorScheme)}
                 >
                   {showLabels && (
-                    <span className="truncate px-1">
-                      {key.label.length > 8
-                        ? key.label.substring(0, 6) + "..."
-                        : key.label}
+                    <span className="px-1 text-center leading-tight">
+                      {colorScheme === "game-errors" && keyData?.keyLabel
+                        ? keyData.keyLabel.split("\n").map((line, i) => (
+                          <div key={i} className="text-xs">{line}</div>
+                        ))
+                        : (
+                          <div>
+                            {key.label.length > 8
+                              ? key.label.substring(0, 6) + "..."
+                              : key.label}
+                          </div>
+                        )}
                     </span>
                   )}
                 </button>

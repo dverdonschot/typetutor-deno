@@ -90,6 +90,23 @@ const processInput = (
 
       newKeystrokeData.push(keystroke);
       newLastKeystrokeTime = now;
+
+      // Track character errors only for newly typed characters
+      if (!correct && i < codeableKeys.length) {
+        const existing = newWrongCharactersInGame.get(expectedChar);
+        if (existing) {
+          existing.errorCount++;
+          if (!existing.positions.includes(i)) {
+            existing.positions.push(i);
+          }
+        } else {
+          newWrongCharactersInGame.set(expectedChar, {
+            expectedChar,
+            errorCount: 1,
+            positions: [i],
+          });
+        }
+      }
     }
   }
 
@@ -106,27 +123,6 @@ const processInput = (
       } else {
         targetChar.state = "incorrect";
         newMistakeCount++;
-
-        // Track wrong character for this game
-        const expectedChar = targetChar.char;
-        const existing = newWrongCharactersInGame.get(expectedChar);
-        if (existing) {
-          existing.errorCount++;
-          if (!existing.positions.includes(i)) {
-            existing.positions.push(i);
-          }
-        } else {
-          newWrongCharactersInGame.set(expectedChar, {
-            expectedChar,
-            errorCount: 1,
-            positions: [i],
-          });
-        }
-
-        // Debug logging
-        console.log(
-          `Character error tracked (mobile): expected "${expectedChar}" at position ${i}, got "${typedChar}"`,
-        );
       }
       newTypedCount = i + 1;
     } else { // i >= currentValue.length
@@ -232,12 +228,7 @@ export function useMobileInput(codeableKeys: TrainingChar[]) {
 
   // Get wrong characters array from Map
   const getWrongCharactersArray = useCallback((): GameWrongCharacterData[] => {
-    const wrongChars = Array.from(state.wrongCharactersInGame.values());
-    console.log(
-      `getWrongCharactersArray called (mobile), returning ${wrongChars.length} wrong characters:`,
-      wrongChars,
-    );
-    return wrongChars;
+    return Array.from(state.wrongCharactersInGame.values());
   }, [state.wrongCharactersInGame]);
 
   return {

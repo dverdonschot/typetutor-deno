@@ -48,14 +48,11 @@ const KeyLogger: FC<KeyLoggerProps> = (
 
   // Function to send detailed stats to UserStatsManager
   const sendDetailedStats = useCallback(async () => {
-    if (!isComplete) return;
+    if (!isComplete || !gameResult) return;
 
     try {
       const userStatsManager = UserStatsManager.getInstance();
       await userStatsManager.initialize();
-
-      const endTime = Date.now();
-      const duration = (endTime - startTime) / 1000; // Duration in seconds
 
       // Generate keystroke data from the training characters
       const keystrokeData = codeableKeys.map((char, index) => ({
@@ -85,40 +82,23 @@ const KeyLogger: FC<KeyLoggerProps> = (
         }
       });
 
-      const gameResult: DetailedGameResult = {
-        gameId: generateGameId(),
+      // Update the existing gameResult with more detailed data
+      const updatedGameResult: DetailedGameResult = {
+        ...gameResult,
         userId: userStatsManager.getUserId(),
-        mode: "random",
-        startTime: new Date(startTime).toISOString(),
-        endTime: new Date(endTime).toISOString(),
-        duration,
-        wpm: metrics.wordsPerMinute,
-        cpm: metrics.charactersPerMinute,
-        accuracy: metrics.accuracyPercentage,
-        mistakeCount,
-        backspaceCount,
         keystrokeData,
         characterStats,
-        contentMetadata: {
-          source: "random-characters",
-          totalCharacters: codeableKeys.length,
-          uniqueCharacters: new Set(codeableKeys.map((c) => c.char)).size,
-        },
-        wrongCharacters: getWrongCharactersArray(),
       };
 
-      await userStatsManager.updateStats(gameResult);
-      setGameResult(gameResult); // Store the game result for heatmap
+      await userStatsManager.updateStats(updatedGameResult);
       console.log("Detailed random mode stats updated successfully");
     } catch (error) {
       console.error("Failed to update detailed random mode stats:", error);
     }
   }, [
     isComplete,
+    gameResult,
     startTime,
-    metrics,
-    mistakeCount,
-    backspaceCount,
     codeableKeys,
   ]);
 
@@ -161,7 +141,35 @@ const KeyLogger: FC<KeyLoggerProps> = (
     const isGameFinished = totalChars > 0 && typedCount === totalChars;
 
     if (isGameFinished && !finishedSentRef.current) {
+      // Create the game result synchronously to avoid timing issues
+      const endTime = Date.now();
+      const duration = (endTime - startTime) / 1000;
+
+      const gameResultData: DetailedGameResult = {
+        gameId: generateGameId(),
+        userId: "user", // Will be updated by UserStatsManager
+        mode: "random",
+        startTime: new Date(startTime).toISOString(),
+        endTime: new Date(endTime).toISOString(),
+        duration,
+        wpm: metrics.wordsPerMinute,
+        cpm: metrics.charactersPerMinute,
+        accuracy: metrics.accuracyPercentage,
+        mistakeCount,
+        backspaceCount,
+        keystrokeData: [],
+        characterStats: {},
+        contentMetadata: {
+          source: "random-characters",
+          totalCharacters: codeableKeys.length,
+          uniqueCharacters: new Set(codeableKeys.map((c) => c.char)).size,
+        },
+        wrongCharacters: getWrongCharactersArray(),
+      };
+
+      setGameResult(gameResultData); // Set game result synchronously
       setIsComplete(true); // Use setIsComplete
+
       // Send finished game data to API
       recordGameStats({
         gameType,
