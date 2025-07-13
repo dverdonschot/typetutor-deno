@@ -161,6 +161,21 @@ const TrigraphsTyperMode: FC = () => {
     }
   }, [typedCount, startTime]);
 
+  // Effect to focus the input after initial content load
+  useEffect(() => {
+    if (
+      !isLoading && !error && targetText && hiddenInputRef.current
+    ) {
+      // Use a small timeout to ensure the element is focusable after render updates
+      const focusTimer = setTimeout(() => {
+        hiddenInputRef.current?.focus();
+        console.log("Attempted to focus hidden input.");
+      }, 100); // 100ms delay, adjust if needed
+
+      return () => clearTimeout(focusTimer); // Cleanup timer
+    }
+  }, [isLoading, error, targetText]);
+
   // Calculate typing metrics
   const metrics = useTypingMetrics(
     charStates.map((cs) => ({
@@ -428,20 +443,7 @@ const TrigraphsTyperMode: FC = () => {
             />
           </>
         )}
-        {/* Effect to focus the input after initial content load */}
-        {useEffect(() => {
-          if (
-            !isLoading && !error && targetText && hiddenInputRef.current
-          ) {
-            // Use a small timeout to ensure the element is focusable after render updates
-            const focusTimer = setTimeout(() => {
-              hiddenInputRef.current?.focus();
-              console.log("Attempted to focus hidden input.");
-            }, 100); // 100ms delay, adjust if needed
-
-            return () => clearTimeout(focusTimer); // Cleanup timer
-          }
-        }, [isLoading, error, targetText])} {/* Dependencies */}
+        {/* Focus effect moved to hook declarations section */}
         {!isLoading && !error && !targetText && !selectedTrigraph && (
           <div class="text-center text-gray-500">
             {/* Removed padding */}

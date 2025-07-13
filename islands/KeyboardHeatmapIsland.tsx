@@ -13,7 +13,9 @@ interface KeyDetailsModalProps {
   onClose: () => void;
 }
 
-function KeyDetailsModal({ keyCode, keyData, onClose }: KeyDetailsModalProps) {
+function KeyDetailsModal(
+  { keyCode: _keyCode, keyData, onClose }: KeyDetailsModalProps,
+) {
   const accuracy = keyData.totalPresses > 0
     ? ((keyData.totalPresses - keyData.errorCount) / keyData.totalPresses * 100)
       .toFixed(1)
@@ -41,6 +43,7 @@ function KeyDetailsModal({ keyCode, keyData, onClose }: KeyDetailsModalProps) {
             Key Details: {keyData.keyLabel}
           </h3>
           <button
+            type="button"
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 text-xl"
           >
@@ -86,6 +89,7 @@ function KeyDetailsModal({ keyCode, keyData, onClose }: KeyDetailsModalProps) {
 
         <div className="mt-6 flex justify-end">
           <button
+            type="button"
             onClick={onClose}
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
           >
@@ -155,6 +159,7 @@ export default function KeyboardHeatmapIsland() {
             View:
           </span>
           <button
+            type="button"
             onClick={() => setColorScheme("errors")}
             className={`px-3 py-1 rounded text-sm transition-colors ${
               colorScheme === "errors"
@@ -165,6 +170,7 @@ export default function KeyboardHeatmapIsland() {
             Errors
           </button>
           <button
+            type="button"
             onClick={() => setColorScheme("speed")}
             className={`px-3 py-1 rounded text-sm transition-colors ${
               colorScheme === "speed"
@@ -175,6 +181,7 @@ export default function KeyboardHeatmapIsland() {
             Speed
           </button>
           <button
+            type="button"
             onClick={() => setColorScheme("accuracy")}
             className={`px-3 py-1 rounded text-sm transition-colors ${
               colorScheme === "accuracy"

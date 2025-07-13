@@ -1,4 +1,8 @@
-import { KeyboardLayout, KeyDefinition, KeyRow } from "../types/userStats.ts";
+import {
+  KeyboardLayout,
+  KeyDefinition,
+  KeyRow as _KeyRow,
+} from "../types/userStats.ts";
 
 // QWERTY keyboard layout with complete position mapping
 export const QWERTY_LAYOUT: KeyboardLayout = {
@@ -617,18 +621,21 @@ export function getKeyByCode(keyCode: string): KeyDefinition | null {
 /**
  * Validate keyboard data structure
  */
-export function validateKeyboardData(data: any): boolean {
+export function validateKeyboardData(data: unknown): boolean {
   if (!data || typeof data !== "object") {
     return false;
   }
 
+  // Type guard to check if data has the expected properties
+  const dataObj = data as Record<string, unknown>;
+
   // Check if it has the required structure
-  if (!data.name || !data.layout || !Array.isArray(data.rows)) {
+  if (!dataObj.name || !dataObj.layout || !Array.isArray(dataObj.rows)) {
     return false;
   }
 
   // Validate each row
-  for (const row of data.rows) {
+  for (const row of dataObj.rows) {
     if (!Array.isArray(row.keys) || typeof row.rowIndex !== "number") {
       return false;
     }

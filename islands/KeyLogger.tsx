@@ -7,7 +7,7 @@ import { useTypingMetrics } from "../hooks/useTypingMetrics.ts";
 import GameScoreDisplayIsland from "./GameScoreDisplayIsland.tsx";
 import { recordGameStats } from "../utils/recordGameStats.ts";
 import { UserStatsManager } from "../utils/userStatsManager.ts";
-import { DetailedGameResult } from "../types/userStats.ts";
+import { CharacterStats, DetailedGameResult } from "../types/userStats.ts";
 
 interface KeyLoggerProps {
   codeableKeys: TrainingChar[];
@@ -67,7 +67,7 @@ const KeyLogger: FC<KeyLoggerProps> = (
       }));
 
       // Generate character stats from training characters
-      const characterStats: { [char: string]: any } = {};
+      const characterStats: { [char: string]: CharacterStats } = {};
       codeableKeys.forEach((char) => {
         if (!characterStats[char.char]) {
           characterStats[char.char] = {

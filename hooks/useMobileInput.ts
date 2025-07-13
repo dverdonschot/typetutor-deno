@@ -53,10 +53,10 @@ const processInput = (
   let newCorrectCount = 0;
   let newMistakeCount = 0;
   let newBackspaceCount = currentState.backspaceCount;
-  let newKeystrokeData = [...currentState.keystrokeData];
+  const newKeystrokeData = [...currentState.keystrokeData];
   let newStartTime = currentState.startTime;
   let newLastKeystrokeTime = currentState.lastKeystrokeTime;
-  let newWrongCharactersInGame = new Map(currentState.wrongCharactersInGame);
+  const newWrongCharactersInGame = new Map(currentState.wrongCharactersInGame);
 
   // Set start time on first keystroke
   if (newStartTime === null && currentValue.length > 0) {
@@ -199,7 +199,7 @@ export function useMobileInput(codeableKeys: TrainingChar[]) {
   const getCharacterStats = useCallback((): Record<string, CharacterStats> => {
     const charStats: Record<string, CharacterStats> = {};
 
-    state.keystrokeData.forEach((keystroke, index) => {
+    state.keystrokeData.forEach((keystroke, _index) => {
       const char = keystroke.expectedChar;
       if (!charStats[char]) {
         charStats[char] = {

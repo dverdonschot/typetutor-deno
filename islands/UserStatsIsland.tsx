@@ -406,7 +406,8 @@ export default function UserStatsIsland() {
       <div className="text-center py-8">
         <div className="text-red-600 mb-4">{error}</div>
         <button
-          onClick={() => window.location.reload()}
+          type="button"
+          onClick={() => globalThis.location.reload()}
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
           Retry
@@ -502,6 +503,7 @@ export default function UserStatsIsland() {
         <h2 className="text-xl font-semibold mb-4">Data Management</h2>
         <div className="flex flex-wrap gap-4">
           <button
+            type="button"
             onClick={handleExportStats}
             className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
           >
@@ -519,6 +521,7 @@ export default function UserStatsIsland() {
           </label>
 
           <button
+            type="button"
             onClick={handleClearStats}
             className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
           >

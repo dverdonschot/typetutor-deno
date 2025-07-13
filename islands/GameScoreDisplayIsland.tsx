@@ -129,7 +129,7 @@ export default function GameScoreDisplayIsland(
                 <KeyboardHeatmap
                   heatmapData={createGameHeatmapData(gameResult)}
                   colorScheme="game-errors"
-                  showLabels={true}
+                  showLabels
                   className="max-w-4xl"
                 />
               </div>

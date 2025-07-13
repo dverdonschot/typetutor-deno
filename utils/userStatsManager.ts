@@ -6,9 +6,7 @@ import {
   UserStatsData,
   UserStatsExport,
 } from "../types/userStats.ts";
-import {
-  getKeyLabel,
-} from "./keyboardLayout.ts";
+import { getKeyLabel } from "./keyboardLayout.ts";
 
 const STORAGE_KEY = "typetutor_user_stats";
 const USER_ID_KEY = "typetutor_user_id";

@@ -130,7 +130,7 @@ function getKeyWidthClass(width: number): string {
 function getKeyTooltip(
   keyCode: string,
   keyData: KeyboardHeatmapData[string] | undefined,
-  colorScheme: HeatmapColorScheme,
+  _colorScheme: HeatmapColorScheme,
 ): string {
   if (!keyData) return `${keyCode}: No data`;
 
@@ -169,6 +169,7 @@ export default function KeyboardHeatmap({
 
               return (
                 <button
+                  type="button"
                   key={key.keyCode}
                   className={`
                     keyboard-key

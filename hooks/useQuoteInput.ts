@@ -6,7 +6,7 @@ import {
   KeystrokeData,
 } from "../types/userStats.ts";
 import {
-  getKeyLabel,
+  getKeyLabel as _getKeyLabel,
   getKeyPosition,
   mapCharToKeyCode,
 } from "../utils/keyboardLayout.ts";
@@ -113,10 +113,10 @@ export function useQuoteInput(targetText: string) {
 
       const now = Date.now();
       let newBackspaceCount = state.backspaceCount;
-      let newKeystrokeData = [...state.keystrokeData];
+      const newKeystrokeData = [...state.keystrokeData];
       let newStartTime = state.startTime;
       let newLastKeystrokeTime = state.lastKeystrokeTime;
-      let newWrongCharactersInGame = new Map(state.wrongCharactersInGame);
+      const newWrongCharactersInGame = new Map(state.wrongCharactersInGame);
 
       // Set start time on first keystroke
       if (newStartTime === null && currentValue.length > 0) {
@@ -361,7 +361,7 @@ export function useQuoteInput(targetText: string) {
   const getCharacterStats = useCallback((): Record<string, CharacterStats> => {
     const charStats: Record<string, CharacterStats> = {};
 
-    state.keystrokeData.forEach((keystroke, index) => {
+    state.keystrokeData.forEach((keystroke, _index) => {
       const char = keystroke.expectedChar;
       if (!charStats[char]) {
         charStats[char] = {
