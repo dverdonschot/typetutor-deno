@@ -1,19 +1,13 @@
 import {
-  CharacterStats,
   DetailedGameResult,
   KeyboardHeatmapData,
-  KeyboardKeyData,
-  PerformanceTrendData,
   PerformanceTrends,
   ProgressSummary,
-  UserCharacterStats,
   UserStatsData,
   UserStatsExport,
 } from "../types/userStats.ts";
 import {
   getKeyLabel,
-  getKeyPosition,
-  mapCharToKeyCode,
 } from "./keyboardLayout.ts";
 
 const STORAGE_KEY = "typetutor_user_stats";
@@ -46,10 +40,10 @@ export class UserStatsManager {
   /**
    * Initialize the stats manager
    */
-  async initialize(): Promise<void> {
+  initialize(): void {
     if (this.initialized) return;
 
-    await this.loadStats();
+    this.loadStats();
     this.initialized = true;
   }
 
@@ -77,7 +71,7 @@ export class UserStatsManager {
   /**
    * Load stats from localStorage
    */
-  private async loadStats(): Promise<void> {
+  private loadStats(): void {
     try {
       const storedStats = localStorage.getItem(STORAGE_KEY);
       if (storedStats) {
@@ -100,7 +94,7 @@ export class UserStatsManager {
   /**
    * Save stats to localStorage
    */
-  private async saveStats(): Promise<void> {
+  private saveStats(): void {
     if (!this.stats) return;
 
     try {
@@ -152,7 +146,7 @@ export class UserStatsManager {
   /**
    * Validate stats data structure
    */
-  private validateStatsData(data: any): boolean {
+  private validateStatsData(data: unknown): boolean {
     if (!data || typeof data !== "object") return false;
 
     const requiredFields = [
@@ -181,9 +175,9 @@ export class UserStatsManager {
   /**
    * Get user stats
    */
-  async getUserStats(): Promise<UserStatsData> {
+  getUserStats(): UserStatsData {
     if (!this.initialized) {
-      await this.initialize();
+      this.initialize();
     }
 
     if (!this.stats) {
@@ -201,9 +195,9 @@ export class UserStatsManager {
   /**
    * Update stats with new game result
    */
-  async updateStats(gameResult: DetailedGameResult): Promise<void> {
+  updateStats(gameResult: DetailedGameResult): void {
     if (!this.initialized) {
-      await this.initialize();
+      this.initialize();
     }
 
     if (!this.stats) {
@@ -234,7 +228,7 @@ export class UserStatsManager {
     // Update aggregate analysis
     this.updateAggregateAnalysis();
 
-    await this.saveStats();
+    this.saveStats();
   }
 
   /**
@@ -446,7 +440,7 @@ export class UserStatsManager {
   /**
    * Update character error statistics
    */
-  private updateCharacterErrorStats(gameResult: DetailedGameResult): void {
+  private updateCharacterErrorStats(_gameResult: DetailedGameResult): void {
     if (!this.stats) return;
 
     // This method is called during updateStats, but the actual calculation
@@ -717,9 +711,9 @@ export class UserStatsManager {
   /**
    * Export user stats
    */
-  async exportStats(): Promise<string> {
+  exportStats(): string {
     if (!this.stats) {
-      await this.initialize();
+      this.initialize();
     }
 
     const exportData: UserStatsExport = {
@@ -734,7 +728,7 @@ export class UserStatsManager {
   /**
    * Import user stats
    */
-  async importStats(data: string): Promise<boolean> {
+  importStats(data: string): boolean {
     try {
       const importData: UserStatsExport = JSON.parse(data);
 
@@ -747,7 +741,7 @@ export class UserStatsManager {
       }
 
       this.stats = importData.data;
-      await this.saveStats();
+      this.saveStats();
       return true;
     } catch (error) {
       console.error("Error importing stats:", error);
@@ -758,16 +752,16 @@ export class UserStatsManager {
   /**
    * Clear all user stats
    */
-  async clearStats(): Promise<void> {
+  clearStats(): void {
     localStorage.removeItem(STORAGE_KEY);
     this.stats = this.createEmptyStats();
-    await this.saveStats();
+    this.saveStats();
   }
 
   /**
    * Reset session stats
    */
-  async resetSession(): Promise<void> {
+  resetSession(): void {
     if (!this.stats) return;
 
     this.stats.sessionStats = {
@@ -777,6 +771,6 @@ export class UserStatsManager {
       currentSessionAccuracy: [],
     };
 
-    await this.saveStats();
+    this.saveStats();
   }
 }
