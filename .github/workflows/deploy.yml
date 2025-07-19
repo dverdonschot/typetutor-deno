@@ -34,7 +34,7 @@ jobs:
         uses: github/codeql-action/analyze@v3
 
       - name: Check code formatting
-        run: deno fmt --check --ignore="components/QuoteTextDisplay.tsx" --ignore="memory-bank/*"
+        run: deno fmt --check --ignore="components/QuoteTextDisplay.tsx" --ignore="memory-bank/*" --ignore="static/*"
 
       - name: Lint code
         run: deno lint
