@@ -376,9 +376,9 @@ const TrigraphsTyperMode: FC = () => {
               <div class="w-full mt-4 flex flex-wrap gap-4 items-center">
                 {/* Make selection area full width, add margin-top, use flexbox */}
                 <div>
-                  <h3 class="text-lg font-normal mb-2">Select a Trigraph:</h3>
-                  {" "}
-                  {/* Changed font-bold to font-normal */}
+                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Select a Trigraph
+                  </label>
                   {availableTrigraphs.length > 0 && (
                     <ContentSelector
                       contentItems={availableTrigraphs.map((trigraph) => ({
@@ -409,7 +409,11 @@ const TrigraphsTyperMode: FC = () => {
                   />
                 </div>
                 {/* Random Trigraph Button */}
-                <button
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1 opacity-0">
+                    Toggle
+                  </label>
+                  <button
                   type="button"
                   onClick={() => {
                     const newState = !isRandomTrigraphEnabled;
@@ -421,16 +425,17 @@ const TrigraphsTyperMode: FC = () => {
                       );
                     }
                   }}
-                  class={`px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                  class={`px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-opacity ${
                     isRandomTrigraphEnabled
-                      ? "bg-tt-darkblue text-white hover:bg-blue-800 focus:ring-tt-darkblue"
-                      : "bg-tt-lightblue text-gray-800 hover:bg-blue-300 focus:ring-tt-lightblue"
+                      ? "bg-tt-lightblue text-white hover:bg-tt-lightblue-darker hover:opacity-80 focus:ring-tt-lightblue"
+                      : "bg-tt-darkblue text-white hover:bg-blue-800 hover:opacity-80 focus:ring-tt-darkblue"
                   }`}
                 >
                   {isRandomTrigraphEnabled
                     ? "Random Trigraph Enabled"
                     : "Random Trigraph Disabled"}
                 </button>
+                </div>
               </div>
             </div>
 

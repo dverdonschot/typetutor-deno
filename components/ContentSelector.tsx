@@ -70,7 +70,7 @@ export default function ContentSelector(
   };
 
   return (
-    <div class="mb-4">
+    <div>
       {!hideLabel && ( // Conditionally render the label
         <label
           htmlFor="content-selector"
