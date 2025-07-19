@@ -43,6 +43,7 @@ export default function QuoteTyperMode(
     false,
   ); // Track initial load
   const [gameResult, setGameResult] = useState<DetailedGameResult | null>(null); // Store game result
+  const [showCompletion, setShowCompletion] = useState<boolean>(false); // Track if we should show completion summary
   const hiddenInputRef = useRef<HTMLInputElement>(null); // Ref for the hidden input
 
   // Determine the localStorage key based on content type
@@ -129,6 +130,8 @@ export default function QuoteTyperMode(
     const randomId = relevantContentItems[randomIndex].id;
     setSelectedContentId(randomId);
     localStorage.setItem(localStorageKey, randomId); // Save random selection to the correct key
+    setGameResult(null); // Clear game result when loading random content
+    setShowCompletion(false); // Hide completion summary for new content
     console.log(`Loaded random ${contentType || "item"}:`, randomId);
   }, [
     relevantContentItems,
@@ -297,6 +300,7 @@ export default function QuoteTyperMode(
 
       // Send detailed stats to UserStatsManager
       sendDetailedStats();
+      setShowCompletion(true); // Show completion summary
       finishedSentRef.current = true; // Mark as sent for this quote
     }
 
@@ -324,6 +328,7 @@ export default function QuoteTyperMode(
 
       // Send detailed stats to UserStatsManager
       sendDetailedStats();
+      setShowCompletion(true); // Show completion summary
       finishedSentRef.current = true;
     }
 
@@ -338,7 +343,9 @@ export default function QuoteTyperMode(
         setTargetText(allQuotes[nextQuoteIndex]);
         resetInput();
         setStartTime(Date.now());
-        setGameResult(null); // Clear previous game result
+        setShowCompletion(false); // Hide completion summary for new quote
+        // Don't clear game result when auto-advancing to next quote
+        // Only clear when user manually selects new content
         finishedSentRef.current = false;
       }, 6000);
 
@@ -359,9 +366,24 @@ export default function QuoteTyperMode(
   const handleSelectContent = useCallback((id: string) => {
     setSelectedContentId(id);
     localStorage.setItem(localStorageKey, id); // Save selection to the correct key
+    setGameResult(null); // Clear game result when manually selecting new content
+    setShowCompletion(false); // Hide completion summary for new content
     // Resetting input state is handled by useQuoteInput's useEffect when targetText changes
     // Resetting quote index and array is handled in the fetch effect
   }, [localStorageKey]); // Add localStorageKey dependency
+
+  // Function to handle practice again button - resets both input and completion state
+  const handlePracticeAgain = useCallback(() => {
+    resetInput();
+    setShowCompletion(false);
+    setGameResult(null);
+    finishedSentRef.current = false;
+    setStartTime(null);
+    // Focus the input after reset
+    setTimeout(() => {
+      hiddenInputRef.current?.focus();
+    }, 100);
+  }, [resetInput]);
 
   // loadRandomItem function moved above the useEffect that uses it.
 
@@ -467,11 +489,11 @@ export default function QuoteTyperMode(
           </div>
 
           {/* Optional: Reset button or completion message */}
-          {isComplete && (
+          {showCompletion && (
             <GameScoreDisplayIsland
               metrics={metrics}
-              isComplete={isComplete}
-              onPracticeAgain={resetInput}
+              isComplete={showCompletion}
+              onPracticeAgain={handlePracticeAgain}
               onNextGame={loadRandomItem}
               gameType="quote"
               gameResult={gameResult || undefined}

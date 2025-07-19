@@ -134,6 +134,22 @@ export function useQuoteInput(targetText: string) {
         // Reset states for characters that were backspaced over
         for (let i = currentLength; i < previousLength; i++) {
           if (newStates[i]) {
+            // If this character was marked as incorrect, we need to remove it from error tracking
+            if (newStates[i].state === "incorrect") {
+              const targetChar = targetText[i];
+              const existing = newWrongCharactersInGame.get(targetChar);
+              if (existing) {
+                const positionIndex = existing.positions.indexOf(i);
+                if (positionIndex > -1) {
+                  existing.positions.splice(positionIndex, 1);
+                  existing.errorCount--;
+                  // If no more errors for this character, remove it entirely
+                  if (existing.errorCount <= 0) {
+                    newWrongCharactersInGame.delete(targetChar);
+                  }
+                }
+              }
+            }
             newStates[i].state = "none";
             newStates[i].typed = null;
           }
@@ -195,12 +211,13 @@ export function useQuoteInput(targetText: string) {
               newStates[i].typed = typedChar; // Store the incorrect typed character
             }
 
-            // Always track character errors when state is incorrect for newlines too
+            // Only track character errors when this is a NEW mistake (not already tracked for this position)
             if (newStates[i].state === "incorrect") {
               const existing = newWrongCharactersInGame.get(targetChar);
               if (existing) {
-                existing.errorCount++;
+                // Only increment if this position hasn't been tracked yet
                 if (!existing.positions.includes(i)) {
+                  existing.errorCount++;
                   existing.positions.push(i);
                 }
               } else {
@@ -227,12 +244,13 @@ export function useQuoteInput(targetText: string) {
               }
             }
 
-            // Always track character errors when state is incorrect, regardless of the condition above
+            // Only track character errors when this is a NEW mistake (not already tracked for this position)
             if (newStates[i].state === "incorrect") {
               const existing = newWrongCharactersInGame.get(targetChar);
               if (existing) {
-                existing.errorCount++;
+                // Only increment if this position hasn't been tracked yet
                 if (!existing.positions.includes(i)) {
+                  existing.errorCount++;
                   existing.positions.push(i);
                 }
               } else {
@@ -391,10 +409,12 @@ export function useQuoteInput(targetText: string) {
   // Get wrong characters array from Map
   const getWrongCharactersArray = useCallback((): GameWrongCharacterData[] => {
     const wrongChars = Array.from(state.wrongCharactersInGame.values());
+    const totalErrors = wrongChars.reduce((sum, char) => sum + char.errorCount, 0);
     console.log(
-      `getWrongCharactersArray called, returning ${wrongChars.length} wrong characters:`,
+      `getWrongCharactersArray called, returning ${wrongChars.length} wrong characters with ${totalErrors} total errors:`,
       wrongChars,
     );
+    console.log('Current wrongCharactersInGame Map:', state.wrongCharactersInGame);
     return wrongChars;
   }, [state.wrongCharactersInGame]);
 

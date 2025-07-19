@@ -128,13 +128,15 @@ const TrigraphsTyperMode: FC = () => {
   const resetInputAndMaybeRandom = useCallback(() => {
     resetInput(); // Call the original resetInput from the hook
     setHasCompleted(false); // Always reset hasCompleted when practicing again
-    setGameResult(null); // Clear previous game result
+    // Only clear game result if we're switching to a different trigraph
     if (isRandomTrigraphEnabled && availableTrigraphs.length > 0) {
       // Select a new random trigraph if random mode is enabled
       const randomIndex = Math.floor(Math.random() * availableTrigraphs.length);
       setSelectedTrigraph(availableTrigraphs[randomIndex]);
+      setGameResult(null); // Clear game result only when switching trigraphs
       // Note: This will trigger the useEffect that fetches words for the new trigraph
     }
+    // If not random mode, keep the same trigraph and preserve game result
   }, [
     resetInput,
     isRandomTrigraphEnabled,
@@ -299,6 +301,7 @@ const TrigraphsTyperMode: FC = () => {
   const handleSelectTrigraph = (trigraph: string) => {
     setSelectedTrigraph(trigraph);
     localStorage.setItem(localStorageKey, trigraph); // Save selection to local storage
+    setGameResult(null); // Clear game result when manually selecting a new trigraph
   };
 
   // Handler for word count change

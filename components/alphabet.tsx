@@ -2,7 +2,7 @@ import KeyLogger from "../islands/KeyLogger.tsx";
 import { PredefinedTrainingSet } from "../functions/predefinedTrainingSet.ts";
 
 export function Alphabet() {
-  const alphabet = "abcdefghijklmnopqrstuvwxz";
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
   const trainingSet = PredefinedTrainingSet(alphabet);
 
   const handlePracticeAgain = () => {
