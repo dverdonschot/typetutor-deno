@@ -13,7 +13,7 @@ import {
 
 /**
  * Helper function to initialize character states from the target text
- * 
+ *
  * Creates an array of DisplayCharState objects for each character in the text.
  * Used to track the visual state (correct/incorrect/current) of each character.
  */
@@ -27,7 +27,7 @@ const initializeCharStates = (text: string): DisplayCharState[] => {
 
 /**
  * Internal state interface for the useQuoteInput hook
- * 
+ *
  * This interface tracks all user data during a typing session:
  * - Visual character states for rendering
  * - Performance metrics (counts, timing)
@@ -50,21 +50,21 @@ interface QuoteInputState {
 
 /**
  * Custom hook for managing typing input and user data collection
- * 
+ *
  * This hook is the core of TypeTutor's data collection system. It:
  * 1. Tracks every keystroke with timing and accuracy data
  * 2. Maintains visual state for character-by-character feedback
  * 3. Collects detailed error information for keyboard heatmaps
  * 4. Calculates real-time performance metrics
- * 
+ *
  * Data Collection:
  * - Every key press is logged with timestamp and position data
  * - Errors are tracked by character and position for analysis
  * - Backspace usage is monitored for typing pattern insights
- * 
+ *
  * Usage: Called by typing components (QuoteTyperMode, TrigraphsTyperMode, etc.)
  * Output: Provides game result data to UserStatsManager when complete
- * 
+ *
  * @param targetText The text the user should type
  * @returns Object with input handlers, state, and performance data
  */

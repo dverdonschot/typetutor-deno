@@ -14,22 +14,22 @@ const VERSION = "1.0.0";
 
 /**
  * UserStatsManager - Singleton class for managing user statistics
- * 
+ *
  * This class handles all user data operations for TypeTutor including:
  * - User identification via secure random IDs
  * - Persistent storage of typing statistics in localStorage
  * - Aggregation of game results into comprehensive metrics
  * - Keyboard heatmap data generation
  * - Performance trend tracking
- * 
+ *
  * Data Flow:
  * 1. User starts typing → useQuoteInput hook tracks keystrokes
  * 2. Game completes → DetailedGameResult sent to addGameResult()
  * 3. Stats aggregated → Character stats, WPM trends, heatmap updated
  * 4. Data persisted → localStorage updated with new statistics
- * 
+ *
  * Privacy: All data is stored locally in the browser. No server transmission.
- * 
+ *
  * @example
  * const statsManager = UserStatsManager.getInstance();
  * statsManager.initialize();
@@ -67,13 +67,13 @@ export class UserStatsManager {
 
   /**
    * Get or create user ID
-   * 
+   *
    * Generates a unique, anonymous user identifier for tracking statistics.
    * Format: "user_{timestamp}_{secureRandomString}"
-   * 
+   *
    * Security: Uses crypto.getRandomValues() for cryptographically secure randomness
    * Storage: Persists in localStorage under "typetutor_user_id" key
-   * 
+   *
    * @returns Unique user identifier string
    */
   private getOrCreateUserId(): string {
@@ -102,10 +102,10 @@ export class UserStatsManager {
 
   /**
    * Load stats from localStorage
-   * 
+   *
    * Retrieves and validates user statistics from browser storage.
    * Falls back to empty stats if data is corrupted or missing.
-   * 
+   *
    * Storage Key: "typetutor_user_stats"
    * Validation: Ensures all required fields are present
    * Error Handling: Creates fresh stats on any loading error
@@ -132,10 +132,10 @@ export class UserStatsManager {
 
   /**
    * Save stats to localStorage
-   * 
+   *
    * Persists current user statistics to browser storage.
    * Updates lastUpdated timestamp before saving.
-   * 
+   *
    * @throws Error if localStorage write fails
    */
   private saveStats(): void {
@@ -238,10 +238,10 @@ export class UserStatsManager {
 
   /**
    * Update stats with new game result
-   * 
+   *
    * Main entry point for processing completed typing games. This method
    * aggregates the game data into comprehensive user statistics.
-   * 
+   *
    * Processing Steps:
    * 1. Updates aggregate metrics (total games, characters typed, time spent)
    * 2. Updates per-character statistics (speed, accuracy per character)
@@ -252,7 +252,7 @@ export class UserStatsManager {
    * 7. Updates current session statistics
    * 8. Recalculates aggregate analysis (weakest/strongest keys)
    * 9. Persists all changes to localStorage
-   * 
+   *
    * @param gameResult Complete game data including keystrokes and errors
    */
   updateStats(gameResult: DetailedGameResult): void {

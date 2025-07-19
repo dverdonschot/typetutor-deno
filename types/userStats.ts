@@ -1,19 +1,19 @@
 /**
  * Core type definitions for user statistics and keyboard heatmap functionality
- * 
+ *
  * This file defines the data structures used throughout TypeTutor for tracking
  * user performance, keyboard usage patterns, and game statistics.
- * 
+ *
  * Data Flow Overview:
  * KeystrokeData → CharacterStats → DetailedGameResult → UserStatsData
- * 
+ *
  * Storage: All data persists in localStorage via UserStatsManager
  * Privacy: No data is transmitted to servers - everything stays local
  */
 
 /**
  * Individual keystroke event data
- * 
+ *
  * Captured for every key press during typing practice.
  * Used for detailed analysis of typing patterns and speed.
  */
@@ -30,7 +30,7 @@ export interface KeystrokeData {
 
 /**
  * Aggregated statistics for a specific character
- * 
+ *
  * Tracks performance over time for individual characters.
  * Used to identify which characters a user struggles with.
  */
@@ -42,7 +42,7 @@ export interface CharacterStats {
 
 /**
  * Complete result data for a single typing game
- * 
+ *
  * Generated when a user completes a typing exercise. Contains all
  * performance metrics, keystroke data, and error information.
  * This is the primary data structure sent to UserStatsManager.updateStats()
@@ -105,10 +105,10 @@ export interface PerformanceTrendData {
 
 /**
  * Complete user statistics data structure
- * 
+ *
  * This is the main data structure stored in localStorage that contains
  * all accumulated user performance data across all typing sessions.
- * 
+ *
  * Updated by: UserStatsManager.updateStats() after each game
  * Storage: localStorage key "typetutor_user_stats"
  * Size limit: Keeps last 100 games to prevent storage bloat

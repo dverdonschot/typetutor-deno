@@ -1,16 +1,16 @@
 /**
  * Keyboard Layout and Heatmap Utilities
- * 
+ *
  * This module provides the physical keyboard layout mapping used for:
  * 1. Converting typed characters to physical key positions
  * 2. Generating keyboard heatmaps showing error frequency
  * 3. Mapping characters to their corresponding physical keys
- * 
+ *
  * Key Concepts:
  * - keyCode: Physical key identifier (e.g., "KeyA", "Digit1")
  * - character: What appears when the key is pressed (e.g., "a", "1")
  * - position: Row/column coordinates for visual heatmap display
- * 
+ *
  * Data Flow:
  * Character typed → mapCharToKeyCode() → getKeyPosition() → Heatmap coordinates
  */
@@ -23,7 +23,7 @@ import {
 
 /**
  * QWERTY keyboard layout with complete position mapping
- * 
+ *
  * Defines the physical layout of a standard QWERTY keyboard including:
  * - Key positions (row/column coordinates)
  * - Character mappings for each key
@@ -601,10 +601,10 @@ buildLookupMaps();
 
 /**
  * Get the position of a key on the keyboard
- * 
+ *
  * Converts a physical key code to its visual position on the keyboard.
  * Used for placing error indicators on the keyboard heatmap.
- * 
+ *
  * @param keyCode Physical key identifier (e.g., "KeyA", "Digit1")
  * @returns Row/column coordinates or null if key not found
  */
@@ -616,10 +616,10 @@ export function getKeyPosition(
 
 /**
  * Get the visual label for a physical key
- * 
+ *
  * Returns the character that appears on the key cap.
  * Used for displaying key labels in the heatmap visualization.
- * 
+ *
  * @param keyCode Physical key identifier
  * @returns Visual label for the key
  */
@@ -629,18 +629,18 @@ export function getKeyLabel(keyCode: string): string {
 
 /**
  * Map a typed character to its physical key code
- * 
+ *
  * Core function for keyboard heatmap generation. Converts the character
  * that was typed (correctly or incorrectly) to the physical key that
  * should have been pressed. This enables tracking errors by physical key
  * rather than by character, which is more useful for training.
- * 
+ *
  * Examples:
  * - 'a' → "KeyA"
  * - 'A' → "KeyA" (same physical key)
  * - '1' → "Digit1"
  * - '!' → "Digit1" (shift+1)
- * 
+ *
  * @param char The character that was typed
  * @returns Physical key code that produces this character
  */

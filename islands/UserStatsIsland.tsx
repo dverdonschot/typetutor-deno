@@ -267,23 +267,23 @@ function CharacterErrorStats({ characterStats }: CharacterErrorStatsProps) {
 
 /**
  * UserStatsIsland - Main user statistics dashboard component
- * 
+ *
  * This Fresh island component provides a comprehensive view of user performance data.
  * It integrates with UserStatsManager to display:
- * 
+ *
  * Features:
  * - Overall performance metrics (WPM, accuracy, games played)
  * - Game history table with detailed results
  * - Performance trends and progress tracking
  * - Data export/import functionality for backup
  * - Data clearing option for privacy
- * 
+ *
  * Data Operations:
  * - Loads data from UserStatsManager on mount
  * - Provides export functionality to download JSON file
  * - Supports import to restore backed up data
  * - Offers complete data clearing with confirmation
- * 
+ *
  * Privacy: All operations are local - no server communication
  */
 export default function UserStatsIsland() {
