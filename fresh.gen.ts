@@ -14,14 +14,17 @@ import * as $index from "./routes/index.tsx";
 import * as $quotes from "./routes/quotes.tsx";
 import * as $stats from "./routes/stats.tsx";
 import * as $trigraphs from "./routes/trigraphs.tsx";
+import * as $userstats from "./routes/userstats.tsx";
 import * as $GameScoreDisplayIsland from "./islands/GameScoreDisplayIsland.tsx";
 import * as $HamburgerMenu from "./islands/HamburgerMenu.tsx";
 import * as $KeyLogger from "./islands/KeyLogger.tsx";
+import * as $KeyboardHeatmapIsland from "./islands/KeyboardHeatmapIsland.tsx";
 import * as $QuoteTyperMode from "./islands/QuoteTyperMode.tsx";
 import * as $RandomSettings from "./islands/RandomSettings.tsx";
 import * as $RenderedQuoteResult from "./islands/RenderedQuoteResult.tsx";
 import * as $StatsPage from "./islands/StatsPage.tsx";
 import * as $TrigraphsTyperMode from "./islands/TrigraphsTyperMode.tsx";
+import * as $UserStatsIsland from "./islands/UserStatsIsland.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -38,16 +41,19 @@ const manifest = {
     "./routes/quotes.tsx": $quotes,
     "./routes/stats.tsx": $stats,
     "./routes/trigraphs.tsx": $trigraphs,
+    "./routes/userstats.tsx": $userstats,
   },
   islands: {
     "./islands/GameScoreDisplayIsland.tsx": $GameScoreDisplayIsland,
     "./islands/HamburgerMenu.tsx": $HamburgerMenu,
     "./islands/KeyLogger.tsx": $KeyLogger,
+    "./islands/KeyboardHeatmapIsland.tsx": $KeyboardHeatmapIsland,
     "./islands/QuoteTyperMode.tsx": $QuoteTyperMode,
     "./islands/RandomSettings.tsx": $RandomSettings,
     "./islands/RenderedQuoteResult.tsx": $RenderedQuoteResult,
     "./islands/StatsPage.tsx": $StatsPage,
     "./islands/TrigraphsTyperMode.tsx": $TrigraphsTyperMode,
+    "./islands/UserStatsIsland.tsx": $UserStatsIsland,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

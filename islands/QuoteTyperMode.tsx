@@ -10,6 +10,8 @@ import { useQuoteInput } from "../hooks/useQuoteInput.ts";
 import { useTypingMetrics } from "../hooks/useTypingMetrics.ts"; // Assuming this exists and is compatible
 //import { TypingMetricsDisplay } from "../components/TypingMetricsDisplay.tsx"; // Assuming this exists
 import GameScoreDisplayIsland from "./GameScoreDisplayIsland.tsx";
+import { UserStatsManager } from "../utils/userStatsManager.ts";
+import { DetailedGameResult } from "../types/userStats.ts";
 
 interface QuoteTyperModeProps {
   contentType?: "quote" | "code"; // Accept contentType prop
@@ -40,6 +42,8 @@ export default function QuoteTyperMode(
   const [initialLoadComplete, setInitialLoadComplete] = useState<boolean>(
     false,
   ); // Track initial load
+  const [gameResult, setGameResult] = useState<DetailedGameResult | null>(null); // Store game result
+  const [showCompletion, setShowCompletion] = useState<boolean>(false); // Track if we should show completion summary
   const hiddenInputRef = useRef<HTMLInputElement>(null); // Ref for the hidden input
 
   // Determine the localStorage key based on content type
@@ -126,6 +130,8 @@ export default function QuoteTyperMode(
     const randomId = relevantContentItems[randomIndex].id;
     setSelectedContentId(randomId);
     localStorage.setItem(localStorageKey, randomId); // Save random selection to the correct key
+    setGameResult(null); // Clear game result when loading random content
+    setShowCompletion(false); // Hide completion summary for new content
     console.log(`Loaded random ${contentType || "item"}:`, randomId);
   }, [
     relevantContentItems,
@@ -173,6 +179,10 @@ export default function QuoteTyperMode(
     mistakeCount,
     backspaceCount,
     isComplete, // isComplete now means the current targetText (single quote or code block) is complete
+    keystrokeData,
+    startTime: inputStartTime,
+    getCharacterStats,
+    getWrongCharactersArray,
     inputProps,
     resetInput,
   } = useQuoteInput(targetText); // Hook recalculates internally when targetText changes
@@ -203,6 +213,63 @@ export default function QuoteTyperMode(
 
   const finishedSentRef = useRef(false);
 
+  // Function to generate a unique game ID
+  const generateGameId = (): string => {
+    return `game_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`;
+  };
+
+  // Function to send detailed stats to UserStatsManager
+  const sendDetailedStats = useCallback(async () => {
+    if (!inputStartTime || !isComplete) return;
+
+    try {
+      const userStatsManager = UserStatsManager.getInstance();
+      await userStatsManager.initialize();
+
+      const endTime = Date.now();
+      const duration = (endTime - inputStartTime) / 1000; // Duration in seconds
+
+      const gameResult: DetailedGameResult = {
+        gameId: generateGameId(),
+        userId: userStatsManager.getUserId(),
+        mode: contentType === "code" ? "code" : "quotes",
+        startTime: new Date(inputStartTime).toISOString(),
+        endTime: new Date(endTime).toISOString(),
+        duration,
+        wpm: metrics.wordsPerMinute,
+        cpm: metrics.charactersPerMinute,
+        accuracy: metrics.accuracyPercentage,
+        mistakeCount,
+        backspaceCount,
+        keystrokeData,
+        characterStats: getCharacterStats(),
+        contentMetadata: {
+          source: selectedContentItem?.name || "unknown",
+          totalCharacters: targetText.length,
+          uniqueCharacters: new Set(targetText).size,
+        },
+        wrongCharacters: getWrongCharactersArray(),
+      };
+
+      await userStatsManager.updateStats(gameResult);
+      setGameResult(gameResult); // Store the game result for heatmap
+      console.log("Detailed user stats updated successfully");
+    } catch (error) {
+      console.error("Failed to update detailed user stats:", error);
+    }
+  }, [
+    inputStartTime,
+    isComplete,
+    contentType,
+    metrics,
+    mistakeCount,
+    backspaceCount,
+    keystrokeData,
+    getCharacterStats,
+    targetText,
+    selectedContentItem,
+  ]);
+
   // Effect to advance to the next quote when the current one is completed and send stats
   useEffect(() => {
     const isGameFinished = isComplete &&
@@ -214,6 +281,7 @@ export default function QuoteTyperMode(
       isComplete && selectedContentItem?.type === "quote" &&
       !finishedSentRef.current
     ) {
+      // Send to existing API
       fetch("/api/game-stats", {
         method: "POST",
         headers: {
@@ -224,11 +292,14 @@ export default function QuoteTyperMode(
           category: selectedContentItem?.name,
           isFinished: true,
         }), // Use name as category
-      }).then((response) => response.json()).then((data) => {
-        console.log("Finished quote stats sent:", data); // Keep this log for now
+      }).then((response) => response.json()).then((_data) => {
       }).catch((error) => {
         console.error("Error sending finished quote stats:", error);
       });
+
+      // Send detailed stats to UserStatsManager
+      sendDetailedStats();
+      setShowCompletion(true); // Show completion summary
       finishedSentRef.current = true; // Mark as sent for this quote
     }
 
@@ -237,6 +308,7 @@ export default function QuoteTyperMode(
       isGameFinished && selectedContentItem?.type !== "quote" &&
       !finishedSentRef.current
     ) {
+      // Send to existing API
       fetch("/api/game-stats", {
         method: "POST",
         headers: {
@@ -247,11 +319,14 @@ export default function QuoteTyperMode(
           category: selectedContentItem?.name,
           isFinished: true,
         }), // Use name as category
-      }).then((response) => response.json()).then((data) => {
-        console.log("Finished game stats sent:", data); // Keep this log for now
+      }).then((response) => response.json()).then((_data) => {
       }).catch((error) => {
         console.error("Error sending finished game stats:", error);
       });
+
+      // Send detailed stats to UserStatsManager
+      sendDetailedStats();
+      setShowCompletion(true); // Show completion summary
       finishedSentRef.current = true;
     }
 
@@ -266,6 +341,9 @@ export default function QuoteTyperMode(
         setTargetText(allQuotes[nextQuoteIndex]);
         resetInput();
         setStartTime(Date.now());
+        setShowCompletion(false); // Hide completion summary for new quote
+        // Don't clear game result when auto-advancing to next quote
+        // Only clear when user manually selects new content
         finishedSentRef.current = false;
       }, 6000);
 
@@ -279,15 +357,31 @@ export default function QuoteTyperMode(
     resetInput,
     targetText, // Add targetText to dependencies
     contentType, // Add contentType to dependencies
+    sendDetailedStats, // Add sendDetailedStats to dependencies
   ]); // Dependencies
 
   // Handler for the ContentSelector change
   const handleSelectContent = useCallback((id: string) => {
     setSelectedContentId(id);
     localStorage.setItem(localStorageKey, id); // Save selection to the correct key
+    setGameResult(null); // Clear game result when manually selecting new content
+    setShowCompletion(false); // Hide completion summary for new content
     // Resetting input state is handled by useQuoteInput's useEffect when targetText changes
     // Resetting quote index and array is handled in the fetch effect
   }, [localStorageKey]); // Add localStorageKey dependency
+
+  // Function to handle practice again button - resets both input and completion state
+  const handlePracticeAgain = useCallback(() => {
+    resetInput();
+    setShowCompletion(false);
+    setGameResult(null);
+    finishedSentRef.current = false;
+    setStartTime(null);
+    // Focus the input after reset
+    setTimeout(() => {
+      hiddenInputRef.current?.focus();
+    }, 100);
+  }, [resetInput]);
 
   // loadRandomItem function moved above the useEffect that uses it.
 
@@ -393,13 +487,14 @@ export default function QuoteTyperMode(
           </div>
 
           {/* Optional: Reset button or completion message */}
-          {isComplete && (
+          {showCompletion && (
             <GameScoreDisplayIsland
               metrics={metrics}
-              isComplete={isComplete}
-              onPracticeAgain={resetInput}
+              isComplete={showCompletion}
+              onPracticeAgain={handlePracticeAgain}
               onNextGame={loadRandomItem}
               gameType="quote"
+              gameResult={gameResult || undefined}
             />
           )}
         </>
