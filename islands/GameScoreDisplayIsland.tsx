@@ -10,9 +10,12 @@ function createGameHeatmapData(
 ): KeyboardHeatmapData {
   const heatmapData: KeyboardHeatmapData = {};
 
-  console.log('=== DEBUG: createGameHeatmapData ===');
-  console.log('gameResult.wrongCharacters:', gameResult.wrongCharacters);
-  console.log('gameResult.keystrokeData length:', gameResult.keystrokeData.length);
+  console.log("=== DEBUG: createGameHeatmapData ===");
+  console.log("gameResult.wrongCharacters:", gameResult.wrongCharacters);
+  console.log(
+    "gameResult.keystrokeData length:",
+    gameResult.keystrokeData.length,
+  );
 
   // First, count total presses per key from keystroke data
   const keyPressCount = new Map<string, number>();
@@ -20,7 +23,7 @@ function createGameHeatmapData(
     const count = keyPressCount.get(keystroke.keyCode) || 0;
     keyPressCount.set(keystroke.keyCode, count + 1);
   });
-  console.log('keyPressCount:', keyPressCount);
+  console.log("keyPressCount:", keyPressCount);
 
   // Group wrong characters by their key code (physical key)
   const keyErrorMap = new Map<string, {
@@ -34,7 +37,9 @@ function createGameHeatmapData(
     const keyCode = mapCharToKeyCode(wrongChar.expectedChar);
     const position = getKeyPosition(keyCode) || { row: 0, col: 0 };
 
-    console.log(`Mapping char "${wrongChar.expectedChar}" to keyCode "${keyCode}", errorCount: ${wrongChar.errorCount}`);
+    console.log(
+      `Mapping char "${wrongChar.expectedChar}" to keyCode "${keyCode}", errorCount: ${wrongChar.errorCount}`,
+    );
 
     if (!keyErrorMap.has(keyCode)) {
       keyErrorMap.set(keyCode, {
@@ -59,7 +64,9 @@ function createGameHeatmapData(
     );
     const totalPresses = keyPressCount.get(keyCode) || totalErrors;
 
-    console.log(`Key ${keyCode}: ${totalErrors} errors out of ${totalPresses} presses`);
+    console.log(
+      `Key ${keyCode}: ${totalErrors} errors out of ${totalPresses} presses`,
+    );
 
     // Create label showing both cases if applicable
     const labelParts = keyData.characters.map((char) =>
@@ -77,8 +84,8 @@ function createGameHeatmapData(
     };
   });
 
-  console.log('Final heatmapData:', heatmapData);
-  console.log('=== END DEBUG ===');
+  console.log("Final heatmapData:", heatmapData);
+  console.log("=== END DEBUG ===");
 
   return heatmapData;
 }

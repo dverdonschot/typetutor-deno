@@ -409,12 +409,18 @@ export function useQuoteInput(targetText: string) {
   // Get wrong characters array from Map
   const getWrongCharactersArray = useCallback((): GameWrongCharacterData[] => {
     const wrongChars = Array.from(state.wrongCharactersInGame.values());
-    const totalErrors = wrongChars.reduce((sum, char) => sum + char.errorCount, 0);
+    const totalErrors = wrongChars.reduce(
+      (sum, char) => sum + char.errorCount,
+      0,
+    );
     console.log(
       `getWrongCharactersArray called, returning ${wrongChars.length} wrong characters with ${totalErrors} total errors:`,
       wrongChars,
     );
-    console.log('Current wrongCharactersInGame Map:', state.wrongCharactersInGame);
+    console.log(
+      "Current wrongCharactersInGame Map:",
+      state.wrongCharactersInGame,
+    );
     return wrongChars;
   }, [state.wrongCharactersInGame]);
 
