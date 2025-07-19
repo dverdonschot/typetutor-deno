@@ -18,31 +18,29 @@ export default function UserStatsPage(props: PageProps) {
         />
       </Head>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Your Typing Statistics
-          </h1>
-          <p className="text-gray-600 mb-8">
-            Track your progress, identify areas for improvement, and see your
-            typing patterns.
+      <div className="p-4">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          Your Typing Statistics
+        </h1>
+        <p className="text-gray-600 mb-8">
+          Track your progress, identify areas for improvement, and see your
+          typing patterns.
+        </p>
+
+        {/* Stats Overview */}
+        <UserStatsIsland />
+
+        {/* Keyboard Heatmap */}
+        <div className="bg-white rounded-lg shadow-md p-6 mt-8">
+          <h2 className="text-xl font-semibold mb-4">
+            Overall Keyboard Heatmap
+          </h2>
+          <p className="text-gray-600 mb-4">
+            Visual representation of your overall typing performance across all
+            games and modes. This shows accumulated data from all your typing
+            sessions. Click on any key to see detailed statistics.
           </p>
-
-          {/* Stats Overview */}
-          <UserStatsIsland />
-
-          {/* Keyboard Heatmap */}
-          <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h2 className="text-xl font-semibold mb-4">
-              Overall Keyboard Heatmap
-            </h2>
-            <p className="text-gray-600 mb-4">
-              Visual representation of your overall typing performance across
-              all games and modes. This shows accumulated data from all your
-              typing sessions. Click on any key to see detailed statistics.
-            </p>
-            <KeyboardHeatmapIsland />
-          </div>
+          <KeyboardHeatmapIsland />
         </div>
       </div>
     </Layout>

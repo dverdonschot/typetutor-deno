@@ -130,13 +130,13 @@ function PerformanceTrendChart({ data, type }: PerformanceTrendChartProps) {
         <svg
           width="100%"
           height="100%"
-          viewBox="0 0 400 200"
+          viewBox="0 0 480 240"
           className="border rounded"
         >
           {/* Grid lines */}
           <defs>
             <pattern
-              id="grid"
+              id={`grid-${type}`}
               width="40"
               height="20"
               patternUnits="userSpaceOnUse"
@@ -149,7 +149,76 @@ function PerformanceTrendChart({ data, type }: PerformanceTrendChartProps) {
               />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
+          <rect
+            x="70"
+            y="10"
+            width="380"
+            height="180"
+            fill={`url(#grid-${type})`}
+          />
+
+          {/* Y-axis labels */}
+          <text
+            x="20"
+            y="15"
+            fontSize="10"
+            fill="#666"
+            textAnchor="end"
+            dominantBaseline="middle"
+          >
+            {(maxValue + padding).toFixed(type === "wpm" ? 0 : 1)}
+            {type === "accuracy" ? "%" : ""}
+          </text>
+          <text
+            x="20"
+            y="100"
+            fontSize="10"
+            fill="#666"
+            textAnchor="end"
+            dominantBaseline="middle"
+          >
+            {((maxValue + minValue) / 2).toFixed(type === "wpm" ? 0 : 1)}
+            {type === "accuracy" ? "%" : ""}
+          </text>
+          <text
+            x="20"
+            y="185"
+            fontSize="10"
+            fill="#666"
+            textAnchor="end"
+            dominantBaseline="middle"
+          >
+            {(minValue - padding).toFixed(type === "wpm" ? 0 : 1)}
+            {type === "accuracy" ? "%" : ""}
+          </text>
+
+          {/* X-axis labels (first and last dates) */}
+          <text
+            x="80"
+            y="205"
+            fontSize="10"
+            fill="#666"
+            textAnchor="start"
+            dominantBaseline="middle"
+          >
+            {new Date(trendData[0].date).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+            })}
+          </text>
+          <text
+            x="440"
+            y="205"
+            fontSize="10"
+            fill="#666"
+            textAnchor="end"
+            dominantBaseline="middle"
+          >
+            {new Date(trendData[trendData.length - 1].date).toLocaleDateString(
+              "en-US",
+              { month: "short", day: "numeric" },
+            )}
+          </text>
 
           {/* Trend line */}
           <polyline
@@ -157,20 +226,21 @@ function PerformanceTrendChart({ data, type }: PerformanceTrendChartProps) {
             stroke="#3b82f6"
             strokeWidth="2"
             points={trendData.map((d, i) => {
-              const x = (i / (trendData.length - 1)) * 380 + 10;
+              const x = (i / (trendData.length - 1)) * 360 + 80;
               const value = type === "wpm" ? d.avgWPM : d.avgAccuracy;
-              const y = 190 -
-                ((value - minValue + padding) / (range + 2 * padding)) * 180;
+              const y = 180 -
+                ((value - minValue + padding) / (range + 2 * padding)) * 160 +
+                10;
               return `${x},${y}`;
             }).join(" ")}
           />
 
           {/* Data points */}
           {trendData.map((d, i) => {
-            const x = (i / (trendData.length - 1)) * 380 + 10;
+            const x = (i / (trendData.length - 1)) * 360 + 80;
             const value = type === "wpm" ? d.avgWPM : d.avgAccuracy;
-            const y = 190 -
-              ((value - minValue + padding) / (range + 2 * padding)) * 180;
+            const y = 180 -
+              ((value - minValue + padding) / (range + 2 * padding)) * 160 + 10;
             return (
               <circle
                 key={i}
@@ -184,82 +254,41 @@ function PerformanceTrendChart({ data, type }: PerformanceTrendChartProps) {
               />
             );
           })}
+
+          {/* Y-axis line */}
+          <line
+            x1="70"
+            y1="10"
+            x2="70"
+            y2="190"
+            stroke="#ccc"
+            strokeWidth="1"
+          />
+
+          {/* X-axis line */}
+          <line
+            x1="70"
+            y1="190"
+            x2="450"
+            y2="190"
+            stroke="#ccc"
+            strokeWidth="1"
+          />
         </svg>
       </div>
       <div className="mt-2 text-sm text-gray-600">
-        <p>
-          Latest {trendData.length} data points •{" "}
-          {type === "wpm" ? "Words per minute" : "Accuracy percentage"}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-interface CharacterErrorStatsProps {
-  characterStats: Record<string, {
-    totalErrors: number;
-    gamesWithErrors: number;
-    averageErrorsPerGame: number;
-  }>;
-}
-
-function CharacterErrorStats({ characterStats }: CharacterErrorStatsProps) {
-  const sortedChars = Object.entries(characterStats)
-    .sort(([, a], [, b]) => b.totalErrors - a.totalErrors)
-    .slice(0, 10); // Top 10 problematic characters
-
-  if (sortedChars.length === 0) {
-    return (
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-xl font-semibold mb-4">
-          Character Error Statistics
-        </h2>
-        <div className="text-center py-8 text-gray-500">
-          <p>No character errors recorded yet. Great job!</p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-xl font-semibold mb-4">
-        Most Problematic Characters
-      </h2>
-      <div className="space-y-3">
-        {sortedChars.map(([char, stats]) => (
-          <div
-            key={char}
-            className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0"
-          >
-            <div className="flex items-center space-x-3">
-              <span className="font-mono text-xl bg-gray-100 px-3 py-1 rounded min-w-[3rem] text-center">
-                {char === " " ? "⎵" : char}
-              </span>
-              <div>
-                <div className="text-sm text-gray-600">
-                  {char === " " ? "Space" : `Character "${char}"`}
-                </div>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="text-sm font-medium">
-                {stats.totalErrors} error{stats.totalErrors > 1 ? "s" : ""}
-              </div>
-              <div className="text-xs text-gray-500">
-                {stats.gamesWithErrors}{" "}
-                game{stats.gamesWithErrors > 1 ? "s" : ""} • avg{" "}
-                {stats.averageErrorsPerGame.toFixed(1)}
-              </div>
-            </div>
+        <div className="flex justify-between items-center">
+          <p>
+            Latest {trendData.length} data points •{" "}
+            {type === "wpm" ? "Words per minute" : "Accuracy percentage"}
+          </p>
+          <div className="text-xs">
+            <span className="font-medium">Range:</span>{" "}
+            {minValue.toFixed(type === "wpm" ? 0 : 1)} -{" "}
+            {maxValue.toFixed(type === "wpm" ? 0 : 1)}
+            {type === "accuracy" ? "%" : ""}
           </div>
-        ))}
-      </div>
-      <div className="mt-4 text-sm text-gray-500">
-        <p>
-          Characters you mistype most often. Practice these for better accuracy!
-        </p>
+        </div>
       </div>
     </div>
   );
@@ -496,9 +525,6 @@ export default function UserStatsIsland() {
           color="yellow"
         />
       </div>
-
-      {/* Character Error Statistics */}
-      <CharacterErrorStats characterStats={stats.characterErrorStats} />
 
       {/* Performance Trends */}
       {trends && (
