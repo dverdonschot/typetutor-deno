@@ -414,27 +414,27 @@ const TrigraphsTyperMode: FC = () => {
                     Toggle
                   </label>
                   <button
-                  type="button"
-                  onClick={() => {
-                    const newState = !isRandomTrigraphEnabled;
-                    setIsRandomTrigraphEnabled(newState);
-                    if (typeof localStorage !== "undefined") {
-                      localStorage.setItem(
-                        "typetutor_random_trigraph_enabled",
-                        JSON.stringify(newState),
-                      );
-                    }
-                  }}
-                  class={`px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-opacity ${
-                    isRandomTrigraphEnabled
-                      ? "bg-tt-lightblue text-white hover:bg-tt-lightblue-darker hover:opacity-80 focus:ring-tt-lightblue"
-                      : "bg-tt-darkblue text-white hover:bg-blue-800 hover:opacity-80 focus:ring-tt-darkblue"
-                  }`}
-                >
-                  {isRandomTrigraphEnabled
-                    ? "Random Trigraph Enabled"
-                    : "Random Trigraph Disabled"}
-                </button>
+                    type="button"
+                    onClick={() => {
+                      const newState = !isRandomTrigraphEnabled;
+                      setIsRandomTrigraphEnabled(newState);
+                      if (typeof localStorage !== "undefined") {
+                        localStorage.setItem(
+                          "typetutor_random_trigraph_enabled",
+                          JSON.stringify(newState),
+                        );
+                      }
+                    }}
+                    class={`px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-opacity ${
+                      isRandomTrigraphEnabled
+                        ? "bg-tt-lightblue text-white hover:bg-tt-lightblue-darker hover:opacity-80 focus:ring-tt-lightblue"
+                        : "bg-tt-darkblue text-white hover:bg-blue-800 hover:opacity-80 focus:ring-tt-darkblue"
+                    }`}
+                  >
+                    {isRandomTrigraphEnabled
+                      ? "Random Trigraph Enabled"
+                      : "Random Trigraph Disabled"}
+                  </button>
                 </div>
               </div>
             </div>

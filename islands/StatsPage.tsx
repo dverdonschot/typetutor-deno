@@ -20,7 +20,7 @@ interface StatCardProps {
 function StatCard({ title, count, color = "blue" }: StatCardProps) {
   const colorClasses = {
     blue: "bg-blue-50 border-blue-200",
-    green: "bg-green-50 border-green-200", 
+    green: "bg-green-50 border-green-200",
     yellow: "bg-yellow-50 border-yellow-200",
     red: "bg-red-50 border-red-200",
     gray: "bg-gray-50 border-gray-200",
@@ -76,7 +76,8 @@ function CategoryStats({ gameType, categories }: CategoryStatsProps) {
               {category.charAt(0).toUpperCase() + category.slice(1)}
             </h4>
             <p className="text-gray-600">
-              <span className="font-semibold">{data.finished}</span> games completed
+              <span className="font-semibold">{data.finished}</span>{" "}
+              games completed
             </p>
           </div>
         ))}
@@ -91,10 +92,18 @@ export default function StatsPage() {
   const [error, setError] = useState<string | null>(null);
 
   // Helper function to calculate total games for a game type
-  const getTotalGamesCompleted = (gameData: { finished: number; categories?: { [key: string]: { finished: number } } }) => {
+  const getTotalGamesCompleted = (
+    gameData: {
+      finished: number;
+      categories?: { [key: string]: { finished: number } };
+    },
+  ) => {
     if (gameData.categories && Object.keys(gameData.categories).length > 0) {
       // Sum all category counts
-      return Object.values(gameData.categories).reduce((sum, category) => sum + category.finished, 0);
+      return Object.values(gameData.categories).reduce(
+        (sum, category) => sum + category.finished,
+        0,
+      );
     }
     // Fall back to the base finished count if no categories
     return gameData.finished;
@@ -143,7 +152,9 @@ export default function StatsPage() {
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="text-center text-gray-500">
           <p>No game statistics available yet.</p>
-          <p className="text-sm mt-2">Complete some typing games to see your progress!</p>
+          <p className="text-sm mt-2">
+            Complete some typing games to see your progress!
+          </p>
         </div>
       </div>
     );
@@ -151,14 +162,17 @@ export default function StatsPage() {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Server Game Completion Statistics</h2>
-      
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">
+        Server Game Completion Statistics
+      </h2>
+
       {/* Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {Object.entries(stats).map(([gameType, data]) => {
           const colors = ["blue", "green", "yellow", "red", "gray"] as const;
-          const colorIndex = Object.keys(stats).indexOf(gameType) % colors.length;
-          
+          const colorIndex = Object.keys(stats).indexOf(gameType) %
+            colors.length;
+
           return (
             <StatCard
               key={gameType}
@@ -179,7 +193,11 @@ export default function StatsPage() {
                 {gameType.charAt(0).toUpperCase() + gameType.slice(1)} Details
               </h3>
               <p className="text-gray-600">
-                Total completed: <span className="font-semibold">{getTotalGamesCompleted(data)}</span> games
+                Total completed:{" "}
+                <span className="font-semibold">
+                  {getTotalGamesCompleted(data)}
+                </span>{" "}
+                games
               </p>
             </div>
 

@@ -36,9 +36,9 @@ export default function UserStatsPage(props: PageProps) {
             Overall Keyboard Heatmap
           </h2>
           <p className="text-gray-600 mb-4">
-            Visual representation of your overall typing performance across
-            all games and modes. This shows accumulated data from all your
-            typing sessions. Click on any key to see detailed statistics.
+            Visual representation of your overall typing performance across all
+            games and modes. This shows accumulated data from all your typing
+            sessions. Click on any key to see detailed statistics.
           </p>
           <KeyboardHeatmapIsland />
         </div>

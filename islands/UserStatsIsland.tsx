@@ -149,25 +149,75 @@ function PerformanceTrendChart({ data, type }: PerformanceTrendChartProps) {
               />
             </pattern>
           </defs>
-          <rect x="70" y="10" width="380" height="180" fill={`url(#grid-${type})`} />
+          <rect
+            x="70"
+            y="10"
+            width="380"
+            height="180"
+            fill={`url(#grid-${type})`}
+          />
 
           {/* Y-axis labels */}
-          <text x="20" y="15" fontSize="10" fill="#666" textAnchor="end" dominantBaseline="middle">
-            {(maxValue + padding).toFixed(type === "wpm" ? 0 : 1)}{type === "accuracy" ? "%" : ""}
+          <text
+            x="20"
+            y="15"
+            fontSize="10"
+            fill="#666"
+            textAnchor="end"
+            dominantBaseline="middle"
+          >
+            {(maxValue + padding).toFixed(type === "wpm" ? 0 : 1)}
+            {type === "accuracy" ? "%" : ""}
           </text>
-          <text x="20" y="100" fontSize="10" fill="#666" textAnchor="end" dominantBaseline="middle">
-            {((maxValue + minValue) / 2).toFixed(type === "wpm" ? 0 : 1)}{type === "accuracy" ? "%" : ""}
+          <text
+            x="20"
+            y="100"
+            fontSize="10"
+            fill="#666"
+            textAnchor="end"
+            dominantBaseline="middle"
+          >
+            {((maxValue + minValue) / 2).toFixed(type === "wpm" ? 0 : 1)}
+            {type === "accuracy" ? "%" : ""}
           </text>
-          <text x="20" y="185" fontSize="10" fill="#666" textAnchor="end" dominantBaseline="middle">
-            {(minValue - padding).toFixed(type === "wpm" ? 0 : 1)}{type === "accuracy" ? "%" : ""}
+          <text
+            x="20"
+            y="185"
+            fontSize="10"
+            fill="#666"
+            textAnchor="end"
+            dominantBaseline="middle"
+          >
+            {(minValue - padding).toFixed(type === "wpm" ? 0 : 1)}
+            {type === "accuracy" ? "%" : ""}
           </text>
 
           {/* X-axis labels (first and last dates) */}
-          <text x="80" y="205" fontSize="10" fill="#666" textAnchor="start" dominantBaseline="middle">
-            {new Date(trendData[0].date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+          <text
+            x="80"
+            y="205"
+            fontSize="10"
+            fill="#666"
+            textAnchor="start"
+            dominantBaseline="middle"
+          >
+            {new Date(trendData[0].date).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+            })}
           </text>
-          <text x="440" y="205" fontSize="10" fill="#666" textAnchor="end" dominantBaseline="middle">
-            {new Date(trendData[trendData.length - 1].date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+          <text
+            x="440"
+            y="205"
+            fontSize="10"
+            fill="#666"
+            textAnchor="end"
+            dominantBaseline="middle"
+          >
+            {new Date(trendData[trendData.length - 1].date).toLocaleDateString(
+              "en-US",
+              { month: "short", day: "numeric" },
+            )}
           </text>
 
           {/* Trend line */}
@@ -179,7 +229,8 @@ function PerformanceTrendChart({ data, type }: PerformanceTrendChartProps) {
               const x = (i / (trendData.length - 1)) * 360 + 80;
               const value = type === "wpm" ? d.avgWPM : d.avgAccuracy;
               const y = 180 -
-                ((value - minValue + padding) / (range + 2 * padding)) * 160 + 10;
+                ((value - minValue + padding) / (range + 2 * padding)) * 160 +
+                10;
               return `${x},${y}`;
             }).join(" ")}
           />
@@ -205,10 +256,24 @@ function PerformanceTrendChart({ data, type }: PerformanceTrendChartProps) {
           })}
 
           {/* Y-axis line */}
-          <line x1="70" y1="10" x2="70" y2="190" stroke="#ccc" strokeWidth="1"/>
-          
+          <line
+            x1="70"
+            y1="10"
+            x2="70"
+            y2="190"
+            stroke="#ccc"
+            strokeWidth="1"
+          />
+
           {/* X-axis line */}
-          <line x1="70" y1="190" x2="450" y2="190" stroke="#ccc" strokeWidth="1"/>
+          <line
+            x1="70"
+            y1="190"
+            x2="450"
+            y2="190"
+            stroke="#ccc"
+            strokeWidth="1"
+          />
         </svg>
       </div>
       <div className="mt-2 text-sm text-gray-600">
@@ -218,14 +283,16 @@ function PerformanceTrendChart({ data, type }: PerformanceTrendChartProps) {
             {type === "wpm" ? "Words per minute" : "Accuracy percentage"}
           </p>
           <div className="text-xs">
-            <span className="font-medium">Range:</span> {minValue.toFixed(type === "wpm" ? 0 : 1)} - {maxValue.toFixed(type === "wpm" ? 0 : 1)}{type === "accuracy" ? "%" : ""}
+            <span className="font-medium">Range:</span>{" "}
+            {minValue.toFixed(type === "wpm" ? 0 : 1)} -{" "}
+            {maxValue.toFixed(type === "wpm" ? 0 : 1)}
+            {type === "accuracy" ? "%" : ""}
           </div>
         </div>
       </div>
     </div>
   );
 }
-
 
 /**
  * UserStatsIsland - Main user statistics dashboard component
@@ -458,7 +525,6 @@ export default function UserStatsIsland() {
           color="yellow"
         />
       </div>
-
 
       {/* Performance Trends */}
       {trends && (
