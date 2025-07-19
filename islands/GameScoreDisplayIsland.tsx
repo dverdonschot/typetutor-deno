@@ -10,20 +10,12 @@ function createGameHeatmapData(
 ): KeyboardHeatmapData {
   const heatmapData: KeyboardHeatmapData = {};
 
-  console.log("=== DEBUG: createGameHeatmapData ===");
-  console.log("gameResult.wrongCharacters:", gameResult.wrongCharacters);
-  console.log(
-    "gameResult.keystrokeData length:",
-    gameResult.keystrokeData.length,
-  );
-
   // First, count total presses per key from keystroke data
   const keyPressCount = new Map<string, number>();
   gameResult.keystrokeData.forEach((keystroke) => {
     const count = keyPressCount.get(keystroke.keyCode) || 0;
     keyPressCount.set(keystroke.keyCode, count + 1);
   });
-  console.log("keyPressCount:", keyPressCount);
 
   // Group wrong characters by their key code (physical key)
   const keyErrorMap = new Map<string, {
@@ -36,10 +28,6 @@ function createGameHeatmapData(
   gameResult.wrongCharacters.forEach((wrongChar) => {
     const keyCode = mapCharToKeyCode(wrongChar.expectedChar);
     const position = getKeyPosition(keyCode) || { row: 0, col: 0 };
-
-    console.log(
-      `Mapping char "${wrongChar.expectedChar}" to keyCode "${keyCode}", errorCount: ${wrongChar.errorCount}`,
-    );
 
     if (!keyErrorMap.has(keyCode)) {
       keyErrorMap.set(keyCode, {
@@ -64,10 +52,6 @@ function createGameHeatmapData(
     );
     const totalPresses = keyPressCount.get(keyCode) || totalErrors;
 
-    console.log(
-      `Key ${keyCode}: ${totalErrors} errors out of ${totalPresses} presses`,
-    );
-
     // Create label showing both cases if applicable
     const labelParts = keyData.characters.map((char) =>
       `${char.char}: ${char.count}`
@@ -83,9 +67,6 @@ function createGameHeatmapData(
       position: keyData.position,
     };
   });
-
-  console.log("Final heatmapData:", heatmapData);
-  console.log("=== END DEBUG ===");
 
   return heatmapData;
 }

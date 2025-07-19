@@ -14,6 +14,26 @@ const VERSION = "1.0.0";
 
 /**
  * UserStatsManager - Singleton class for managing user statistics
+ * 
+ * This class handles all user data operations for TypeTutor including:
+ * - User identification via secure random IDs
+ * - Persistent storage of typing statistics in localStorage
+ * - Aggregation of game results into comprehensive metrics
+ * - Keyboard heatmap data generation
+ * - Performance trend tracking
+ * 
+ * Data Flow:
+ * 1. User starts typing → useQuoteInput hook tracks keystrokes
+ * 2. Game completes → DetailedGameResult sent to addGameResult()
+ * 3. Stats aggregated → Character stats, WPM trends, heatmap updated
+ * 4. Data persisted → localStorage updated with new statistics
+ * 
+ * Privacy: All data is stored locally in the browser. No server transmission.
+ * 
+ * @example
+ * const statsManager = UserStatsManager.getInstance();
+ * statsManager.initialize();
+ * const userStats = statsManager.getUserStats();
  */
 export class UserStatsManager {
   private static instance: UserStatsManager;
@@ -47,13 +67,27 @@ export class UserStatsManager {
 
   /**
    * Get or create user ID
+   * 
+   * Generates a unique, anonymous user identifier for tracking statistics.
+   * Format: "user_{timestamp}_{secureRandomString}"
+   * 
+   * Security: Uses crypto.getRandomValues() for cryptographically secure randomness
+   * Storage: Persists in localStorage under "typetutor_user_id" key
+   * 
+   * @returns Unique user identifier string
    */
   private getOrCreateUserId(): string {
     let userId = localStorage.getItem(USER_ID_KEY);
     if (!userId) {
-      userId = `user_${Date.now()}_${
-        Math.random().toString(36).substring(2, 15)
-      }`;
+      // Generate cryptographically secure random string
+      const randomBytes = new Uint8Array(12);
+      crypto.getRandomValues(randomBytes);
+      const randomString = Array.from(
+        randomBytes,
+        (byte) => byte.toString(36).padStart(2, "0"),
+      ).join("").substring(0, 13);
+
+      userId = `user_${Date.now()}_${randomString}`;
       localStorage.setItem(USER_ID_KEY, userId);
     }
     return userId;
@@ -68,6 +102,13 @@ export class UserStatsManager {
 
   /**
    * Load stats from localStorage
+   * 
+   * Retrieves and validates user statistics from browser storage.
+   * Falls back to empty stats if data is corrupted or missing.
+   * 
+   * Storage Key: "typetutor_user_stats"
+   * Validation: Ensures all required fields are present
+   * Error Handling: Creates fresh stats on any loading error
    */
   private loadStats(): void {
     try {
@@ -91,6 +132,11 @@ export class UserStatsManager {
 
   /**
    * Save stats to localStorage
+   * 
+   * Persists current user statistics to browser storage.
+   * Updates lastUpdated timestamp before saving.
+   * 
+   * @throws Error if localStorage write fails
    */
   private saveStats(): void {
     if (!this.stats) return;
@@ -192,6 +238,22 @@ export class UserStatsManager {
 
   /**
    * Update stats with new game result
+   * 
+   * Main entry point for processing completed typing games. This method
+   * aggregates the game data into comprehensive user statistics.
+   * 
+   * Processing Steps:
+   * 1. Updates aggregate metrics (total games, characters typed, time spent)
+   * 2. Updates per-character statistics (speed, accuracy per character)
+   * 3. Updates keyboard heatmap (error frequency per physical key)
+   * 4. Updates character error tracking (specific mistake patterns)
+   * 5. Adds game to history for trend analysis
+   * 6. Updates performance trends (daily/weekly averages)
+   * 7. Updates current session statistics
+   * 8. Recalculates aggregate analysis (weakest/strongest keys)
+   * 9. Persists all changes to localStorage
+   * 
+   * @param gameResult Complete game data including keystrokes and errors
    */
   updateStats(gameResult: DetailedGameResult): void {
     if (!this.initialized) {

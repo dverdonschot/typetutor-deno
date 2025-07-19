@@ -292,8 +292,7 @@ export default function QuoteTyperMode(
           category: selectedContentItem?.name,
           isFinished: true,
         }), // Use name as category
-      }).then((response) => response.json()).then((data) => {
-        console.log("Finished quote stats sent:", data); // Keep this log for now
+      }).then((response) => response.json()).then((_data) => {
       }).catch((error) => {
         console.error("Error sending finished quote stats:", error);
       });
@@ -320,8 +319,7 @@ export default function QuoteTyperMode(
           category: selectedContentItem?.name,
           isFinished: true,
         }), // Use name as category
-      }).then((response) => response.json()).then((data) => {
-        console.log("Finished game stats sent:", data); // Keep this log for now
+      }).then((response) => response.json()).then((_data) => {
       }).catch((error) => {
         console.error("Error sending finished game stats:", error);
       });

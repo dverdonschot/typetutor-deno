@@ -11,7 +11,12 @@ import {
   mapCharToKeyCode,
 } from "../utils/keyboardLayout.ts";
 
-// Helper function to initialize character states from the target text
+/**
+ * Helper function to initialize character states from the target text
+ * 
+ * Creates an array of DisplayCharState objects for each character in the text.
+ * Used to track the visual state (correct/incorrect/current) of each character.
+ */
 const initializeCharStates = (text: string): DisplayCharState[] => {
   return text.split("").map((char) => ({
     original: char,
@@ -20,20 +25,49 @@ const initializeCharStates = (text: string): DisplayCharState[] => {
   }));
 };
 
+/**
+ * Internal state interface for the useQuoteInput hook
+ * 
+ * This interface tracks all user data during a typing session:
+ * - Visual character states for rendering
+ * - Performance metrics (counts, timing)
+ * - Detailed keystroke data for analysis
+ * - Error tracking for keyboard heatmap generation
+ */
 interface QuoteInputState {
-  inputValue: string;
-  charStates: DisplayCharState[];
-  typedCount: number;
-  correctCount: number;
-  mistakeCount: number;
-  backspaceCount: number;
-  isComplete: boolean;
-  keystrokeData: KeystrokeData[];
-  startTime: number | null;
-  lastKeystrokeTime: number;
-  wrongCharactersInGame: Map<string, GameWrongCharacterData>; // Track wrong characters per game
+  inputValue: string; // Current user input
+  charStates: DisplayCharState[]; // Visual state of each character
+  typedCount: number; // Number of characters typed
+  correctCount: number; // Number of correct characters
+  mistakeCount: number; // Number of mistakes made
+  backspaceCount: number; // Number of backspaces used
+  isComplete: boolean; // Whether typing is finished
+  keystrokeData: KeystrokeData[]; // Detailed data for every keystroke
+  startTime: number | null; // When typing started (null if not started)
+  lastKeystrokeTime: number; // Timestamp of last keystroke
+  wrongCharactersInGame: Map<string, GameWrongCharacterData>; // Error tracking by character
 }
 
+/**
+ * Custom hook for managing typing input and user data collection
+ * 
+ * This hook is the core of TypeTutor's data collection system. It:
+ * 1. Tracks every keystroke with timing and accuracy data
+ * 2. Maintains visual state for character-by-character feedback
+ * 3. Collects detailed error information for keyboard heatmaps
+ * 4. Calculates real-time performance metrics
+ * 
+ * Data Collection:
+ * - Every key press is logged with timestamp and position data
+ * - Errors are tracked by character and position for analysis
+ * - Backspace usage is monitored for typing pattern insights
+ * 
+ * Usage: Called by typing components (QuoteTyperMode, TrigraphsTyperMode, etc.)
+ * Output: Provides game result data to UserStatsManager when complete
+ * 
+ * @param targetText The text the user should type
+ * @returns Object with input handlers, state, and performance data
+ */
 export function useQuoteInput(targetText: string) {
   const [state, setState] = useState<QuoteInputState>(() => {
     const initialStates = initializeCharStates(targetText);
@@ -107,10 +141,6 @@ export function useQuoteInput(targetText: string) {
       previousValue: string,
       currentStates: DisplayCharState[],
     ): QuoteInputState => {
-      console.log(
-        `processInput called: currentValue="${currentValue}", previousValue="${previousValue}"`,
-      );
-
       const now = Date.now();
       let newBackspaceCount = state.backspaceCount;
       const newKeystrokeData = [...state.keystrokeData];
@@ -194,13 +224,6 @@ export function useQuoteInput(targetText: string) {
           const typedChar = currentValue[i];
           _typedIndex = i; // Update last processed index
 
-          // Debug: Log every character comparison
-          console.log(
-            `Processing position ${i}: expected "${targetChar}", typed "${typedChar}", match: ${
-              typedChar === targetChar
-            }`,
-          );
-
           // Explicitly handle newline character comparison
           if (targetChar === "\n") {
             if (typedChar === "\n") {
@@ -227,11 +250,6 @@ export function useQuoteInput(targetText: string) {
                   positions: [i],
                 });
               }
-
-              // Debug logging
-              console.log(
-                `Character error tracked (newline): expected "${targetChar}" at position ${i}, got "${typedChar}"`,
-              );
             }
           } else {
             // Existing logic for non-newline characters
@@ -260,11 +278,6 @@ export function useQuoteInput(targetText: string) {
                   positions: [i],
                 });
               }
-
-              // Debug logging
-              console.log(
-                `Character error tracked: expected "${targetChar}" at position ${i}, got "${typedChar}"`,
-              );
             }
           }
 
@@ -409,18 +422,6 @@ export function useQuoteInput(targetText: string) {
   // Get wrong characters array from Map
   const getWrongCharactersArray = useCallback((): GameWrongCharacterData[] => {
     const wrongChars = Array.from(state.wrongCharactersInGame.values());
-    const totalErrors = wrongChars.reduce(
-      (sum, char) => sum + char.errorCount,
-      0,
-    );
-    console.log(
-      `getWrongCharactersArray called, returning ${wrongChars.length} wrong characters with ${totalErrors} total errors:`,
-      wrongChars,
-    );
-    console.log(
-      "Current wrongCharactersInGame Map:",
-      state.wrongCharactersInGame,
-    );
     return wrongChars;
   }, [state.wrongCharactersInGame]);
 

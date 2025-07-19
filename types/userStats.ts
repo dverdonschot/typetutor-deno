@@ -1,50 +1,80 @@
-// Core type definitions for user statistics and keyboard heatmap functionality
+/**
+ * Core type definitions for user statistics and keyboard heatmap functionality
+ * 
+ * This file defines the data structures used throughout TypeTutor for tracking
+ * user performance, keyboard usage patterns, and game statistics.
+ * 
+ * Data Flow Overview:
+ * KeystrokeData → CharacterStats → DetailedGameResult → UserStatsData
+ * 
+ * Storage: All data persists in localStorage via UserStatsManager
+ * Privacy: No data is transmitted to servers - everything stays local
+ */
 
+/**
+ * Individual keystroke event data
+ * 
+ * Captured for every key press during typing practice.
+ * Used for detailed analysis of typing patterns and speed.
+ */
 export interface KeystrokeData {
-  key: string;
-  keyCode: string;
-  timestamp: number;
-  correct: boolean;
-  expectedChar: string;
-  actualChar: string;
-  timeSinceLastKey: number;
-  position: { row: number; col: number };
+  key: string; // The visual key pressed (e.g., "a", "A", "1")
+  keyCode: string; // Physical key identifier (e.g., "KeyA", "Digit1")
+  timestamp: number; // When the key was pressed (Date.now())
+  correct: boolean; // Whether this matched the expected character
+  expectedChar: string; // What character was supposed to be typed
+  actualChar: string; // What character was actually typed
+  timeSinceLastKey: number; // Milliseconds since previous keystroke
+  position: { row: number; col: number }; // Physical keyboard position
 }
 
+/**
+ * Aggregated statistics for a specific character
+ * 
+ * Tracks performance over time for individual characters.
+ * Used to identify which characters a user struggles with.
+ */
 export interface CharacterStats {
-  attempts: number;
-  errors: number;
-  avgTimeBetweenKeys: number;
+  attempts: number; // Total times this character was typed
+  errors: number; // Total mistakes on this character
+  avgTimeBetweenKeys: number; // Average typing speed for this character
 }
 
+/**
+ * Complete result data for a single typing game
+ * 
+ * Generated when a user completes a typing exercise. Contains all
+ * performance metrics, keystroke data, and error information.
+ * This is the primary data structure sent to UserStatsManager.updateStats()
+ */
 export interface DetailedGameResult {
-  gameId: string;
+  gameId: string; // Unique identifier for this game session
   userId: string; // localStorage-based user ID
-  mode: "quotes" | "trigraphs" | "code" | "alphabet" | "random";
-  startTime: string;
-  endTime: string;
-  duration: number;
+  mode: "quotes" | "trigraphs" | "code" | "alphabet" | "random"; // Game type
+  startTime: string; // ISO timestamp when game started
+  endTime: string; // ISO timestamp when game ended
+  duration: number; // Total time in milliseconds
 
-  // Current metrics (from useTypingMetrics)
-  wpm: number;
-  cpm: number;
-  accuracy: number;
-  mistakeCount: number;
-  backspaceCount: number;
+  // Performance metrics (calculated by useTypingMetrics hook)
+  wpm: number; // Words per minute
+  cpm: number; // Characters per minute
+  accuracy: number; // Percentage of correct characters
+  mistakeCount: number; // Total mistakes made
+  backspaceCount: number; // Total backspaces used
 
-  // New detailed metrics
-  keystrokeData: KeystrokeData[];
-  characterStats: Record<string, CharacterStats>;
+  // Detailed keystroke analysis
+  keystrokeData: KeystrokeData[]; // Every individual key press
+  characterStats: Record<string, CharacterStats>; // Per-character performance
 
-  // Per-game wrong character data
-  wrongCharacters: GameWrongCharacterData[];
+  // Error tracking for keyboard heatmap
+  wrongCharacters: GameWrongCharacterData[]; // Characters typed incorrectly
 
-  // Content metadata
+  // Content information
   contentMetadata: {
-    source: string;
-    totalCharacters: number;
-    uniqueCharacters: number;
-    difficulty?: "easy" | "medium" | "hard";
+    source: string; // Which quote/exercise was used
+    totalCharacters: number; // Length of the text
+    uniqueCharacters: number; // Number of different characters
+    difficulty?: "easy" | "medium" | "hard"; // Optional difficulty rating
   };
 }
 
@@ -73,21 +103,32 @@ export interface PerformanceTrendData {
   gameCount: number;
 }
 
+/**
+ * Complete user statistics data structure
+ * 
+ * This is the main data structure stored in localStorage that contains
+ * all accumulated user performance data across all typing sessions.
+ * 
+ * Updated by: UserStatsManager.updateStats() after each game
+ * Storage: localStorage key "typetutor_user_stats"
+ * Size limit: Keeps last 100 games to prevent storage bloat
+ */
 export interface UserStatsData {
-  userId: string;
-  createdAt: string;
-  lastUpdated: string;
+  // User identification and timestamps
+  userId: string; // Unique anonymous user identifier
+  createdAt: string; // When the user first used TypeTutor
+  lastUpdated: string; // When this data was last modified
 
-  // Aggregate metrics
-  totalGamesCompleted: number;
-  totalCharactersTyped: number;
-  totalTimeSpent: number;
+  // Overall performance metrics
+  totalGamesCompleted: number; // Total typing games finished
+  totalCharactersTyped: number; // Total characters typed across all games
+  totalTimeSpent: number; // Total milliseconds spent typing
 
-  // Performance metrics
-  bestWPM: number;
-  bestAccuracy: number;
-  averageWPM: number;
-  averageAccuracy: number;
+  // Best and average performance
+  bestWPM: number; // Highest words per minute achieved
+  bestAccuracy: number; // Best accuracy percentage achieved
+  averageWPM: number; // Average WPM across all games
+  averageAccuracy: number; // Average accuracy across all games
 
   // Character-level statistics
   characterStats: Record<string, UserCharacterStats>;
