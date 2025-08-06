@@ -161,7 +161,10 @@ export default function NewQuoteTyperMode(
         try {
           const parsed = JSON.parse(savedState);
           // Only preserve state if we have valid restored quotes and target text
-          if (parsed.allQuotes && parsed.targetText && allQuotes.length === 0 && !targetText) {
+          if (
+            parsed.allQuotes && parsed.targetText && allQuotes.length === 0 &&
+            !targetText
+          ) {
             shouldPreserveState = true;
             // State was already restored in the initial useEffect, no need to reload
             setIsLoading(false);
