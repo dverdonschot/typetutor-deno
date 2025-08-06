@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "preact/hooks";
 import { TypingMetricsDisplay } from "../components/TypingMetricsDisplay.tsx";
 import { TypingMetrics } from "../hooks/useTypingMetrics.ts";
 import { DetailedGameResult, KeyboardHeatmapData } from "../types/userStats.ts";
@@ -84,6 +85,24 @@ export default function GameScoreDisplayIsland(
   { metrics, isComplete, onPracticeAgain, onNextGame, gameType, gameResult }:
     GameScoreDisplayIslandProps,
 ) {
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
+  const practiceButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Focus the primary button when component becomes visible
+  useEffect(() => {
+    if (isComplete) {
+      // Focus Next Quote button if available, otherwise Practice Again
+      const buttonToFocus = onNextGame
+        ? nextButtonRef.current
+        : practiceButtonRef.current;
+      if (buttonToFocus) {
+        setTimeout(() => {
+          buttonToFocus.focus();
+        }, 100);
+      }
+    }
+  }, [isComplete, onNextGame]);
+
   if (!isComplete) {
     return null;
   }
@@ -95,21 +114,13 @@ export default function GameScoreDisplayIsland(
         {/* Use the existing TypingMetricsDisplay component */}
         <TypingMetricsDisplay metrics={metrics} />
 
-        <div class="text-center mt-4">
-          {onPracticeAgain && (
-            <button
-              type="button"
-              onClick={onPracticeAgain}
-              class="px-4 py-2 bg-tt-darkblue text-white rounded hover:bg-tt-darkblue"
-            >
-              Practice Again
-            </button>
-          )}
+        <div class="text-center mt-4 space-x-3">
           {onNextGame && (
             <button
+              ref={nextButtonRef}
               type="button"
               onClick={onNextGame}
-              class="ml-2 px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600"
+              class="px-6 py-3 bg-tt-darkblue text-white font-medium rounded-lg hover:bg-tt-darkblue-darker focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tt-darkblue transition-all duration-200 transform hover:scale-105"
             >
               {gameType === "quote" && metrics.isComplete &&
                   metrics.totalTimeSeconds > 0
@@ -119,6 +130,16 @@ export default function GameScoreDisplayIsland(
                 : gameType === "random"
                 ? "Next Random"
                 : "Next"}
+            </button>
+          )}
+          {onPracticeAgain && (
+            <button
+              ref={practiceButtonRef}
+              type="button"
+              onClick={onPracticeAgain}
+              class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            >
+              Practice Again
             </button>
           )}
         </div>

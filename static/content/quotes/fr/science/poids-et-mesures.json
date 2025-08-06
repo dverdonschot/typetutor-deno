@@ -1,0 +1,104 @@
+[
+  {
+    "text": "La mesure est l'essence de la science.",
+    "author": "Lord Kelvin",
+    "language": "fr",
+    "tags": ["mesure", "science"],
+    "difficulty": "beginner"
+  },
+  {
+    "text": "Ce qui ne peut être mesuré ne peut être amélioré.",
+    "author": "Peter Drucker",
+    "language": "fr",
+    "tags": ["mesure", "amélioration"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "Un gramme de pratique vaut mieux qu'une tonne de théorie.",
+    "author": "Proverbe français",
+    "language": "fr",
+    "tags": ["pratique", "théorie", "poids"],
+    "difficulty": "beginner"
+  },
+  {
+    "text": "La précision dans la mesure est la base de toute science exacte.",
+    "author": "Antoine Lavoisier",
+    "language": "fr",
+    "tags": ["précision", "mesure", "science"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Il faut peser ses mots comme on pèse l'or.",
+    "author": "Proverbe français",
+    "language": "fr",
+    "tags": ["mots", "poids", "précision"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "La nature ne fait rien en vain, et le plus est vain quand le moins suffit.",
+    "author": "Isaac Newton",
+    "language": "fr",
+    "tags": ["nature", "mesure", "efficacité"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Mesurer, c'est connaître.",
+    "author": "Galilée",
+    "language": "fr",
+    "tags": ["mesure", "connaissance"],
+    "difficulty": "beginner"
+  },
+  {
+    "text": "L'exactitude est la politesse des rois et le devoir des sujets.",
+    "author": "Louis XVIII",
+    "language": "fr",
+    "tags": ["exactitude", "précision", "devoir"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "Dans la balance de la justice, une plume pèse autant qu'un lingot d'or.",
+    "author": "Proverbe français",
+    "language": "fr",
+    "tags": ["justice", "balance", "poids"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "La science commence là où commence la mesure.",
+    "author": "Dmitri Mendeleïev",
+    "language": "fr",
+    "tags": ["science", "mesure", "début"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "La science n'a pas de patrie, parce que le savoir est le patrimoine de l'humanité.",
+    "author": "Louis Pasteur",
+    "language": "fr",
+    "year": 1888,
+    "source": "Discours d'inauguration de l'Institut Pasteur",
+    "tags": ["science", "humanité", "universalité"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Dans les champs de l'observation, le hasard ne favorise que les esprits préparés.",
+    "author": "Louis Pasteur",
+    "language": "fr",
+    "year": 1854,
+    "source": "Discours d'installation à Lille",
+    "tags": ["observation", "préparation", "chance"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Je n'ai pas assez de foi pour croire que j'ai le droit de conclure de l'effet à la cause.",
+    "author": "Claude Bernard",
+    "language": "fr",
+    "tags": ["méthode", "causalité", "science"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "L'observation est la seule réalité.",
+    "author": "Claude Bernard",
+    "language": "fr",
+    "tags": ["observation", "réalité", "méthode"],
+    "difficulty": "intermediate"
+  }
+]

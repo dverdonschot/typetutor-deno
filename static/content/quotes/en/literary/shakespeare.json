@@ -1,0 +1,24 @@
+[
+  {
+    "text": "To be or not to be, that is the question.",
+    "author": "William Shakespeare",
+    "language": "en",
+    "source": "Hamlet",
+    "tags": [
+      "philosophy",
+      "literature"
+    ],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "All the world's a stage, and all the men and women merely players.",
+    "author": "William Shakespeare",
+    "language": "en",
+    "source": "As You Like It",
+    "tags": [
+      "life",
+      "literature"
+    ],
+    "difficulty": "intermediate"
+  }
+]

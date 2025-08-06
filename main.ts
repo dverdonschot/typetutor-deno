@@ -10,5 +10,9 @@ import "$std/dotenv/load.ts";
 import { start } from "$fresh/server.ts";
 import manifest from "./fresh.gen.ts";
 import config from "./fresh.config.ts";
+import { initializeQuoteCache } from "./functions/initializeCache.ts";
+
+// Initialize quote cache before starting server
+await initializeQuoteCache();
 
 await start(manifest, config);

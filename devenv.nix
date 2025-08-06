@@ -5,18 +5,14 @@
   env.GREET = "devenv";
 
   # https://devenv.sh/packages/
-  packages = [ 
-    pkgs.git 
-    pkgs.nodejs_20
-  ];
-
+  packages = [ pkgs.git pkgs.deno ];
 
   # https://devenv.sh/languages/
-  languages.deno.enable = true;
-  languages.javascript.enable = true;
+  # languages.rust.enable = true;
 
   # https://devenv.sh/processes/
   # processes.cargo-watch.exec = "cargo-watch";
+  claude.code.enable = true;
 
   # https://devenv.sh/services/
   # services.postgres.enable = true;
@@ -26,16 +22,9 @@
     echo hello from $GREET
   '';
 
-  env = {
-    NPM_CONFIG_PREFIX = "/home/ewt/.npm-global";
-    PATH = "/home/ewt/.npm-global/bin:$PATH"; 
-  };
-
-
   enterShell = ''
-    mkdir -p /home/ewt/.npm-global/bin
-    export PATH="/home/ewt/.npm-global/bin:$PATH"
-    npm install -g @anthropic-ai/claude-code
+    hello
+    git --version
   '';
 
   # https://devenv.sh/tasks/
@@ -50,8 +39,8 @@
     git --version | grep --color=auto "${pkgs.git.version}"
   '';
 
-  # https://devenv.sh/pre-commit-hooks/
-  # pre-commit.hooks.shellcheck.enable = true;
+  # https://devenv.sh/git-hooks/
+  # git-hooks.hooks.shellcheck.enable = true;
 
   # See full reference at https://devenv.sh/reference/options/
 }

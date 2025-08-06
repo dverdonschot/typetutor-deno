@@ -1,0 +1,54 @@
+[
+  {
+    "text": "El éxito no es definitivo, el fracaso no es fatal: es el coraje de continuar lo que cuenta.",
+    "author": "Winston Churchill",
+    "language": "es",
+    "tags": ["éxito", "perseverancia"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "El que lee mucho y anda mucho, ve mucho y sabe mucho.",
+    "author": "Miguel de Cervantes",
+    "language": "es",
+    "year": 1605,
+    "source": "Don Quijote de la Mancha",
+    "tags": ["lectura", "sabiduría", "experiencia"],
+    "difficulty": "beginner"
+  },
+  {
+    "text": "La libertad, Sancho, es uno de los más preciosos dones que a los hombres dieron los cielos.",
+    "author": "Miguel de Cervantes",
+    "language": "es",
+    "year": 1615,
+    "source": "Don Quijote de la Mancha, Segunda Parte",
+    "tags": ["libertad", "valores", "don"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Cada uno es hijo de sus obras.",
+    "author": "Miguel de Cervantes",
+    "language": "es",
+    "year": 1605,
+    "source": "Don Quijote de la Mancha",
+    "tags": ["responsabilidad", "acciones", "mérito"],
+    "difficulty": "beginner"
+  },
+  {
+    "text": "Donde una puerta se cierra, otra se abre.",
+    "author": "Miguel de Cervantes",
+    "language": "es",
+    "year": 1605,
+    "source": "Don Quijote de la Mancha",
+    "tags": ["oportunidad", "esperanza", "cambio"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "El camino es mejor que la posada.",
+    "author": "Miguel de Cervantes",
+    "language": "es",
+    "year": 1605,
+    "source": "Don Quijote de la Mancha",
+    "tags": ["viaje", "proceso", "experiencia"],
+    "difficulty": "intermediate"
+  }
+]

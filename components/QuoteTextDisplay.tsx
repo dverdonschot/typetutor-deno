@@ -12,9 +12,9 @@ interface QuoteTextDisplayProps {
 
 export default function QuoteTextDisplay({ charStates }: QuoteTextDisplayProps) {
   return (
-    <div class="p-4 bg-white rounded-lg shadow mb-4 font-mono text-lg leading-relaxed tracking-wide">
+    <div class="flex justify-center items-center py-6 px-4 typing-text tracking-wider">
       {/* We use whitespace-pre-wrap to preserve spaces and line breaks from the source text */}
-      <pre class="whitespace-pre-wrap break-words">
+      <pre class="whitespace-pre-wrap break-words text-center">
         {charStates.map((charState, index) => {
           let charToShow = charState.original;
           // In case of incorrect typing, maybe show the incorrect char?
@@ -31,12 +31,12 @@ export default function QuoteTextDisplay({ charStates }: QuoteTextDisplayProps) 
               <div key={index} class="inline-block">
                 <span
                   class={cn(
-                    "transition-colors duration-100 ease-in-out",
+                    "transition-colors duration-100 ease-in-out text-2xl sm:text-3xl md:text-4xl typing-text",
                     "font-bold",
                     {
-                      "text-gray-500": charState.state === 'none',
-                      "text-green-600": charState.state === 'correct',
-                      "text-red-600 bg-red-100": charState.state === 'incorrect',
+                      "text-tt-darkblue": charState.state === 'none',
+                      "text-green-500": charState.state === 'correct',
+                      "text-red-500 bg-red-100": charState.state === 'incorrect',
                       "bg-blue-200 rounded": charState.state === 'current',
                       "text-gray-700": charState.state === 'current',
                     }
@@ -56,15 +56,14 @@ export default function QuoteTextDisplay({ charStates }: QuoteTextDisplayProps) 
             <span
               key={index}
               class={cn(
-                "transition-colors duration-100 ease-in-out",
+                "transition-colors duration-100 ease-in-out text-2xl sm:text-3xl md:text-4xl typing-text",
                 {
-                  "text-gray-500": charState.state === 'none',
-                  "text-green-600": charState.state === 'correct',
-                  "text-red-600 bg-red-100": charState.state === 'incorrect',
+                  "text-tt-darkblue": charState.state === 'none',
+                  "text-green-500": charState.state === 'correct',
+                  "text-red-500 bg-red-100": charState.state === 'incorrect',
                   "bg-blue-200 rounded": charState.state === 'current',
                   "text-gray-700": charState.state === 'current' && charState.original !== ' ',
                   "bg-blue-100": charState.state === 'current' && charState.original === ' ',
-                  // Removed specific red-700 for incorrect newline as the general red-600 bg-red-100 should suffice
                 }
               )}
             >
