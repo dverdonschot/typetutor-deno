@@ -1,5 +1,5 @@
 import type {
-  CacheOptions,
+  CacheOptions as _CacheOptions,
   Category,
   Language,
   QuoteCache,
@@ -214,7 +214,7 @@ export function validateCacheIntegrity(cache: QuoteCache): {
   const issues: string[] = [];
 
   // Check that all categories reference valid languages
-  for (const [languageCode, categories] of cache.categories.entries()) {
+  for (const [languageCode, _categories] of cache.categories.entries()) {
     if (!cache.languages.some((lang) => lang.code === languageCode)) {
       issues.push(
         `Categories exist for language "${languageCode}" but language not in cache`,

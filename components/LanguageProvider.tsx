@@ -1,7 +1,7 @@
 import { ComponentChildren } from "preact";
 import { useEffect } from "preact/hooks";
 import {
-  availableLanguagesSignal,
+  availableLanguagesSignal as _availableLanguagesSignal,
   initializeLanguage,
   setGlobalLanguage,
 } from "../contexts/LanguageContext.ts";

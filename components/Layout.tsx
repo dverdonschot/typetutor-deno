@@ -23,7 +23,7 @@ export function Layout(
             <Logo />
           </div>
           <div class="order-2 w-full sm:w-auto flex justify-end items-center space-x-4">
-            <GlobalLanguageSelector compact={true} />
+            <GlobalLanguageSelector compact />
             <HamburgerMenu currentPath={currentPath} />
           </div>
         </header>

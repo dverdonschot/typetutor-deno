@@ -63,7 +63,7 @@ Deno.test("validateQuoteFormat() rejects quote with invalid difficulty", functio
   const invalidQuote: Quote = {
     text: "Hello world",
     language: "en",
-    difficulty: "expert" as any,
+    difficulty: "expert" as "beginner" | "intermediate" | "advanced",
   };
   assertEquals(validateQuoteFormat(invalidQuote), false);
 });

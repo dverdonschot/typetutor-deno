@@ -1,7 +1,7 @@
 import type {
   CacheOptions,
   FetchResult,
-  Quote,
+  Quote as _Quote,
   QuoteCache,
 } from "../types/quotes.ts";
 import { scanAllQuoteContent } from "./contentScanner.ts";
@@ -10,9 +10,9 @@ import {
   clearQuoteCache,
   createQuoteCache,
   getCacheStats,
-  removeCachedCategory,
-  removeCachedLanguage,
-  removeCachedQuoteMetadata,
+  removeCachedCategory as _removeCachedCategory,
+  removeCachedLanguage as _removeCachedLanguage,
+  removeCachedQuoteMetadata as _removeCachedQuoteMetadata,
   updateCachedCategories,
   updateCachedLanguages,
   updateCachedQuoteMetadata,
@@ -258,10 +258,10 @@ export async function invalidateCacheEntry(
 }
 
 /** Sets up file watchers for automatic cache invalidation. */
-export async function setupFileWatchers(
+export function setupFileWatchers(
   cache: QuoteCache,
   basePath: string,
-): Promise<void> {
+): void {
   try {
     // Close existing watchers
     for (const watcher of cache.fileWatchers.values()) {

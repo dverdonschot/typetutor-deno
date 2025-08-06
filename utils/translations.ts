@@ -125,17 +125,22 @@ const translations: Record<string, Translations> = {
 
 export function getTranslation(key: string, language: string = "en"): string {
   const keys = key.split(".");
-  let current: any = translations[language] || translations.en;
+  let current: unknown = translations[language] || translations.en;
 
   for (const k of keys) {
-    if (current && typeof current === "object" && k in current) {
-      current = current[k];
+    if (
+      current && typeof current === "object" && current !== null && k in current
+    ) {
+      current = (current as Record<string, unknown>)[k];
     } else {
       // Fallback to English if translation not found
       current = translations.en;
       for (const fallbackKey of keys) {
-        if (current && typeof current === "object" && fallbackKey in current) {
-          current = current[fallbackKey];
+        if (
+          current && typeof current === "object" && current !== null &&
+          fallbackKey in current
+        ) {
+          current = (current as Record<string, unknown>)[fallbackKey];
         } else {
           return key; // Return key if no translation found
         }

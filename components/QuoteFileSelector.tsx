@@ -98,7 +98,8 @@ export default function QuoteFileSelector(
         <div class="flex items-center justify-between">
           <p class="text-sm text-red-600">Error loading quote files: {error}</p>
           <button
-            onClick={() => window.location.reload()}
+            type="button"
+            onClick={() => globalThis.location.reload()}
             class="text-xs text-red-700 hover:text-red-800 underline focus:outline-none"
           >
             Retry

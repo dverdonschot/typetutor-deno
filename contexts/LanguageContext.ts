@@ -1,6 +1,9 @@
 import { signal } from "@preact/signals";
-import { createContext } from "preact";
-import { useContext, useEffect } from "preact/hooks";
+import { createContext as _createContext } from "preact";
+import {
+  useContext as _useContext,
+  useEffect as _useEffect,
+} from "preact/hooks";
 
 export interface GlobalLanguage {
   code: string;

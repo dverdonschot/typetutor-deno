@@ -156,7 +156,6 @@ export default function NewQuoteTyperMode(
       const savedState = localStorage.getItem(
         `quote-state-${currentLanguageSignal.value.code}`,
       );
-      let shouldPreserveState = false;
       if (savedState) {
         try {
           const parsed = JSON.parse(savedState);
@@ -165,12 +164,11 @@ export default function NewQuoteTyperMode(
             parsed.allQuotes && parsed.targetText && allQuotes.length === 0 &&
             !targetText
           ) {
-            shouldPreserveState = true;
             // State was already restored in the initial useEffect, no need to reload
             setIsLoading(false);
             return;
           }
-        } catch (e) {
+        } catch (_e) {
           // If parsing fails, continue with normal loading
         }
       }
@@ -385,9 +383,6 @@ export default function NewQuoteTyperMode(
 
   // Handle quote completion and advancement
   useEffect(() => {
-    const isGameFinished = isComplete &&
-      currentQuoteIndex === allQuotes.length - 1;
-
     // Send stats for individual quote completion
     if (isComplete && !finishedSentRef.current) {
       // Send to existing API
@@ -489,7 +484,7 @@ export default function NewQuoteTyperMode(
     if (!currentLanguageSignal.value.code) return;
 
     try {
-      let quotes: Quote[] = [];
+      const quotes: Quote[] = [];
 
       if (randomQuotesEnabled) {
         // Load all quotes from all categories for the language
@@ -731,7 +726,8 @@ export default function NewQuoteTyperMode(
               </h3>
               <p class="text-sm text-red-600">{error}</p>
               <button
-                onClick={() => window.location.reload()}
+                type="button"
+                onClick={() => globalThis.location.reload()}
                 class="mt-3 text-sm text-red-700 hover:text-red-800 underline focus:outline-none"
               >
                 {t("quotes.tryAgain")}
@@ -889,7 +885,7 @@ export default function NewQuoteTyperMode(
                             Quote {currentQuoteIndex + 1}
                           </span>
                           <span class="text-gray-500">
-                            {" "}of {allQuotes.length}
+                            of {allQuotes.length}
                           </span>
                         </div>
                       </>
@@ -974,6 +970,7 @@ export default function NewQuoteTyperMode(
             </div>
             {/* Load Random Collection Button - smaller and positioned here */}
             <button
+              type="button"
               onClick={loadRandomFile}
               class="bg-gradient-to-r from-tt-lightblue to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-sm"
             >
