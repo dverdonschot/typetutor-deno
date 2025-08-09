@@ -162,24 +162,9 @@ export function useQuoteInput(targetText: string) {
       if (currentLength < previousLength) {
         newBackspaceCount += previousLength - currentLength;
         // Reset states for characters that were backspaced over
+        // Note: We don't remove errors from wrongCharactersInGame to match useMobileInput behavior
         for (let i = currentLength; i < previousLength; i++) {
           if (newStates[i]) {
-            // If this character was marked as incorrect, we need to remove it from error tracking
-            if (newStates[i].state === "incorrect") {
-              const targetChar = targetText[i];
-              const existing = newWrongCharactersInGame.get(targetChar);
-              if (existing) {
-                const positionIndex = existing.positions.indexOf(i);
-                if (positionIndex > -1) {
-                  existing.positions.splice(positionIndex, 1);
-                  existing.errorCount--;
-                  // If no more errors for this character, remove it entirely
-                  if (existing.errorCount <= 0) {
-                    newWrongCharactersInGame.delete(targetChar);
-                  }
-                }
-              }
-            }
             newStates[i].state = "none";
             newStates[i].typed = null;
           }
@@ -226,7 +211,8 @@ export function useQuoteInput(targetText: string) {
 
           // Explicitly handle newline character comparison
           if (targetChar === "\n") {
-            if (typedChar === "\n") {
+            const isCorrect = typedChar === "\n";
+            if (isCorrect) {
               newStates[i].state = "correct";
               newStates[i].typed = typedChar; // Store the typed newline
             } else {
@@ -234,8 +220,8 @@ export function useQuoteInput(targetText: string) {
               newStates[i].typed = typedChar; // Store the incorrect typed character
             }
 
-            // Only track character errors when this is a NEW mistake (not already tracked for this position)
-            if (newStates[i].state === "incorrect") {
+            // Track error based on correctness, like useMobileInput does
+            if (!isCorrect) {
               const existing = newWrongCharactersInGame.get(targetChar);
               if (existing) {
                 // Only increment if this position hasn't been tracked yet
@@ -255,28 +241,29 @@ export function useQuoteInput(targetText: string) {
             // Existing logic for non-newline characters
             if (newStates[i].typed === null || currentLength > previousLength) {
               newStates[i].typed = typedChar;
-              if (typedChar === targetChar) {
+              const isCorrect = typedChar === targetChar;
+              if (isCorrect) {
                 newStates[i].state = "correct";
               } else {
                 newStates[i].state = "incorrect";
               }
-            }
-
-            // Only track character errors when this is a NEW mistake (not already tracked for this position)
-            if (newStates[i].state === "incorrect") {
-              const existing = newWrongCharactersInGame.get(targetChar);
-              if (existing) {
-                // Only increment if this position hasn't been tracked yet
-                if (!existing.positions.includes(i)) {
-                  existing.errorCount++;
-                  existing.positions.push(i);
+              
+              // Track error based on correctness, like useMobileInput does
+              if (!isCorrect) {
+                const existing = newWrongCharactersInGame.get(targetChar);
+                if (existing) {
+                  // Only increment if this position hasn't been tracked yet
+                  if (!existing.positions.includes(i)) {
+                    existing.errorCount++;
+                    existing.positions.push(i);
+                  }
+                } else {
+                  newWrongCharactersInGame.set(targetChar, {
+                    expectedChar: targetChar,
+                    errorCount: 1,
+                    positions: [i],
+                  });
                 }
-              } else {
-                newWrongCharactersInGame.set(targetChar, {
-                  expectedChar: targetChar,
-                  errorCount: 1,
-                  positions: [i],
-                });
               }
             }
           }

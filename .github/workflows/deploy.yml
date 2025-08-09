@@ -42,6 +42,9 @@ jobs:
       - name: Check for type and module errors
         run: deno check main.ts # Specify relevant entry points/files
 
+      - name: Run tests
+        run: deno task test
+
       - name: Build step
         run: "deno task build"
 

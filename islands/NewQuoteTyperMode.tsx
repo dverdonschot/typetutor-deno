@@ -48,6 +48,7 @@ export default function NewQuoteTyperMode(
   const [showCompletion, setShowCompletion] = useState<boolean>(false);
   const [gameResult, setGameResult] = useState<DetailedGameResult | null>(null);
   const [startTime, setStartTime] = useState<number | null>(null);
+  const [isStateLoaded, setIsStateLoaded] = useState<boolean>(false);
 
   const hiddenInputRef = useRef<HTMLInputElement>(null);
   const finishedSentRef = useRef(false);
@@ -89,6 +90,7 @@ export default function NewQuoteTyperMode(
         console.warn("Failed to parse saved quote state:", e);
       }
     }
+    setIsStateLoaded(true);
   }, [currentLanguageSignal.value.code]);
 
   // Save state to localStorage when selections change
@@ -331,7 +333,7 @@ export default function NewQuoteTyperMode(
 
   // Send detailed stats to UserStatsManager
   const sendDetailedStats = useCallback(async () => {
-    if (!inputStartTime || !isComplete || !selectedFileMetadata) return;
+    if (!inputStartTime || !isComplete) return;
 
     try {
       const userStatsManager = UserStatsManager.getInstance();
@@ -355,7 +357,7 @@ export default function NewQuoteTyperMode(
         keystrokeData,
         characterStats: getCharacterStats(),
         contentMetadata: {
-          source: selectedFileMetadata.fileTitle || "unknown",
+          source: selectedFileMetadata?.fileTitle || selectedCategory || "random-quote",
           totalCharacters: targetText.length,
           uniqueCharacters: new Set(targetText).size,
         },
@@ -364,7 +366,6 @@ export default function NewQuoteTyperMode(
 
       await userStatsManager.updateStats(gameResult);
       setGameResult(gameResult);
-      console.log("Detailed user stats updated successfully");
     } catch (error) {
       console.error("Failed to update detailed user stats:", error);
     }
@@ -393,7 +394,7 @@ export default function NewQuoteTyperMode(
         },
         body: JSON.stringify({
           gameType: "quote",
-          category: selectedFileMetadata?.fileTitle || "unknown",
+          category: selectedFileMetadata?.fileTitle || selectedCategory || "random-quote",
           isFinished: true,
         }),
       }).then((response) => response.json()).then((_data) => {
@@ -682,7 +683,7 @@ export default function NewQuoteTyperMode(
   }, [autoFocus, isLoading, error, targetText, showCompletion]);
 
   return (
-    <div class="space-y-6">
+    <div class="space-y-4 -mt-5">
       {/* Loading State */}
       {isLoading && (
         <div class="bg-white p-8 rounded-xl shadow-md border border-gray-200">
@@ -885,7 +886,7 @@ export default function NewQuoteTyperMode(
                             Quote {currentQuoteIndex + 1}
                           </span>
                           <span class="text-gray-500">
-                            of {allQuotes.length}
+                            {" "}of {allQuotes.length}
                           </span>
                         </div>
                       </>
@@ -989,6 +990,7 @@ export default function NewQuoteTyperMode(
                       languageCode={currentLanguageSignal.value.code}
                       selectedCategory={selectedCategory}
                       onCategoryChange={handleCategoryChange}
+                      isStateLoaded={isStateLoaded}
                     />
                   </div>
                   {selectedCategory && (

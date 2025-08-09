@@ -16,9 +16,8 @@ import * as $api_trigraphs_name_ from "./routes/api/trigraphs/[name].ts";
 import * as $code from "./routes/code.tsx";
 import * as $custom from "./routes/custom.tsx";
 import * as $index from "./routes/index.tsx";
-import * as $new_quotes from "./routes/new-quotes.tsx";
 import * as $quotes from "./routes/quotes.tsx";
-import * as $stats from "./routes/stats.tsx";
+import * as $serverstats from "./routes/serverstats.tsx";
 import * as $trigraphs from "./routes/trigraphs.tsx";
 import * as $userstats from "./routes/userstats.tsx";
 import * as $GameScoreDisplayIsland from "./islands/GameScoreDisplayIsland.tsx";
@@ -53,9 +52,8 @@ const manifest = {
     "./routes/code.tsx": $code,
     "./routes/custom.tsx": $custom,
     "./routes/index.tsx": $index,
-    "./routes/new-quotes.tsx": $new_quotes,
     "./routes/quotes.tsx": $quotes,
-    "./routes/stats.tsx": $stats,
+    "./routes/serverstats.tsx": $serverstats,
     "./routes/trigraphs.tsx": $trigraphs,
     "./routes/userstats.tsx": $userstats,
   },

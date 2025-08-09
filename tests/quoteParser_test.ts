@@ -6,7 +6,7 @@ import {
   parseQuoteFile,
   parseTextQuoteFile,
   validateQuoteFormat,
-} from "./quoteParser.ts";
+} from "../functions/quoteParser.ts";
 import type { Quote } from "../types/quotes.ts";
 
 Deno.test("detectFileFormat() identifies JSON array format", function () {

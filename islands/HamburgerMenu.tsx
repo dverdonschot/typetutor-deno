@@ -178,7 +178,7 @@ export default function HamburgerMenu(props: HamburgerMenuProps) {
             User Stats
           </a>
           <a
-            href="/stats"
+            href="/serverstats"
             class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
             role="menuitem"
           >

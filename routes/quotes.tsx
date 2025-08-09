@@ -1,14 +1,14 @@
 import { PageProps } from "$fresh/server.ts";
 import { Layout } from "../components/Layout.tsx";
-import QuoteTyperMode from "../islands/QuoteTyperMode.tsx"; // Import the new island
+import NewQuoteTyperMode from "../islands/NewQuoteTyperMode.tsx";
 
 export default function Quotes(props: PageProps) {
   return (
     <Layout
-      descriptionText="Practice typing with famous quotes!"
+      descriptionText="Practice typing with quotes using the enhanced quote system!"
       currentPath={props.url.pathname}
     >
-      <QuoteTyperMode contentType="quote" />
+      <NewQuoteTyperMode autoFocus />
     </Layout>
   );
 }

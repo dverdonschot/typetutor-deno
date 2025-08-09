@@ -6,10 +6,11 @@ interface CategorySelectorProps {
   selectedCategory: string | null;
   onCategoryChange: (categoryDirectory: string) => void;
   hideLabel?: boolean;
+  isStateLoaded?: boolean;
 }
 
 export default function CategorySelector(
-  { languageCode, selectedCategory, onCategoryChange, hideLabel }:
+  { languageCode, selectedCategory, onCategoryChange, hideLabel, isStateLoaded = true }:
     CategorySelectorProps,
 ) {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -37,11 +38,14 @@ export default function CategorySelector(
         setCategories(categoryData);
 
         // Auto-select first category if none selected or current selection is invalid
-        if (categoryData.length > 0) {
+        // But only if state has been loaded to avoid race conditions with localStorage restoration
+        if (categoryData.length > 0 && isStateLoaded) {
           const validCategory = categoryData.find((cat) =>
             cat.directory === selectedCategory
           );
-          if (!validCategory) {
+          if (!validCategory && selectedCategory !== null) {
+            onCategoryChange(categoryData[0].directory);
+          } else if (selectedCategory === null) {
             onCategoryChange(categoryData[0].directory);
           }
         }
@@ -57,7 +61,7 @@ export default function CategorySelector(
     }
 
     fetchCategories();
-  }, [languageCode, selectedCategory, onCategoryChange]);
+  }, [languageCode, selectedCategory, onCategoryChange, isStateLoaded]);
 
   const handleChange = (event: Event) => {
     const target = event.target as HTMLSelectElement;
