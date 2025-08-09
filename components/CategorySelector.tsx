@@ -10,8 +10,13 @@ interface CategorySelectorProps {
 }
 
 export default function CategorySelector(
-  { languageCode, selectedCategory, onCategoryChange, hideLabel, isStateLoaded = true }:
-    CategorySelectorProps,
+  {
+    languageCode,
+    selectedCategory,
+    onCategoryChange,
+    hideLabel,
+    isStateLoaded = true,
+  }: CategorySelectorProps,
 ) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);

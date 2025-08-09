@@ -17,16 +17,17 @@ import * as $code from "./routes/code.tsx";
 import * as $custom from "./routes/custom.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $quotes from "./routes/quotes.tsx";
+import * as $random from "./routes/random.tsx";
 import * as $serverstats from "./routes/serverstats.tsx";
 import * as $trigraphs from "./routes/trigraphs.tsx";
 import * as $userstats from "./routes/userstats.tsx";
+import * as $CodeTyperMode from "./islands/CodeTyperMode.tsx";
 import * as $GameScoreDisplayIsland from "./islands/GameScoreDisplayIsland.tsx";
 import * as $GlobalLanguageSelector from "./islands/GlobalLanguageSelector.tsx";
 import * as $HamburgerMenu from "./islands/HamburgerMenu.tsx";
 import * as $KeyLogger from "./islands/KeyLogger.tsx";
 import * as $KeyboardHeatmapIsland from "./islands/KeyboardHeatmapIsland.tsx";
 import * as $NewQuoteTyperMode from "./islands/NewQuoteTyperMode.tsx";
-import * as $QuoteTyperMode from "./islands/QuoteTyperMode.tsx";
 import * as $RandomSettings from "./islands/RandomSettings.tsx";
 import * as $RenderedQuoteResult from "./islands/RenderedQuoteResult.tsx";
 import * as $StatsPage from "./islands/StatsPage.tsx";
@@ -53,18 +54,19 @@ const manifest = {
     "./routes/custom.tsx": $custom,
     "./routes/index.tsx": $index,
     "./routes/quotes.tsx": $quotes,
+    "./routes/random.tsx": $random,
     "./routes/serverstats.tsx": $serverstats,
     "./routes/trigraphs.tsx": $trigraphs,
     "./routes/userstats.tsx": $userstats,
   },
   islands: {
+    "./islands/CodeTyperMode.tsx": $CodeTyperMode,
     "./islands/GameScoreDisplayIsland.tsx": $GameScoreDisplayIsland,
     "./islands/GlobalLanguageSelector.tsx": $GlobalLanguageSelector,
     "./islands/HamburgerMenu.tsx": $HamburgerMenu,
     "./islands/KeyLogger.tsx": $KeyLogger,
     "./islands/KeyboardHeatmapIsland.tsx": $KeyboardHeatmapIsland,
     "./islands/NewQuoteTyperMode.tsx": $NewQuoteTyperMode,
-    "./islands/QuoteTyperMode.tsx": $QuoteTyperMode,
     "./islands/RandomSettings.tsx": $RandomSettings,
     "./islands/RenderedQuoteResult.tsx": $RenderedQuoteResult,
     "./islands/StatsPage.tsx": $StatsPage,

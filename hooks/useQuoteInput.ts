@@ -62,7 +62,7 @@ interface QuoteInputState {
  * - Errors are tracked by character and position for analysis
  * - Backspace usage is monitored for typing pattern insights
  *
- * Usage: Called by typing components (QuoteTyperMode, TrigraphsTyperMode, etc.)
+ * Usage: Called by typing components (CodeTyperMode, TrigraphsTyperMode, NewQuoteTyperMode, etc.)
  * Output: Provides game result data to UserStatsManager when complete
  *
  * @param targetText The text the user should type
@@ -247,7 +247,7 @@ export function useQuoteInput(targetText: string) {
               } else {
                 newStates[i].state = "incorrect";
               }
-              
+
               // Track error based on correctness, like useMobileInput does
               if (!isCorrect) {
                 const existing = newWrongCharactersInGame.get(targetChar);

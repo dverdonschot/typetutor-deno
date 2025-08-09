@@ -357,7 +357,8 @@ export default function NewQuoteTyperMode(
         keystrokeData,
         characterStats: getCharacterStats(),
         contentMetadata: {
-          source: selectedFileMetadata?.fileTitle || selectedCategory || "random-quote",
+          source: selectedFileMetadata?.fileTitle || selectedCategory ||
+            "random-quote",
           totalCharacters: targetText.length,
           uniqueCharacters: new Set(targetText).size,
         },
@@ -394,7 +395,8 @@ export default function NewQuoteTyperMode(
         },
         body: JSON.stringify({
           gameType: "quote",
-          category: selectedFileMetadata?.fileTitle || selectedCategory || "random-quote",
+          category: selectedFileMetadata?.fileTitle || selectedCategory ||
+            "random-quote",
           isFinished: true,
         }),
       }).then((response) => response.json()).then((_data) => {

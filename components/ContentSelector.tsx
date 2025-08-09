@@ -5,26 +5,22 @@ interface ContentSelectorProps {
   contentItems: ContentItem[];
   selectedId: string | null;
   onSelect: (id: string) => void;
-  contentType?: "quote" | "code" | "trigraph"; // Add 'trigraph' to the union type
+  contentType?: "code" | "trigraph";
   hideLabel?: boolean; // Add optional hideLabel prop
 }
 
 const groupContentItems = (items: ContentItem[]) => {
-  const grouped: { [groupName: string]: ContentItem[] } = {
-    "Quotes": [],
-  };
+  const grouped: { [groupName: string]: ContentItem[] } = {};
 
   items.forEach((item) => {
-    if (item.type === "quote") {
-      grouped["Quotes"].push(item);
-    } else if (item.type === "code") {
+    if (item.type === "code") {
       const lang = item.language || "Other Code";
       const groupName = `Code: ${lang.charAt(0).toUpperCase() + lang.slice(1)}`;
       if (!grouped[groupName]) {
         grouped[groupName] = [];
       }
       grouped[groupName].push(item);
-    } else if (item.type === "trigraph") { // Handle 'trigraph' type
+    } else if (item.type === "trigraph") {
       const groupName = "Trigraphs";
       if (!grouped[groupName]) {
         grouped[groupName] = [];
@@ -33,14 +29,11 @@ const groupContentItems = (items: ContentItem[]) => {
     }
   });
 
-  // Filter out empty groups
+  // Filter out empty groups and sort
   return Object.entries(grouped)
     .filter(([, items]) => items.length > 0)
     .sort(([groupA], [groupB]) => {
-      // Ensure "Quotes" comes first, then sort languages alphabetically
-      // Ensure "Quotes" comes first, then "Trigraphs", then sort others alphabetically
-      if (groupA === "Quotes") return -1;
-      if (groupB === "Quotes") return 1;
+      // Ensure "Trigraphs" comes first, then sort code languages alphabetically
       if (groupA === "Trigraphs") return -1;
       if (groupB === "Trigraphs") return 1;
       return groupA.localeCompare(groupB);

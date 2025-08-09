@@ -1,6 +1,6 @@
 import { PageProps } from "$fresh/server.ts";
 import { Layout } from "../components/Layout.tsx";
-import QuoteTyperMode from "../islands/QuoteTyperMode.tsx"; // Import the island
+import CodeTyperMode from "../islands/CodeTyperMode.tsx";
 
 export default function Code(props: PageProps) {
   return (
@@ -8,7 +8,7 @@ export default function Code(props: PageProps) {
       descriptionText="Practice typing with code snippets!"
       currentPath={props.url.pathname}
     >
-      <QuoteTyperMode contentType="code" />
+      <CodeTyperMode />
     </Layout>
   );
 }
