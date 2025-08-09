@@ -1,0 +1,68 @@
+[
+  {
+    "text": "Now I am become Death, the destroyer of worlds.",
+    "author": "J. Robert Oppenheimer",
+    "language": "en",
+    "year": 1965,
+    "source": "NBC Documentary reflection on Trinity Test",
+    "tags": ["responsibility", "power", "consequence"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "The atomic bomb made the prospect of future war unendurable. It has led us up those last few steps to the mountain pass; and beyond there is a different country.",
+    "author": "J. Robert Oppenheimer",
+    "language": "en",
+    "year": 1945,
+    "source": "Army-Navy Excellence Award Speech",
+    "tags": ["war", "change", "future"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "There are children playing in the streets who could solve some of my top problems in physics, because they have modes of sensory perception that I lost long ago.",
+    "author": "J. Robert Oppenheimer",
+    "language": "en",
+    "tags": ["children", "perception", "learning"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "The scientist is not responsible for the laws of nature, but it is a scientist's job to find out how these laws operate.",
+    "author": "J. Robert Oppenheimer",
+    "language": "en",
+    "tags": ["responsibility", "science", "discovery"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "We knew the world would not be the same. A few people laughed, a few people cried. Most people were silent.",
+    "author": "J. Robert Oppenheimer",
+    "language": "en",
+    "year": 1965,
+    "source": "NBC Documentary on Trinity Test",
+    "tags": ["change", "reaction", "silence"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "In some sort of crude sense which no vulgarity, no humor, no overstatement can quite extinguish, the physicists have known sin; and this is a knowledge which they cannot lose.",
+    "author": "J. Robert Oppenheimer",
+    "language": "en",
+    "year": 1947,
+    "source": "Physics in the Contemporary World speech",
+    "tags": ["responsibility", "knowledge", "consequence"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Science is not everything, but science is very beautiful.",
+    "author": "J. Robert Oppenheimer",
+    "language": "en",
+    "tags": ["science", "beauty", "value"],
+    "difficulty": "beginner"
+  },
+  {
+    "text": "The general notions about human understanding which are illustrated by discoveries in atomic physics are not in the nature of things wholly unfamiliar, wholly unheard of, or new.",
+    "author": "J. Robert Oppenheimer",
+    "language": "en",
+    "year": 1954,
+    "source": "Science and the Common Understanding",
+    "tags": ["understanding", "physics", "human nature"],
+    "difficulty": "advanced"
+  }
+]

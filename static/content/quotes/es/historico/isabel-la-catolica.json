@@ -1,0 +1,49 @@
+[
+  {
+    "text": "Esta es mi voluntad, la cual quiero que valga como codicilo.",
+    "author": "Isabel la Católica",
+    "language": "es",
+    "year": 1504,
+    "source": "Codicilo testamentario",
+    "tags": ["voluntad", "testamento", "determinación"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "Isabel, por la gracia de Dios reina de Castilla, de León.",
+    "author": "Isabel la Católica",
+    "language": "es",
+    "year": 1504,
+    "source": "Codicilo testamentario",
+    "tags": ["realeza", "poder", "legitimidad"],
+    "difficulty": "beginner"
+  },
+  {
+    "text": "Fue mi intención procurar, inducir y atraer a los pueblos a la fe católica.",
+    "author": "Isabel la Católica",
+    "language": "es",
+    "year": 1504,
+    "source": "Codicilo testamentario",
+    "tags": ["fe", "evangelización", "propósito"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Bien compuesta en su persona y en la proporción de sus miembros.",
+    "author": "Hernando del Pulgar",
+    "language": "es",
+    "year": 1480,
+    "source": "Crónica de los Reyes Católicos",
+    "tags": ["descripción", "belleza", "compostura"],
+    "difficulty": "advanced",
+    "note": "Descripción contemporánea de Isabel por su cronista oficial"
+  },
+  {
+    "text": "Muy inclinada a la justicia, tanto que era reprobada por seguir más la vía del rigor.",
+    "author": "Hernando del Pulgar",
+    "language": "es",
+    "year": 1480,
+    "source": "Crónica de los Reyes Católicos",
+    "tags": ["justicia", "rigor", "carácter"],
+    "difficulty": "advanced",
+    "note": "Descripción del carácter de Isabel por su cronista"
+  }
+]

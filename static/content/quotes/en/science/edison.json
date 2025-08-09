@@ -1,0 +1,74 @@
+[
+  {
+    "text": "Genius is one percent inspiration, ninety-nine percent perspiration.",
+    "author": "Thomas Edison",
+    "language": "en",
+    "year": 1929,
+    "source": "Press conference statement",
+    "tags": ["genius", "work", "effort"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "I have not failed. I've just found 10,000 ways that won't work.",
+    "author": "Thomas Edison",
+    "language": "en",
+    "tags": ["failure", "persistence", "learning"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "There's a way to do it better - find it.",
+    "author": "Thomas Edison",
+    "language": "en",
+    "tags": ["improvement", "innovation", "solution"],
+    "difficulty": "beginner"
+  },
+  {
+    "text": "Opportunity is missed by most people because it is dressed in overalls and looks like work.",
+    "author": "Thomas Edison",
+    "language": "en",
+    "tags": ["opportunity", "work", "recognition"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Our greatest weakness lies in giving up. The most certain way to succeed is always to try just one more time.",
+    "author": "Thomas Edison",
+    "language": "en",
+    "tags": ["persistence", "success", "determination"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "The three great essentials to achieve anything worthwhile are: Hard work, Stick-to-itiveness, and Common sense.",
+    "author": "Thomas Edison",
+    "language": "en",
+    "tags": ["work", "persistence", "sense"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "I never did a day's work in my life. It was all fun.",
+    "author": "Thomas Edison",
+    "language": "en",
+    "tags": ["work", "enjoyment", "passion"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "The value of an idea lies in the using of it.",
+    "author": "Thomas Edison",
+    "language": "en",
+    "tags": ["ideas", "implementation", "value"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "Many of life's failures are people who did not realize how close they were to success when they gave up.",
+    "author": "Thomas Edison",
+    "language": "en",
+    "tags": ["failure", "success", "persistence"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "To invent, you need a good imagination and a pile of junk.",
+    "author": "Thomas Edison",
+    "language": "en",
+    "tags": ["invention", "imagination", "resourcefulness"],
+    "difficulty": "intermediate"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "text": "Lo que cometimos en las Indias sobresale entre las ofensas más imperdonables jamás cometidas contra Dios y la humanidad.",
+    "author": "Bartolomé de las Casas",
+    "language": "es",
+    "year": 1552,
+    "source": "Historia de las Indias",
+    "tags": ["justicia", "denuncia", "humanidad"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Vi aquí crueldad en una escala que ningún ser viviente ha visto jamás o espera ver.",
+    "author": "Bartolomé de las Casas",
+    "language": "es",
+    "year": 1515,
+    "source": "Experiencias en Cuba",
+    "tags": ["crueldad", "testimonio", "denuncia"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "¿Con qué derecho y con qué justicia tenéis en tan cruel y horrible servidumbre aquestos indios?",
+    "author": "Antonio de Montesinos",
+    "language": "es",
+    "year": 1511,
+    "source": "Sermón del Domingo de Adviento",
+    "tags": ["derechos", "justicia", "servidumbre"],
+    "difficulty": "advanced",
+    "note": "Pregunta que influyó en la conversión de las Casas"
+  },
+  {
+    "text": "Los indios son libres y han de ser tratados como libres.",
+    "author": "Bartolomé de las Casas",
+    "language": "es",
+    "year": 1550,
+    "source": "Debate de Valladolid",
+    "tags": ["libertad", "derechos", "igualdad"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "No habría dado aquel consejo por cuanto hay en el mundo.",
+    "author": "Bartolomé de las Casas",
+    "language": "es",
+    "year": 1561,
+    "source": "Historia de las Indias",
+    "tags": ["arrepentimiento", "esclavitud", "error"],
+    "difficulty": "intermediate",
+    "note": "Su arrepentimiento por haber sugerido traer esclavos africanos"
+  },
+  {
+    "text": "Todos los pueblos del mundo son hombres.",
+    "author": "Bartolomé de las Casas",
+    "language": "es",
+    "year": 1550,
+    "source": "Debate de Valladolid",
+    "tags": ["humanidad", "igualdad", "universalidad"],
+    "difficulty": "beginner"
+  }
+]

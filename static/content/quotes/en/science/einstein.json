@@ -1,0 +1,77 @@
+[
+  {
+    "text": "Imagination is more important than knowledge. For knowledge is limited, whereas imagination embraces the entire world, stimulating progress, giving birth to evolution.",
+    "author": "Albert Einstein",
+    "language": "en",
+    "year": 1929,
+    "source": "Saturday Evening Post interview",
+    "tags": ["imagination", "knowledge", "creativity"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Try not to become a person of success, but rather try to become a person of value.",
+    "author": "Albert Einstein",
+    "language": "en",
+    "year": 1955,
+    "source": "Life Magazine interview",
+    "tags": ["success", "value", "character"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "The important thing is not to stop questioning. Curiosity has its own reason for existing.",
+    "author": "Albert Einstein",
+    "language": "en",
+    "year": 1955,
+    "source": "Life Magazine interview",
+    "tags": ["curiosity", "questioning", "learning"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "Science without religion is lame, religion without science is blind.",
+    "author": "Albert Einstein",
+    "language": "en",
+    "year": 1941,
+    "source": "Science, Philosophy and Religion symposium",
+    "tags": ["science", "religion", "balance"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "A person who never made a mistake never tried anything new.",
+    "author": "Albert Einstein",
+    "language": "en",
+    "tags": ["mistakes", "innovation", "learning"],
+    "difficulty": "beginner"
+  },
+  {
+    "text": "Logic will get you from A to B. Imagination will take you everywhere.",
+    "author": "Albert Einstein",
+    "language": "en",
+    "tags": ["logic", "imagination", "possibility"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "The most beautiful thing we can experience is the mysterious. It is the source of all true art and science.",
+    "author": "Albert Einstein",
+    "language": "en",
+    "year": 1930,
+    "source": "What I Believe essay",
+    "tags": ["mystery", "beauty", "wonder"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Great spirits have always encountered violent opposition from mediocre minds.",
+    "author": "Albert Einstein",
+    "language": "en",
+    "year": 1940,
+    "source": "Letter to Morris Raphael Cohen",
+    "tags": ["greatness", "opposition", "innovation"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Learn from yesterday, live for today, hope for tomorrow. The important thing is not to stop questioning.",
+    "author": "Albert Einstein",
+    "language": "en",
+    "tags": ["learning", "present", "future"],
+    "difficulty": "intermediate"
+  }
+]

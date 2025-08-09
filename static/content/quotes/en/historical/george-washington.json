@@ -1,0 +1,108 @@
+[
+  {
+    "text": "It is better to offer no excuse than a bad one.",
+    "author": "George Washington",
+    "language": "en",
+    "year": 1783,
+    "tags": ["wisdom", "leadership", "honesty"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "Associate with men of good quality if you esteem your own reputation; for it is better to be alone than in bad company.",
+    "author": "George Washington",
+    "language": "en",
+    "tags": ["character", "relationships", "reputation"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Liberty, when it begins to take root, is a plant of rapid growth.",
+    "author": "George Washington",
+    "language": "en",
+    "year": 1788,
+    "tags": ["liberty", "freedom", "politics"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "I hold the maxim no less applicable to public than to private affairs, that honesty is always the best policy.",
+    "author": "George Washington",
+    "language": "en",
+    "year": 1796,
+    "source": "Farewell Address",
+    "tags": ["honesty", "integrity", "policy"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Guard against the impostures of pretended patriotism.",
+    "author": "George Washington",
+    "language": "en",
+    "year": 1796,
+    "source": "Farewell Address",
+    "tags": ["patriotism", "politics", "warning"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Labor to keep alive in your breast that little spark of celestial fire called conscience.",
+    "author": "George Washington",
+    "language": "en",
+    "year": 1748,
+    "source": "Rules of Civility",
+    "tags": ["conscience", "morality", "virtue"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Discipline is the soul of an army.",
+    "author": "George Washington",
+    "language": "en",
+    "tags": ["discipline", "military", "leadership"],
+    "difficulty": "beginner"
+  },
+  {
+    "text": "Few men have virtue to withstand the highest bidder.",
+    "author": "George Washington",
+    "language": "en",
+    "tags": ["virtue", "corruption", "integrity"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "The time is near at hand which must determine whether Americans are to be free men or slaves.",
+    "author": "George Washington",
+    "language": "en",
+    "year": 1776,
+    "tags": ["freedom", "independence", "determination"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Let your heart feel for the afflictions and distress of everyone.",
+    "author": "George Washington",
+    "language": "en",
+    "tags": ["compassion", "empathy", "kindness"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "True friendship is a plant of slow growth, and must undergo and withstand the shocks of adversity before it is entitled to the appellation.",
+    "author": "George Washington",
+    "language": "en",
+    "year": 1783,
+    "source": "Letter to Bushrod Washington",
+    "tags": ["friendship", "trust", "adversity"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "To be prepared for war is one of the most effectual means of preserving peace.",
+    "author": "George Washington",
+    "language": "en",
+    "year": 1790,
+    "source": "First Annual Address to Congress",
+    "tags": ["peace", "preparation", "defense"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "Be courteous to all, but intimate with few, and let those few be well tried before you give them your confidence.",
+    "author": "George Washington",
+    "language": "en",
+    "year": 1783,
+    "source": "Letter to Bushrod Washington",
+    "tags": ["friendship", "trust", "courtesy"],
+    "difficulty": "advanced"
+  }
+]

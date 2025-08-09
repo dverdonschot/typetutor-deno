@@ -1,4 +1,7 @@
 # dotenv environment variable files
+CLAUDE.md
+GEMINI.md
+.claude
 .env
 .env.development.local
 .env.test.local
@@ -9,6 +12,16 @@
 _fresh/
 # npm dependencies
 node_modules/
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
+
 # Devenv
 .devenv*
 devenv.local.nix
