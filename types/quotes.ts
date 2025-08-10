@@ -28,6 +28,7 @@ export interface Language {
   code: string; // ISO 639-1 code (en, es, fr)
   name: string; // Display name (English, Español, Français)
   flag?: string; // Optional flag emoji
+  nativeName?: string; // Optional native name
 }
 
 /** Category metadata for the cache. */

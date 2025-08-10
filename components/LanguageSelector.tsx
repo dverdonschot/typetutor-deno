@@ -98,7 +98,7 @@ export default function LanguageSelector(
         {languages.map((language) => (
           <option key={language.code} value={language.code}>
             {language.flag ? `${language.flag} ` : ""}
-            {(language as any).nativeName || language.name}
+            {language.nativeName || language.name}
           </option>
         ))}
       </select>

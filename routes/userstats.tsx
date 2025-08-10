@@ -1,4 +1,3 @@
-import { Head } from "$fresh/runtime.ts";
 import { PageProps } from "$fresh/server.ts";
 import { Layout } from "../components/Layout.tsx";
 import UserStatsPageContentIsland from "../islands/UserStatsPageContentIsland.tsx";

@@ -135,7 +135,7 @@ class TranslationCache {
   /**
    * Count translation keys recursively
    */
-  private countTranslationKeys(obj: any): number {
+  private countTranslationKeys(obj: Record<string, unknown>): number {
     let count = 0;
     for (const value of Object.values(obj)) {
       if (typeof value === "string") {

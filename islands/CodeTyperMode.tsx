@@ -13,27 +13,12 @@ import GameScoreDisplayIsland from "./GameScoreDisplayIsland.tsx";
 import { UserStatsManager } from "../utils/userStatsManager.ts";
 import { DetailedGameResult } from "../types/userStats.ts";
 
-interface CodeTyperModeProps {
-  // No props needed since this only handles code
-}
-
 export default function CodeTyperMode() {
-  // Helper function to shuffle an array (Fisher-Yates shuffle)
-  function shuffleArray<T>(array: T[]): T[] {
-    const newArray = [...array]; // Create a copy
-    for (let i = newArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-    return newArray;
-  }
 
   const [selectedContentId, setSelectedContentId] = useState<string | null>(
     null,
   );
   const [targetText, setTargetText] = useState<string>(""); // The text for the current typing task (single quote or code block)
-  const [allQuotes, setAllQuotes] = useState<string[]>([]); // Array of quotes if the content type is 'quote'
-  const [currentQuoteIndex, setCurrentQuoteIndex] = useState<number>(0); // Index of the current quote being typed
   const [isLoading, setIsLoading] = useState<boolean>(true); // Start loading initially
   const [error, setError] = useState<string | null>(null);
   const [startTime, setStartTime] = useState<number | null>(null); // For metrics calculation

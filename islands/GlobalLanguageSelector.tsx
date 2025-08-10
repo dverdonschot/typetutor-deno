@@ -51,7 +51,7 @@ export default function GlobalLanguageSelector(
         >
           {availableLanguages.map((language) => (
             <option key={language.code} value={language.code}>
-              {language.flag} {(language as any).nativeName || language.name}
+              {language.flag} {language.nativeName || language.name}
             </option>
           ))}
         </select>
@@ -80,7 +80,7 @@ export default function GlobalLanguageSelector(
       >
         {availableLanguages.map((language) => (
           <option key={language.code} value={language.code}>
-            {language.flag} {(language as any).nativeName || language.name}
+            {language.flag} {language.nativeName || language.name}
           </option>
         ))}
       </select>

@@ -5,7 +5,6 @@ import {
   useEffect as _useEffect,
 } from "preact/hooks";
 import {
-  type LanguageInfo,
   loadAllTranslations,
   loadAvailableLanguages,
 } from "../utils/translationLoader.ts";

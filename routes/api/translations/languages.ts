@@ -1,10 +1,6 @@
-import { HandlerContext } from "$fresh/server.ts";
 import { translationCache } from "../../../utils/translationCache.ts";
 
-export async function handler(
-  req: Request,
-  ctx: HandlerContext,
-): Promise<Response> {
+export async function handler(): Promise<Response> {
   try {
     const languages = await translationCache.getLanguages();
 

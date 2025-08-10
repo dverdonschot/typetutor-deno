@@ -7,9 +7,9 @@ interface TypingMetricsDisplayProps {
 }
 
 export function TypingMetricsDisplay({ metrics }: TypingMetricsDisplayProps) {
-  if (!metrics.isComplete) return null;
-
   const t = useReactiveTranslation();
+
+  if (!metrics.isComplete) return null;
 
   return (
     <div class="mt-8 p-4 bg-tt-lightblue rounded-lg text-white">

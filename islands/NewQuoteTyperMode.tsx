@@ -162,10 +162,6 @@ export default function NewQuoteTyperMode(
         return;
       }
 
-      // Check if we have restored state that we should preserve
-      const savedState = localStorage.getItem(
-        `quote-state-${currentLanguageSignal.value.code}`,
-      );
       // Note: We no longer store quotes in localStorage, so always load fresh quotes
       // The saved state only contains UI preferences
 
@@ -895,7 +891,7 @@ export default function NewQuoteTyperMode(
                             Quote {currentQuoteIndex + 1}
                           </span>
                           <span class="text-gray-500">
-                            {" "}of {allQuotes.length}
+                             of {allQuotes.length}
                           </span>
                         </div>
                       </>
