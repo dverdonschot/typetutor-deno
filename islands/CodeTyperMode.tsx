@@ -14,7 +14,6 @@ import { UserStatsManager } from "../utils/userStatsManager.ts";
 import { DetailedGameResult } from "../types/userStats.ts";
 
 export default function CodeTyperMode() {
-
   const [selectedContentId, setSelectedContentId] = useState<string | null>(
     null,
   );

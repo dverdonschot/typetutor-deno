@@ -891,7 +891,7 @@ export default function NewQuoteTyperMode(
                             Quote {currentQuoteIndex + 1}
                           </span>
                           <span class="text-gray-500">
-                             of {allQuotes.length}
+                            of {allQuotes.length}
                           </span>
                         </div>
                       </>
