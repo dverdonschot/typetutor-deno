@@ -1,33 +1,12 @@
 export interface ContentItem {
   id: string;
   name: string;
-  type: "quote" | "code" | "trigraph"; // Add 'trigraph' to the union type
+  type: "code" | "trigraph";
   sourceUrl: string;
   language?: string;
 }
 
 const typingContent: ContentItem[] = [
-  // --- Quotes ---
-  // Add actual URLs to raw text files here
-  {
-    id: "quote-journey",
-    name: "Quote: Journey",
-    type: "quote",
-    sourceUrl: "/content/quotes/journey.txt",
-  },
-  {
-    id: "quote-stronger",
-    name: "Quote: Stronger",
-    type: "quote",
-    sourceUrl: "/content/quotes/stronger.txt",
-  },
-  {
-    id: "quote-life",
-    name: "Quote: Life",
-    type: "quote",
-    sourceUrl: "/content/quotes/life.txt",
-  },
-
   // --- Code: JavaScript ---
   // Using relative paths to local files for now. Can be changed to GitHub raw URLs later.
   {

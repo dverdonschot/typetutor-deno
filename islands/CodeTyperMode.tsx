@@ -13,29 +13,11 @@ import GameScoreDisplayIsland from "./GameScoreDisplayIsland.tsx";
 import { UserStatsManager } from "../utils/userStatsManager.ts";
 import { DetailedGameResult } from "../types/userStats.ts";
 
-interface QuoteTyperModeProps {
-  contentType?: "quote" | "code"; // Accept contentType prop
-}
-
-export default function QuoteTyperMode(
-  { contentType }: QuoteTyperModeProps,
-) { // Accept contentType
-  // Helper function to shuffle an array (Fisher-Yates shuffle)
-  function shuffleArray<T>(array: T[]): T[] {
-    const newArray = [...array]; // Create a copy
-    for (let i = newArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-    return newArray;
-  }
-
+export default function CodeTyperMode() {
   const [selectedContentId, setSelectedContentId] = useState<string | null>(
     null,
   );
   const [targetText, setTargetText] = useState<string>(""); // The text for the current typing task (single quote or code block)
-  const [allQuotes, setAllQuotes] = useState<string[]>([]); // Array of quotes if the content type is 'quote'
-  const [currentQuoteIndex, setCurrentQuoteIndex] = useState<number>(0); // Index of the current quote being typed
   const [isLoading, setIsLoading] = useState<boolean>(true); // Start loading initially
   const [error, setError] = useState<string | null>(null);
   const [startTime, setStartTime] = useState<number | null>(null); // For metrics calculation
@@ -46,14 +28,12 @@ export default function QuoteTyperMode(
   const [showCompletion, setShowCompletion] = useState<boolean>(false); // Track if we should show completion summary
   const hiddenInputRef = useRef<HTMLInputElement>(null); // Ref for the hidden input
 
-  // Determine the localStorage key based on content type
-  const localStorageKey = contentType === "code"
-    ? "lastSelectedCodeId"
-    : "lastSelectedQuoteId";
+  // Determine the localStorage key for code content
+  const localStorageKey = "lastSelectedCodeId";
 
-  // Filter content items based on the current contentType
+  // Filter content items to only show code content
   const relevantContentItems = typingContentData.filter((item) =>
-    !contentType || item.type === contentType
+    item.type === "code"
   );
 
   // Find the selected ContentItem based on ID
@@ -65,8 +45,6 @@ export default function QuoteTyperMode(
   useEffect(() => {
     if (!selectedContentItem) {
       setTargetText(""); // Clear text if nothing is selected
-      setAllQuotes([]); // Clear quotes
-      setCurrentQuoteIndex(0); // Reset index
       setError(null);
       setIsLoading(false);
       return;
@@ -76,8 +54,6 @@ export default function QuoteTyperMode(
       setIsLoading(true);
       setError(null);
       setTargetText(""); // Clear previous text
-      setAllQuotes([]); // Clear previous quotes
-      setCurrentQuoteIndex(0); // Reset index
       setStartTime(null); // Reset start time
 
       const result: FetchResult = await fetchContentFromUrl(
@@ -85,30 +61,12 @@ export default function QuoteTyperMode(
       );
 
       if (result.success) {
-        if (selectedContentItem.type === "quote") {
-          // Split fetched content into individual quotes by newline
-          let quotes = result.content.split("\n").filter((quote) =>
-            quote.trim() !== ""
-          ); // Filter out empty lines
-
-          // Shuffle the quotes if there are any
-          if (quotes.length > 0) {
-            quotes = shuffleArray(quotes);
-          }
-
-          setAllQuotes(quotes);
-          setCurrentQuoteIndex(0);
-          setTargetText(quotes[0] || ""); // Set the first (now random) quote as the target text
-        } else {
-          // For code or other types, the entire content is the target text
-          setTargetText(result.content);
-          setAllQuotes([]); // Ensure quotes array is empty for non-quote types
-        }
+        // For code content, the entire content is the target text
+        setTargetText(result.content);
         // Reset input hook state implicitly via useQuoteInput's useEffect dependency on targetText
       } else {
         setError(`Error loading content: ${result.error}`);
         setTargetText(""); // Ensure text is cleared on error
-        setAllQuotes([]); // Ensure quotes array is empty on error
       }
       setIsLoading(false);
     };
@@ -119,10 +77,8 @@ export default function QuoteTyperMode(
   // Function to load a new random item (memoized with useCallback)
   const loadRandomItem = useCallback(() => {
     if (relevantContentItems.length === 0) {
-      console.warn(`No content items found for type: ${contentType}`);
-      setError(
-        `No content available for the selected type (${contentType || "any"}).`,
-      );
+      console.warn("No code content items found");
+      setError("No code content available.");
       setIsLoading(false); // Ensure loading state is off
       return; // Exit if no relevant items
     }
@@ -132,10 +88,9 @@ export default function QuoteTyperMode(
     localStorage.setItem(localStorageKey, randomId); // Save random selection to the correct key
     setGameResult(null); // Clear game result when loading random content
     setShowCompletion(false); // Hide completion summary for new content
-    console.log(`Loaded random ${contentType || "item"}:`, randomId);
+    console.log("Loaded random code item:", randomId);
   }, [
     relevantContentItems,
-    contentType,
     localStorageKey,
     setSelectedContentId,
     setError,
@@ -152,24 +107,17 @@ export default function QuoteTyperMode(
       lastSelectedId &&
       relevantContentItems.some((item) => item.id === lastSelectedId)
     ) {
-      // Found a valid last selection for the current content type
+      // Found a valid last selection for code content
       setSelectedContentId(lastSelectedId);
-      console.log(
-        `Loaded last selected ${contentType || "item"}:`,
-        lastSelectedId,
-      );
+      console.log("Loaded last selected code item:", lastSelectedId);
     } else {
       // No valid last selection found, load random
-      console.log(
-        `No valid last selection found for ${
-          contentType || "item"
-        }, loading random.`,
-      );
-      loadRandomItem(); // This will now load a random item of the correct type
+      console.log("No valid last selection found for code, loading random.");
+      loadRandomItem(); // This will now load a random code item
     }
     setInitialLoadComplete(true); // Mark initial load as done
     // setIsLoading(false); // Loading state is handled by the content fetch effect
-  }, [initialLoadComplete, contentType, localStorageKey, loadRandomItem]); // Add loadRandomItem dependency
+  }, [initialLoadComplete, localStorageKey, loadRandomItem]); // Add loadRandomItem dependency
 
   // Initialize the input hook with the fetched target text
   const {
@@ -232,7 +180,7 @@ export default function QuoteTyperMode(
       const gameResult: DetailedGameResult = {
         gameId: generateGameId(),
         userId: userStatsManager.getUserId(),
-        mode: contentType === "code" ? "code" : "quotes",
+        mode: "code",
         startTime: new Date(inputStartTime).toISOString(),
         endTime: new Date(endTime).toISOString(),
         duration,
@@ -260,7 +208,6 @@ export default function QuoteTyperMode(
   }, [
     inputStartTime,
     isComplete,
-    contentType,
     metrics,
     mistakeCount,
     backspaceCount,
@@ -268,19 +215,13 @@ export default function QuoteTyperMode(
     getCharacterStats,
     targetText,
     selectedContentItem,
+    getWrongCharactersArray,
   ]);
 
-  // Effect to advance to the next quote when the current one is completed and send stats
+  // Effect to handle code completion and send stats
   useEffect(() => {
-    const isGameFinished = isComplete &&
-      (selectedContentItem?.type !== "quote" ||
-        currentQuoteIndex === allQuotes.length - 1);
-
-    // Send finished stat for individual quote completion (if it's a quote game)
-    if (
-      isComplete && selectedContentItem?.type === "quote" &&
-      !finishedSentRef.current
-    ) {
+    // Send finished stats when code is completed
+    if (isComplete && !finishedSentRef.current) {
       // Send to existing API
       fetch("/api/game-stats", {
         method: "POST",
@@ -288,40 +229,13 @@ export default function QuoteTyperMode(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          gameType: contentType,
+          gameType: "code",
           category: selectedContentItem?.name,
           isFinished: true,
-        }), // Use name as category
+        }),
       }).then((response) => response.json()).then((_data) => {
       }).catch((error) => {
-        console.error("Error sending finished quote stats:", error);
-      });
-
-      // Send detailed stats to UserStatsManager
-      sendDetailedStats();
-      setShowCompletion(true); // Show completion summary
-      finishedSentRef.current = true; // Mark as sent for this quote
-    }
-
-    // Send finished game data to API (for non-quotes or the very last quote)
-    if (
-      isGameFinished && selectedContentItem?.type !== "quote" &&
-      !finishedSentRef.current
-    ) {
-      // Send to existing API
-      fetch("/api/game-stats", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          gameType: contentType,
-          category: selectedContentItem?.name,
-          isFinished: true,
-        }), // Use name as category
-      }).then((response) => response.json()).then((_data) => {
-      }).catch((error) => {
-        console.error("Error sending finished game stats:", error);
+        console.error("Error sending finished code stats:", error);
       });
 
       // Send detailed stats to UserStatsManager
@@ -329,35 +243,10 @@ export default function QuoteTyperMode(
       setShowCompletion(true); // Show completion summary
       finishedSentRef.current = true;
     }
-
-    // Logic to advance to the next quote
-    if (
-      isComplete && selectedContentItem?.type === "quote" &&
-      currentQuoteIndex < allQuotes.length - 1
-    ) {
-      const timer = setTimeout(() => {
-        const nextQuoteIndex = currentQuoteIndex + 1;
-        setCurrentQuoteIndex(nextQuoteIndex);
-        setTargetText(allQuotes[nextQuoteIndex]);
-        resetInput();
-        setStartTime(Date.now());
-        setShowCompletion(false); // Hide completion summary for new quote
-        // Don't clear game result when auto-advancing to next quote
-        // Only clear when user manually selects new content
-        finishedSentRef.current = false;
-      }, 6000);
-
-      return () => clearTimeout(timer);
-    }
   }, [
     isComplete,
-    currentQuoteIndex,
-    allQuotes,
     selectedContentItem,
-    resetInput,
-    targetText, // Add targetText to dependencies
-    contentType, // Add contentType to dependencies
-    sendDetailedStats, // Add sendDetailedStats to dependencies
+    sendDetailedStats,
   ]); // Dependencies
 
   // Handler for the ContentSelector change
@@ -471,7 +360,7 @@ export default function QuoteTyperMode(
             contentItems={relevantContentItems} // Pass only relevant items to selector
             selectedId={selectedContentId}
             onSelect={handleSelectContent}
-            contentType={contentType} // Pass contentType prop
+            contentType="code" // Only handle code content
           />
 
           {/* Optional: Button to load a random item */}
@@ -493,7 +382,7 @@ export default function QuoteTyperMode(
               isComplete={showCompletion}
               onPracticeAgain={handlePracticeAgain}
               onNextGame={loadRandomItem}
-              gameType="quote"
+              gameType="code"
               gameResult={gameResult || undefined}
             />
           )}

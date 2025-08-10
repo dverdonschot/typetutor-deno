@@ -2,6 +2,7 @@
   {
     "text": "La mesure est l'essence de la science.",
     "author": "Lord Kelvin",
+    "authorBio": "Physicien et mathématicien britannique (1824 - 1907)",
     "language": "fr",
     "tags": ["mesure", "science"],
     "difficulty": "beginner"
@@ -9,6 +10,7 @@
   {
     "text": "Ce qui ne peut être mesuré ne peut être amélioré.",
     "author": "Peter Drucker",
+    "authorBio": "Théoricien américain du management (1909 - 2005)",
     "language": "fr",
     "tags": ["mesure", "amélioration"],
     "difficulty": "intermediate"
@@ -23,6 +25,7 @@
   {
     "text": "La précision dans la mesure est la base de toute science exacte.",
     "author": "Antoine Lavoisier",
+    "authorBio": "Chimiste français (1743 - 1794)",
     "language": "fr",
     "tags": ["précision", "mesure", "science"],
     "difficulty": "advanced"
@@ -37,6 +40,7 @@
   {
     "text": "La nature ne fait rien en vain, et le plus est vain quand le moins suffit.",
     "author": "Isaac Newton",
+    "authorBio": "Physicien et mathématicien anglais (1643 - 1727)",
     "language": "fr",
     "tags": ["nature", "mesure", "efficacité"],
     "difficulty": "advanced"
@@ -44,6 +48,7 @@
   {
     "text": "Mesurer, c'est connaître.",
     "author": "Galilée",
+    "authorBio": "Astronome et physicien italien (1564 - 1642)",
     "language": "fr",
     "tags": ["mesure", "connaissance"],
     "difficulty": "beginner"
@@ -51,6 +56,7 @@
   {
     "text": "L'exactitude est la politesse des rois et le devoir des sujets.",
     "author": "Louis XVIII",
+    "authorBio": "Roi de France (1755 - 1824)",
     "language": "fr",
     "tags": ["exactitude", "précision", "devoir"],
     "difficulty": "intermediate"
@@ -65,6 +71,7 @@
   {
     "text": "La science commence là où commence la mesure.",
     "author": "Dmitri Mendeleïev",
+    "authorBio": "Chimiste russe (1834 - 1907)",
     "language": "fr",
     "tags": ["science", "mesure", "début"],
     "difficulty": "intermediate"
@@ -72,6 +79,7 @@
   {
     "text": "La science n'a pas de patrie, parce que le savoir est le patrimoine de l'humanité.",
     "author": "Louis Pasteur",
+    "authorBio": "Microbiologiste français (1822 - 1895)",
     "language": "fr",
     "year": 1888,
     "source": "Discours d'inauguration de l'Institut Pasteur",
@@ -81,6 +89,7 @@
   {
     "text": "Dans les champs de l'observation, le hasard ne favorise que les esprits préparés.",
     "author": "Louis Pasteur",
+    "authorBio": "Microbiologiste français (1822 - 1895)",
     "language": "fr",
     "year": 1854,
     "source": "Discours d'installation à Lille",
@@ -90,6 +99,7 @@
   {
     "text": "Je n'ai pas assez de foi pour croire que j'ai le droit de conclure de l'effet à la cause.",
     "author": "Claude Bernard",
+    "authorBio": "Physiologiste français (1813 - 1878)",
     "language": "fr",
     "tags": ["méthode", "causalité", "science"],
     "difficulty": "advanced"
@@ -97,6 +107,7 @@
   {
     "text": "L'observation est la seule réalité.",
     "author": "Claude Bernard",
+    "authorBio": "Physiologiste français (1813 - 1878)",
     "language": "fr",
     "tags": ["observation", "réalité", "méthode"],
     "difficulty": "intermediate"

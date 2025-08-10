@@ -4,7 +4,7 @@ import {
   scanQuoteCategories,
   scanQuoteFiles,
   scanQuoteLanguages,
-} from "./contentScanner.ts";
+} from "../functions/contentScanner.ts";
 import { ensureDir } from "$std/fs/mod.ts";
 
 // Helper function to create test directory structure

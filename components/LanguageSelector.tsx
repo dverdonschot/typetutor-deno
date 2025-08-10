@@ -1,5 +1,7 @@
 import { useEffect, useState } from "preact/hooks";
 import type { Language } from "../types/quotes.ts";
+import { useReactiveTranslation } from "../utils/translations.ts";
+import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";
 
 interface LanguageSelectorProps {
   selectedLanguage: string | null;
@@ -10,6 +12,7 @@ interface LanguageSelectorProps {
 export default function LanguageSelector(
   { selectedLanguage, onLanguageChange, hideLabel }: LanguageSelectorProps,
 ) {
+  const t = useReactiveTranslation();
   const [languages, setLanguages] = useState<Language[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,7 +39,7 @@ export default function LanguageSelector(
       } catch (err) {
         const errorMessage = err instanceof Error
           ? err.message
-          : "Unknown error";
+          : t(TRANSLATION_KEYS.ERRORS.UNKNOWN_ERROR);
         setError(errorMessage);
         console.error("Error fetching languages:", err);
       } finally {
@@ -66,13 +69,15 @@ export default function LanguageSelector(
     return (
       <div class="bg-red-50 border border-red-200 rounded-md p-3">
         <div class="flex items-center justify-between">
-          <p class="text-sm text-red-600">Error loading languages: {error}</p>
+          <p class="text-sm text-red-600">
+            {t(TRANSLATION_KEYS.ERRORS.ERROR_LOADING_LANGUAGES)}: {error}
+          </p>
           <button
             type="button"
             onClick={() => globalThis.location.reload()}
             class="text-xs text-red-700 hover:text-red-800 underline focus:outline-none"
           >
-            Retry
+            {t(TRANSLATION_KEYS.ACTIONS.RETRY)}
           </button>
         </div>
       </div>
@@ -87,11 +92,13 @@ export default function LanguageSelector(
         onChange={handleChange}
         class="block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-tt-lightblue focus:border-tt-lightblue sm:text-sm rounded-md shadow-sm bg-white border transition-colors duration-200 hover:border-gray-400"
       >
-        <option value="" disabled>-- Select a language --</option>
+        <option value="" disabled>
+          {t(TRANSLATION_KEYS.CONTENT.SELECT_LANGUAGE_PLACEHOLDER)}
+        </option>
         {languages.map((language) => (
           <option key={language.code} value={language.code}>
             {language.flag ? `${language.flag} ` : ""}
-            {language.name}
+            {language.nativeName || language.name}
           </option>
         ))}
       </select>

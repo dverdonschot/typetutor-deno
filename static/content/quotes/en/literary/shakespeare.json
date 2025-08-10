@@ -2,6 +2,7 @@
   {
     "text": "To be or not to be, that is the question.",
     "author": "William Shakespeare",
+    "authorBio": "English playwright and poet (1564 - 1616)",
     "language": "en",
     "source": "Hamlet",
     "tags": [
@@ -13,6 +14,7 @@
   {
     "text": "All the world's a stage, and all the men and women merely players.",
     "author": "William Shakespeare",
+    "authorBio": "English playwright and poet (1564 - 1616)",
     "language": "en",
     "source": "As You Like It",
     "tags": [

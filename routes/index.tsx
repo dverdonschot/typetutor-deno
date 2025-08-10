@@ -1,16 +1,15 @@
 import { PageProps } from "$fresh/server.ts";
-import { Layout } from "../components/Layout.tsx"; // Import the new Layout component
-import { Random } from "../components/random.tsx"; // Keep Random component import
+import { Layout } from "../components/Layout.tsx";
+import NewQuoteTyperMode from "../islands/NewQuoteTyperMode.tsx";
+import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";
 
 export default function Home(props: PageProps) {
-  // const date = new Date(); // Date logic seems unused, commenting out for now
-  // date.setHours(date.getHours() + 1);
   return (
     <Layout
-      descriptionText="The place to train your Touch Typing skills!!"
+      descriptionKey={TRANSLATION_KEYS.PAGES.HOME}
       currentPath={props.url.pathname}
     >
-      <Random />
+      <NewQuoteTyperMode autoFocus />
     </Layout>
   );
 }

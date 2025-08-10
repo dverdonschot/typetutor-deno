@@ -6,6 +6,8 @@ import {
   UserStatsData,
 } from "../types/userStats.ts";
 import { UserStatsManager } from "../utils/userStatsManager.ts";
+import { useReactiveTranslation } from "../utils/translations.ts";
+import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";
 
 interface StatsCardProps {
   title: string;
@@ -37,10 +39,12 @@ interface GameHistoryTableProps {
 }
 
 function GameHistoryTable({ games }: GameHistoryTableProps) {
+  const t = useReactiveTranslation();
+
   if (games.length === 0) {
     return (
       <div className="text-center py-8 text-gray-500">
-        <p>No games completed yet. Start typing to see your history!</p>
+        <p>{t(TRANSLATION_KEYS.USERSTATS.NO_GAMES_YET)}</p>
       </div>
     );
   }
@@ -51,19 +55,19 @@ function GameHistoryTable({ games }: GameHistoryTableProps) {
         <thead className="bg-gray-50">
           <tr>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Date
+              {t(TRANSLATION_KEYS.USERSTATS.TABLE_DATE)}
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Mode
+              {t(TRANSLATION_KEYS.USERSTATS.TABLE_MODE)}
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              WPM
+              {t(TRANSLATION_KEYS.COMMON.WPM)}
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Accuracy
+              {t(TRANSLATION_KEYS.COMMON.ACCURACY)}
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Duration
+              {t(TRANSLATION_KEYS.USERSTATS.TABLE_DURATION)}
             </th>
           </tr>
         </thead>
@@ -99,6 +103,7 @@ interface PerformanceTrendChartProps {
 }
 
 function PerformanceTrendChart({ data, type }: PerformanceTrendChartProps) {
+  const t = useReactiveTranslation();
   const trendData = type === "wpm" ? data.wpmTrend : data.accuracyTrend;
 
   if (trendData.length === 0) {
@@ -124,7 +129,9 @@ function PerformanceTrendChart({ data, type }: PerformanceTrendChartProps) {
   return (
     <div className="bg-white rounded-lg p-4">
       <h3 className="text-lg font-semibold mb-4">
-        {type === "wpm" ? "WPM Trend" : "Accuracy Trend"}
+        {type === "wpm"
+          ? t(TRANSLATION_KEYS.USERSTATS.WPM_TREND)
+          : t(TRANSLATION_KEYS.USERSTATS.ACCURACY_TREND)}
       </h3>
       <div className="h-64 relative">
         <svg
@@ -279,11 +286,17 @@ function PerformanceTrendChart({ data, type }: PerformanceTrendChartProps) {
       <div className="mt-2 text-sm text-gray-600">
         <div className="flex justify-between items-center">
           <p>
-            Latest {trendData.length} data points •{" "}
-            {type === "wpm" ? "Words per minute" : "Accuracy percentage"}
+            {t(TRANSLATION_KEYS.USERSTATS.LATEST_DATA_POINTS).replace(
+              "{count}",
+              trendData.length.toString(),
+            )} • {type === "wpm"
+              ? t(TRANSLATION_KEYS.USERSTATS.WORDS_PER_MINUTE)
+              : t(TRANSLATION_KEYS.USERSTATS.ACCURACY_PERCENTAGE)}
           </p>
           <div className="text-xs">
-            <span className="font-medium">Range:</span>{" "}
+            <span className="font-medium">
+              {t(TRANSLATION_KEYS.USERSTATS.RANGE)}:
+            </span>{" "}
             {minValue.toFixed(type === "wpm" ? 0 : 1)} -{" "}
             {maxValue.toFixed(type === "wpm" ? 0 : 1)}
             {type === "accuracy" ? "%" : ""}
@@ -316,6 +329,7 @@ function PerformanceTrendChart({ data, type }: PerformanceTrendChartProps) {
  * Privacy: All operations are local - no server communication
  */
 export default function UserStatsIsland() {
+  const t = useReactiveTranslation();
   const [stats, setStats] = useState<UserStatsData | null>(null);
   const [progressSummary, setProgressSummary] = useState<
     ProgressSummary | null
@@ -339,7 +353,7 @@ export default function UserStatsIsland() {
         setTrends(performanceTrends);
       } catch (err) {
         console.error("Failed to load user stats:", err);
-        setError("Failed to load statistics. Please try again.");
+        setError(t(TRANSLATION_KEYS.USERSTATS.FAILED_TO_LOAD));
       } finally {
         setLoading(false);
       }
@@ -375,7 +389,7 @@ export default function UserStatsIsland() {
       URL.revokeObjectURL(url);
     } catch (err) {
       console.error("Failed to export stats:", err);
-      alert("Failed to export statistics. Please try again.");
+      alert(t(TRANSLATION_KEYS.USERSTATS.FAILED_TO_EXPORT));
     }
   };
 
@@ -399,13 +413,13 @@ export default function UserStatsIsland() {
         setProgressSummary(progress);
         setTrends(performanceTrends);
 
-        alert("Statistics imported successfully!");
+        alert(t(TRANSLATION_KEYS.USERSTATS.STATS_IMPORTED));
       } else {
-        alert("Failed to import statistics. Please check the file format.");
+        alert(t(TRANSLATION_KEYS.USERSTATS.FAILED_TO_IMPORT));
       }
     } catch (err) {
       console.error("Failed to import stats:", err);
-      alert("Failed to import statistics. Please try again.");
+      alert(t(TRANSLATION_KEYS.USERSTATS.FAILED_TO_IMPORT));
     }
 
     // Reset the file input
@@ -415,7 +429,7 @@ export default function UserStatsIsland() {
   const handleClearStats = async () => {
     if (
       !confirm(
-        "Are you sure you want to clear all statistics? This action cannot be undone.",
+        t(TRANSLATION_KEYS.USERSTATS.CLEAR_CONFIRMATION),
       )
     ) {
       return;
@@ -434,10 +448,10 @@ export default function UserStatsIsland() {
       setProgressSummary(progress);
       setTrends(performanceTrends);
 
-      alert("Statistics cleared successfully!");
+      alert(t(TRANSLATION_KEYS.USERSTATS.STATS_CLEARED));
     } catch (err) {
       console.error("Failed to clear stats:", err);
-      alert("Failed to clear statistics. Please try again.");
+      alert(t(TRANSLATION_KEYS.USERSTATS.FAILED_TO_CLEAR));
     }
   };
 
@@ -446,7 +460,9 @@ export default function UserStatsIsland() {
       <div className="flex items-center justify-center p-8">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500">
         </div>
-        <span className="ml-2 text-gray-600">Loading statistics...</span>
+        <span className="ml-2 text-gray-600">
+          {t(TRANSLATION_KEYS.COMMON.LOADING)} statistics...
+        </span>
       </div>
     );
   }
@@ -460,7 +476,7 @@ export default function UserStatsIsland() {
           onClick={() => globalThis.location.reload()}
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
-          Retry
+          {t(TRANSLATION_KEYS.COMMON.RETRY)}
         </button>
       </div>
     );
@@ -479,27 +495,27 @@ export default function UserStatsIsland() {
       {/* Performance Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsCard
-          title="Best WPM"
+          title={t(TRANSLATION_KEYS.USERSTATS.BEST_WPM)}
           value={stats.bestWPM.toFixed(1)}
-          subtitle="Personal best"
+          subtitle={t(TRANSLATION_KEYS.USERSTATS.PERSONAL_BEST)}
           color="green"
         />
         <StatsCard
-          title="Average WPM"
+          title={t(TRANSLATION_KEYS.USERSTATS.AVERAGE_WPM)}
           value={stats.averageWPM.toFixed(1)}
-          subtitle="Overall average"
+          subtitle={t(TRANSLATION_KEYS.USERSTATS.OVERALL_AVERAGE)}
           color="blue"
         />
         <StatsCard
-          title="Average Accuracy"
+          title={t(TRANSLATION_KEYS.USERSTATS.AVERAGE_ACCURACY)}
           value={`${stats.averageAccuracy.toFixed(1)}%`}
-          subtitle="Overall average"
+          subtitle={t(TRANSLATION_KEYS.USERSTATS.OVERALL_AVERAGE)}
           color="yellow"
         />
         <StatsCard
-          title="Total Games"
+          title={t(TRANSLATION_KEYS.USERSTATS.TOTAL_GAMES)}
           value={stats.totalGamesCompleted}
-          subtitle="Games completed"
+          subtitle={t(TRANSLATION_KEYS.USERSTATS.GAMES_COMPLETED)}
           color="gray"
         />
       </div>
@@ -507,21 +523,21 @@ export default function UserStatsIsland() {
       {/* Additional Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatsCard
-          title="Total Time"
+          title={t(TRANSLATION_KEYS.USERSTATS.TOTAL_TIME)}
           value={formatTime(stats.totalTimeSpent)}
-          subtitle="Time spent typing"
+          subtitle={t(TRANSLATION_KEYS.USERSTATS.TIME_SPENT_TYPING)}
           color="blue"
         />
         <StatsCard
-          title="Characters Typed"
+          title={t(TRANSLATION_KEYS.USERSTATS.CHARACTERS_TYPED)}
           value={stats.totalCharactersTyped.toLocaleString()}
-          subtitle="Total characters"
+          subtitle={t(TRANSLATION_KEYS.USERSTATS.TOTAL_CHARACTERS)}
           color="green"
         />
         <StatsCard
-          title="Current Streak"
+          title={t(TRANSLATION_KEYS.USERSTATS.CURRENT_STREAK)}
           value={progressSummary?.currentStreak || 0}
-          subtitle="Games with 95%+ accuracy"
+          subtitle={t(TRANSLATION_KEYS.USERSTATS.GAMES_WITH_95_ACCURACY)}
           color="yellow"
         />
       </div>
@@ -537,9 +553,14 @@ export default function UserStatsIsland() {
       {/* Recent Games */}
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Recent Games</h2>
+          <h2 className="text-xl font-semibold">
+            {t(TRANSLATION_KEYS.USERSTATS.RECENT_GAMES)}
+          </h2>
           <span className="text-sm text-gray-500">
-            Showing last {Math.min(10, stats.gameHistory.length)} games
+            {t(TRANSLATION_KEYS.USERSTATS.SHOWING_LAST_GAMES).replace(
+              "{count}",
+              Math.min(10, stats.gameHistory.length).toString(),
+            )}
           </span>
         </div>
         <GameHistoryTable games={stats.gameHistory.slice(-10)} />
@@ -547,18 +568,20 @@ export default function UserStatsIsland() {
 
       {/* Data Management */}
       <div className="bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-xl font-semibold mb-4">Data Management</h2>
+        <h2 className="text-xl font-semibold mb-4">
+          {t(TRANSLATION_KEYS.USERSTATS.DATA_MANAGEMENT)}
+        </h2>
         <div className="flex flex-wrap gap-4">
           <button
             type="button"
             onClick={handleExportStats}
             className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
           >
-            Export Stats
+            {t(TRANSLATION_KEYS.USERSTATS.EXPORT_STATS)}
           </button>
 
           <label className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors cursor-pointer">
-            Import Stats
+            {t(TRANSLATION_KEYS.USERSTATS.IMPORT_STATS)}
             <input
               type="file"
               accept=".json"
@@ -572,11 +595,11 @@ export default function UserStatsIsland() {
             onClick={handleClearStats}
             className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
           >
-            Clear All Stats
+            {t(TRANSLATION_KEYS.USERSTATS.CLEAR_ALL_STATS)}
           </button>
         </div>
         <p className="text-sm text-gray-600 mt-2">
-          Export your statistics for backup or import previously exported data.
+          {t(TRANSLATION_KEYS.USERSTATS.EXPORT_DESCRIPTION)}
         </p>
       </div>
     </div>

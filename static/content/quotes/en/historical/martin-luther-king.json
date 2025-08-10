@@ -2,6 +2,7 @@
   {
     "text": "I have a dream that my four little children will one day live in a nation where they will not be judged by the color of their skin but by the content of their character.",
     "author": "Martin Luther King Jr.",
+    "authorBio": "American civil rights leader (1929 - 1968)",
     "language": "en",
     "year": 1963,
     "source": "I Have a Dream Speech",
@@ -11,6 +12,7 @@
   {
     "text": "Darkness cannot drive out darkness; only light can do that. Hate cannot drive out hate; only love can do that.",
     "author": "Martin Luther King Jr.",
+    "authorBio": "American civil rights leader (1929 - 1968)",
     "language": "en",
     "year": 1963,
     "source": "Strength to Love",
@@ -20,6 +22,7 @@
   {
     "text": "Injustice anywhere is a threat to justice everywhere.",
     "author": "Martin Luther King Jr.",
+    "authorBio": "American civil rights leader (1929 - 1968)",
     "language": "en",
     "year": 1963,
     "source": "Letter from Birmingham Jail",
@@ -29,6 +32,7 @@
   {
     "text": "The ultimate measure of a man is not where he stands in moments of comfort and convenience, but where he stands at times of challenge and controversy.",
     "author": "Martin Luther King Jr.",
+    "authorBio": "American civil rights leader (1929 - 1968)",
     "language": "en",
     "year": 1963,
     "source": "Strength to Love",
@@ -38,6 +42,7 @@
   {
     "text": "I have a dream that one day this nation will rise up and live out the true meaning of its creed: We hold these truths to be self-evident, that all men are created equal.",
     "author": "Martin Luther King Jr.",
+    "authorBio": "American civil rights leader (1929 - 1968)",
     "language": "en",
     "year": 1963,
     "source": "I Have a Dream Speech",
@@ -47,6 +52,7 @@
   {
     "text": "Faith is taking the first step even when you don't see the whole staircase.",
     "author": "Martin Luther King Jr.",
+    "authorBio": "American civil rights leader (1929 - 1968)",
     "language": "en",
     "tags": ["faith", "courage", "trust"],
     "difficulty": "intermediate"
@@ -54,6 +60,7 @@
   {
     "text": "The arc of the moral universe is long, but it bends toward justice.",
     "author": "Martin Luther King Jr.",
+    "authorBio": "American civil rights leader (1929 - 1968)",
     "language": "en",
     "year": 1968,
     "source": "Where Do We Go From Here",
@@ -63,6 +70,7 @@
   {
     "text": "We must learn to live together as brothers or perish together as fools.",
     "author": "Martin Luther King Jr.",
+    "authorBio": "American civil rights leader (1929 - 1968)",
     "language": "en",
     "year": 1967,
     "source": "Where Do We Go From Here",
@@ -72,6 +80,7 @@
   {
     "text": "Life's most persistent and urgent question is: What are you doing for others?",
     "author": "Martin Luther King Jr.",
+    "authorBio": "American civil rights leader (1929 - 1968)",
     "language": "en",
     "tags": ["service", "others", "purpose"],
     "difficulty": "intermediate"
@@ -79,6 +88,7 @@
   {
     "text": "Free at last, free at last, thank God Almighty, we are free at last!",
     "author": "Martin Luther King Jr.",
+    "authorBio": "American civil rights leader (1929 - 1968)",
     "language": "en",
     "year": 1963,
     "source": "I Have a Dream Speech",

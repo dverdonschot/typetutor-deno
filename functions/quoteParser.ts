@@ -55,6 +55,13 @@ export function validateQuoteFormat(quote: Quote): boolean {
     return false;
   }
 
+  if (
+    quote.authorBio !== undefined &&
+    (typeof quote.authorBio !== "string" || quote.authorBio.trim() === "")
+  ) {
+    return false;
+  }
+
   if (quote.tags !== undefined && !Array.isArray(quote.tags)) {
     return false;
   }
