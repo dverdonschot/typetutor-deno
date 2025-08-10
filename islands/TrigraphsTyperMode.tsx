@@ -18,8 +18,11 @@ import {
 import { recordGameStats } from "../utils/recordGameStats.ts";
 import { UserStatsManager } from "../utils/userStatsManager.ts";
 import { DetailedGameResult } from "../types/userStats.ts";
+import { useReactiveTranslation } from "../utils/translations.ts";
+import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";
 
 const TrigraphsTyperMode: FC = () => {
+  const t = useReactiveTranslation();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedTrigraph, setSelectedTrigraph] = useState<string | null>(null);
@@ -322,14 +325,15 @@ const TrigraphsTyperMode: FC = () => {
 
   return (
     <Layout
-      descriptionText="Practice typing common trigraphs."
+      descriptionKey="pages.trigraphs"
       currentPath={currentPath}
     >
       {/* Wrap content in Layout component and provide props */}
       <div class="flex flex-col gap-4">
         {/* Use flex column layout with gap */}
-        {isLoading && <div class="text-center">Loading...</div>}{" "}
-        {/* Removed padding as it's on the container */}
+        {isLoading && (
+          <div class="text-center">{t(TRANSLATION_KEYS.TRIGRAPHS.LOADING)}</div>
+        )} {/* Removed padding as it's on the container */}
         {error && (
           <div class="text-center text-red-600 bg-red-100 rounded-md">
             {/* Removed padding */}
@@ -377,7 +381,7 @@ const TrigraphsTyperMode: FC = () => {
                 {/* Make selection area full width, add margin-top, use flexbox */}
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">
-                    Select a Trigraph
+                    {t(TRANSLATION_KEYS.TRIGRAPHS.SELECT_TRIGRAPH)}
                   </label>
                   {availableTrigraphs.length > 0 && (
                     <ContentSelector
@@ -398,7 +402,7 @@ const TrigraphsTyperMode: FC = () => {
                 {/* Word Count Setting for Trigraphs */}
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">
-                    Number of Words
+                    {t(TRANSLATION_KEYS.TRIGRAPHS.NUMBER_OF_WORDS)}
                   </label>
                   <input
                     type="number"
@@ -432,8 +436,8 @@ const TrigraphsTyperMode: FC = () => {
                     }`}
                   >
                     {isRandomTrigraphEnabled
-                      ? "Random Trigraph Enabled"
-                      : "Random Trigraph Disabled"}
+                      ? t(TRANSLATION_KEYS.TRIGRAPHS.RANDOM_TRIGRAPH_ENABLED)
+                      : t(TRANSLATION_KEYS.TRIGRAPHS.RANDOM_TRIGRAPH_DISABLED)}
                   </button>
                 </div>
               </div>
@@ -455,7 +459,7 @@ const TrigraphsTyperMode: FC = () => {
         {!isLoading && !error && !targetText && !selectedTrigraph && (
           <div class="text-center text-gray-500">
             {/* Removed padding */}
-            Please select a trigraph to start typing.
+            {t(TRANSLATION_KEYS.TRIGRAPHS.PLEASE_SELECT_TRIGRAPH)}
           </div>
         )}
       </div>{" "}

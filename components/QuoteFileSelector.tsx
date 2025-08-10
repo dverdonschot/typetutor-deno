@@ -7,11 +7,20 @@ interface QuoteFileSelectorProps {
   selectedFileId: string | null;
   onFileChange: (fileId: string, metadata: QuoteMetadata) => void;
   hideLabel?: boolean;
+  label?: string;
+  difficultyLabel?: string;
 }
 
 export default function QuoteFileSelector(
-  { languageCode, categoryDirectory, selectedFileId, onFileChange, hideLabel }:
-    QuoteFileSelectorProps,
+  {
+    languageCode,
+    categoryDirectory,
+    selectedFileId,
+    onFileChange,
+    hideLabel,
+    label,
+    difficultyLabel,
+  }: QuoteFileSelectorProps,
 ) {
   const [quoteFiles, setQuoteFiles] = useState<QuoteMetadata[]>([]);
   const [loading, setLoading] = useState(false);
@@ -126,7 +135,7 @@ export default function QuoteFileSelector(
           htmlFor="quote-file-selector"
           class="block text-sm font-medium text-gray-700 mb-1"
         >
-          Quote Collection:
+          {label || "Quote Collection"}:
         </label>
       )}
       <select
@@ -158,7 +167,11 @@ export default function QuoteFileSelector(
               parts.push(`Tags: ${selectedFile.tags.join(", ")}`);
             }
             if (selectedFile.difficulty) {
-              parts.push(`Difficulty: ${selectedFile.difficulty}`);
+              parts.push(
+                `${
+                  difficultyLabel || "Difficulty"
+                }: ${selectedFile.difficulty}`,
+              );
             }
 
             return parts.length > 0 ? <p>{parts.join(" • ")}</p> : null;

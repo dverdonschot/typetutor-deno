@@ -2,6 +2,7 @@
   {
     "text": "Success is not final, failure is not fatal: it is the courage to continue that counts.",
     "author": "Winston Churchill",
+    "authorBio": "British Prime Minister and statesman (1874 - 1965)",
     "language": "en",
     "year": 1942,
     "tags": [
@@ -13,6 +14,7 @@
   {
     "text": "The way to get started is to quit talking and begin doing.",
     "author": "Walt Disney",
+    "authorBio": "American animator and film producer (1901 - 1966)",
     "language": "en",
     "tags": [
       "action",

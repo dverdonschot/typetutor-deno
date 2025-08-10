@@ -1,0 +1,35 @@
+[
+  {
+    "text": "In het niet weten van sommige dingen ligt een groot stuk wijsheid.",
+    "author": "Hugo de Groot",
+    "authorBio": "Nederlands rechtsgeleerde en schrijver (1583 - 1645)",
+    "language": "nl",
+    "tags": ["wijsheid", "filosofie", "kennis"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "Vrijheid is de macht die we hebben over onszelf",
+    "author": "Hugo de Groot",
+    "authorBio": "Nederlands rechtsgeleerde en schrijver (1583 - 1645)",
+    "language": "nl",
+    "tags": ["vrijheid", "zelfbeheersing", "filosofie"],
+    "difficulty": "beginner"
+  },
+  {
+    "text": "Zelfs God kan niet van twee keer twee niet vier maken.",
+    "author": "Hugo de Groot",
+    "authorBio": "Nederlands rechtsgeleerde en schrijver (1583 - 1645)",
+    "language": "nl",
+    "tags": ["logica", "wiskunde", "filosofie", "waarheid"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "Een straf is het kwaad dat men lijdt wegens een kwaad dat men deed.",
+    "author": "Hugo de Groot",
+    "authorBio": "Nederlands rechtsgeleerde en schrijver (1583 - 1645)",
+    "language": "nl",
+    "tags": ["recht", "straf", "rechtvaardigheid"],
+    "difficulty": "advanced"
+  }
+]
+

@@ -7,6 +7,7 @@ interface CategorySelectorProps {
   onCategoryChange: (categoryDirectory: string) => void;
   hideLabel?: boolean;
   isStateLoaded?: boolean;
+  categoryLabel?: string;
 }
 
 export default function CategorySelector(
@@ -16,6 +17,7 @@ export default function CategorySelector(
     onCategoryChange,
     hideLabel,
     isStateLoaded = true,
+    categoryLabel,
   }: CategorySelectorProps,
 ) {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -126,7 +128,7 @@ export default function CategorySelector(
           htmlFor="category-selector"
           class="block text-sm font-medium text-gray-700 mb-1"
         >
-          Category:
+          {categoryLabel || "Category"}:
         </label>
       )}
       <select

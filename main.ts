@@ -11,8 +11,14 @@ import { start } from "$fresh/server.ts";
 import manifest from "./fresh.gen.ts";
 import config from "./fresh.config.ts";
 import { initializeQuoteCache } from "./functions/initializeCache.ts";
+import { translationCache } from "./utils/translationCache.ts";
 
-// Initialize quote cache before starting server
+// Initialize caches before starting server
 await initializeQuoteCache();
+
+// Initialize translation cache
+console.log("Initializing translation cache...");
+await translationCache.getCache();
+console.log("Translation cache initialized");
 
 await start(manifest, config);

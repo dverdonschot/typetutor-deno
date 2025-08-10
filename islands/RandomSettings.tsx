@@ -1,6 +1,8 @@
 import { useEffect, useState } from "preact/hooks";
 import { randomTrainingSet } from "../functions/randomTrainingSet.ts";
 import { TrainingChar } from "../functions/randomTrainingSet.ts";
+import { useReactiveTranslation } from "../utils/translations.ts";
+import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";
 
 interface RandomSettingsProps {
   initialCharacterLength: number;
@@ -10,6 +12,7 @@ interface RandomSettingsProps {
 export default function RandomSettings(
   { initialCharacterLength, initialCharacterSet }: RandomSettingsProps,
 ) {
+  const t = useReactiveTranslation();
   const [characterLength, setCharacterLength] = useState<number>(
     initialCharacterLength,
   );
@@ -119,7 +122,7 @@ export default function RandomSettings(
       <div class="p-4 bg-gray-100 rounded-lg flex flex-wrap gap-4 items-center">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">
-            Character Length
+            {t(TRANSLATION_KEYS.RANDOM.CHARACTER_LENGTH)}
           </label>
           <input
             type="number"
@@ -133,7 +136,7 @@ export default function RandomSettings(
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">
-            Character Set
+            {t(TRANSLATION_KEYS.RANDOM.CHARACTER_SET)}
           </label>
           <select
             onChange={handleSetChange}
@@ -154,14 +157,14 @@ export default function RandomSettings(
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1 opacity-0">
-            Regenerate
+            {t(TRANSLATION_KEYS.RANDOM.REGENERATE)}
           </label>
           <button
             type="button"
             onClick={handleRegenerate}
             class="px-4 py-2 border-tt-lightblue border-2 rounded-md bg-tt-lightblue hover:bg-tt-lightblue-darker hover:opacity-80 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-opacity cursor-pointer"
           >
-            Regenerate
+            {t(TRANSLATION_KEYS.RANDOM.REGENERATE)}
           </button>
         </div>
       </div>

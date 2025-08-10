@@ -1,11 +1,12 @@
 import { PageProps } from "$fresh/server.ts";
 import { Layout } from "../components/Layout.tsx";
 import { Alphabet } from "../components/alphabet.tsx";
+import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";
 
 export default function alphabet(props: PageProps) {
   return (
     <Layout
-      descriptionText="Type the Alphabet as fast as you can!!"
+      descriptionKey={TRANSLATION_KEYS.PAGES.ALPHABET}
       currentPath={props.url.pathname}
     >
       <Alphabet />

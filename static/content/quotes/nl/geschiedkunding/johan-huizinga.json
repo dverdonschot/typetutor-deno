@@ -1,0 +1,41 @@
+[
+  {
+    "text": "Alle spel betekent iets.",
+    "author": "Johan Huizinga",
+    "language": "nl",
+    "authorBio": "Nederlands cultuurhistoricus (1872 - 1945)",
+    "tags": ["spel", "cultuur", "filosofie"],
+    "difficulty": "beginner"
+  },
+  {
+    "text": "De sport schept levenskracht, levensmoed, orde en harmonie, kostbaarste dingen voor de cultuur.",
+    "author": "Johan Huizinga",
+    "authorBio": "Nederlands cultuurhistoricus (1872 - 1945)",
+    "tags": ["cultuur", "sport", "harmonie"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "De leidende mannen zijn slechts een blaadje of takje op de stroom van de tijd.",
+    "author": "Johan Huizinga",
+    "language": "nl",
+    "authorBio": "Nederlands cultuurhistoricus (1872 - 1945)",
+    "tags": ["geschiedenis", "leiderschap"],
+    "difficulty": "intermediate"
+  },
+  {
+    "text": "De historie kan niets voorspellen, behalve één ding: dat geen grote wending in de menselijke verhoudingen ooit uitkomt in de vorm, waarin vroeger levenden zich haar hebben kunnen verbeeld.",
+    "author": "Johan Huizinga",
+    "language": "nl",
+    "authorBio": "Nederlands cultuurhistoricus (1872 - 1945)",
+    "tags": ["geschiedenis", "verandering", "wijsheid"],
+    "difficulty": "advanced"
+  },
+  {
+    "text": "Het onderscheid tussen zijn en idee wordt slechts overbrugd door de regenboog van de verbeelding.",
+    "author": "Johan Huizinga",
+    "language": "nl",
+    "authorBio": "Nederlands cultuurhistoricus (1872 - 1945)",
+    "tags": ["filosofie", "verbeelding"],
+    "difficulty": "advanced"
+  }
+]

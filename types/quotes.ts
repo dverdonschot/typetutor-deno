@@ -3,6 +3,7 @@ export interface Quote {
   text: string; // Required: The quote text
   language: string; // Required: ISO 639-1 code (en, es, fr, etc.)
   author?: string; // Optional: Quote attribution
+  authorBio?: string; // Optional: Author biographical info (e.g., "Vlaams dichter (1919 - 2003)")
   year?: number; // Optional: Year quote was said/written
   source?: string; // Optional: Book, speech, interview, etc.
   tags?: string[]; // Optional: Thematic tags

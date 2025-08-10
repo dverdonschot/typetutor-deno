@@ -2,6 +2,7 @@
   {
     "text": "It is better to offer no excuse than a bad one.",
     "author": "George Washington",
+    "authorBio": "1st President of the United States (1732 - 1799)",
     "language": "en",
     "year": 1783,
     "tags": ["wisdom", "leadership", "honesty"],
@@ -10,6 +11,7 @@
   {
     "text": "Associate with men of good quality if you esteem your own reputation; for it is better to be alone than in bad company.",
     "author": "George Washington",
+    "authorBio": "1st President of the United States (1732 - 1799)",
     "language": "en",
     "tags": ["character", "relationships", "reputation"],
     "difficulty": "advanced"
@@ -17,6 +19,7 @@
   {
     "text": "Liberty, when it begins to take root, is a plant of rapid growth.",
     "author": "George Washington",
+    "authorBio": "1st President of the United States (1732 - 1799)",
     "language": "en",
     "year": 1788,
     "tags": ["liberty", "freedom", "politics"],
@@ -25,6 +28,7 @@
   {
     "text": "I hold the maxim no less applicable to public than to private affairs, that honesty is always the best policy.",
     "author": "George Washington",
+    "authorBio": "1st President of the United States (1732 - 1799)",
     "language": "en",
     "year": 1796,
     "source": "Farewell Address",
@@ -34,6 +38,7 @@
   {
     "text": "Guard against the impostures of pretended patriotism.",
     "author": "George Washington",
+    "authorBio": "1st President of the United States (1732 - 1799)",
     "language": "en",
     "year": 1796,
     "source": "Farewell Address",
@@ -43,6 +48,7 @@
   {
     "text": "Labor to keep alive in your breast that little spark of celestial fire called conscience.",
     "author": "George Washington",
+    "authorBio": "1st President of the United States (1732 - 1799)",
     "language": "en",
     "year": 1748,
     "source": "Rules of Civility",
@@ -52,6 +58,7 @@
   {
     "text": "Discipline is the soul of an army.",
     "author": "George Washington",
+    "authorBio": "1st President of the United States (1732 - 1799)",
     "language": "en",
     "tags": ["discipline", "military", "leadership"],
     "difficulty": "beginner"
@@ -59,6 +66,7 @@
   {
     "text": "Few men have virtue to withstand the highest bidder.",
     "author": "George Washington",
+    "authorBio": "1st President of the United States (1732 - 1799)",
     "language": "en",
     "tags": ["virtue", "corruption", "integrity"],
     "difficulty": "intermediate"
@@ -66,6 +74,7 @@
   {
     "text": "The time is near at hand which must determine whether Americans are to be free men or slaves.",
     "author": "George Washington",
+    "authorBio": "1st President of the United States (1732 - 1799)",
     "language": "en",
     "year": 1776,
     "tags": ["freedom", "independence", "determination"],
@@ -74,6 +83,7 @@
   {
     "text": "Let your heart feel for the afflictions and distress of everyone.",
     "author": "George Washington",
+    "authorBio": "1st President of the United States (1732 - 1799)",
     "language": "en",
     "tags": ["compassion", "empathy", "kindness"],
     "difficulty": "intermediate"
@@ -81,6 +91,7 @@
   {
     "text": "True friendship is a plant of slow growth, and must undergo and withstand the shocks of adversity before it is entitled to the appellation.",
     "author": "George Washington",
+    "authorBio": "1st President of the United States (1732 - 1799)",
     "language": "en",
     "year": 1783,
     "source": "Letter to Bushrod Washington",
@@ -90,6 +101,7 @@
   {
     "text": "To be prepared for war is one of the most effectual means of preserving peace.",
     "author": "George Washington",
+    "authorBio": "1st President of the United States (1732 - 1799)",
     "language": "en",
     "year": 1790,
     "source": "First Annual Address to Congress",
@@ -99,6 +111,7 @@
   {
     "text": "Be courteous to all, but intimate with few, and let those few be well tried before you give them your confidence.",
     "author": "George Washington",
+    "authorBio": "1st President of the United States (1732 - 1799)",
     "language": "en",
     "year": 1783,
     "source": "Letter to Bushrod Washington",

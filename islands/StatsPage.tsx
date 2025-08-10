@@ -1,4 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
+import { useReactiveTranslation } from "../utils/translations.ts";
+import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";
 
 interface GameStats {
   [gameType: string]: {
@@ -18,6 +20,7 @@ interface StatCardProps {
 }
 
 function StatCard({ title, count, color = "blue" }: StatCardProps) {
+  const t = useReactiveTranslation();
   const colorClasses = {
     blue: "bg-blue-50 border-blue-200",
     green: "bg-green-50 border-green-200",
@@ -30,7 +33,9 @@ function StatCard({ title, count, color = "blue" }: StatCardProps) {
     <div className={`border rounded-lg p-4 ${colorClasses[color]}`}>
       <h3 className="text-sm font-medium text-gray-600 mb-1">{title}</h3>
       <p className="text-2xl font-bold text-gray-900">{count}</p>
-      <p className="text-xs text-gray-500 mt-1">games completed</p>
+      <p className="text-xs text-gray-500 mt-1">
+        {t(TRANSLATION_KEYS.SERVERSTATS.GAMES_COMPLETED)}
+      </p>
     </div>
   );
 }
@@ -41,6 +46,8 @@ interface CategoryStatsProps {
 }
 
 function CategoryStats({ gameType, categories }: CategoryStatsProps) {
+  const t = useReactiveTranslation();
+
   if (gameType === "Trigraphs") {
     // Special compact handling for Trigraphs
     const sortedCategories = Object.entries(categories)
@@ -49,7 +56,9 @@ function CategoryStats({ gameType, categories }: CategoryStatsProps) {
 
     return (
       <div className="bg-white rounded-lg p-4 mt-4">
-        <h3 className="text-lg font-semibold mb-3">Categories</h3>
+        <h3 className="text-lg font-semibold mb-3">
+          {t(TRANSLATION_KEYS.SERVERSTATS.CATEGORIES)}
+        </h3>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-sm">
           {sortedCategories.map(({ category, finished }) => (
             <div
@@ -68,7 +77,9 @@ function CategoryStats({ gameType, categories }: CategoryStatsProps) {
   // Standard handling for other game types
   return (
     <div className="bg-white rounded-lg p-4 mt-4">
-      <h3 className="text-lg font-semibold mb-3">Categories</h3>
+      <h3 className="text-lg font-semibold mb-3">
+        {t(TRANSLATION_KEYS.SERVERSTATS.CATEGORIES)}
+      </h3>
       <div className="space-y-3">
         {Object.entries(categories).map(([category, data]) => (
           <div key={category} className="border-l-4 border-blue-200 pl-4">
@@ -77,7 +88,7 @@ function CategoryStats({ gameType, categories }: CategoryStatsProps) {
             </h4>
             <p className="text-gray-600">
               <span className="font-semibold">{data.finished}</span>{" "}
-              games completed
+              {t(TRANSLATION_KEYS.SERVERSTATS.GAMES_COMPLETED)}
             </p>
           </div>
         ))}
@@ -87,6 +98,7 @@ function CategoryStats({ gameType, categories }: CategoryStatsProps) {
 }
 
 export default function StatsPage() {
+  const t = useReactiveTranslation();
   const [stats, setStats] = useState<GameStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -131,7 +143,9 @@ export default function StatsPage() {
     return (
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="text-center text-gray-600">
-          <div className="animate-pulse">Loading game statistics...</div>
+          <div className="animate-pulse">
+            {t(TRANSLATION_KEYS.SERVERSTATS.LOADING)}
+          </div>
         </div>
       </div>
     );
@@ -141,7 +155,7 @@ export default function StatsPage() {
     return (
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="text-center text-red-600 bg-red-100 rounded-md p-4">
-          Error loading statistics: {error}
+          {t(TRANSLATION_KEYS.SERVERSTATS.ERROR_LOADING)}: {error}
         </div>
       </div>
     );
@@ -151,9 +165,9 @@ export default function StatsPage() {
     return (
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="text-center text-gray-500">
-          <p>No game statistics available yet.</p>
+          <p>{t(TRANSLATION_KEYS.SERVERSTATS.NO_STATISTICS)}</p>
           <p className="text-sm mt-2">
-            Complete some typing games to see your progress!
+            {t(TRANSLATION_KEYS.SERVERSTATS.COMPLETE_GAMES_TO_SEE)}
           </p>
         </div>
       </div>
@@ -163,7 +177,7 @@ export default function StatsPage() {
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">
-        Server Game Completion Statistics
+        {t(TRANSLATION_KEYS.SERVERSTATS.TITLE)}
       </h2>
 
       {/* Overview Cards */}
@@ -190,14 +204,15 @@ export default function StatsPage() {
           <div key={gameType}>
             <div className="border-b border-gray-200 pb-2 mb-4">
               <h3 className="text-xl font-semibold text-gray-900">
-                {gameType.charAt(0).toUpperCase() + gameType.slice(1)} Details
+                {gameType.charAt(0).toUpperCase() + gameType.slice(1)}{" "}
+                {t(TRANSLATION_KEYS.SERVERSTATS.DETAILS_SUFFIX)}
               </h3>
               <p className="text-gray-600">
-                Total completed:{" "}
+                {t(TRANSLATION_KEYS.SERVERSTATS.TOTAL_COMPLETED)}:{" "}
                 <span className="font-semibold">
                   {getTotalGamesCompleted(data)}
                 </span>{" "}
-                games
+                {t(TRANSLATION_KEYS.SERVERSTATS.GAMES)}
               </p>
             </div>
 

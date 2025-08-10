@@ -9,7 +9,8 @@ import { UserStatsManager } from "../utils/userStatsManager.ts";
 import { DetailedGameResult } from "../types/userStats.ts";
 import type { Quote, QuoteMetadata } from "../types/quotes.ts";
 import { currentLanguageSignal } from "../contexts/LanguageContext.ts";
-import { useTranslation } from "../utils/translations.ts";
+import { useReactiveTranslation } from "../utils/translations.ts";
+import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";
 
 interface NewQuoteTyperModeProps {
   autoFocus?: boolean;
@@ -19,7 +20,7 @@ export default function NewQuoteTyperMode(
   { autoFocus = true }: NewQuoteTyperModeProps,
 ) {
   // Global language from signal - use .value directly in effects for reactivity
-  const t = useTranslation(currentLanguageSignal.value.code);
+  const t = useReactiveTranslation();
 
   // Selection state (removed selectedLanguage - using global language)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -55,6 +56,18 @@ export default function NewQuoteTyperMode(
 
   // Load persistent state from localStorage
   useEffect(() => {
+    // One-time cleanup: Clear old localStorage that contained quote content
+    const cleanupKey = "quote-cache-cleaned-v1";
+    if (!localStorage.getItem(cleanupKey)) {
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('quote-state-')) {
+          localStorage.removeItem(key);
+        }
+      });
+      localStorage.setItem(cleanupKey, "true");
+      console.log("Cleaned up old quote cache from localStorage");
+    }
+
     const savedState = localStorage.getItem(
       `quote-state-${currentLanguageSignal.value.code}`,
     );
@@ -80,12 +93,8 @@ export default function NewQuoteTyperMode(
         if (parsed.currentQuoteIndex !== undefined) {
           setCurrentQuoteIndex(parsed.currentQuoteIndex);
         }
-        if (parsed.allQuotes && Array.isArray(parsed.allQuotes)) {
-          setAllQuotes(parsed.allQuotes);
-        }
-        if (parsed.targetText) {
-          setTargetText(parsed.targetText);
-        }
+        // Note: No longer restoring allQuotes or targetText from localStorage
+        // These will be fetched fresh from the API
       } catch (e) {
         console.warn("Failed to parse saved quote state:", e);
       }
@@ -103,8 +112,7 @@ export default function NewQuoteTyperMode(
       randomQuotesEnabled,
       gamesPlayedCount,
       currentQuoteIndex,
-      allQuotes,
-      targetText,
+      // Note: NOT storing allQuotes or targetText - these should be fetched fresh
     };
     localStorage.setItem(
       `quote-state-${currentLanguageSignal.value.code}`,
@@ -158,22 +166,8 @@ export default function NewQuoteTyperMode(
       const savedState = localStorage.getItem(
         `quote-state-${currentLanguageSignal.value.code}`,
       );
-      if (savedState) {
-        try {
-          const parsed = JSON.parse(savedState);
-          // Only preserve state if we have valid restored quotes and target text
-          if (
-            parsed.allQuotes && parsed.targetText && allQuotes.length === 0 &&
-            !targetText
-          ) {
-            // State was already restored in the initial useEffect, no need to reload
-            setIsLoading(false);
-            return;
-          }
-        } catch (_e) {
-          // If parsing fails, continue with normal loading
-        }
-      }
+      // Note: We no longer store quotes in localStorage, so always load fresh quotes
+      // The saved state only contains UI preferences
 
       try {
         setIsLoading(true);
@@ -208,6 +202,8 @@ export default function NewQuoteTyperMode(
 
               const responseData = await contentResponse.json();
               const fileQuotes: Quote[] = responseData.quotes || responseData;
+              
+              
               quotes.push(...fileQuotes);
             }
           }
@@ -252,8 +248,11 @@ export default function NewQuoteTyperMode(
           const responseData = await response.json();
           quotes = responseData.quotes || responseData;
 
+
           // Shuffle the quotes for variety
           const shuffledQuotes = [...quotes].sort(() => Math.random() - 0.5);
+          
+          
           setAllQuotes(shuffledQuotes);
           setTargetText(shuffledQuotes[0]?.text || "");
         } else {
@@ -786,11 +785,20 @@ export default function NewQuoteTyperMode(
                     </div>
                   )}
 
+                  {/* Author biographical information */}
+                  {allQuotes[currentQuoteIndex]?.authorBio && 
+                   allQuotes[currentQuoteIndex].authorBio.trim() !== "" && (
+                    <div class="text-sm text-gray-600 italic mb-2">
+                      <strong>Bio:</strong> {allQuotes[currentQuoteIndex].authorBio}
+                    </div>
+                  )}
+
                   {/* Secondary metadata */}
                   <div class="space-y-1 text-sm text-gray-500">
-                    {allQuotes[currentQuoteIndex].source && (
+                    {allQuotes[currentQuoteIndex]?.source && 
+                     allQuotes[currentQuoteIndex].source.trim() !== "" && (
                       <div class="italic">
-                        Source: {allQuotes[currentQuoteIndex].source}
+                        <strong>Source:</strong> {allQuotes[currentQuoteIndex].source}
                       </div>
                     )}
                     {allQuotes[currentQuoteIndex].tags &&
@@ -814,7 +822,7 @@ export default function NewQuoteTyperMode(
                     )}
                     {allQuotes[currentQuoteIndex].difficulty && (
                       <div>
-                        Difficulty:{" "}
+                        {t(TRANSLATION_KEYS.COMMON.DIFFICULTY)}:{" "}
                         <span class="capitalize font-medium">
                           {allQuotes[currentQuoteIndex].difficulty}
                         </span>
@@ -827,7 +835,7 @@ export default function NewQuoteTyperMode(
                 <div class="text-right text-sm text-gray-500 ml-4">
                   {selectedCategory && !randomQuotesEnabled && (
                     <div class="mb-1">
-                      Category:{" "}
+                      {t(TRANSLATION_KEYS.COMMON.CATEGORY)}:{" "}
                       <span class="font-medium capitalize">
                         {selectedCategory}
                       </span>
@@ -836,7 +844,7 @@ export default function NewQuoteTyperMode(
                   {selectedFileMetadata?.fileTitle &&
                     !randomizeCategoryEnabled && !randomQuotesEnabled && (
                     <div>
-                      Collection:{" "}
+                      {t("quotes.collection")}:{" "}
                       <span class="font-medium">
                         {selectedFileMetadata.fileTitle}
                       </span>
@@ -844,7 +852,7 @@ export default function NewQuoteTyperMode(
                   )}
                   {randomQuotesEnabled && (
                     <div class="text-xs bg-blue-50 px-2 py-1 rounded text-blue-700">
-                      🎲 Random from all quotes
+                      🎲 {t(TRANSLATION_KEYS.QUOTES.RANDOM_FROM_ALL_QUOTES)}
                     </div>
                   )}
                   {randomizeCategoryEnabled && selectedCategory && (
@@ -964,11 +972,11 @@ export default function NewQuoteTyperMode(
                   class="w-4 h-4 text-tt-lightblue bg-gray-100 border-gray-300 rounded focus:ring-tt-lightblue focus:ring-2"
                 />
                 <span class="text-sm font-medium text-gray-700">
-                  Random Quotes
+                  {t(TRANSLATION_KEYS.QUOTES.RANDOM_QUOTES)}
                 </span>
               </label>
               <div class="text-xs text-gray-500">
-                Get random quotes from entire language
+                {t(TRANSLATION_KEYS.QUOTES.GET_RANDOM_QUOTES_ENTIRE_LANGUAGE)}
               </div>
             </div>
             {/* Load Random Collection Button - smaller and positioned here */}
@@ -993,6 +1001,7 @@ export default function NewQuoteTyperMode(
                       selectedCategory={selectedCategory}
                       onCategoryChange={handleCategoryChange}
                       isStateLoaded={isStateLoaded}
+                      categoryLabel={t(TRANSLATION_KEYS.COMMON.CATEGORY)}
                     />
                   </div>
                   {selectedCategory && (
@@ -1007,7 +1016,7 @@ export default function NewQuoteTyperMode(
                         class="w-4 h-4 text-tt-lightblue bg-gray-100 border-gray-300 rounded focus:ring-tt-lightblue focus:ring-2"
                       />
                       <span class="text-sm font-medium text-gray-700">
-                        Randomize Category
+                        {t(TRANSLATION_KEYS.QUOTES.RANDOMIZE_CATEGORY)}
                       </span>
                     </label>
                   )}
@@ -1027,6 +1036,8 @@ export default function NewQuoteTyperMode(
                   categoryDirectory={selectedCategory}
                   selectedFileId={selectedFileId}
                   onFileChange={handleFileChange}
+                  label={t(TRANSLATION_KEYS.QUOTES.SELECT_COLLECTION)}
+                  difficultyLabel={t(TRANSLATION_KEYS.COMMON.DIFFICULTY)}
                 />
               )}
             </>

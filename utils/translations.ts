@@ -1,157 +1,159 @@
-export interface Translations {
-  [key: string]: string | Translations;
+import { currentLanguageSignal } from "../contexts/LanguageContext.ts";
+import {
+  getTranslationFromObject,
+  loadTranslations,
+  type Translations,
+} from "./translationLoader.ts";
+
+export type { Translations };
+
+// Use the same cache as translationLoader to avoid duplication
+import { getTranslationCache } from "./translationLoader.ts";
+
+/**
+ * Load translations for a language and cache them
+ */
+async function getTranslationsForLanguage(
+  languageCode: string,
+): Promise<Translations> {
+  const cache = getTranslationCache();
+  if (!cache[languageCode]) {
+    cache[languageCode] = await loadTranslations(languageCode);
+  }
+  return cache[languageCode];
 }
 
-const translations: Record<string, Translations> = {
-  en: {
-    nav: {
-      typing: "Typing",
-      quotes: "Quotes",
-      trigraphs: "Trigraphs",
-      code: "Code",
-      alphabet: "Alphabet",
-      random: "Random",
-      stats: "Stats",
-    },
-    common: {
-      language: "Language",
-      category: "Category",
-      loading: "Loading",
-      error: "Error",
-      retry: "Retry",
-      practiceAgain: "Practice Again",
-      nextQuote: "Next Quote",
-      wpm: "WPM",
-      accuracy: "Accuracy",
-      time: "Time",
-    },
-    quotes: {
-      title: "Quote Typing Practice",
-      description:
-        "Practice typing with inspirational quotes to improve your speed and accuracy.",
-      selectCollection: "Select Quote Collection",
-      loadingQuotes: "Loading Quotes",
-      fetchingCollection: "Fetching your selected quote collection...",
-      errorLoading: "Error Loading Quotes",
-      tryAgain: "Try again",
-      loadRandomCollection: "Load Random Collection",
-    },
-    about: {
-      title: "About TypeTutor",
-      description:
-        "TypeTutor is a comprehensive typing trainer designed to help you improve your typing speed and accuracy through various practice modes.",
-    },
-  },
-  es: {
-    nav: {
-      typing: "Mecanografía",
-      quotes: "Citas",
-      trigraphs: "Trígrafos",
-      code: "Código",
-      alphabet: "Alfabeto",
-      random: "Aleatorio",
-      stats: "Estadísticas",
-    },
-    common: {
-      language: "Idioma",
-      category: "Categoría",
-      loading: "Cargando",
-      error: "Error",
-      retry: "Reintentar",
-      practiceAgain: "Practicar de Nuevo",
-      nextQuote: "Siguiente Cita",
-      wpm: "PPM",
-      accuracy: "Precisión",
-      time: "Tiempo",
-    },
-    quotes: {
-      title: "Práctica de Mecanografía con Citas",
-      description:
-        "Practica mecanografía con citas inspiradoras para mejorar tu velocidad y precisión.",
-      selectCollection: "Seleccionar Colección de Citas",
-      loadingQuotes: "Cargando Citas",
-      fetchingCollection: "Obteniendo tu colección de citas seleccionada...",
-      errorLoading: "Error al Cargar Citas",
-      tryAgain: "Intentar de nuevo",
-      loadRandomCollection: "Cargar Colección Aleatoria",
-    },
-    about: {
-      title: "Acerca de TypeTutor",
-      description:
-        "TypeTutor es un entrenador de mecanografía integral diseñado para ayudarte a mejorar tu velocidad y precisión de escritura a través de varios modos de práctica.",
-    },
-  },
-  fr: {
-    nav: {
-      typing: "Dactylographie",
-      quotes: "Citations",
-      trigraphs: "Trigrammes",
-      code: "Code",
-      alphabet: "Alphabet",
-      random: "Aléatoire",
-      stats: "Statistiques",
-    },
-    common: {
-      language: "Langue",
-      category: "Catégorie",
-      loading: "Chargement",
-      error: "Erreur",
-      retry: "Réessayer",
-      practiceAgain: "Pratiquer à Nouveau",
-      nextQuote: "Citation Suivante",
-      wpm: "MPM",
-      accuracy: "Précision",
-      time: "Temps",
-    },
-    quotes: {
-      title: "Pratique de Dactylographie avec Citations",
-      description:
-        "Pratiquez la dactylographie avec des citations inspirantes pour améliorer votre vitesse et précision.",
-      selectCollection: "Sélectionner Collection de Citations",
-      loadingQuotes: "Chargement des Citations",
-      fetchingCollection:
-        "Récupération de votre collection de citations sélectionnée...",
-      errorLoading: "Erreur de Chargement des Citations",
-      tryAgain: "Réessayer",
-      loadRandomCollection: "Charger Collection Aléatoire",
-    },
-    about: {
-      title: "À Propos de TypeTutor",
-      description:
-        "TypeTutor est un entraîneur de dactylographie complet conçu pour vous aider à améliorer votre vitesse et précision de frappe grâce à divers modes de pratique.",
-    },
-  },
-};
+/**
+ * Get translation by key and language
+ */
+export async function getTranslationAsync(
+  key: string,
+  language: string = "en",
+): Promise<string> {
+  if (!key || typeof key !== "string") {
+    return key || "";
+  }
 
+  try {
+    const translations = await getTranslationsForLanguage(language);
+    const translation = getTranslationFromObject(translations, key);
+
+    // If translation not found in requested language and not English, try English
+    if (translation === key && language !== "en") {
+      const englishTranslations = await getTranslationsForLanguage("en");
+      return getTranslationFromObject(englishTranslations, key);
+    }
+
+    return translation;
+  } catch (error) {
+    console.error(`Error getting translation for ${key}:`, error);
+    return key;
+  }
+}
+
+/**
+ * Synchronous translation function (for backward compatibility)
+ * This will use cached translations if available, otherwise return the key
+ */
 export function getTranslation(key: string, language: string = "en"): string {
-  const keys = key.split(".");
-  let current: unknown = translations[language] || translations.en;
+  if (!key || typeof key !== "string") {
+    return key || "";
+  }
 
-  for (const k of keys) {
-    if (
-      current && typeof current === "object" && current !== null && k in current
-    ) {
-      current = (current as Record<string, unknown>)[k];
-    } else {
-      // Fallback to English if translation not found
-      current = translations.en;
-      for (const fallbackKey of keys) {
-        if (
-          current && typeof current === "object" && current !== null &&
-          fallbackKey in current
-        ) {
-          current = (current as Record<string, unknown>)[fallbackKey];
-        } else {
-          return key; // Return key if no translation found
-        }
-      }
-      break;
+  const cache = getTranslationCache();
+
+  // Try to get from requested language cache
+  const translations = cache[language];
+  if (translations) {
+    const translation = getTranslationFromObject(translations, key);
+    if (translation !== key) {
+      return translation;
     }
   }
 
-  return typeof current === "string" ? current : key;
+  // If not found and not English, try English as fallback
+  if (language !== "en") {
+    const englishTranslations = cache["en"];
+    if (englishTranslations) {
+      const englishTranslation = getTranslationFromObject(
+        englishTranslations,
+        key,
+      );
+      if (englishTranslation !== key) {
+        return englishTranslation;
+      }
+    }
+  }
+
+  // If not in cache, trigger async load for future use (non-blocking)
+  if (!cache[language]) {
+    getTranslationsForLanguage(language).catch(console.error);
+  }
+
+  return key;
 }
 
 export function useTranslation(language: string) {
   return (key: string) => getTranslation(key, language);
+}
+
+// Reactive translation hook that automatically updates when language changes
+export function useReactiveTranslation() {
+  return (key: string) => {
+    const languageCode = currentLanguageSignal.value.code;
+    const cache = getTranslationCache();
+
+    // Try to get from cache first
+    const translations = cache[languageCode];
+    if (translations) {
+      const translation = getTranslationFromObject(translations, key);
+      if (translation !== key) {
+        return translation;
+      }
+    }
+
+    // If not in current language cache, try English
+    const englishTranslations = cache["en"];
+    if (englishTranslations && languageCode !== "en") {
+      const englishTranslation = getTranslationFromObject(
+        englishTranslations,
+        key,
+      );
+      if (englishTranslation !== key) {
+        return englishTranslation;
+      }
+    }
+
+    // Only log missing translations if cache is populated (not during initialization)
+    const cacheKeys = Object.keys(cache);
+    if (cacheKeys.length > 0) {
+      console.warn(
+        `Translation missing for key "${key}" in language "${languageCode}"`,
+      );
+    }
+
+    // If not in cache at all, trigger async load for future use (but don't wait)
+    if (!cache[languageCode]) {
+      getTranslationsForLanguage(languageCode).catch(console.error);
+    }
+
+    return key;
+  };
+}
+
+/**
+ * Preload translations for a language
+ */
+export async function preloadTranslations(languageCode: string): Promise<void> {
+  await getTranslationsForLanguage(languageCode);
+}
+
+/**
+ * Clear translation cache (useful for development)
+ */
+export function clearTranslationCache(): void {
+  const cache = getTranslationCache();
+  Object.keys(cache).forEach((key) => {
+    delete cache[key];
+  });
 }

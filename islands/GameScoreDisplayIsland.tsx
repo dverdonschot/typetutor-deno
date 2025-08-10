@@ -4,6 +4,8 @@ import { TypingMetrics } from "../hooks/useTypingMetrics.ts";
 import { DetailedGameResult, KeyboardHeatmapData } from "../types/userStats.ts";
 import KeyboardHeatmap from "../components/KeyboardHeatmap.tsx";
 import { getKeyPosition, mapCharToKeyCode } from "../utils/keyboardLayout.ts";
+import { useReactiveTranslation } from "../utils/translations.ts";
+import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";
 
 // Convert game result to keyboard heatmap data
 function createGameHeatmapData(
@@ -87,6 +89,7 @@ export default function GameScoreDisplayIsland(
 ) {
   const nextButtonRef = useRef<HTMLButtonElement>(null);
   const practiceButtonRef = useRef<HTMLButtonElement>(null);
+  const t = useReactiveTranslation();
 
   // Focus the primary button when component becomes visible
   useEffect(() => {
@@ -124,12 +127,12 @@ export default function GameScoreDisplayIsland(
             >
               {gameType === "quote" && metrics.isComplete &&
                   metrics.totalTimeSeconds > 0
-                ? "Next Quote"
+                ? t(TRANSLATION_KEYS.ACTIONS.NEXT_QUOTE)
                 : gameType === "alphabet"
-                ? "Replay"
+                ? t(TRANSLATION_KEYS.ACTIONS.REPLAY)
                 : gameType === "random"
-                ? "Next Random"
-                : "Next"}
+                ? t(TRANSLATION_KEYS.ACTIONS.NEXT_RANDOM)
+                : t(TRANSLATION_KEYS.ACTIONS.NEXT)}
             </button>
           )}
           {onPracticeAgain && (
@@ -139,7 +142,7 @@ export default function GameScoreDisplayIsland(
               onClick={onPracticeAgain}
               class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
             >
-              Practice Again
+              {t(TRANSLATION_KEYS.ACTIONS.PRACTICE_AGAIN)}
             </button>
           )}
         </div>
@@ -148,7 +151,7 @@ export default function GameScoreDisplayIsland(
       {/* Character Errors Heatmap Section */}
       <div class="p-4 bg-white rounded-lg shadow-md">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">
-          Character Errors This Game
+          {t(TRANSLATION_KEYS.METRICS.CHARACTER_ERRORS_THIS_GAME)}
         </h3>
 
         {gameResult && gameResult.wrongCharacters.length > 0
@@ -163,7 +166,7 @@ export default function GameScoreDisplayIsland(
                 />
               </div>
               <div class="text-sm text-gray-600 text-center">
-                <p>Red keys show characters you had trouble with this game.</p>
+                <p>{t(TRANSLATION_KEYS.METRICS.RED_KEYS_EXPLANATION)}</p>
                 <p>
                   {(() => {
                     const totalErrors = gameResult.wrongCharacters.reduce(
@@ -173,13 +176,17 @@ export default function GameScoreDisplayIsland(
                     const uniqueChars = gameResult.wrongCharacters.length;
 
                     if (totalErrors === uniqueChars) {
-                      return `${totalErrors} character${
-                        totalErrors > 1 ? "s" : ""
-                      } with errors`;
+                      const charKey = totalErrors > 1
+                        ? TRANSLATION_KEYS.METRICS.CHARACTERS_WITH_ERRORS
+                        : TRANSLATION_KEYS.METRICS.CHARACTER_WITH_ERRORS;
+                      return `${totalErrors} ${t(charKey)}`;
                     } else {
-                      return `${totalErrors} total errors across ${uniqueChars} character${
-                        uniqueChars > 1 ? "s" : ""
-                      }`;
+                      const charKey = uniqueChars > 1
+                        ? TRANSLATION_KEYS.METRICS.CHARACTERS_WITH_ERRORS
+                        : TRANSLATION_KEYS.METRICS.CHARACTER_WITH_ERRORS;
+                      return `${totalErrors} ${
+                        t(TRANSLATION_KEYS.METRICS.TOTAL_ERRORS_ACROSS)
+                      } ${uniqueChars} ${t(charKey)}`;
                     }
                   })()}
                 </p>

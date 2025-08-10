@@ -2,6 +2,7 @@
   {
     "text": "Messire Dieu, premier servi.",
     "author": "Jeanne d'Arc",
+    "authorBio": "Héroïne française et sainte catholique (c. 1412 - 1431)",
     "language": "fr",
     "year": 1429,
     "source": "Devise personnelle",
@@ -11,6 +12,7 @@
   {
     "text": "Si je n'y suis, que Dieu m'y mette; et si j'y suis, que Dieu m'y garde.",
     "author": "Jeanne d'Arc",
+    "authorBio": "Héroïne française et sainte catholique (c. 1412 - 1431)",
     "language": "fr",
     "year": 1431,
     "source": "Procès de condamnation",
@@ -20,6 +22,7 @@
   {
     "text": "Agissez, et Dieu agira.",
     "author": "Jeanne d'Arc",
+    "authorBio": "Héroïne française et sainte catholique (c. 1412 - 1431)",
     "language": "fr",
     "tags": ["action", "foi", "providence"],
     "difficulty": "beginner"
@@ -27,6 +30,7 @@
   {
     "text": "Les hommes d'armes batailleront, et Dieu donnera la victoire.",
     "author": "Jeanne d'Arc",
+    "authorBio": "Héroïne française et sainte catholique (c. 1412 - 1431)",
     "language": "fr",
     "year": 1429,
     "source": "Examen de Poitiers",
@@ -36,6 +40,7 @@
   {
     "text": "Je ne crains rien, car Dieu est avec moi.",
     "author": "Jeanne d'Arc",
+    "authorBio": "Héroïne française et sainte catholique (c. 1412 - 1431)",
     "language": "fr",
     "tags": ["courage", "foi", "confiance"],
     "difficulty": "beginner"
@@ -43,6 +48,7 @@
   {
     "text": "Je ne suis venue que pour la délivrance de la France.",
     "author": "Jeanne d'Arc",
+    "authorBio": "Héroïne française et sainte catholique (c. 1412 - 1431)",
     "language": "fr",
     "year": 1431,
     "source": "Procès de condamnation",
@@ -52,6 +58,7 @@
   {
     "text": "Il faut avoir confiance en Dieu et faire son devoir.",
     "author": "Jeanne d'Arc",
+    "authorBio": "Héroïne française et sainte catholique (c. 1412 - 1431)",
     "language": "fr",
     "tags": ["foi", "devoir", "confiance"],
     "difficulty": "intermediate"
@@ -59,6 +66,7 @@
   {
     "text": "Que chacun retourne en son pays!",
     "author": "Jeanne d'Arc",
+    "authorBio": "Héroïne française et sainte catholique (c. 1412 - 1431)",
     "language": "fr",
     "year": 1429,
     "source": "Lettre aux Anglais",
@@ -68,6 +76,7 @@
   {
     "text": "J'ai plus peur des mots que des coups.",
     "author": "Jeanne d'Arc",
+    "authorBio": "Héroïne française et sainte catholique (c. 1412 - 1431)",
     "language": "fr",
     "tags": ["courage", "paroles", "bravoure"],
     "difficulty": "intermediate"
@@ -75,6 +84,7 @@
   {
     "text": "Allez hardiment, et chassez les ennemis!",
     "author": "Jeanne d'Arc",
+    "authorBio": "Héroïne française et sainte catholique (c. 1412 - 1431)",
     "language": "fr",
     "tags": ["courage", "leadership", "guerre"],
     "difficulty": "intermediate"

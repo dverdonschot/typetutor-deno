@@ -5,7 +5,7 @@ import StatsPage from "../islands/StatsPage.tsx";
 export default function StatsRoute(props: PageProps) {
   return (
     <Layout
-      descriptionText="View server-side game completion statistics."
+      descriptionKey="pages.serverstats"
       currentPath={props.url.pathname}
     >
       <StatsPage />

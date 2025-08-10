@@ -10,5 +10,9 @@
   "fr": {
     "name": "Français",
     "flag": "🇫🇷"
+  },
+  "nl": {
+    "name": "Nederlands",
+    "flag": "🇳🇱"
   }
 }

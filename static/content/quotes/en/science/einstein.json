@@ -2,6 +2,7 @@
   {
     "text": "Imagination is more important than knowledge. For knowledge is limited, whereas imagination embraces the entire world, stimulating progress, giving birth to evolution.",
     "author": "Albert Einstein",
+    "authorBio": "German-born theoretical physicist (1879 - 1955)",
     "language": "en",
     "year": 1929,
     "source": "Saturday Evening Post interview",
@@ -11,6 +12,7 @@
   {
     "text": "Try not to become a person of success, but rather try to become a person of value.",
     "author": "Albert Einstein",
+    "authorBio": "German-born theoretical physicist (1879 - 1955)",
     "language": "en",
     "year": 1955,
     "source": "Life Magazine interview",
@@ -20,6 +22,7 @@
   {
     "text": "The important thing is not to stop questioning. Curiosity has its own reason for existing.",
     "author": "Albert Einstein",
+    "authorBio": "German-born theoretical physicist (1879 - 1955)",
     "language": "en",
     "year": 1955,
     "source": "Life Magazine interview",
@@ -29,6 +32,7 @@
   {
     "text": "Science without religion is lame, religion without science is blind.",
     "author": "Albert Einstein",
+    "authorBio": "German-born theoretical physicist (1879 - 1955)",
     "language": "en",
     "year": 1941,
     "source": "Science, Philosophy and Religion symposium",
@@ -38,6 +42,7 @@
   {
     "text": "A person who never made a mistake never tried anything new.",
     "author": "Albert Einstein",
+    "authorBio": "German-born theoretical physicist (1879 - 1955)",
     "language": "en",
     "tags": ["mistakes", "innovation", "learning"],
     "difficulty": "beginner"
@@ -45,6 +50,7 @@
   {
     "text": "Logic will get you from A to B. Imagination will take you everywhere.",
     "author": "Albert Einstein",
+    "authorBio": "German-born theoretical physicist (1879 - 1955)",
     "language": "en",
     "tags": ["logic", "imagination", "possibility"],
     "difficulty": "intermediate"
@@ -52,6 +58,7 @@
   {
     "text": "The most beautiful thing we can experience is the mysterious. It is the source of all true art and science.",
     "author": "Albert Einstein",
+    "authorBio": "German-born theoretical physicist (1879 - 1955)",
     "language": "en",
     "year": 1930,
     "source": "What I Believe essay",
@@ -61,6 +68,7 @@
   {
     "text": "Great spirits have always encountered violent opposition from mediocre minds.",
     "author": "Albert Einstein",
+    "authorBio": "German-born theoretical physicist (1879 - 1955)",
     "language": "en",
     "year": 1940,
     "source": "Letter to Morris Raphael Cohen",
@@ -70,6 +78,7 @@
   {
     "text": "Learn from yesterday, live for today, hope for tomorrow. The important thing is not to stop questioning.",
     "author": "Albert Einstein",
+    "authorBio": "German-born theoretical physicist (1879 - 1955)",
     "language": "en",
     "tags": ["learning", "present", "future"],
     "difficulty": "intermediate"
