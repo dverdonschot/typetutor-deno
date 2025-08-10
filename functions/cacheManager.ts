@@ -36,7 +36,7 @@ export async function buildQuoteCache(
 ): Promise<FetchResult<QuoteCache>> {
   const startTime = performance.now();
   console.log("Building quote cache...");
-  
+
   try {
     const cache = getQuoteCache();
 
@@ -107,24 +107,24 @@ export async function buildQuoteCache(
     const endTime = performance.now();
     const duration = Math.round(endTime - startTime);
     const stats = getCacheStats(cache);
-    
+
     // Calculate total quotes and memory usage
     let totalQuotes = 0;
     for (const metadata of cache.quotesMetadata.values()) {
       totalQuotes += metadata.reduce((sum, meta) => sum + meta.quoteCount, 0);
     }
-    
+
     // Estimate memory usage in bytes
     const cacheSize = JSON.stringify({
       languages: cache.languages,
       categories: [...cache.categories.entries()],
       quotesMetadata: [...cache.quotesMetadata.entries()],
     }).length;
-    
+
     const sizeMB = (cacheSize / 1024 / 1024).toFixed(2);
-    
+
     console.log(
-      `Quote cache built successfully: ${stats.languageCount} languages, ${stats.totalQuoteFiles} files, ${totalQuotes} quotes (~${sizeMB}MB) (${duration}ms)`
+      `Quote cache built successfully: ${stats.languageCount} languages, ${stats.totalQuoteFiles} files, ${totalQuotes} quotes (~${sizeMB}MB) (${duration}ms)`,
     );
 
     return { success: true, content: cache };

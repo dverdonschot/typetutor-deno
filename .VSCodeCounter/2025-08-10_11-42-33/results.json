@@ -1,0 +1,854 @@
+{
+  "file:///home/ewt/typetutor-deno/dev.ts": {
+    "language": "TypeScript",
+    "code": 5,
+    "comment": 0,
+    "blank": 4
+  },
+  "file:///home/ewt/typetutor-deno/main.ts": {
+    "language": "TypeScript",
+    "code": 11,
+    "comment": 8,
+    "blank": 6
+  },
+  "file:///home/ewt/typetutor-deno/.github/workflows/deploy.yml": {
+    "language": "YAML",
+    "code": 45,
+    "comment": 2,
+    "blank": 13
+  },
+  "file:///home/ewt/typetutor-deno/.envrc": {
+    "language": "Shell Script",
+    "code": 3,
+    "comment": 2,
+    "blank": 3
+  },
+  "file:///home/ewt/typetutor-deno/internationalization-restructure-plan.md": {
+    "language": "Markdown",
+    "code": 139,
+    "comment": 0,
+    "blank": 36
+  },
+  "file:///home/ewt/typetutor-deno/config/typingContent.ts": {
+    "language": "TypeScript",
+    "code": 45,
+    "comment": 4,
+    "blank": 4
+  },
+  "file:///home/ewt/typetutor-deno/constants/translationKeys.ts": {
+    "language": "TypeScript",
+    "code": 172,
+    "comment": 17,
+    "blank": 15
+  },
+  "file:///home/ewt/typetutor-deno/multilingual-implementation-plan.md": {
+    "language": "Markdown",
+    "code": 319,
+    "comment": 0,
+    "blank": 86
+  },
+  "file:///home/ewt/typetutor-deno/finger-combination-training-plan.md": {
+    "language": "Markdown",
+    "code": 219,
+    "comment": 0,
+    "blank": 69
+  },
+  "file:///home/ewt/typetutor-deno/tests/test-quote-system.ts": {
+    "language": "TypeScript",
+    "code": 149,
+    "comment": 13,
+    "blank": 25
+  },
+  "file:///home/ewt/typetutor-deno/.roo/mcp.json": {
+    "language": "JSON",
+    "code": 3,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/tests/test-historical-quotes.ts": {
+    "language": "TypeScript",
+    "code": 120,
+    "comment": 12,
+    "blank": 19
+  },
+  "file:///home/ewt/typetutor-deno/tests/test-cache.ts": {
+    "language": "TypeScript",
+    "code": 15,
+    "comment": 0,
+    "blank": 7
+  },
+  "file:///home/ewt/typetutor-deno/tests/quoteParser_test.ts": {
+    "language": "TypeScript",
+    "code": 169,
+    "comment": 1,
+    "blank": 20
+  },
+  "file:///home/ewt/typetutor-deno/components/alphabet.tsx": {
+    "language": "TypeScript JSX",
+    "code": 22,
+    "comment": 2,
+    "blank": 5
+  },
+  "file:///home/ewt/typetutor-deno/tests/contentScanner_test.ts": {
+    "language": "TypeScript",
+    "code": 177,
+    "comment": 11,
+    "blank": 37
+  },
+  "file:///home/ewt/typetutor-deno/components/KeyboardHeatmap.tsx": {
+    "language": "TypeScript JSX",
+    "code": 233,
+    "comment": 25,
+    "blank": 22
+  },
+  "file:///home/ewt/typetutor-deno/components/Button.tsx": {
+    "language": "TypeScript JSX",
+    "code": 11,
+    "comment": 0,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/components/logo.tsx": {
+    "language": "TypeScript JSX",
+    "code": 13,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/deno.json": {
+    "language": "JSON",
+    "code": 43,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/components/description.tsx": {
+    "language": "TypeScript JSX",
+    "code": 10,
+    "comment": 0,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/components/menu.tsx": {
+    "language": "TypeScript JSX",
+    "code": 154,
+    "comment": 4,
+    "blank": 8
+  },
+  "file:///home/ewt/typetutor-deno/components/random.tsx": {
+    "language": "TypeScript JSX",
+    "code": 16,
+    "comment": 0,
+    "blank": 4
+  },
+  "file:///home/ewt/typetutor-deno/components/LanguageProvider.tsx": {
+    "language": "TypeScript JSX",
+    "code": 32,
+    "comment": 5,
+    "blank": 5
+  },
+  "file:///home/ewt/typetutor-deno/contexts/LanguageContext.ts": {
+    "language": "TypeScript",
+    "code": 98,
+    "comment": 11,
+    "blank": 14
+  },
+  "file:///home/ewt/typetutor-deno/components/LanguageSelector.tsx": {
+    "language": "TypeScript JSX",
+    "code": 94,
+    "comment": 2,
+    "blank": 12
+  },
+  "file:///home/ewt/typetutor-deno/components/Layout.tsx": {
+    "language": "TypeScript JSX",
+    "code": 41,
+    "comment": 7,
+    "blank": 6
+  },
+  "file:///home/ewt/typetutor-deno/islands/GlobalLanguageSelector.tsx": {
+    "language": "TypeScript JSX",
+    "code": 82,
+    "comment": 1,
+    "blank": 7
+  },
+  "file:///home/ewt/typetutor-deno/components/QuoteFileSelector.tsx": {
+    "language": "TypeScript JSX",
+    "code": 162,
+    "comment": 4,
+    "blank": 18
+  },
+  "file:///home/ewt/typetutor-deno/islands/NewQuoteTyperMode.tsx": {
+    "language": "TypeScript JSX",
+    "code": 903,
+    "comment": 83,
+    "blank": 94
+  },
+  "file:///home/ewt/typetutor-deno/islands/TranslationInitializer.tsx": {
+    "language": "TypeScript JSX",
+    "code": 54,
+    "comment": 4,
+    "blank": 9
+  },
+  "file:///home/ewt/typetutor-deno/components/CategorySelector.tsx": {
+    "language": "TypeScript JSX",
+    "code": 133,
+    "comment": 4,
+    "blank": 15
+  },
+  "file:///home/ewt/typetutor-deno/islands/StatsPage.tsx": {
+    "language": "TypeScript JSX",
+    "code": 200,
+    "comment": 7,
+    "blank": 21
+  },
+  "file:///home/ewt/typetutor-deno/components/ContentSelector.tsx": {
+    "language": "TypeScript JSX",
+    "code": 89,
+    "comment": 4,
+    "blank": 9
+  },
+  "file:///home/ewt/typetutor-deno/components/TypingMetricsDisplay.tsx": {
+    "language": "TypeScript JSX",
+    "code": 47,
+    "comment": 0,
+    "blank": 5
+  },
+  "file:///home/ewt/typetutor-deno/islands/UserStatsIsland.tsx": {
+    "language": "TypeScript JSX",
+    "code": 524,
+    "comment": 36,
+    "blank": 48
+  },
+  "file:///home/ewt/typetutor-deno/islands/UserStatsPageContentIsland.tsx": {
+    "language": "TypeScript JSX",
+    "code": 37,
+    "comment": 2,
+    "blank": 6
+  },
+  "file:///home/ewt/typetutor-deno/components/QuoteTextDisplay.tsx": {
+    "language": "TypeScript JSX",
+    "code": 69,
+    "comment": 2,
+    "blank": 5
+  },
+  "file:///home/ewt/typetutor-deno/islands/TrigraphsTyperMode.tsx": {
+    "language": "TypeScript JSX",
+    "code": 379,
+    "comment": 56,
+    "blank": 37
+  },
+  "file:///home/ewt/typetutor-deno/islands/GameScoreDisplayIsland.tsx": {
+    "language": "TypeScript JSX",
+    "code": 177,
+    "comment": 11,
+    "blank": 20
+  },
+  "file:///home/ewt/typetutor-deno/islands/RandomSettings.tsx": {
+    "language": "TypeScript JSX",
+    "code": 142,
+    "comment": 19,
+    "blank": 16
+  },
+  "file:///home/ewt/typetutor-deno/islands/HamburgerMenu.tsx": {
+    "language": "TypeScript JSX",
+    "code": 222,
+    "comment": 5,
+    "blank": 11
+  },
+  "file:///home/ewt/typetutor-deno/islands/CodeTyperMode.tsx": {
+    "language": "TypeScript JSX",
+    "code": 329,
+    "comment": 50,
+    "blank": 42
+  },
+  "file:///home/ewt/typetutor-deno/islands/ReactiveDescription.tsx": {
+    "language": "TypeScript JSX",
+    "code": 15,
+    "comment": 0,
+    "blank": 4
+  },
+  "file:///home/ewt/typetutor-deno/islands/RenderedQuoteResult.tsx": {
+    "language": "TypeScript JSX",
+    "code": 48,
+    "comment": 0,
+    "blank": 3
+  },
+  "file:///home/ewt/typetutor-deno/islands/KeyboardHeatmapIsland.tsx": {
+    "language": "TypeScript JSX",
+    "code": 235,
+    "comment": 7,
+    "blank": 26
+  },
+  "file:///home/ewt/typetutor-deno/islands/KeyLogger.tsx": {
+    "language": "TypeScript JSX",
+    "code": 182,
+    "comment": 9,
+    "blank": 22
+  },
+  "file:///home/ewt/typetutor-deno/devenv.yaml": {
+    "language": "YAML",
+    "code": 3,
+    "comment": 9,
+    "blank": 4
+  },
+  "file:///home/ewt/typetutor-deno/devenv.nix": {
+    "language": "Nix",
+    "code": 17,
+    "comment": 18,
+    "blank": 12
+  },
+  "file:///home/ewt/typetutor-deno/hooks/useTypingMetrics.ts": {
+    "language": "TypeScript",
+    "code": 92,
+    "comment": 6,
+    "blank": 8
+  },
+  "file:///home/ewt/typetutor-deno/hooks/useQuoteInput.ts": {
+    "language": "TypeScript",
+    "code": 328,
+    "comment": 73,
+    "blank": 37
+  },
+  "file:///home/ewt/typetutor-deno/hooks/useMobileInput.ts": {
+    "language": "TypeScript",
+    "code": 214,
+    "comment": 7,
+    "blank": 27
+  },
+  "file:///home/ewt/typetutor-deno/hooks/useKeyPress.ts": {
+    "language": "TypeScript",
+    "code": 73,
+    "comment": 6,
+    "blank": 11
+  },
+  "file:///home/ewt/typetutor-deno/README.md": {
+    "language": "Markdown",
+    "code": 260,
+    "comment": 0,
+    "blank": 79
+  },
+  "file:///home/ewt/typetutor-deno/functions/randomTrainingSet.ts": {
+    "language": "TypeScript",
+    "code": 26,
+    "comment": 0,
+    "blank": 4
+  },
+  "file:///home/ewt/typetutor-deno/functions/predefinedTrainingSet.ts": {
+    "language": "TypeScript",
+    "code": 22,
+    "comment": 0,
+    "blank": 5
+  },
+  "file:///home/ewt/typetutor-deno/functions/contentFetcher.ts": {
+    "language": "TypeScript",
+    "code": 129,
+    "comment": 25,
+    "blank": 12
+  },
+  "file:///home/ewt/typetutor-deno/fresh.gen.ts": {
+    "language": "TypeScript",
+    "code": 85,
+    "comment": 3,
+    "blank": 4
+  },
+  "file:///home/ewt/typetutor-deno/fresh.config.ts": {
+    "language": "TypeScript",
+    "code": 5,
+    "comment": 0,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/functions/cacheManager.ts": {
+    "language": "TypeScript",
+    "code": 296,
+    "comment": 33,
+    "blank": 41
+  },
+  "file:///home/ewt/typetutor-deno/functions/quoteParser.ts": {
+    "language": "TypeScript",
+    "code": 188,
+    "comment": 18,
+    "blank": 38
+  },
+  "file:///home/ewt/typetutor-deno/functions/initializeCache.ts": {
+    "language": "TypeScript",
+    "code": 35,
+    "comment": 2,
+    "blank": 7
+  },
+  "file:///home/ewt/typetutor-deno/functions/contentScanner.ts": {
+    "language": "TypeScript",
+    "code": 239,
+    "comment": 23,
+    "blank": 33
+  },
+  "file:///home/ewt/typetutor-deno/functions/utils.ts": {
+    "language": "TypeScript",
+    "code": 5,
+    "comment": 0,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/tailwind.config.ts": {
+    "language": "TypeScript",
+    "code": 14,
+    "comment": 0,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/utils/translationCache.ts": {
+    "language": "TypeScript",
+    "code": 130,
+    "comment": 34,
+    "blank": 27
+  },
+  "file:///home/ewt/typetutor-deno/utils/translations.ts": {
+    "language": "TypeScript",
+    "code": 111,
+    "comment": 26,
+    "blank": 23
+  },
+  "file:///home/ewt/typetutor-deno/utils/translationLoader.ts": {
+    "language": "TypeScript",
+    "code": 161,
+    "comment": 35,
+    "blank": 27
+  },
+  "file:///home/ewt/typetutor-deno/utils/quoteCache.ts": {
+    "language": "TypeScript",
+    "code": 191,
+    "comment": 25,
+    "blank": 32
+  },
+  "file:///home/ewt/typetutor-deno/utils/recordGameStats.ts": {
+    "language": "TypeScript",
+    "code": 32,
+    "comment": 1,
+    "blank": 3
+  },
+  "file:///home/ewt/typetutor-deno/utils/gameStats.ts": {
+    "language": "TypeScript",
+    "code": 88,
+    "comment": 11,
+    "blank": 10
+  },
+  "file:///home/ewt/typetutor-deno/utils/keyboardLayout.ts": {
+    "language": "TypeScript",
+    "code": 646,
+    "comment": 93,
+    "blank": 25
+  },
+  "file:///home/ewt/typetutor-deno/utils/userStatsManager.ts": {
+    "language": "TypeScript",
+    "code": 533,
+    "comment": 190,
+    "blank": 114
+  },
+  "file:///home/ewt/typetutor-deno/types/quotes.ts": {
+    "language": "TypeScript",
+    "code": 53,
+    "comment": 8,
+    "blank": 8
+  },
+  "file:///home/ewt/typetutor-deno/types/userStats.ts": {
+    "language": "TypeScript",
+    "code": 152,
+    "comment": 61,
+    "blank": 33
+  },
+  "file:///home/ewt/typetutor-deno/static/typetutor-logo.svg": {
+    "language": "XML",
+    "code": 65,
+    "comment": 1,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/static/styles.css": {
+    "language": "CSS",
+    "code": 67,
+    "comment": 2,
+    "blank": 14
+  },
+  "file:///home/ewt/typetutor-deno/static/logo.svg": {
+    "language": "XML",
+    "code": 19,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/languages/en.json": {
+    "language": "JSON",
+    "code": 168,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/languages/fr.json": {
+    "language": "JSON",
+    "code": 168,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/languages/nl.json": {
+    "language": "JSON",
+    "code": 168,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/languages/es.json": {
+    "language": "JSON",
+    "code": 168,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/languages/languages.json": {
+    "language": "JSON",
+    "code": 36,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/docs/ADDING_LANGUAGES.md": {
+    "language": "Markdown",
+    "code": 211,
+    "comment": 0,
+    "blank": 69
+  },
+  "file:///home/ewt/typetutor-deno/docs/USER_DATA_SYSTEM.md": {
+    "language": "Markdown",
+    "code": 85,
+    "comment": 0,
+    "blank": 39
+  },
+  "file:///home/ewt/typetutor-deno/static/research/mastering_touch_typing.md": {
+    "language": "Markdown",
+    "code": 162,
+    "comment": 0,
+    "blank": 30
+  },
+  "file:///home/ewt/typetutor-deno/static/research/touch_typing_desiggn_guide.md": {
+    "language": "Markdown",
+    "code": 178,
+    "comment": 0,
+    "blank": 43
+  },
+  "file:///home/ewt/typetutor-deno/routes/userstats.tsx": {
+    "language": "TypeScript JSX",
+    "code": 14,
+    "comment": 0,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/routes/custom.tsx": {
+    "language": "TypeScript JSX",
+    "code": 14,
+    "comment": 2,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/routes/serverstats.tsx": {
+    "language": "TypeScript JSX",
+    "code": 13,
+    "comment": 0,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/routes/alphabet.tsx": {
+    "language": "TypeScript JSX",
+    "code": 14,
+    "comment": 0,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/routes/code.tsx": {
+    "language": "TypeScript JSX",
+    "code": 14,
+    "comment": 0,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/routes/random.tsx": {
+    "language": "TypeScript JSX",
+    "code": 14,
+    "comment": 0,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/routes/quotes.tsx": {
+    "language": "TypeScript JSX",
+    "code": 14,
+    "comment": 0,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/routes/index.tsx": {
+    "language": "TypeScript JSX",
+    "code": 14,
+    "comment": 0,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/routes/trigraphs.tsx": {
+    "language": "TypeScript JSX",
+    "code": 10,
+    "comment": 0,
+    "blank": 3
+  },
+  "file:///home/ewt/typetutor-deno/routes/api/translations/all.ts": {
+    "language": "TypeScript",
+    "code": 25,
+    "comment": 0,
+    "blank": 3
+  },
+  "file:///home/ewt/typetutor-deno/routes/api/translations/%5Blang%5D.ts": {
+    "language": "TypeScript",
+    "code": 26,
+    "comment": 0,
+    "blank": 4
+  },
+  "file:///home/ewt/typetutor-deno/routes/api/translations/languages.ts": {
+    "language": "TypeScript",
+    "code": 25,
+    "comment": 0,
+    "blank": 3
+  },
+  "file:///home/ewt/typetutor-deno/routes/api/quotes/languages.ts": {
+    "language": "TypeScript",
+    "code": 49,
+    "comment": 2,
+    "blank": 5
+  },
+  "file:///home/ewt/typetutor-deno/routes/api/admin/refresh-cache.ts": {
+    "language": "TypeScript",
+    "code": 100,
+    "comment": 6,
+    "blank": 9
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/languages.json": {
+    "language": "JSON",
+    "code": 18,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/code/python/list_comprehension.py": {
+    "language": "Python",
+    "code": 9,
+    "comment": 5,
+    "blank": 4
+  },
+  "file:///home/ewt/typetutor-deno/static/content/code/python/basic_print.py": {
+    "language": "Python",
+    "code": 7,
+    "comment": 3,
+    "blank": 4
+  },
+  "file:///home/ewt/typetutor-deno/static/content/code/javascript/simple_function.js": {
+    "language": "JavaScript",
+    "code": 8,
+    "comment": 3,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/static/content/code/javascript/fizzbuzz.js": {
+    "language": "JavaScript",
+    "code": 13,
+    "comment": 19,
+    "blank": 3
+  },
+  "file:///home/ewt/typetutor-deno/static/content/code/javascript/array_iteration.js": {
+    "language": "JavaScript",
+    "code": 15,
+    "comment": 0,
+    "blank": 4
+  },
+  "file:///home/ewt/typetutor-deno/routes/api/trigraphs.ts": {
+    "language": "TypeScript",
+    "code": 26,
+    "comment": 0,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/routes/api/game-stats.ts": {
+    "language": "TypeScript",
+    "code": 37,
+    "comment": 0,
+    "blank": 4
+  },
+  "file:///home/ewt/typetutor-deno/routes/_app.tsx": {
+    "language": "TypeScript JSX",
+    "code": 28,
+    "comment": 0,
+    "blank": 3
+  },
+  "file:///home/ewt/typetutor-deno/routes/_404.tsx": {
+    "language": "TypeScript JSX",
+    "code": 26,
+    "comment": 0,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/routes/api/quotes/content/%5Blang%5D/%5Bcategory%5D/%5Bid%5D.ts": {
+    "language": "TypeScript",
+    "code": 112,
+    "comment": 5,
+    "blank": 11
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/nl/geschiedkunding/category.json": {
+    "language": "JSON",
+    "code": 6,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/nl/geschiedkunding/aletta-jacobs.json": {
+    "language": "JSON",
+    "code": 52,
+    "comment": 0,
+    "blank": 0
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/nl/geschiedkunding/johan-rudolph-thorbecke.json": {
+    "language": "JSON",
+    "code": 47,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/nl/geschiedkunding/hugo-de-groot.json": {
+    "language": "JSON",
+    "code": 34,
+    "comment": 0,
+    "blank": 2
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/nl/geschiedkunding/georges-van-acker.json": {
+    "language": "JSON",
+    "code": 10,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/nl/geschiedkunding/johan-huizinga.json": {
+    "language": "JSON",
+    "code": 41,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/es/historico/isabel-la-catolica.json": {
+    "language": "JSON",
+    "code": 54,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/nl/geschiedkunding/abraham-kuyper.json": {
+    "language": "JSON",
+    "code": 47,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/es/historico/bartolome-de-las-casas.json": {
+    "language": "JSON",
+    "code": 64,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/es/historico/category.json": {
+    "language": "JSON",
+    "code": 6,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/routes/api/quotes/categories/%5Blang%5D.ts": {
+    "language": "TypeScript",
+    "code": 65,
+    "comment": 2,
+    "blank": 7
+  },
+  "file:///home/ewt/typetutor-deno/routes/api/quotes/metadata/%5Blang%5D/%5Bcategory%5D.ts": {
+    "language": "TypeScript",
+    "code": 79,
+    "comment": 2,
+    "blank": 8
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/es/motivacional/exito.json": {
+    "language": "JSON",
+    "code": 60,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/routes/api/trigraphs/%5Bname%5D.ts": {
+    "language": "TypeScript",
+    "code": 39,
+    "comment": 3,
+    "blank": 7
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/fr/historique/category.json": {
+    "language": "JSON",
+    "code": 6,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/fr/science/poids-et-mesures.json": {
+    "language": "JSON",
+    "code": 115,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/fr/historique/jeanne-darc.json": {
+    "language": "JSON",
+    "code": 92,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/fr/science/category.json": {
+    "language": "JSON",
+    "code": 6,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/en/science/category.json": {
+    "language": "JSON",
+    "code": 6,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/en/science/edison.json": {
+    "language": "JSON",
+    "code": 84,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/en/science/einstein.json": {
+    "language": "JSON",
+    "code": 86,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/en/science/oppenheimer.json": {
+    "language": "JSON",
+    "code": 76,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/en/literary/shakespeare.json": {
+    "language": "JSON",
+    "code": 26,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/en/literary/category.json": {
+    "language": "JSON",
+    "code": 6,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/en/historical/sitting-bull.json": {
+    "language": "JSON",
+    "code": 90,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/en/historical/martin-luther-king.json": {
+    "language": "JSON",
+    "code": 98,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/en/historical/george-washington.json": {
+    "language": "JSON",
+    "code": 121,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/en/historical/category.json": {
+    "language": "JSON",
+    "code": 6,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/en/motivational/category.json": {
+    "language": "JSON",
+    "code": 6,
+    "comment": 0,
+    "blank": 1
+  },
+  "file:///home/ewt/typetutor-deno/static/content/quotes/en/motivational/success.json": {
+    "language": "JSON",
+    "code": 25,
+    "comment": 0,
+    "blank": 1
+  }
+}

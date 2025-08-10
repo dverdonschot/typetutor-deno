@@ -98,14 +98,14 @@ class TranslationCache {
 
       const endTime = performance.now();
       const duration = Math.round(endTime - startTime);
-      
+
       // Calculate cache size
       const cacheSize = JSON.stringify({
         languages,
         translations,
       }).length;
       const sizeMB = (cacheSize / 1024 / 1024).toFixed(2);
-      
+
       console.log(
         `Translation cache built successfully: ${languages.length} languages, ${translationCount} total translation keys (~${sizeMB}MB) (${duration}ms)`,
       );

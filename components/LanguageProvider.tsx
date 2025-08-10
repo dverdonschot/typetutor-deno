@@ -22,6 +22,7 @@ export default function LanguageProvider({ children }: LanguageProviderProps) {
           { code: "en", name: "English", flag: "🇺🇸" },
           { code: "es", name: "Español", flag: "🇪🇸" },
           { code: "fr", name: "Français", flag: "🇫🇷" },
+          { code: "nl", name: "Nederlands", flag: "🇳🇱" },
         ];
         const savedLanguage = DEFAULT_LANGUAGES.find((lang) =>
           lang.code === savedLanguageCode

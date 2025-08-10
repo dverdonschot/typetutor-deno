@@ -29,8 +29,7 @@ export default function QuoteTextDisplay(
               <div key={index} class="inline-block">
                 <span
                   class={cn(
-                    "transition-colors duration-100 ease-in-out text-2xl sm:text-3xl md:text-4xl typing-text",
-                    "font-bold",
+                    "transition-colors duration-100 ease-in-out text-2xl sm:text-3xl md:text-4xl typing-text font-bold",
                     {
                       "text-tt-darkblue": charState.state === "none",
                       "text-green-500": charState.state === "correct",

@@ -59,8 +59,8 @@ export default function NewQuoteTyperMode(
     // One-time cleanup: Clear old localStorage that contained quote content
     const cleanupKey = "quote-cache-cleaned-v1";
     if (!localStorage.getItem(cleanupKey)) {
-      Object.keys(localStorage).forEach(key => {
-        if (key.startsWith('quote-state-')) {
+      Object.keys(localStorage).forEach((key) => {
+        if (key.startsWith("quote-state-")) {
           localStorage.removeItem(key);
         }
       });
@@ -202,8 +202,7 @@ export default function NewQuoteTyperMode(
 
               const responseData = await contentResponse.json();
               const fileQuotes: Quote[] = responseData.quotes || responseData;
-              
-              
+
               quotes.push(...fileQuotes);
             }
           }
@@ -248,11 +247,9 @@ export default function NewQuoteTyperMode(
           const responseData = await response.json();
           quotes = responseData.quotes || responseData;
 
-
           // Shuffle the quotes for variety
           const shuffledQuotes = [...quotes].sort(() => Math.random() - 0.5);
-          
-          
+
           setAllQuotes(shuffledQuotes);
           setTargetText(shuffledQuotes[0]?.text || "");
         } else {
@@ -786,19 +783,21 @@ export default function NewQuoteTyperMode(
                   )}
 
                   {/* Author biographical information */}
-                  {allQuotes[currentQuoteIndex]?.authorBio && 
-                   allQuotes[currentQuoteIndex].authorBio.trim() !== "" && (
+                  {allQuotes[currentQuoteIndex]?.authorBio &&
+                    allQuotes[currentQuoteIndex].authorBio.trim() !== "" && (
                     <div class="text-sm text-gray-600 italic mb-2">
-                      <strong>Bio:</strong> {allQuotes[currentQuoteIndex].authorBio}
+                      <strong>Bio:</strong>{" "}
+                      {allQuotes[currentQuoteIndex].authorBio}
                     </div>
                   )}
 
                   {/* Secondary metadata */}
                   <div class="space-y-1 text-sm text-gray-500">
-                    {allQuotes[currentQuoteIndex]?.source && 
-                     allQuotes[currentQuoteIndex].source.trim() !== "" && (
+                    {allQuotes[currentQuoteIndex]?.source &&
+                      allQuotes[currentQuoteIndex].source.trim() !== "" && (
                       <div class="italic">
-                        <strong>Source:</strong> {allQuotes[currentQuoteIndex].source}
+                        <strong>Source:</strong>{" "}
+                        {allQuotes[currentQuoteIndex].source}
                       </div>
                     )}
                     {allQuotes[currentQuoteIndex].tags &&
