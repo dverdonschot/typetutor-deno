@@ -141,7 +141,7 @@ class TranslationCache {
       if (typeof value === "string") {
         count++;
       } else if (typeof value === "object" && value !== null) {
-        count += this.countTranslationKeys(value);
+        count += this.countTranslationKeys(value as Record<string, unknown>);
       }
     }
     return count;

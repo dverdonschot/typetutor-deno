@@ -45,8 +45,6 @@ export default function CodeTyperMode() {
   useEffect(() => {
     if (!selectedContentItem) {
       setTargetText(""); // Clear text if nothing is selected
-      setAllQuotes([]); // Clear quotes
-      setCurrentQuoteIndex(0); // Reset index
       setError(null);
       setIsLoading(false);
       return;
@@ -56,8 +54,6 @@ export default function CodeTyperMode() {
       setIsLoading(true);
       setError(null);
       setTargetText(""); // Clear previous text
-      setAllQuotes([]); // Clear previous quotes
-      setCurrentQuoteIndex(0); // Reset index
       setStartTime(null); // Reset start time
 
       const result: FetchResult = await fetchContentFromUrl(
@@ -67,12 +63,10 @@ export default function CodeTyperMode() {
       if (result.success) {
         // For code content, the entire content is the target text
         setTargetText(result.content);
-        setAllQuotes([]); // Ensure quotes array is empty for code content
         // Reset input hook state implicitly via useQuoteInput's useEffect dependency on targetText
       } else {
         setError(`Error loading content: ${result.error}`);
         setTargetText(""); // Ensure text is cleared on error
-        setAllQuotes([]); // Ensure quotes array is empty on error
       }
       setIsLoading(false);
     };
