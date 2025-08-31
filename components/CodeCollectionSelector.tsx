@@ -2,7 +2,7 @@ import { useEffect, useState } from "preact/hooks";
 
 interface CodeCollectionMetadata {
   id: string;
-  fileTitle: string;
+  name: string;
   snippetCount: number;
   difficulty?: string;
   tags?: string[];
@@ -11,7 +11,6 @@ interface CodeCollectionMetadata {
 
 interface CodeCollectionSelectorProps {
   languageCode: string | null;
-  categoryId: string | null;
   selectedCollectionId: string | null;
   onCollectionChange: (
     collectionId: string,
@@ -25,7 +24,6 @@ interface CodeCollectionSelectorProps {
 export default function CodeCollectionSelector(
   {
     languageCode,
-    categoryId,
     selectedCollectionId,
     onCollectionChange,
     hideLabel,
@@ -37,10 +35,10 @@ export default function CodeCollectionSelector(
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  /** Fetches code collection metadata for the selected language and category. */
+  /** Fetches code collection metadata for the selected language. */
   useEffect(() => {
     async function fetchCollections() {
-      if (!languageCode || !categoryId) {
+      if (!languageCode) {
         setCollections([]);
         return;
       }
@@ -50,7 +48,7 @@ export default function CodeCollectionSelector(
         setError(null);
 
         const response = await fetch(
-          `/api/code-collections/metadata/${languageCode}/${categoryId}`,
+          `/api/code-collections/collections/${languageCode}`,
         );
         if (!response.ok) {
           throw new Error(
@@ -76,7 +74,7 @@ export default function CodeCollectionSelector(
           : "Unknown error";
         setError(errorMessage);
         console.error(
-          `Error fetching code collections for ${languageCode}/${categoryId}:`,
+          `Error fetching code collections for ${languageCode}:`,
           err,
         );
       } finally {
@@ -85,7 +83,7 @@ export default function CodeCollectionSelector(
     }
 
     fetchCollections();
-  }, [languageCode, categoryId, selectedCollectionId]);
+  }, [languageCode, selectedCollectionId]);
 
   const handleChange = (event: Event) => {
     const target = event.target as HTMLSelectElement;
@@ -97,12 +95,12 @@ export default function CodeCollectionSelector(
     }
   };
 
-  // Don't render if no language or category is selected
-  if (!languageCode || !categoryId) {
+  // Don't render if no language is selected
+  if (!languageCode) {
     return (
       <div class="bg-gray-50 border border-gray-200 rounded-md p-3">
         <p class="text-sm text-gray-500">
-          Select a programming language and category first
+          Select a programming language first
         </p>
       </div>
     );
@@ -141,7 +139,7 @@ export default function CodeCollectionSelector(
     return (
       <div class="bg-yellow-50 border border-yellow-200 rounded-md p-3">
         <p class="text-sm text-yellow-600">
-          No code collections available in this category
+          No code collections available for this language
         </p>
       </div>
     );
@@ -166,7 +164,7 @@ export default function CodeCollectionSelector(
         <option value="" disabled>-- Select a code collection --</option>
         {collections.map((collection) => (
           <option key={collection.id} value={collection.id}>
-            {collection.fileTitle} ({collection.snippetCount} snippets)
+            {collection.name} ({collection.snippetCount} snippets)
             {collection.difficulty ? ` - ${collection.difficulty}` : ""}
           </option>
         ))}

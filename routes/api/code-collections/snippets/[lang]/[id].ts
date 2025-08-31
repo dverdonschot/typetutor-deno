@@ -17,7 +17,8 @@ export const handler: Handlers = {
         );
       }
 
-      const filePath = `./static/content/code-collections/${languageCode}/${collectionId}.json`;
+      const filePath =
+        `./static/content/code-collections/${languageCode}/${collectionId}.json`;
 
       try {
         const fileContent = await Deno.readTextFile(filePath);
@@ -35,8 +36,11 @@ export const handler: Handlers = {
         }
 
         // Add index to each snippet for selection
-        const snippetsWithIndex = collection.snippets.map((snippet: any, index: number) => ({
-          ...snippet,
+        const snippetsWithIndex = collection.snippets.map((
+          snippet: unknown,
+          index: number,
+        ) => ({
+          ...(snippet as Record<string, unknown>),
           index,
         }));
 
@@ -49,8 +53,8 @@ export const handler: Handlers = {
       } catch (error) {
         console.error(`Error reading collection file ${filePath}:`, error);
         return new Response(
-          JSON.stringify({ 
-            error: `Collection not found: ${languageCode}/${collectionId}` 
+          JSON.stringify({
+            error: `Collection not found: ${languageCode}/${collectionId}`,
           }),
           {
             status: 404,

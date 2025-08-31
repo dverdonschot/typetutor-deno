@@ -7,7 +7,7 @@ interface Collection {
   icon: string;
   difficulty: string;
   language: string;
-  snippets: any[];
+  snippets: unknown[];
 }
 
 interface CollectionMetadata {
@@ -45,15 +45,21 @@ export const handler: Handlers = {
         for await (const dirEntry of Deno.readDir(languageDir)) {
           if (dirEntry.isFile && dirEntry.name.endsWith(".json")) {
             const filePath = `${languageDir}/${dirEntry.name}`;
-            
+
             try {
               const fileContent = await Deno.readTextFile(filePath);
               const collection: Collection = JSON.parse(fileContent);
-              
+
               if (collection.snippets && Array.isArray(collection.snippets)) {
                 // Extract all unique tags from snippets
-                const allTags = [...new Set(collection.snippets.flatMap((s: any) => s.tags || []))];
-                
+                const allTags = [
+                  ...new Set(
+                    collection.snippets.flatMap((s: unknown) =>
+                      (s as { tags?: string[] })?.tags || []
+                    ),
+                  ),
+                ];
+
                 collections.push({
                   id: collection.id,
                   name: collection.name,
@@ -66,15 +72,23 @@ export const handler: Handlers = {
                 });
               }
             } catch (error) {
-              console.warn(`Failed to read collection ${dirEntry.name}:`, error);
+              console.warn(
+                `Failed to read collection ${dirEntry.name}:`,
+                error,
+              );
               // Continue with other collections
             }
           }
         }
       } catch (error) {
-        console.error(`Error reading collections for language ${languageCode}:`, error);
+        console.error(
+          `Error reading collections for language ${languageCode}:`,
+          error,
+        );
         return new Response(
-          JSON.stringify({ error: `No collections found for language: ${languageCode}` }),
+          JSON.stringify({
+            error: `No collections found for language: ${languageCode}`,
+          }),
           {
             status: 404,
             headers: { "Content-Type": "application/json" },
@@ -83,10 +97,16 @@ export const handler: Handlers = {
       }
 
       // Sort collections by difficulty (beginner -> intermediate -> advanced)
-      const difficultyOrder = { "beginner": 1, "intermediate": 2, "advanced": 3 };
+      const difficultyOrder = {
+        "beginner": 1,
+        "intermediate": 2,
+        "advanced": 3,
+      };
       collections.sort((a, b) => {
-        const orderA = difficultyOrder[a.difficulty as keyof typeof difficultyOrder] || 99;
-        const orderB = difficultyOrder[b.difficulty as keyof typeof difficultyOrder] || 99;
+        const orderA =
+          difficultyOrder[a.difficulty as keyof typeof difficultyOrder] || 99;
+        const orderB =
+          difficultyOrder[b.difficulty as keyof typeof difficultyOrder] || 99;
         if (orderA !== orderB) return orderA - orderB;
         return a.name.localeCompare(b.name);
       });
@@ -98,7 +118,10 @@ export const handler: Handlers = {
         },
       });
     } catch (error) {
-      console.error(`Error fetching collections for ${ctx.params.lang}:`, error);
+      console.error(
+        `Error fetching collections for ${ctx.params.lang}:`,
+        error,
+      );
       return new Response(
         JSON.stringify({
           error: "Failed to fetch collections",

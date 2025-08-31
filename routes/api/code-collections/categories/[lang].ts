@@ -18,7 +18,7 @@ export const handler: Handlers = {
 
       const categoryDir = `./static/content/code-collections/${languageCode}`;
 
-      let categories: Array<
+      const categories: Array<
         {
           id: string;
           name: string;
