@@ -1,0 +1,42 @@
+[
+  {
+    "code": "from machine import Pin\nimport time\n\n# Initialize LED on pin 2\nled = Pin(2, Pin.OUT)\n\n# Blink LED 10 times\nfor i in range(10):\n    led.on()\n    time.sleep(0.5)\n    led.off()\n    time.sleep(0.5)\n    print(f\"Blink {i+1}\")\n\nprint(\"Blinking complete!\")",
+    "title": "LED Blink Control",
+    "description": "Basic GPIO control with LED blinking pattern",
+    "tags": ["gpio", "led", "timing"],
+    "difficulty": "beginner",
+    "language": "python"
+  },
+  {
+    "code": "from machine import Pin, ADC\nimport time\n\n# Initialize ADC for analog reading\nadc = ADC(Pin(36))\nadc.atten(ADC.ATTN_11DB)  # Full range: 3.3V\n\n# Initialize LED for indication\nled = Pin(2, Pin.OUT)\n\nwhile True:\n    # Read analog value (0-4095)\n    raw_value = adc.read()\n    voltage = (raw_value / 4095) * 3.3\n    \n    print(f\"Raw: {raw_value}, Voltage: {voltage:.2f}V\")\n    \n    # Turn on LED if voltage > 1.5V\n    if voltage > 1.5:\n        led.on()\n    else:\n        led.off()\n    \n    time.sleep(1)",
+    "title": "Analog Sensor Reading",
+    "description": "Reading analog sensors with ADC and conditional LED control",
+    "tags": ["adc", "sensors", "analog"],
+    "difficulty": "intermediate",
+    "language": "python"
+  },
+  {
+    "code": "import network\nimport time\n\n# Wi-Fi credentials\nSSID = 'YourWiFiName'\nPASSWORD = 'YourPassword'\n\n# Initialize Wi-Fi\nwlan = network.WLAN(network.STA_IF)\nwlan.active(True)\n\nif not wlan.isconnected():\n    print(f'Connecting to {SSID}...')\n    wlan.connect(SSID, PASSWORD)\n    \n    while not wlan.isconnected():\n        print('Waiting for connection...')\n        time.sleep(1)\n\nprint('Connected!')\nprint(f'IP address: {wlan.ifconfig()[0]}')",
+    "title": "WiFi Connection Setup",
+    "description": "Connecting ESP32/ESP8266 to WiFi network",
+    "tags": ["wifi", "network", "connection"],
+    "difficulty": "intermediate",
+    "language": "python"
+  },
+  {
+    "code": "from machine import Pin, PWM\nimport time\n\n# Initialize PWM on pin 5 for servo control\nservo = PWM(Pin(5), freq=50)  # 50Hz for servo\n\ndef set_servo_angle(angle):\n    # Convert angle (0-180) to duty cycle\n    min_duty = 40   # ~1ms pulse\n    max_duty = 115  # ~2ms pulse\n    duty = int(min_duty + (max_duty - min_duty) * angle / 180)\n    servo.duty(duty)\n\n# Sweep servo from 0 to 180 degrees\nfor angle in range(0, 181, 10):\n    set_servo_angle(angle)\n    print(f\"Servo angle: {angle}°\")\n    time.sleep(0.5)\n\n# Return to center\nset_servo_angle(90)",
+    "title": "Servo Motor Control",
+    "description": "Controlling servo motor position with PWM signals",
+    "tags": ["pwm", "servo", "motor-control"],
+    "difficulty": "intermediate",
+    "language": "python"
+  },
+  {
+    "code": "from machine import Pin, I2C\nimport time\n\n# I2C setup for sensor communication\ni2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400000)\n\n# Scan for I2C devices\ndevices = i2c.scan()\nprint(f\"Found I2C devices: {[hex(device) for device in devices]}\")\n\nif devices:\n    # Example: Reading from a generic I2C sensor\n    device_addr = devices[0]\n    \n    try:\n        # Write register address and read data\n        data = i2c.readfrom_mem(device_addr, 0x00, 2)\n        print(f\"Data from device {hex(device_addr)}: {data}\")\n    except Exception as e:\n        print(f\"Error reading from device: {e}\")\nelse:\n    print(\"No I2C devices found\")",
+    "title": "I2C Sensor Communication",
+    "description": "Communicating with I2C sensors and device scanning",
+    "tags": ["i2c", "sensors", "communication"],
+    "difficulty": "advanced",
+    "language": "python"
+  }
+]

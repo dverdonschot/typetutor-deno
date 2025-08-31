@@ -36,7 +36,7 @@ export function Layout(
           </section>
 
           {/* Main Content Section (Typing Area) */}
-          <main class="w-full">
+          <main class="w-full -mt-5">
             {children}
           </main>
 

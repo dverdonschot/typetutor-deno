@@ -1,22 +1,78 @@
-import { useCallback, useEffect, useRef, useState } from "preact/hooks";
+import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
 import { useOvertypeInput } from "../hooks/useOvertypeInput.ts";
 import { useTypingMetrics } from "../hooks/useTypingMetrics.ts";
-import {
-  fetchOvertypeContent,
-  OvertypeContentResult,
-} from "../utils/overtypeContentFetcher.ts";
 import OvertypeContainer from "../components/overtype/OvertypeContainer.tsx";
 import GameScoreDisplayIsland from "./GameScoreDisplayIsland.tsx";
 import { UserStatsManager } from "../utils/userStatsManager.ts";
 import { DetailedGameResult } from "../types/userStats.ts";
-import typingContentData from "../config/typingContent.ts";
+import CodeLanguageSelector from "../components/CodeLanguageSelector.tsx";
+import CodeCategorySelector from "../components/CodeCategorySelector.tsx";
+import CodeCollectionSelector from "../components/CodeCollectionSelector.tsx";
+
+interface Language {
+  code: string;
+  name: string;
+  icon: string;
+  description: string;
+}
+
+interface Category {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  difficulty: string;
+}
+
+interface CodeCollectionMetadata {
+  id: string;
+  fileTitle: string;
+  snippetCount: number;
+  difficulty?: string;
+  tags?: string[];
+  description?: string;
+}
+
+interface CodeSnippet {
+  code: string;
+  title: string;
+  description: string;
+  tags: string[];
+  difficulty: string;
+  language: string;
+  index: number;
+}
+
+// localStorage keys for code mode - moved outside component to prevent re-creation
+const localStorageKeys = {
+  language: "code_selectedLanguage",
+  category: "code_selectedCategory",
+  collection: "code_selectedCollection",
+  snippet: "code_selectedSnippet",
+};
 
 export default function CodeTyperMode() {
-  const [selectedContentId, setSelectedContentId] = useState<string | null>(
-    null,
-  );
+  // Selection state for new collection system
+  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
+  const [selectedLanguageData, setSelectedLanguageData] = useState<
+    Language | null
+  >(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategoryData, setSelectedCategoryData] = useState<
+    Category | null
+  >(null);
+  const [selectedCollectionId, setSelectedCollectionId] = useState<
+    string | null
+  >(null);
+  const [selectedCollectionData, setSelectedCollectionData] = useState<
+    CodeCollectionMetadata | null
+  >(null);
+  const [codeSnippets, setCodeSnippets] = useState<CodeSnippet[]>([]);
+  const [selectedSnippetIndex, setSelectedSnippetIndex] = useState<number>(0);
+
+  // Content and UI state
   const [targetText, setTargetText] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [initialLoadComplete, setInitialLoadComplete] = useState<boolean>(
     false,
@@ -30,18 +86,13 @@ export default function CodeTyperMode() {
   const overtypeRef = useRef<HTMLDivElement>(null);
   const _hasUserInteracted = useRef(false);
 
-  // localStorage key for code mode
-  const localStorageKey = "code_lastSelectedCodeId";
-
-  // Filter content items to only show code content
-  const relevantContentItems = typingContentData.filter((item) =>
-    item.type === "code"
-  );
-
-  // Find the selected ContentItem based on ID
-  const selectedContentItem = relevantContentItems.find((item) =>
-    item.id === selectedContentId
-  );
+  // Memoize current snippet to prevent re-renders
+  const currentSnippet = useMemo(() => {
+    if (codeSnippets.length > 0 && selectedSnippetIndex < codeSnippets.length) {
+      return codeSnippets[selectedSnippetIndex];
+    }
+    return null;
+  }, [codeSnippets, selectedSnippetIndex]);
 
   // Initialize overtype input hook
   const {
@@ -56,6 +107,7 @@ export default function CodeTyperMode() {
     keystrokeData,
     handleInputChange,
     resetInput,
+    getWrongCharactersArray,
   } = useOvertypeInput(targetText);
 
   // Start timer on first input
@@ -68,7 +120,8 @@ export default function CodeTyperMode() {
   // Focus management for overtype textarea
   useEffect(() => {
     if (
-      targetText && !isLoading && !showCompletion && !error && selectedContentId
+      targetText && !isLoading && !showCompletion && !error &&
+      selectedCollectionId
     ) {
       const timer = setTimeout(() => {
         if (overtypeRef.current) {
@@ -80,7 +133,7 @@ export default function CodeTyperMode() {
       }, 200);
       return () => clearTimeout(timer);
     }
-  }, [targetText, isLoading, showCompletion, error, selectedContentId]);
+  }, [targetText, isLoading, showCompletion, error, selectedCollectionId]);
 
   // Calculate typing metrics
   const metrics = useTypingMetrics(
@@ -112,9 +165,8 @@ export default function CodeTyperMode() {
       const endTime = Date.now();
       const duration = (endTime - inputStartTime) / 1000;
 
-      // Get the programming language from the selected content item
-      const programmingLanguage = selectedContentItem?.language ||
-        selectedContentItem?.name?.split("-")[0]?.toLowerCase() || "unknown";
+      // Get the programming language from the selected language
+      const programmingLanguage = selectedLanguage || "unknown";
 
       // Note: keystrokeData conversion removed - using empty array for now
 
@@ -133,11 +185,13 @@ export default function CodeTyperMode() {
         keystrokeData: [],
         characterStats: {},
         contentMetadata: {
-          source: selectedContentItem?.name || programmingLanguage,
+          source: `${selectedLanguageData?.name || programmingLanguage}/${
+            selectedCategoryData?.name || "unknown"
+          }/${selectedCollectionData?.fileTitle || "unknown"}`,
           totalCharacters: targetText.length,
           uniqueCharacters: new Set(targetText).size,
         },
-        wrongCharacters: [],
+        wrongCharacters: getWrongCharactersArray(),
       };
 
       await userStatsManager.updateStats(gameResult);
@@ -153,14 +207,16 @@ export default function CodeTyperMode() {
     backspaceCount,
     keystrokeData,
     targetText,
-    selectedContentItem,
+    selectedLanguageData,
+    selectedCategoryData,
+    selectedCollectionData,
+    getWrongCharactersArray,
   ]);
 
   // Handle completion and stats tracking
   useEffect(() => {
     if (isComplete && !finishedSentRef.current) {
-      const programmingLanguage = selectedContentItem?.language ||
-        selectedContentItem?.name?.split("-")[0]?.toLowerCase() || "unknown";
+      const programmingLanguage = selectedLanguage || "unknown";
 
       fetch("/api/game-stats", {
         method: "POST",
@@ -183,16 +239,26 @@ export default function CodeTyperMode() {
       setShowCompletion(true);
       finishedSentRef.current = true;
     }
-  }, [isComplete, sendDetailedStats, selectedContentItem]);
+  }, [isComplete, sendDetailedStats, selectedLanguage]);
 
-  // Function to load a random item
-  const loadRandomItem = useCallback(() => {
-    if (relevantContentItems.length === 0) {
-      console.warn("No code content items found");
-      setError("No code content available.");
-      setIsLoading(false);
-      return;
-    }
+  // Function to load next snippet
+  const loadNextSnippet = useCallback(() => {
+    if (codeSnippets.length === 0) return;
+
+    // Reset completion state when loading new content
+    setShowCompletion(false);
+    setGameResult(null);
+    setStartTime(null);
+    finishedSentRef.current = false;
+
+    const nextIndex = (selectedSnippetIndex + 1) % codeSnippets.length;
+    setSelectedSnippetIndex(nextIndex);
+    localStorage.setItem(localStorageKeys.snippet, nextIndex.toString());
+  }, [codeSnippets.length, selectedSnippetIndex]);
+
+  // Function to load a random snippet from current collection
+  const loadRandomSnippet = useCallback(() => {
+    if (codeSnippets.length === 0) return;
 
     // Reset completion state when loading random content
     setShowCompletion(false);
@@ -200,13 +266,12 @@ export default function CodeTyperMode() {
     setStartTime(null);
     finishedSentRef.current = false;
 
-    const randomIndex = Math.floor(Math.random() * relevantContentItems.length);
-    const randomId = relevantContentItems[randomIndex].id;
-    setSelectedContentId(randomId);
-    localStorage.setItem(localStorageKey, randomId);
-  }, [relevantContentItems, localStorageKey]);
+    const randomIndex = Math.floor(Math.random() * codeSnippets.length);
+    setSelectedSnippetIndex(randomIndex);
+    localStorage.setItem(localStorageKeys.snippet, randomIndex.toString());
+  }, [codeSnippets.length]);
 
-  // Effect for initial load logic
+  // Load initial state
   useEffect(() => {
     if (initialLoadComplete) return;
 
@@ -216,30 +281,21 @@ export default function CodeTyperMode() {
     setStartTime(null);
     finishedSentRef.current = false;
 
-    const lastSelectedId = localStorage.getItem(localStorageKey);
-
-    if (
-      lastSelectedId &&
-      relevantContentItems.some((item) => item.id === lastSelectedId)
-    ) {
-      setSelectedContentId(lastSelectedId);
-    } else {
-      loadRandomItem();
-    }
-
+    // Let the individual selectors handle auto-selection
+    // This ensures proper data loading flow
+    
     setInitialLoadComplete(true);
-  }, [initialLoadComplete, localStorageKey, loadRandomItem]);
+  }, [initialLoadComplete]);
 
-  // Fetch content when selectedContentId changes
+  // Fetch code snippets when collection changes
   useEffect(() => {
-    if (!selectedContentItem) {
+    if (!selectedLanguage || !selectedCategory || !selectedCollectionId) {
+      setCodeSnippets([]);
       setTargetText("");
-      setError(null);
-      setIsLoading(false);
       return;
     }
 
-    const loadContent = async () => {
+    const loadCollection = async () => {
       setIsLoading(true);
       setError(null);
       setTargetText("");
@@ -248,33 +304,106 @@ export default function CodeTyperMode() {
       setStartTime(null);
       finishedSentRef.current = false;
 
-      const result: OvertypeContentResult = await fetchOvertypeContent(
-        selectedContentItem.sourceUrl,
-      );
+      try {
+        const response = await fetch(
+          `/api/code-collections/content/${selectedLanguage}/${selectedCategory}/${selectedCollectionId}`,
+        );
+        if (!response.ok) {
+          throw new Error(`Failed to fetch collection: ${response.status}`);
+        }
 
-      if (result.success) {
-        setTargetText(result.content);
-      } else {
-        setError(`Error loading content: ${result.error}`);
-        setTargetText("");
+        const snippets: CodeSnippet[] = await response.json();
+        setCodeSnippets(snippets);
+      } catch (err) {
+        const errorMessage = err instanceof Error
+          ? err.message
+          : "Unknown error";
+        setError(`Error loading collection: ${errorMessage}`);
+        setCodeSnippets([]);
       }
 
       setIsLoading(false);
     };
 
-    loadContent();
-  }, [selectedContentItem]);
+    loadCollection();
+  }, [
+    selectedLanguage,
+    selectedCategory,
+    selectedCollectionId,
+  ]);
 
-  // Handle content selection
-  const handleSelectContent = useCallback((id: string) => {
+  // Update target text when snippet selection changes
+  useEffect(() => {
+    if (codeSnippets.length === 0) {
+      setTargetText("");
+      return;
+    }
+
+    // Validate snippet index and reset if out of bounds
+    if (selectedSnippetIndex >= codeSnippets.length) {
+      setSelectedSnippetIndex(0);
+      localStorage.setItem(localStorageKeys.snippet, "0");
+      return; // Let the effect re-run with the corrected index
+    }
+
+    // Update target text with current snippet
+    const selectedSnippet = codeSnippets[selectedSnippetIndex];
+    setTargetText(selectedSnippet.code);
+
+    // Reset game state when changing snippets
     setShowCompletion(false);
     setGameResult(null);
     setStartTime(null);
     finishedSentRef.current = false;
+  }, [codeSnippets, selectedSnippetIndex]);
 
-    setSelectedContentId(id);
-    localStorage.setItem(localStorageKey, id);
-  }, [localStorageKey]);
+  // Selection handlers
+  const handleLanguageChange = useCallback(
+    (languageCode: string, language: Language) => {
+      setSelectedLanguage(languageCode);
+      setSelectedLanguageData(language);
+      setSelectedCategory(null);
+      setSelectedCategoryData(null);
+      setSelectedCollectionId(null);
+      setSelectedCollectionData(null);
+      setSelectedSnippetIndex(0);
+      localStorage.setItem(localStorageKeys.language, languageCode);
+      localStorage.removeItem(localStorageKeys.category);
+      localStorage.removeItem(localStorageKeys.collection);
+      localStorage.removeItem(localStorageKeys.snippet);
+    },
+    [],
+  );
+
+  const handleCategoryChange = useCallback(
+    (categoryId: string, category: Category) => {
+      setSelectedCategory(categoryId);
+      setSelectedCategoryData(category);
+      setSelectedCollectionId(null);
+      setSelectedCollectionData(null);
+      setSelectedSnippetIndex(0);
+      localStorage.setItem(localStorageKeys.category, categoryId);
+      localStorage.removeItem(localStorageKeys.collection);
+      localStorage.removeItem(localStorageKeys.snippet);
+    },
+    [],
+  );
+
+  const handleCollectionChange = useCallback(
+    (collectionId: string, collection: CodeCollectionMetadata) => {
+      setSelectedCollectionId(collectionId);
+      setSelectedCollectionData(collection);
+      setSelectedSnippetIndex(0);
+      localStorage.setItem(localStorageKeys.collection, collectionId);
+      localStorage.setItem(localStorageKeys.snippet, "0");
+    },
+    [],
+  );
+
+  const handleSnippetChange = useCallback((index: number) => {
+    setSelectedSnippetIndex(index);
+    localStorage.setItem(localStorageKeys.snippet, index.toString());
+  }, []);
 
   // Handle practice again
   const handlePracticeAgain = useCallback(() => {
@@ -285,30 +414,13 @@ export default function CodeTyperMode() {
     finishedSentRef.current = false;
   }, [resetInput]);
 
-  // Handle next exercise (load random)
+  // Handle next exercise
   const handleNextExercise = useCallback(() => {
-    loadRandomItem();
-  }, [loadRandomItem]);
-
-  // Manual focus function for debugging
-  const handleManualFocus = useCallback(() => {
-    if (overtypeRef.current) {
-      const textarea = overtypeRef.current.querySelector("textarea");
-      if (textarea) {
-        textarea.focus();
-      }
-    }
-  }, []);
+    loadNextSnippet();
+  }, [loadNextSnippet]);
 
   return (
     <div class="code-mode-container" ref={containerRef}>
-      <div class="code-header">
-        <h2 class="code-title">Code Typing</h2>
-        <p class="code-subtitle">
-          Practice typing code snippets with real-time feedback
-        </p>
-      </div>
-
       {isLoading && (
         <div class="code-loading">
           <div class="code-spinner"></div>
@@ -323,50 +435,102 @@ export default function CodeTyperMode() {
         </div>
       )}
 
-      {!isLoading && !error && targetText && (
+      {!isLoading && !error && (
         <>
-          <div ref={overtypeRef}>
-            <OvertypeContainer
-              charStates={charStates}
-              inputValue={inputValue}
-              onInputChange={handleInputChange}
-              disabled={showCompletion}
-            />
+          {targetText && (
+            <div ref={overtypeRef}>
+              <OvertypeContainer
+                charStates={charStates}
+                inputValue={inputValue}
+                onInputChange={handleInputChange}
+                disabled={showCompletion}
+              />
+            </div>
+          )}
+
+          {/* Collection selectors */}
+          <div class="code-selectors">
+            <div class="selector-row">
+              <div class="selector-item">
+                <CodeLanguageSelector
+                  selectedLanguage={selectedLanguage}
+                  onLanguageChange={handleLanguageChange}
+                />
+              </div>
+              <div class="selector-item">
+                <CodeCategorySelector
+                  languageCode={selectedLanguage}
+                  selectedCategory={selectedCategory}
+                  onCategoryChange={handleCategoryChange}
+                />
+              </div>
+            </div>
+
+            <div class="selector-row">
+              <div class="selector-item">
+                <CodeCollectionSelector
+                  languageCode={selectedLanguage}
+                  categoryId={selectedCategory}
+                  selectedCollectionId={selectedCollectionId}
+                  onCollectionChange={handleCollectionChange}
+                />
+              </div>
+            </div>
           </div>
 
-          {/* Content selector */}
-          <div class="code-content-selector">
-            <label class="code-label">Select Code Content:</label>
-            <select
-              value={selectedContentId || ""}
-              onChange={(e) => handleSelectContent(e.currentTarget.value)}
-              class="code-select"
-              disabled={isComplete}
-            >
-              {relevantContentItems.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          {/* Snippet selector and info */}
+          {codeSnippets.length > 0 && (
+            <div class="snippet-selector">
+              <label class="code-label">
+                Code Snippet ({selectedSnippetIndex + 1} of{" "}
+                {codeSnippets.length}):
+              </label>
+              <select
+                value={selectedSnippetIndex}
+                onChange={(e) =>
+                  handleSnippetChange(parseInt(e.currentTarget.value, 10))}
+                class="code-select"
+                disabled={isComplete}
+              >
+                {codeSnippets.map((snippet, index) => (
+                  <option key={index} value={index}>
+                    {snippet.title} ({snippet.difficulty})
+                  </option>
+                ))}
+              </select>
+
+              {currentSnippet && (
+                <div class="snippet-info">
+                  <p class="snippet-description">
+                    {currentSnippet.description}
+                  </p>
+                  {currentSnippet.tags.length > 0 && (
+                    <p class="snippet-tags">
+                      Tags: {currentSnippet.tags.join(", ")}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Action buttons */}
           <div class="code-actions">
             <button
-              onClick={loadRandomItem}
+              onClick={loadRandomSnippet}
               class="code-button code-button-random"
               type="button"
-              disabled={isComplete}
+              disabled={isComplete || codeSnippets.length === 0}
             >
-              Load Random
+              Random Snippet
             </button>
             <button
-              onClick={handleManualFocus}
-              class="code-button code-button-focus"
+              onClick={loadNextSnippet}
+              class="code-button code-button-next"
               type="button"
+              disabled={isComplete || codeSnippets.length <= 1}
             >
-              Click to Focus
+              Next Snippet
             </button>
           </div>
 
@@ -387,9 +551,9 @@ export default function CodeTyperMode() {
       <style jsx>
         {`
         .code-mode-container {
-          max-width: 800px;
+          max-width: 95vw;
           margin: 0 auto;
-          padding: 1rem;
+          padding: 0.5rem 1rem 1rem 1rem;
         }
 
         .code-header {
@@ -445,7 +609,29 @@ export default function CodeTyperMode() {
           margin-bottom: 1rem;
         }
 
-        .code-content-selector {
+        .code-selectors {
+          margin: 1rem 0;
+        }
+
+        .selector-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+          margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+          .selector-row {
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+          }
+        }
+
+        .selector-item {
+          min-width: 0;
+        }
+
+        .snippet-selector {
           margin: 1rem 0;
         }
 
@@ -468,6 +654,27 @@ export default function CodeTyperMode() {
         .code-select:disabled {
           opacity: 0.5;
           cursor: not-allowed;
+        }
+
+        .snippet-info {
+          margin-top: 0.75rem;
+          padding: 0.75rem;
+          background-color: #f9fafb;
+          border: 1px solid #e5e7eb;
+          border-radius: 6px;
+          font-size: 0.875rem;
+        }
+
+        .snippet-description {
+          margin: 0 0 0.5rem 0;
+          color: #374151;
+          font-weight: 500;
+        }
+
+        .snippet-tags {
+          margin: 0;
+          color: #6b7280;
+          font-size: 0.8rem;
         }
 
         .code-actions {
@@ -499,6 +706,15 @@ export default function CodeTyperMode() {
 
         .code-button-random:hover:not(:disabled) {
           background-color: #2563eb;
+        }
+
+        .code-button-next {
+          background-color: #10b981;
+          color: white;
+        }
+
+        .code-button-next:hover:not(:disabled) {
+          background-color: #059669;
         }
 
         .code-button-focus {

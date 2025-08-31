@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
+import { GameWrongCharacterData } from "../types/userStats.ts";
 
 // Character state for overtype display
 export interface OvertypeCharState {
@@ -34,6 +35,9 @@ export function useOvertypeInput(targetText: string) {
   const [backspaceCount, setBackspaceCount] = useState(0);
   const [startTime, setStartTime] = useState<number | null>(null);
   const [keystrokeData, setKeystrokeData] = useState<OvertypeKeystroke[]>([]);
+  const [wrongCharactersInGame, setWrongCharactersInGame] = useState<
+    Map<string, GameWrongCharacterData>
+  >(new Map());
   const previousLengthRef = useRef(0);
 
   // Initialize character states when target text changes
@@ -60,6 +64,7 @@ export function useOvertypeInput(targetText: string) {
     setBackspaceCount(0);
     setStartTime(null);
     setKeystrokeData([]);
+    setWrongCharactersInGame(new Map());
     previousLengthRef.current = 0;
   }, [targetText]);
 
@@ -81,6 +86,41 @@ export function useOvertypeInput(targetText: string) {
       setBackspaceCount((prev) => prev + 1);
     }
 
+    // Track wrong characters BEFORE updating states (only on new input, not backspace)
+    if (!isBackspace && value.length > previousLength) {
+      setWrongCharactersInGame((prevWrongChars) => {
+        const newWrongChars = new Map(prevWrongChars);
+
+        // Check each newly typed character
+        for (let i = previousLength; i < value.length; i++) {
+          if (i < targetText.length) {
+            const typedChar = value[i];
+            const expectedChar = targetText[i];
+
+            // Track error if character is wrong
+            if (typedChar !== expectedChar) {
+              const existing = newWrongChars.get(expectedChar);
+
+              if (existing) {
+                if (!existing.positions.includes(i)) {
+                  existing.errorCount++;
+                  existing.positions.push(i);
+                }
+              } else {
+                newWrongChars.set(expectedChar, {
+                  expectedChar: expectedChar,
+                  errorCount: 1,
+                  positions: [i],
+                });
+              }
+            }
+          }
+        }
+
+        return newWrongChars;
+      });
+    }
+
     setInputValue(value);
     previousLengthRef.current = value.length;
 
@@ -92,7 +132,7 @@ export function useOvertypeInput(targetText: string) {
 
         if (index < value.length) {
           state = typedChar === targetChar ? "correct" : "incorrect";
-        } else if (index === value.length) {
+        } else if (index === value.length && index < targetText.length) {
           state = "current";
         }
 
@@ -131,9 +171,22 @@ export function useOvertypeInput(targetText: string) {
   }, [targetText, startTime]);
 
   // Calculate completion - only complete if there's actually content to complete
+  // Use length-based completion like quotes mode (allows completion with mistakes)
   const isComplete = targetText.length > 0 &&
-    inputValue.length === targetText.length &&
-    charStates.every((cs) => cs.state === "correct");
+    inputValue.length === targetText.length;
+
+  // Debug logging for completion detection
+  useEffect(() => {
+    if (targetText.length > 0 && inputValue.length === targetText.length) {
+      console.log("🎯 Completion check:", {
+        inputLength: inputValue.length,
+        targetLength: targetText.length,
+        isComplete,
+        wrongCharacters: wrongCharactersInGame.size,
+        charStates: charStates.map((cs, i) => `${i}:${cs.state}`).join(","),
+      });
+    }
+  }, [targetText, inputValue, charStates, isComplete, wrongCharactersInGame]);
 
   // Reset function
   const resetInput = useCallback(() => {
@@ -144,6 +197,7 @@ export function useOvertypeInput(targetText: string) {
     setBackspaceCount(0);
     setStartTime(null);
     setKeystrokeData([]);
+    setWrongCharactersInGame(new Map());
     previousLengthRef.current = 0;
 
     if (targetText) {
@@ -179,11 +233,10 @@ export function useOvertypeInput(targetText: string) {
   }, [keystrokeData]);
 
   // Wrong characters array
-  const getWrongCharactersArray = useCallback(() => {
-    return keystrokeData
-      .filter((keystroke) => !keystroke.correct)
-      .map((keystroke) => keystroke.key);
-  }, [keystrokeData]);
+  // Get wrong characters array (matching quotes mode)
+  const getWrongCharactersArray = useCallback((): GameWrongCharacterData[] => {
+    return Array.from(wrongCharactersInGame.values());
+  }, [wrongCharactersInGame]);
 
   return {
     inputValue,

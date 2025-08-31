@@ -47,6 +47,13 @@ const typingContent: ContentItem[] = [
     language: "python",
     sourceUrl: "/content/code/python/list_comprehension.py",
   },
+  {
+    id: "py-test-short",
+    name: "Python: Short Test",
+    type: "code",
+    language: "python",
+    sourceUrl: "/content/code/python/short_test.py",
+  },
 ];
 
 export default typingContent;

@@ -92,9 +92,9 @@ export default function OvertypeContainer({
             outline: "none",
             resize: "none",
             fontFamily: "monospace",
-            fontSize: "16px",
-            lineHeight: "1.6",
-            padding: "12px",
+            fontSize: "20px",
+            lineHeight: "1.5",
+            padding: "16px",
             caretColor: "#000",
             zIndex: 2,
           }}
@@ -111,14 +111,14 @@ export default function OvertypeContainer({
           style={{
             position: "relative",
             fontFamily: "monospace",
-            fontSize: "16px",
-            lineHeight: "1.6",
-            padding: "12px",
+            fontSize: "20px",
+            lineHeight: "1.5",
+            padding: "16px",
             whiteSpace: "pre-wrap",
             wordBreak: "break-all",
             zIndex: 1,
             pointerEvents: "none",
-            minHeight: "200px",
+            minHeight: "400px",
             border: "2px solid #e5e7eb",
             borderRadius: "8px",
             backgroundColor: "#f9fafb",
@@ -133,7 +133,8 @@ export default function OvertypeContainer({
         .overtype-container-wrapper {
           position: relative;
           width: 100%;
-          margin: 1rem 0;
+          margin: 0.75rem 0;
+          max-width: none;
         }
 
         .overtype-container {
