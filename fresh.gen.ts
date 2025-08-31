@@ -16,6 +16,7 @@ import * as $api_translations_all from "./routes/api/translations/all.ts";
 import * as $api_translations_languages from "./routes/api/translations/languages.ts";
 import * as $api_trigraphs from "./routes/api/trigraphs.ts";
 import * as $api_trigraphs_name_ from "./routes/api/trigraphs/[name].ts";
+import * as $code_backup from "./routes/code-backup.tsx";
 import * as $code from "./routes/code.tsx";
 import * as $custom from "./routes/custom.tsx";
 import * as $index from "./routes/index.tsx";
@@ -59,6 +60,7 @@ const manifest = {
     "./routes/api/translations/languages.ts": $api_translations_languages,
     "./routes/api/trigraphs.ts": $api_trigraphs,
     "./routes/api/trigraphs/[name].ts": $api_trigraphs_name_,
+    "./routes/code-backup.tsx": $code_backup,
     "./routes/code.tsx": $code,
     "./routes/custom.tsx": $custom,
     "./routes/index.tsx": $index,
