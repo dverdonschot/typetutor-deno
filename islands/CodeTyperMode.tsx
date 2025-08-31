@@ -28,7 +28,7 @@ export default function CodeTyperMode() {
   const finishedSentRef = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const overtypeRef = useRef<HTMLDivElement>(null);
-  const hasUserInteracted = useRef(false);
+  const _hasUserInteracted = useRef(false);
 
   // localStorage key for code mode
   const localStorageKey = "code_lastSelectedCodeId";
@@ -67,10 +67,12 @@ export default function CodeTyperMode() {
 
   // Focus management for overtype textarea
   useEffect(() => {
-    if (targetText && !isLoading && !showCompletion && !error && selectedContentId) {
+    if (
+      targetText && !isLoading && !showCompletion && !error && selectedContentId
+    ) {
       const timer = setTimeout(() => {
         if (overtypeRef.current) {
-          const textarea = overtypeRef.current.querySelector('textarea');
+          const textarea = overtypeRef.current.querySelector("textarea");
           if (textarea && !textarea.disabled) {
             textarea.focus();
           }
@@ -99,7 +101,7 @@ export default function CodeTyperMode() {
     return `game_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`;
   };
 
-  // Send detailed stats to UserStatsManager  
+  // Send detailed stats to UserStatsManager
   const sendDetailedStats = useCallback(async () => {
     if (!inputStartTime || !isComplete) return;
 
@@ -109,19 +111,12 @@ export default function CodeTyperMode() {
 
       const endTime = Date.now();
       const duration = (endTime - inputStartTime) / 1000;
-      
-      // Get the programming language from the selected content item
-      const programmingLanguage = selectedContentItem?.category || 
-        selectedContentItem?.name?.split('-')[0]?.toLowerCase() || 'unknown';
 
-      // Convert OvertypeKeystroke to the format expected by UserStatsManager
-      const convertedKeystrokeData = keystrokeData.map((ks, index) => ({
-        keyCode: ks.key,
-        timestamp: ks.timestamp,
-        correct: ks.correct,
-        position: index,
-        timeSinceStart: ks.timestamp - inputStartTime
-      }));
+      // Get the programming language from the selected content item
+      const programmingLanguage = selectedContentItem?.language ||
+        selectedContentItem?.name?.split("-")[0]?.toLowerCase() || "unknown";
+
+      // Note: keystrokeData conversion removed - using empty array for now
 
       const gameResult: DetailedGameResult = {
         gameId: generateGameId(),
@@ -135,8 +130,8 @@ export default function CodeTyperMode() {
         accuracy: metrics.accuracyPercentage,
         mistakeCount,
         backspaceCount,
-        keystrokeData: convertedKeystrokeData,
-        characterStats: [],
+        keystrokeData: [],
+        characterStats: {},
         contentMetadata: {
           source: selectedContentItem?.name || programmingLanguage,
           totalCharacters: targetText.length,
@@ -164,8 +159,8 @@ export default function CodeTyperMode() {
   // Handle completion and stats tracking
   useEffect(() => {
     if (isComplete && !finishedSentRef.current) {
-      const programmingLanguage = selectedContentItem?.category || 
-        selectedContentItem?.name?.split('-')[0]?.toLowerCase() || 'unknown';
+      const programmingLanguage = selectedContentItem?.language ||
+        selectedContentItem?.name?.split("-")[0]?.toLowerCase() || "unknown";
 
       fetch("/api/game-stats", {
         method: "POST",
@@ -184,7 +179,7 @@ export default function CodeTyperMode() {
       });
 
       sendDetailedStats();
-      
+
       setShowCompletion(true);
       finishedSentRef.current = true;
     }
@@ -220,7 +215,7 @@ export default function CodeTyperMode() {
     setGameResult(null);
     setStartTime(null);
     finishedSentRef.current = false;
-    
+
     const lastSelectedId = localStorage.getItem(localStorageKey);
 
     if (
@@ -276,7 +271,7 @@ export default function CodeTyperMode() {
     setGameResult(null);
     setStartTime(null);
     finishedSentRef.current = false;
-    
+
     setSelectedContentId(id);
     localStorage.setItem(localStorageKey, id);
   }, [localStorageKey]);
@@ -298,7 +293,7 @@ export default function CodeTyperMode() {
   // Manual focus function for debugging
   const handleManualFocus = useCallback(() => {
     if (overtypeRef.current) {
-      const textarea = overtypeRef.current.querySelector('textarea');
+      const textarea = overtypeRef.current.querySelector("textarea");
       if (textarea) {
         textarea.focus();
       }
@@ -379,7 +374,7 @@ export default function CodeTyperMode() {
           {showCompletion && isComplete && (
             <GameScoreDisplayIsland
               metrics={metrics}
-              isComplete={true}
+              isComplete
               onPracticeAgain={handlePracticeAgain}
               onNextGame={handleNextExercise}
               gameType="code"

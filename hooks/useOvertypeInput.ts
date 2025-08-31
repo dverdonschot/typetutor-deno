@@ -131,7 +131,7 @@ export function useOvertypeInput(targetText: string) {
   }, [targetText, startTime]);
 
   // Calculate completion - only complete if there's actually content to complete
-  const isComplete = targetText.length > 0 && 
+  const isComplete = targetText.length > 0 &&
     inputValue.length === targetText.length &&
     charStates.every((cs) => cs.state === "correct");
 

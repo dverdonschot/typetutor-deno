@@ -1,5 +1,5 @@
 import { JSX } from "preact";
-import { useEffect, useRef } from "preact/hooks";
+import { useRef } from "preact/hooks";
 import { OvertypeCharState } from "../../hooks/useOvertypeInput.ts";
 
 interface OvertypeContainerProps {
