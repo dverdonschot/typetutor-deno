@@ -1,0 +1,50 @@
+[
+  {
+    "code": "javascript",
+    "name": "JavaScript",
+    "icon": "🟨",
+    "description": "The versatile language for web development and beyond",
+    "fileExtension": "js",
+    "syntaxHighlighting": "javascript"
+  },
+  {
+    "code": "python",
+    "name": "Python",
+    "icon": "🐍",
+    "description": "Powerful and readable language for data science, web apps, and automation",
+    "fileExtension": "py",
+    "syntaxHighlighting": "python"
+  },
+  {
+    "code": "java",
+    "name": "Java",
+    "icon": "☕",
+    "description": "Enterprise-grade object-oriented programming language",
+    "fileExtension": "java",
+    "syntaxHighlighting": "java"
+  },
+  {
+    "code": "typescript",
+    "name": "TypeScript",
+    "icon": "🔷",
+    "description": "JavaScript with type safety for large-scale applications",
+    "fileExtension": "ts",
+    "syntaxHighlighting": "typescript"
+  },
+  {
+    "code": "go",
+    "name": "Go",
+    "icon": "🐹",
+    "description": "Simple, fast, and reliable language for modern software development",
+    "fileExtension": "go",
+    "syntaxHighlighting": "go"
+  },
+  {
+    "code": "rust",
+    "name": "Rust",
+    "icon": "🦀",
+    "description": "Systems programming language focused on safety, speed, and concurrency",
+    "fileExtension": "rs",
+    "syntaxHighlighting": "rust"
+  }
+]

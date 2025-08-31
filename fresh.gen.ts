@@ -6,6 +6,12 @@ import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $alphabet from "./routes/alphabet.tsx";
 import * as $api_admin_refresh_cache from "./routes/api/admin/refresh-cache.ts";
+import * as $api_code_collections_categories_lang_ from "./routes/api/code-collections/categories/[lang].ts";
+import * as $api_code_collections_collections_lang_ from "./routes/api/code-collections/collections/[lang].ts";
+import * as $api_code_collections_content_lang_category_id_ from "./routes/api/code-collections/content/[lang]/[category]/[id].ts";
+import * as $api_code_collections_languages from "./routes/api/code-collections/languages.ts";
+import * as $api_code_collections_metadata_lang_category_ from "./routes/api/code-collections/metadata/[lang]/[category].ts";
+import * as $api_code_collections_snippets_lang_id_ from "./routes/api/code-collections/snippets/[lang]/[id].ts";
 import * as $api_game_stats from "./routes/api/game-stats.ts";
 import * as $api_quotes_categories_lang_ from "./routes/api/quotes/categories/[lang].ts";
 import * as $api_quotes_content_lang_category_id_ from "./routes/api/quotes/content/[lang]/[category]/[id].ts";
@@ -16,6 +22,7 @@ import * as $api_translations_all from "./routes/api/translations/all.ts";
 import * as $api_translations_languages from "./routes/api/translations/languages.ts";
 import * as $api_trigraphs from "./routes/api/trigraphs.ts";
 import * as $api_trigraphs_name_ from "./routes/api/trigraphs/[name].ts";
+import * as $code_backup from "./routes/code-backup.tsx";
 import * as $code from "./routes/code.tsx";
 import * as $custom from "./routes/custom.tsx";
 import * as $index from "./routes/index.tsx";
@@ -47,6 +54,18 @@ const manifest = {
     "./routes/_app.tsx": $_app,
     "./routes/alphabet.tsx": $alphabet,
     "./routes/api/admin/refresh-cache.ts": $api_admin_refresh_cache,
+    "./routes/api/code-collections/categories/[lang].ts":
+      $api_code_collections_categories_lang_,
+    "./routes/api/code-collections/collections/[lang].ts":
+      $api_code_collections_collections_lang_,
+    "./routes/api/code-collections/content/[lang]/[category]/[id].ts":
+      $api_code_collections_content_lang_category_id_,
+    "./routes/api/code-collections/languages.ts":
+      $api_code_collections_languages,
+    "./routes/api/code-collections/metadata/[lang]/[category].ts":
+      $api_code_collections_metadata_lang_category_,
+    "./routes/api/code-collections/snippets/[lang]/[id].ts":
+      $api_code_collections_snippets_lang_id_,
     "./routes/api/game-stats.ts": $api_game_stats,
     "./routes/api/quotes/categories/[lang].ts": $api_quotes_categories_lang_,
     "./routes/api/quotes/content/[lang]/[category]/[id].ts":
@@ -59,6 +78,7 @@ const manifest = {
     "./routes/api/translations/languages.ts": $api_translations_languages,
     "./routes/api/trigraphs.ts": $api_trigraphs,
     "./routes/api/trigraphs/[name].ts": $api_trigraphs_name_,
+    "./routes/code-backup.tsx": $code_backup,
     "./routes/code.tsx": $code,
     "./routes/custom.tsx": $custom,
     "./routes/index.tsx": $index,

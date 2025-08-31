@@ -1,0 +1,50 @@
+{
+  "id": "python-basics",
+  "name": "Python Basics",
+  "description": "Core Python programming concepts and syntax",
+  "icon": "🐍",
+  "difficulty": "beginner",
+  "language": "python",
+  "snippets": [
+    {
+      "code": "def greet(name):\n    \"\"\"Simple function with docstring\"\"\"\n    return f\"Hello, {name}! Welcome to Python.\"\n\n# Function call\nmessage = greet(\"Alice\")\nprint(message)",
+      "title": "Basic Function Definition",
+      "description": "Function definition with docstring and f-string formatting",
+      "tags": ["functions", "docstrings", "f-strings"],
+      "difficulty": "beginner",
+      "language": "python"
+    },
+    {
+      "code": "# List comprehension examples\nnumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n\n# Filter even numbers\nevens = [n for n in numbers if n % 2 == 0]\n\n# Square all numbers\nsquares = [n**2 for n in numbers]\n\nprint(f\"Even numbers: {evens}\")\nprint(f\"Squares: {squares}\")",
+      "title": "List Comprehensions",
+      "description": "Creating lists with filtering and transformation",
+      "tags": ["list-comprehension", "filtering", "loops"],
+      "difficulty": "intermediate",
+      "language": "python"
+    },
+    {
+      "code": "class Rectangle:\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n    \n    def area(self):\n        return self.width * self.height\n    \n    def __str__(self):\n        return f\"Rectangle({self.width}x{self.height})\"\n\n# Create and use object\nrect = Rectangle(10, 5)\nprint(f\"{rect} has area: {rect.area()}\")",
+      "title": "Basic Class Definition",
+      "description": "Simple class with constructor, methods, and string representation",
+      "tags": ["classes", "objects", "methods"],
+      "difficulty": "intermediate",
+      "language": "python"
+    },
+    {
+      "code": "# Dictionary operations\nstudent = {\n    \"name\": \"John Doe\",\n    \"age\": 20,\n    \"grades\": [85, 92, 78, 96]\n}\n\n# Access and modify\nprint(f\"Student: {student['name']}\")\nstudent[\"gpa\"] = sum(student[\"grades\"]) / len(student[\"grades\"])\n\n# Dictionary comprehension\ngrade_letters = {i: \"A\" if i >= 90 else \"B\" for i in student[\"grades\"]}\nprint(f\"Grade letters: {grade_letters}\")",
+      "title": "Dictionary Operations",
+      "description": "Working with dictionaries and dictionary comprehensions",
+      "tags": ["dictionaries", "data-structures", "comprehensions"],
+      "difficulty": "intermediate",
+      "language": "python"
+    },
+    {
+      "code": "def fibonacci(n):\n    \"\"\"Generate Fibonacci sequence using generator\"\"\"\n    a, b = 0, 1\n    for _ in range(n):\n        yield a\n        a, b = b, a + b\n\n# Using the generator\nfib_numbers = list(fibonacci(10))\nprint(f\"First 10 Fibonacci numbers: {fib_numbers}\")\n\n# Generator expression\nfib_squares = (x**2 for x in fibonacci(5))\nprint(f\"Fibonacci squares: {list(fib_squares)}\")",
+      "title": "Generators and Iterators",
+      "description": "Creating and using generators for memory-efficient iteration",
+      "tags": ["generators", "iterators", "yield"],
+      "difficulty": "advanced",
+      "language": "python"
+    }
+  ]
+}

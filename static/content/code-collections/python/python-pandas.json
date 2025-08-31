@@ -1,0 +1,50 @@
+{
+  "id": "python-pandas",
+  "name": "Pandas Data Analysis",
+  "description": "Data manipulation and analysis with pandas library",
+  "icon": "📊",
+  "difficulty": "intermediate",
+  "language": "python",
+  "snippets": [
+    {
+      "code": "import pandas as pd\nimport numpy as np\n\n# Create DataFrame from dictionary\ndata = {\n    'name': ['Alice', 'Bob', 'Charlie', 'Diana'],\n    'age': [25, 30, 35, 28],\n    'salary': [50000, 60000, 75000, 55000]\n}\n\ndf = pd.DataFrame(data)\nprint(df.head())",
+      "title": "Creating DataFrames",
+      "description": "Basic DataFrame creation and display",
+      "tags": ["dataframe", "creation", "basic-operations"],
+      "difficulty": "beginner",
+      "language": "python"
+    },
+    {
+      "code": "# Data filtering and selection\ndf_filtered = df[df['age'] > 28]\nprint(\"Employees older than 28:\")\nprint(df_filtered)\n\n# Multiple conditions\nhigh_earners = df[(df['age'] >= 30) & (df['salary'] > 55000)]\nprint(\"\\nHigh earners 30+:\")\nprint(high_earners[['name', 'salary']])",
+      "title": "Data Filtering",
+      "description": "Filtering DataFrames with conditions",
+      "tags": ["filtering", "conditions", "selection"],
+      "difficulty": "intermediate",
+      "language": "python"
+    },
+    {
+      "code": "# Group operations\nsales_data = pd.DataFrame({\n    'product': ['A', 'B', 'A', 'B', 'A', 'B'],\n    'quarter': ['Q1', 'Q1', 'Q2', 'Q2', 'Q3', 'Q3'],\n    'sales': [100, 150, 120, 180, 110, 200]\n})\n\n# Group by product and calculate statistics\nproduct_stats = sales_data.groupby('product').agg({\n    'sales': ['sum', 'mean', 'std']\n})\n\nprint(product_stats)",
+      "title": "GroupBy Operations",
+      "description": "Grouping data and calculating aggregate statistics",
+      "tags": ["groupby", "aggregation", "statistics"],
+      "difficulty": "intermediate",
+      "language": "python"
+    },
+    {
+      "code": "# Data cleaning and transformation\ndf_messy = pd.DataFrame({\n    'name': ['  John  ', 'JANE', None, 'bob'],\n    'score': [85, '92', 'invalid', 78],\n    'date': ['2023-01-15', '2023-02-20', '2023-03-10', None]\n})\n\n# Clean the data\ndf_clean = df_messy.copy()\ndf_clean['name'] = df_clean['name'].str.strip().str.title()\ndf_clean['score'] = pd.to_numeric(df_clean['score'], errors='coerce')\ndf_clean['date'] = pd.to_datetime(df_clean['date'])\n\nprint(\"Cleaned data:\")\nprint(df_clean.dtypes)\nprint(df_clean)",
+      "title": "Data Cleaning",
+      "description": "Cleaning and transforming messy data",
+      "tags": ["cleaning", "transformation", "data-types"],
+      "difficulty": "intermediate",
+      "language": "python"
+    },
+    {
+      "code": "# Time series analysis\ndates = pd.date_range('2023-01-01', periods=30, freq='D')\nts_data = pd.DataFrame({\n    'date': dates,\n    'value': np.random.randn(30).cumsum() + 100\n})\n\nts_data.set_index('date', inplace=True)\n\n# Resample to weekly data\nweekly_data = ts_data.resample('W').agg({\n    'value': ['mean', 'min', 'max']\n})\n\nprint(\"Weekly aggregated data:\")\nprint(weekly_data.head())",
+      "title": "Time Series Operations",
+      "description": "Working with time series data and resampling",
+      "tags": ["time-series", "resampling", "dates"],
+      "difficulty": "advanced",
+      "language": "python"
+    }
+  ]
+}
