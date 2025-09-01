@@ -170,32 +170,6 @@ export default function CodeCollectionSelector(
         ))}
       </select>
 
-      {/* Show additional collection metadata */}
-      {selectedCollectionId &&
-        collections.find((c) => c.id === selectedCollectionId) && (
-        <div class="mt-2 text-sm text-gray-600">
-          {(() => {
-            const selectedCollection = collections.find((c) =>
-              c.id === selectedCollectionId
-            );
-            if (!selectedCollection) return null;
-
-            const parts = [];
-            if (selectedCollection.tags && selectedCollection.tags.length > 0) {
-              parts.push(`Tags: ${selectedCollection.tags.join(", ")}`);
-            }
-            if (selectedCollection.difficulty) {
-              parts.push(
-                `${
-                  difficultyLabel || "Difficulty"
-                }: ${selectedCollection.difficulty}`,
-              );
-            }
-
-            return parts.length > 0 ? <p>{parts.join(" • ")}</p> : null;
-          })()}
-        </div>
-      )}
     </div>
   );
 }

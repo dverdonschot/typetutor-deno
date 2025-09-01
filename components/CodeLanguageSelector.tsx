@@ -128,20 +128,6 @@ export default function CodeLanguageSelector(
         ))}
       </select>
 
-      {/* Show additional language info */}
-      {selectedLanguage && languages.find((l) => l.code === selectedLanguage) &&
-        (
-          <div class="mt-2 text-sm text-gray-600">
-            {(() => {
-              const selectedLang = languages.find((l) =>
-                l.code === selectedLanguage
-              );
-              return selectedLang?.description
-                ? <p>{selectedLang.description}</p>
-                : null;
-            })()}
-          </div>
-        )}
     </div>
   );
 }

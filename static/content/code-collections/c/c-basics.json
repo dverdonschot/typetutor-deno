@@ -1,0 +1,170 @@
+{
+  "id": "c-basics",
+  "name": "C Basics",
+  "description": "Learn C fundamentals through civil engineering and public infrastructure projects",
+  "icon": "🏗️",
+  "difficulty": "beginner",
+  "language": "c",
+  "snippets": [
+    {
+      "code": "#include <stdio.h>\n\nint main() {\n    double bridge_length = 1200.5;\n    int support_pillars = 6;\n    char bridge_name[] = \"Golden Gate\";\n    \n    printf(\"Bridge: %s\\n\", bridge_name);\n    printf(\"Length: %.1f meters\\n\", bridge_length);\n    printf(\"Support pillars: %d\\n\", support_pillars);\n    \n    return 0;\n}",
+      "title": "Bridge Construction Variables",
+      "description": "Basic variable declarations for bridge engineering data",
+      "tags": ["variables", "printf", "data-types"],
+      "difficulty": "beginner",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n\nint calculate_concrete_volume(int length, int width, int height) {\n    return length * width * height;\n}\n\nint main() {\n    int foundation_volume = calculate_concrete_volume(50, 20, 3);\n    printf(\"Foundation concrete needed: %d cubic meters\\n\", foundation_volume);\n    return 0;\n}",
+      "title": "Foundation Volume Calculator",
+      "description": "Function to calculate concrete volume for building foundations",
+      "tags": ["functions", "parameters", "return-values"],
+      "difficulty": "beginner",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n\nint main() {\n    int pipe_lengths[] = {100, 150, 200, 75, 300};\n    int total_length = 0;\n    int pipe_count = 5;\n    \n    for (int i = 0; i < pipe_count; i++) {\n        total_length += pipe_lengths[i];\n    }\n    \n    printf(\"Total pipeline length: %d meters\\n\", total_length);\n    return 0;\n}",
+      "title": "Pipeline Length Calculator",
+      "description": "Array processing to calculate total pipeline length",
+      "tags": ["arrays", "loops", "accumulation"],
+      "difficulty": "beginner",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n\nint main() {\n    double water_pressure = 85.5;\n    \n    if (water_pressure > 80.0) {\n        printf(\"HIGH PRESSURE ALERT: %.1f PSI\\n\", water_pressure);\n        printf(\"Reduce pressure immediately\\n\");\n    } else if (water_pressure < 30.0) {\n        printf(\"LOW PRESSURE WARNING: %.1f PSI\\n\", water_pressure);\n    } else {\n        printf(\"Pressure normal: %.1f PSI\\n\", water_pressure);\n    }\n    \n    return 0;\n}",
+      "title": "Water System Pressure Monitor",
+      "description": "Conditional logic for monitoring water system pressure",
+      "tags": ["conditionals", "if-else", "comparisons"],
+      "difficulty": "beginner",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n#include <string.h>\n\ntypedef struct {\n    char project_name[100];\n    double budget;\n    int duration_months;\n    char contractor[50];\n} ConstructionProject;\n\nint main() {\n    ConstructionProject highway;\n    strcpy(highway.project_name, \"Interstate 95 Extension\");\n    highway.budget = 2500000.00;\n    highway.duration_months = 18;\n    strcpy(highway.contractor, \"BuildCorp Engineering\");\n    \n    printf(\"Project: %s\\n\", highway.project_name);\n    printf(\"Budget: $%.2f\\n\", highway.budget);\n    printf(\"Timeline: %d months\\n\", highway.duration_months);\n    \n    return 0;\n}",
+      "title": "Construction Project Structure",
+      "description": "Struct definition for managing construction project data",
+      "tags": ["structs", "typedef", "string-handling"],
+      "difficulty": "intermediate",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n\nint main() {\n    int traffic_counts[7] = {1250, 1340, 1180, 1420, 1580, 890, 650};\n    char days[][10] = {\"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\", \"Sunday\"};\n    \n    printf(\"Weekly Traffic Report:\\n\");\n    for (int i = 0; i < 7; i++) {\n        printf(\"%s: %d vehicles\\n\", days[i], traffic_counts[i]);\n    }\n    \n    return 0;\n}",
+      "title": "Traffic Monitoring System",
+      "description": "Multi-dimensional arrays for weekly traffic data analysis",
+      "tags": ["arrays", "2d-arrays", "loops", "strings"],
+      "difficulty": "beginner",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n#include <math.h>\n\n// Calculate load capacity for steel beams\ndouble calculate_beam_capacity(double length, double width, double thickness, double yield_strength) {\n    double moment_of_inertia = (width * thickness * thickness * thickness) / 12.0;\n    double section_modulus = moment_of_inertia / (thickness / 2.0);\n    return (yield_strength * section_modulus) / length;\n}\n\nint main() {\n    double capacity = calculate_beam_capacity(6.0, 0.2, 0.015, 250000000);\n    printf(\"Beam load capacity: %.2f Newtons\\n\", capacity);\n    return 0;\n}",
+      "title": "Structural Load Calculator",
+      "description": "Engineering calculations for structural beam capacity",
+      "tags": ["math", "calculations", "engineering"],
+      "difficulty": "intermediate",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n\nenum MaintenanceStatus {\n    EXCELLENT = 1,\n    GOOD = 2,\n    FAIR = 3,\n    POOR = 4,\n    CRITICAL = 5\n};\n\nint main() {\n    enum MaintenanceStatus bridge_condition = FAIR;\n    \n    switch (bridge_condition) {\n        case EXCELLENT:\n            printf(\"Bridge in excellent condition - routine inspection only\\n\");\n            break;\n        case GOOD:\n            printf(\"Bridge in good condition - minor maintenance scheduled\\n\");\n            break;\n        case FAIR:\n            printf(\"Bridge needs attention - major maintenance required\\n\");\n            break;\n        case POOR:\n            printf(\"Bridge in poor condition - repairs needed immediately\\n\");\n            break;\n        case CRITICAL:\n            printf(\"CRITICAL: Bridge unsafe - close to traffic immediately\\n\");\n            break;\n    }\n    \n    return 0;\n}",
+      "title": "Infrastructure Condition Assessment",
+      "description": "Using enums and switch statements for condition monitoring",
+      "tags": ["enums", "switch", "infrastructure"],
+      "difficulty": "beginner",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n#include <stdlib.h>\n\nint main() {\n    int num_sensors = 5;\n    double *temperature_readings = malloc(num_sensors * sizeof(double));\n    \n    if (temperature_readings == NULL) {\n        printf(\"Memory allocation failed\\n\");\n        return 1;\n    }\n    \n    // Simulate sensor readings\n    for (int i = 0; i < num_sensors; i++) {\n        temperature_readings[i] = 20.0 + i * 2.5;\n        printf(\"Sensor %d: %.1f°C\\n\", i + 1, temperature_readings[i]);\n    }\n    \n    free(temperature_readings);\n    return 0;\n}",
+      "title": "Dynamic Sensor Array",
+      "description": "Dynamic memory allocation for environmental sensor data",
+      "tags": ["pointers", "malloc", "memory-management"],
+      "difficulty": "intermediate",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n#include <string.h>\n\nint main() {\n    char road_names[4][30];\n    strcpy(road_names[0], \"Main Street\");\n    strcpy(road_names[1], \"Broadway Avenue\");\n    strcpy(road_names[2], \"Industrial Boulevard\");\n    strcpy(road_names[3], \"Harbor Drive\");\n    \n    printf(\"Road Maintenance Schedule:\\n\");\n    for (int i = 0; i < 4; i++) {\n        printf(\"%d. %s - Week %d\\n\", i + 1, road_names[i], i + 1);\n    }\n    \n    return 0;\n}",
+      "title": "Road Maintenance Scheduler",
+      "description": "String arrays for managing road maintenance schedules",
+      "tags": ["strings", "strcpy", "arrays"],
+      "difficulty": "beginner",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n\nint is_bridge_safe(double max_weight, double current_load) {\n    double safety_factor = 1.5;\n    return (current_load * safety_factor) <= max_weight;\n}\n\nint main() {\n    double bridge_capacity = 50000.0; // kg\n    double truck_weight = 25000.0;    // kg\n    \n    if (is_bridge_safe(bridge_capacity, truck_weight)) {\n        printf(\"SAFE: Truck can cross bridge\\n\");\n        printf(\"Load: %.0f kg, Capacity: %.0f kg\\n\", truck_weight, bridge_capacity);\n    } else {\n        printf(\"UNSAFE: Truck exceeds safe weight limit\\n\");\n    }\n    \n    return 0;\n}",
+      "title": "Bridge Safety Checker",
+      "description": "Boolean function to verify bridge load safety margins",
+      "tags": ["functions", "boolean", "safety"],
+      "difficulty": "beginner",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n\n#define MAX_READINGS 10\n#define ALERT_THRESHOLD 75.0\n\nint main() {\n    double noise_levels[MAX_READINGS] = {45.2, 52.1, 67.8, 78.3, 69.5, 81.2, 58.7, 72.4, 66.1, 55.9};\n    int violations = 0;\n    \n    printf(\"Noise Level Monitoring Report:\\n\");\n    for (int i = 0; i < MAX_READINGS; i++) {\n        printf(\"Reading %d: %.1f dB\", i + 1, noise_levels[i]);\n        if (noise_levels[i] > ALERT_THRESHOLD) {\n            printf(\" - VIOLATION!\");\n            violations++;\n        }\n        printf(\"\\n\");\n    }\n    \n    printf(\"\\nTotal violations: %d\\n\", violations);\n    return 0;\n}",
+      "title": "Environmental Noise Monitor",
+      "description": "Preprocessor directives and constants for noise level monitoring",
+      "tags": ["define", "constants", "monitoring"],
+      "difficulty": "beginner",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n\nvoid print_project_status(char *project_name, int completion_percent) {\n    printf(\"Project: %s\\n\", project_name);\n    printf(\"Progress: %d%% complete\\n\", completion_percent);\n    \n    printf(\"Status: [\");\n    for (int i = 0; i < 20; i++) {\n        if (i < completion_percent / 5) {\n            printf(\"█\");\n        } else {\n            printf(\"░\");\n        }\n    }\n    printf(\"] %d%%\\n\\n\", completion_percent);\n}\n\nint main() {\n    print_project_status(\"Highway Extension\", 65);\n    print_project_status(\"Water Treatment Plant\", 30);\n    print_project_status(\"Bridge Renovation\", 85);\n    return 0;\n}",
+      "title": "Project Progress Visualizer",
+      "description": "Void function with progress bar visualization",
+      "tags": ["void-functions", "visualization", "progress"],
+      "difficulty": "intermediate",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n\nint main() {\n    FILE *inspection_log = fopen(\"bridge_inspection.txt\", \"w\");\n    \n    if (inspection_log == NULL) {\n        printf(\"Error: Cannot create inspection log file\\n\");\n        return 1;\n    }\n    \n    fprintf(inspection_log, \"BRIDGE INSPECTION REPORT\\n\");\n    fprintf(inspection_log, \"========================\\n\");\n    fprintf(inspection_log, \"Date: 2024-09-01\\n\");\n    fprintf(inspection_log, \"Inspector: John Smith\\n\");\n    fprintf(inspection_log, \"Condition: Good\\n\");\n    fprintf(inspection_log, \"Next inspection: 2025-03-01\\n\");\n    \n    fclose(inspection_log);\n    printf(\"Inspection report saved successfully\\n\");\n    return 0;\n}",
+      "title": "Inspection Report Generator",
+      "description": "File I/O operations for creating inspection reports",
+      "tags": ["file-io", "fprintf", "error-handling"],
+      "difficulty": "intermediate",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n\ntypedef struct {\n    double x, y;\n} Point;\n\ntypedef struct {\n    Point start;\n    Point end;\n    char material[20];\n    double diameter;\n} Pipeline;\n\nvoid print_pipeline_info(Pipeline *pipe) {\n    printf(\"Pipeline from (%.1f, %.1f) to (%.1f, %.1f)\\n\", \n           pipe->start.x, pipe->start.y, pipe->end.x, pipe->end.y);\n    printf(\"Material: %s, Diameter: %.2f inches\\n\", pipe->material, pipe->diameter);\n}\n\nint main() {\n    Pipeline main_line = {{0.0, 0.0}, {1000.0, 500.0}, \"Steel\", 24.5};\n    print_pipeline_info(&main_line);\n    return 0;\n}",
+      "title": "Pipeline Management System",
+      "description": "Nested structures and pointers for pipeline infrastructure",
+      "tags": ["structs", "pointers", "nested-structures"],
+      "difficulty": "intermediate",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n\nint main() {\n    double flow_rates[24]; // hourly flow rates\n    double total_flow = 0.0;\n    \n    // Simulate 24 hours of water flow data\n    for (int hour = 0; hour < 24; hour++) {\n        flow_rates[hour] = 150.0 + (hour * 5.2) - (hour > 12 ? (hour - 12) * 8.1 : 0);\n        if (flow_rates[hour] < 0) flow_rates[hour] = 0;\n        total_flow += flow_rates[hour];\n    }\n    \n    printf(\"24-Hour Water Flow Report\\n\");\n    printf(\"========================\\n\");\n    for (int i = 0; i < 24; i++) {\n        printf(\"Hour %02d: %6.1f gallons/minute\\n\", i, flow_rates[i]);\n    }\n    printf(\"\\nTotal daily flow: %.1f gallons\\n\", total_flow * 60);\n    \n    return 0;\n}",
+      "title": "Water Flow Analysis",
+      "description": "Complex array processing for water system flow analysis",
+      "tags": ["arrays", "calculations", "reporting"],
+      "difficulty": "intermediate",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n#include <stdlib.h>\n#include <time.h>\n\nint main() {\n    srand(time(NULL));\n    \n    printf(\"Traffic Light Simulation\\n\");\n    printf(\"=======================\\n\");\n    \n    for (int intersection = 1; intersection <= 5; intersection++) {\n        int cycle_time = 60 + (rand() % 41); // 60-100 seconds\n        int green_time = cycle_time * 0.6;\n        int yellow_time = 5;\n        int red_time = cycle_time - green_time - yellow_time;\n        \n        printf(\"Intersection %d:\\n\", intersection);\n        printf(\"  Green: %d seconds\\n\", green_time);\n        printf(\"  Yellow: %d seconds\\n\", yellow_time);\n        printf(\"  Red: %d seconds\\n\", red_time);\n        printf(\"  Total cycle: %d seconds\\n\\n\", cycle_time);\n    }\n    \n    return 0;\n}",
+      "title": "Traffic Light Controller",
+      "description": "Random number generation for traffic light timing simulation",
+      "tags": ["random", "simulation", "traffic"],
+      "difficulty": "beginner",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n#include <math.h>\n\n// Calculate earthwork volume for road construction\ndouble calculate_earthwork_volume(double length, double width, double cut_depth, double fill_depth) {\n    double cut_volume = length * width * cut_depth;\n    double fill_volume = length * width * fill_depth;\n    return fabs(cut_volume - fill_volume); // Net volume to move\n}\n\nint main() {\n    double road_length = 2500.0;  // meters\n    double road_width = 12.0;     // meters  \n    double avg_cut = 1.8;         // meters\n    double avg_fill = 0.9;        // meters\n    \n    double earthwork = calculate_earthwork_volume(road_length, road_width, avg_cut, avg_fill);\n    double truck_capacity = 15.0; // cubic meters per truck\n    int trucks_needed = (int)ceil(earthwork / truck_capacity);\n    \n    printf(\"Road Construction Earthwork Analysis\\n\");\n    printf(\"====================================\\n\");\n    printf(\"Road dimensions: %.0fm x %.0fm\\n\", road_length, road_width);\n    printf(\"Net earthwork volume: %.0f cubic meters\\n\", earthwork);\n    printf(\"Trucks required: %d\\n\", trucks_needed);\n    \n    return 0;\n}",
+      "title": "Road Construction Earthwork",
+      "description": "Mathematical calculations for road construction volume estimation",
+      "tags": ["math", "construction", "calculations"],
+      "difficulty": "intermediate",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n\nint main() {\n    int grid_size = 5;\n    char utility_grid[5][5] = {\n        {'W', 'E', 'G', 'W', 'E'},\n        {'G', 'W', 'E', 'G', 'W'},\n        {'E', 'G', 'W', 'E', 'G'},\n        {'W', 'E', 'G', 'W', 'E'},\n        {'G', 'W', 'E', 'G', 'W'}\n    };\n    \n    printf(\"Underground Utility Map\\n\");\n    printf(\"======================\\n\");\n    printf(\"Legend: W=Water, E=Electric, G=Gas\\n\\n\");\n    \n    printf(\"   \");\n    for (int col = 0; col < grid_size; col++) {\n        printf(\"%2d \", col);\n    }\n    printf(\"\\n\");\n    \n    for (int row = 0; row < grid_size; row++) {\n        printf(\"%d: \", row);\n        for (int col = 0; col < grid_size; col++) {\n            printf(\"%2c \", utility_grid[row][col]);\n        }\n        printf(\"\\n\");\n    }\n    \n    return 0;\n}",
+      "title": "Utility Grid Mapper",
+      "description": "2D character arrays for mapping underground utilities",
+      "tags": ["2d-arrays", "characters", "mapping"],
+      "difficulty": "intermediate",
+      "language": "c"
+    },
+    {
+      "code": "#include <stdio.h>\n\nvoid emergency_alert(int alert_level, char *location, char *issue) {\n    printf(\"\\n*** EMERGENCY ALERT ***\\n\");\n    printf(\"Priority Level: %d\\n\", alert_level);\n    printf(\"Location: %s\\n\", location);\n    printf(\"Issue: %s\\n\", issue);\n    \n    if (alert_level >= 8) {\n        printf(\"ACTION: IMMEDIATE EVACUATION REQUIRED\\n\");\n    } else if (alert_level >= 5) {\n        printf(\"ACTION: DISPATCH EMERGENCY CREWS\\n\");\n    } else {\n        printf(\"ACTION: SCHEDULE MAINTENANCE\\n\");\n    }\n    printf(\"*** END ALERT ***\\n\\n\");\n}\n\nint main() {\n    emergency_alert(9, \"Downtown Bridge\", \"Structural crack detected\");\n    emergency_alert(6, \"Water Plant\", \"Pump failure in main system\");\n    emergency_alert(3, \"Park Road\", \"Pothole formation\");\n    \n    return 0;\n}",
+      "title": "Emergency Alert System",
+      "description": "Function parameters and conditional logic for emergency management",
+      "tags": ["functions", "emergency", "alerts"],
+      "difficulty": "beginner",
+      "language": "c"
+    }
+  ]
+}
