@@ -1,0 +1,170 @@
+{
+  "id": "typescript-basics",
+  "name": "TypeScript Basics",
+  "description": "Learn TypeScript fundamentals through banking, trading, and financial operations",
+  "icon": "💰",
+  "difficulty": "beginner",
+  "language": "typescript",
+  "snippets": [
+    {
+      "code": "// Basic type annotations for financial data\nlet bankName: string = \"Goldman Sachs\";\nlet accountBalance: number = 150000.75;\nlet isVipClient: boolean = true;\nlet tradingVolume: number = 2500000;\n\n// TypeScript infers types when initialized\nlet clientName = \"Morgan Stanley\"; // inferred as string\nlet transactionFee = 25.50; // inferred as number\n\nconsole.log(`${bankName}: Balance $${accountBalance}`);\nconsole.log(`VIP Status: ${isVipClient}`);\nconsole.log(`Today's volume: $${tradingVolume.toLocaleString()}`);",
+      "title": "Basic Type Annotations",
+      "description": "Financial data with explicit vs inferred types",
+      "tags": ["types", "inference", "primitives"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Function with typed parameters for trading calculations\nfunction calculateProfit(buyPrice: number, sellPrice: number, shares: number): number {\n  return (sellPrice - buyPrice) * shares;\n}\n\n// Arrow function with types for commission\nconst calculateCommission = (tradeAmount: number, rate: number = 0.005): number => {\n  return tradeAmount * rate;\n};\n\nconst profit = calculateProfit(45.20, 48.75, 1000);\nconst commission = calculateCommission(48750);\nconsole.log(`Profit: $${profit}, Commission: $${commission.toFixed(2)}`);",
+      "title": "Typed Trading Functions",
+      "description": "Function parameters and return types for financial calculations",
+      "tags": ["functions", "parameters", "return-types"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Interface definition for bank account\ninterface BankAccount {\n  accountNumber: string;\n  holderName: string;\n  balance: number;\n  accountType: string;\n  isActive: boolean;\n}\n\n// Using the interface\nconst checkingAccount: BankAccount = {\n  accountNumber: \"ACC-789456123\",\n  holderName: \"Jamie Dimon\",\n  balance: 75000.00,\n  accountType: \"Checking\",\n  isActive: true\n};",
+      "title": "Bank Account Interface",
+      "description": "Defining interfaces for banking data structures",
+      "tags": ["interface", "objects", "structure"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Arrays with financial data types\nlet stockPrices: number[] = [142.50, 145.75, 143.20, 147.80, 149.25];\nlet tradingSymbols: string[] = [\"AAPL\", \"GOOGL\", \"MSFT\", \"TSLA\"];\n\n// Alternative array syntax for portfolio\nlet portfolioValues: Array<number> = [250000, 275000, 260000];\n\n// Mixed type array for trade data\nlet tradeData: (string | number)[] = [\"BUY\", 100, \"AAPL\", 145.75];\n\nconsole.log(`Latest AAPL: $${stockPrices[stockPrices.length - 1]}`);\nconsole.log(`Tracking ${tradingSymbols.length} stocks`);",
+      "title": "Financial Data Arrays",
+      "description": "Array type annotations for trading and portfolio data",
+      "tags": ["arrays", "generics", "union-types"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Optional properties for investment products\ninterface Investment {\n  ticker: string;\n  name: string;\n  currentPrice: number;\n  dividend?: number; // Optional - not all stocks pay dividends\n  sector?: string; // Optional - may not be categorized\n  riskRating?: \"Low\" | \"Medium\" | \"High\"; // Optional risk assessment\n}\n\nconst stock1: Investment = { ticker: \"NVDA\", name: \"NVIDIA\", currentPrice: 875.50 };\nconst stock2: Investment = {\n  ticker: \"JPM\", name: \"JPMorgan Chase\", currentPrice: 145.25, dividend: 4.00\n};",
+      "title": "Investment Optional Properties",
+      "description": "Using optional properties for financial instruments",
+      "tags": ["interface", "optional", "properties"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Union types for trading operations\ntype OrderType = \"buy\" | \"sell\" | \"hold\";\ntype Currency = \"USD\" | \"EUR\" | \"GBP\" | \"JPY\";\ntype AccountID = string | number;\n\nfunction executeOrder(accountId: AccountID, orderType: OrderType, currency: Currency): void {\n  console.log(`Executing ${orderType} order for account ${accountId} in ${currency}`);\n}\n\n// Valid trading calls\nexecuteOrder(\"ACC-001\", \"buy\", \"USD\");\nexecuteOrder(789456, \"sell\", \"EUR\");",
+      "title": "Trading Union Types",
+      "description": "Allowing multiple types for trading operations",
+      "tags": ["union-types", "type-alias", "literals"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Type assertion for financial API responses\nconst apiResponse = fetch('/api/market-data').then(res => res.json());\n\n// Type assertion to tell TypeScript about the structure\ninterface MarketData {\n  symbol: string;\n  price: number;\n  volume: number;\n}\n\n// Without assertion: unknown type\nconst marketData = apiResponse as Promise<MarketData>;\n\nmarketData.then(data => {\n  console.log(`${data.symbol}: $${data.price}`);\n});",
+      "title": "Market Data Type Assertions",
+      "description": "Type assertions for financial API data",
+      "tags": ["assertions", "api", "casting"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Enum for financial constants and status\nenum TransactionStatus {\n  Pending = \"PENDING\",\n  Completed = \"COMPLETED\",\n  Failed = \"FAILED\",\n  Cancelled = \"CANCELLED\"\n}\n\n// Numeric enum for risk levels\nenum RiskLevel {\n  Conservative, // 0\n  Moderate,    // 1\n  Aggressive   // 2\n}\n\nconst paymentStatus: TransactionStatus = TransactionStatus.Completed;\nconst clientRisk: RiskLevel = RiskLevel.Moderate;",
+      "title": "Financial Enums",
+      "description": "Using enums for banking and trading constants",
+      "tags": ["enums", "constants", "string-enums"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Generic function for portfolio operations\nfunction processPortfolioData<T>(data: T): T {\n  console.log('Processing portfolio data:', data);\n  return data;\n}\n\n// Usage with different financial data types\nconst stockData = processPortfolioData<{symbol: string, price: number}>({\n  symbol: \"AMZN\", price: 128.75\n});\n\nconst bondData = processPortfolioData({rating: \"AAA\", yield: 3.25});\n\nconsole.log(`Stock: ${stockData.symbol}, Bond yield: ${bondData.yield}%`);",
+      "title": "Portfolio Generics",
+      "description": "Generic functions for diverse financial data",
+      "tags": ["generics", "functions", "type-parameters"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Handling null and undefined in trading systems\nlet lastTradePrice: number | null = null;\nlet portfolioValue: number | undefined = undefined;\n\n// Safe navigation with optional chaining for market data\nfunction getMarketCap(stock: {price?: number, shares?: number} | null): number {\n  return (stock?.price && stock?.shares) ? stock.price * stock.shares : 0;\n}\n\n// Nullish coalescing for default trading parameters\nconst stopLoss = lastTradePrice ?? 100.00;\n\nconsole.log(`Stop loss set at: $${stopLoss}`);",
+      "title": "Trading Null Safety",
+      "description": "Handling null/undefined in financial calculations",
+      "tags": ["null", "undefined", "optional-chaining", "nullish-coalescing"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Advanced interface with methods for trading\ninterface TradingAccount {\n  accountId: string;\n  balance: number;\n  positions: Array<{symbol: string, quantity: number}>;\n  \n  // Method signatures\n  getBalance(): number;\n  placeTrade(symbol: string, quantity: number, price: number): boolean;\n  getPortfolioValue(): number;\n}\n\nclass BrokerageAccount implements TradingAccount {\n  constructor(\n    public accountId: string,\n    public balance: number,\n    public positions: Array<{symbol: string, quantity: number}> = []\n  ) {}\n  \n  getBalance(): number {\n    return this.balance;\n  }\n}",
+      "title": "Trading Account Interface",
+      "description": "Complex interfaces with methods for trading systems",
+      "tags": ["interface", "methods", "implementation"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Intersection types for combining financial data\ntype BaseInstrument = {\n  symbol: string;\n  price: number;\n};\n\ntype DividendInfo = {\n  dividendYield: number;\n  exDividendDate: string;\n};\n\n// Combine types with intersection\ntype DividendStock = BaseInstrument & DividendInfo;\n\nconst jpmStock: DividendStock = {\n  symbol: \"JPM\",\n  price: 145.25,\n  dividendYield: 2.75,\n  exDividendDate: \"2024-04-15\"\n};",
+      "title": "Financial Intersection Types",
+      "description": "Combining types for complex financial instruments",
+      "tags": ["intersection", "types", "composition"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Conditional types for risk assessment\ntype RiskProfile<T> = T extends \"institutional\" ? \"low\" : \n                      T extends \"retail\" ? \"medium\" : \"high\";\n\ntype InstitutionalRisk = RiskProfile<\"institutional\">; // \"low\"\ntype RetailRisk = RiskProfile<\"retail\">; // \"medium\"\n\n// Utility type for required trading fields\ntype RequiredTradingData = Required<{\n  symbol?: string;\n  quantity?: number;\n  price?: number;\n}>;\n\nconst trade: RequiredTradingData = {\n  symbol: \"TSLA\",\n  quantity: 50,\n  price: 245.80\n};",
+      "title": "Advanced Risk Types",
+      "description": "Conditional and utility types for risk management",
+      "tags": ["conditional", "utility-types", "required"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Mapped types for financial data transformation\ntype MarketDataFields = {\n  open: number;\n  high: number;\n  low: number;\n  close: number;\n  volume: number;\n};\n\n// Make all fields optional for partial updates\ntype PartialMarketData = Partial<MarketDataFields>;\n\n// Make all fields readonly for historical data\ntype HistoricalData = Readonly<MarketDataFields>;\n\nconst todayUpdate: PartialMarketData = { close: 152.75, volume: 2500000 };\nconst yesterdayData: HistoricalData = {\n  open: 150.00, high: 153.25, low: 149.50, close: 152.10, volume: 1800000\n};",
+      "title": "Market Data Mapped Types",
+      "description": "Using mapped types for financial data structures",
+      "tags": ["mapped-types", "partial", "readonly"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Discriminated unions for different order types\ntype StockOrder = {\n  type: \"stock\";\n  symbol: string;\n  quantity: number;\n  price: number;\n};\n\ntype OptionsOrder = {\n  type: \"option\";\n  underlying: string;\n  strike: number;\n  expiration: string;\n  callOrPut: \"call\" | \"put\";\n};\n\ntype Order = StockOrder | OptionsOrder;\n\nfunction processOrder(order: Order) {\n  if (order.type === \"stock\") {\n    console.log(`Stock order: ${order.quantity} shares of ${order.symbol}`);\n  } else {\n    console.log(`Option: ${order.callOrPut} ${order.underlying}`);\n  }\n}",
+      "title": "Trading Order Discriminated Unions",
+      "description": "Discriminated unions for different financial instruments",
+      "tags": ["discriminated-unions", "type-guards"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Index signatures for dynamic financial data\ninterface MarketIndex {\n  [ticker: string]: {\n    price: number;\n    change: number;\n    volume: number;\n  };\n}\n\nconst sp500: MarketIndex = {\n  \"AAPL\": { price: 175.25, change: 2.50, volume: 45000000 },\n  \"MSFT\": { price: 340.75, change: -1.25, volume: 28000000 },\n  \"GOOGL\": { price: 128.90, change: 3.15, volume: 32000000 }\n};\n\n// Dynamic access\nconst applData = sp500[\"AAPL\"];\nconsole.log(`AAPL: $${applData.price} (${applData.change >= 0 ? '+' : ''}${applData.change})`);",
+      "title": "Market Index Signatures",
+      "description": "Index signatures for dynamic stock market data",
+      "tags": ["index-signatures", "dynamic-keys"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Template literal types for financial instruments\ntype CurrencyPair = `${string}/${string}`;\ntype TradeAction = \"BUY\" | \"SELL\";\ntype TradeCommand = `${TradeAction}_${string}`;\n\n// Valid currency pairs\nconst eurusd: CurrencyPair = \"EUR/USD\";\nconst gbpjpy: CurrencyPair = \"GBP/JPY\";\n\n// Valid trade commands\nconst buyCommand: TradeCommand = \"BUY_AAPL\";\nconst sellCommand: TradeCommand = \"SELL_TSLA\";\n\nfunction executeTradeCommand(command: TradeCommand) {\n  const [action, symbol] = command.split('_');\n  console.log(`Executing ${action} order for ${symbol}`);\n}",
+      "title": "Financial Template Literals",
+      "description": "Template literal types for trading commands",
+      "tags": ["template-literals", "string-types"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Decorators for financial calculations (experimental)\nfunction logTrade(target: any, propertyKey: string, descriptor: PropertyDescriptor) {\n  const originalMethod = descriptor.value;\n  descriptor.value = function(...args: any[]) {\n    console.log(`Executing trade: ${propertyKey} with args:`, args);\n    const result = originalMethod.apply(this, args);\n    console.log(`Trade result:`, result);\n    return result;\n  };\n}\n\nclass TradingBot {\n  @logTrade\n  calculatePosition(symbol: string, allocation: number): number {\n    const baseAmount = 10000;\n    return baseAmount * allocation;\n  }\n}",
+      "title": "Trading Decorators",
+      "description": "Using decorators for trading system logging",
+      "tags": ["decorators", "logging", "experimental"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Namespace for financial utilities\nnamespace FinancialCalculators {\n  export function calculateCompoundInterest(\n    principal: number, \n    rate: number, \n    time: number\n  ): number {\n    return principal * Math.pow(1 + rate, time);\n  }\n  \n  export function calculatePresentValue(\n    futureValue: number, \n    rate: number, \n    periods: number\n  ): number {\n    return futureValue / Math.pow(1 + rate, periods);\n  }\n  \n  export namespace RiskMetrics {\n    export function calculateSharpeRatio(returns: number[], riskFreeRate: number): number {\n      const avgReturn = returns.reduce((a, b) => a + b) / returns.length;\n      const stdDev = Math.sqrt(\n        returns.reduce((sq, n) => sq + Math.pow(n - avgReturn, 2), 0) / returns.length\n      );\n      return (avgReturn - riskFreeRate) / stdDev;\n    }\n  }\n}\n\nconst investment = FinancialCalculators.calculateCompoundInterest(10000, 0.07, 5);\nconst sharpe = FinancialCalculators.RiskMetrics.calculateSharpeRatio([0.08, 0.12, 0.06], 0.03);",
+      "title": "Financial Namespaces",
+      "description": "Organizing financial calculations with namespaces",
+      "tags": ["namespaces", "organization", "calculations"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    },
+    {
+      "code": "// Comprehensive trading system bringing concepts together\ninterface TradingStrategy {\n  name: string;\n  riskLevel: RiskLevel;\n  execute(portfolio: Portfolio): Promise<TradeResult>;\n}\n\ntype Portfolio = {\n  cash: number;\n  positions: Map<string, {quantity: number, avgCost: number}>;\n};\n\ntype TradeResult = {\n  success: boolean;\n  trades: Array<{symbol: string, action: \"buy\" | \"sell\", quantity: number}>;\n  newCash: number;\n};\n\nclass MomentumStrategy implements TradingStrategy {\n  constructor(\n    public name: string = \"Momentum Strategy\",\n    public riskLevel: RiskLevel = RiskLevel.Moderate\n  ) {}\n  \n  async execute(portfolio: Portfolio): Promise<TradeResult> {\n    // Simplified momentum trading logic\n    return {\n      success: true,\n      trades: [{symbol: \"QQQ\", action: \"buy\", quantity: 100}],\n      newCash: portfolio.cash - 35000\n    };\n  }\n}\n\nconst strategy = new MomentumStrategy();\nconst myPortfolio: Portfolio = {\n  cash: 100000,\n  positions: new Map([[\"AAPL\", {quantity: 100, avgCost: 150.00}]])\n};\n\nstrategy.execute(myPortfolio).then(result => {\n  console.log(`Strategy executed: ${result.success ? 'Success' : 'Failed'}`);\n  console.log(`Trades: ${result.trades.length}`);\n});",
+      "title": "Complete Trading System",
+      "description": "Comprehensive example combining multiple TypeScript concepts",
+      "tags": ["classes", "interfaces", "generics", "async", "maps"],
+      "difficulty": "beginner",
+      "language": "typescript"
+    }
+  ]
+}

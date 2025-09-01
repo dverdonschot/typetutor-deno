@@ -694,21 +694,21 @@ export default function CodeTyperMode() {
         }
 
         .code-button-random {
-          background-color: #3b82f6;
+          background-color: #0044aa;
           color: white;
         }
 
         .code-button-random:hover:not(:disabled) {
-          background-color: #2563eb;
+          background-color: #003388;
         }
 
         .code-button-next {
-          background-color: #10b981;
+          background-color: #5fbcd3;
           color: white;
         }
 
         .code-button-next:hover:not(:disabled) {
-          background-color: #059669;
+          background-color: #4aa8bd;
         }
 
         .code-button-focus {

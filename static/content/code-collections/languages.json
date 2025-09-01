@@ -16,14 +16,6 @@
     "syntaxHighlighting": "python"
   },
   {
-    "code": "java",
-    "name": "Java",
-    "icon": "☕",
-    "description": "Enterprise-grade object-oriented programming language",
-    "fileExtension": "java",
-    "syntaxHighlighting": "java"
-  },
-  {
     "code": "typescript",
     "name": "TypeScript",
     "icon": "🔷",

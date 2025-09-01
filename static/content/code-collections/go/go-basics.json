@@ -1,0 +1,170 @@
+{
+  "id": "go-basics",
+  "name": "Go Basics",
+  "description": "Learn Go fundamentals through farm animals and their food",
+  "icon": "🐹",
+  "difficulty": "beginner",
+  "language": "go",
+  "snippets": [
+    {
+      "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    cow := \"Bessie\"\n    food := \"grass\"\n    age := 3\n    \n    fmt.Printf(\"%s the cow is %d years old\\n\", cow, age)\n    fmt.Printf(\"She loves to eat %s\\n\", food)\n}",
+      "title": "Variables and fmt.Printf",
+      "description": "Basic variable declaration and formatted printing",
+      "tags": ["variables", "fmt", "printf"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    var pigName string = \"Wilbur\"\n    var weight float64 = 180.5\n    var isHungry bool = true\n    hungerLevel := 8\n    \n    fmt.Println(\"Pig name:\", pigName)\n    fmt.Println(\"Weight:\", weight, \"pounds\")\n    fmt.Println(\"Hungry?\", isHungry)\n    fmt.Println(\"Hunger level:\", hungerLevel)\n}",
+      "title": "Variable Types and Declaration",
+      "description": "Different ways to declare variables with types",
+      "tags": ["types", "var", "string", "float64", "bool"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    farmAnimals := []string{\"cow\", \"pig\", \"chicken\", \"sheep\"}\n    animalFoods := []string{\"grass\", \"corn\", \"seeds\", \"hay\"}\n    \n    fmt.Println(\"Farm has\", len(farmAnimals), \"types of animals\")\n    \n    for i, animal := range farmAnimals {\n        fmt.Printf(\"%s eats %s\\n\", animal, animalFoods[i])\n    }\n}",
+      "title": "Slices and Range Loops",
+      "description": "Working with slices and iterating with range",
+      "tags": ["slices", "range", "for-loops"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    animalCount := map[string]int{\n        \"cows\":     12,\n        \"chickens\": 25,\n        \"pigs\":     8,\n        \"sheep\":    15,\n    }\n    \n    for animal, count := range animalCount {\n        fmt.Printf(\"We have %d %s on the farm\\n\", count, animal)\n    }\n}",
+      "title": "Maps and Iteration",
+      "description": "Using maps (key-value pairs) and iterating over them",
+      "tags": ["maps", "iteration", "key-value"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "func calculateFeedCost(animals int, costPerAnimal float64) float64 {\n    return float64(animals) * costPerAnimal\n}\n\nfunc main() {\n    cowFeed := calculateFeedCost(10, 15.50)\n    pigFeed := calculateFeedCost(5, 12.75)\n    \n    fmt.Printf(\"Cow feed costs: $%.2f\\n\", cowFeed)\n    fmt.Printf(\"Pig feed costs: $%.2f\\n\", pigFeed)\n    \n    totalCost := cowFeed + pigFeed\n    fmt.Printf(\"Total feed cost: $%.2f\\n\", totalCost)\n}",
+      "title": "Functions and Parameters",
+      "description": "Creating functions with parameters and return values",
+      "tags": ["functions", "parameters", "return"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    animal := \"chicken\"\n    \n    switch animal {\n    case \"cow\":\n        fmt.Println(\"Moo! I eat grass and hay\")\n    case \"pig\":\n        fmt.Println(\"Oink! I eat corn and scraps\")\n    case \"chicken\":\n        fmt.Println(\"Cluck! I eat seeds and bugs\")\n    case \"sheep\":\n        fmt.Println(\"Baa! I eat grass and clover\")\n    default:\n        fmt.Println(\"Unknown farm animal!\")\n    }\n}",
+      "title": "Switch Statements",
+      "description": "Using switch for multiple condition checks",
+      "tags": ["switch", "case", "control-flow"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "package main\n\nimport \"fmt\"\n\ntype Animal struct {\n    Name   string\n    Type   string\n    Weight float64\n    Food   string\n}\n\nfunc main() {\n    cow := Animal{\n        Name:   \"Daisy\",\n        Type:   \"Holstein\",\n        Weight: 1200.0,\n        Food:   \"grass\",\n    }\n    \n    fmt.Printf(\"%s is a %s cow\\n\", cow.Name, cow.Type)\n    fmt.Printf(\"Weight: %.1f lbs, Eats: %s\\n\", cow.Weight, cow.Food)\n}",
+      "title": "Structs and Fields",
+      "description": "Defining structs to group related data",
+      "tags": ["structs", "fields", "type"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "type Farm struct {\n    Name    string\n    Animals []Animal\n}\n\n// Method: functions that belong to a struct\nfunc (f Farm) CountAnimals() int {\n    return len(f.Animals)\n}\n\nfunc (f Farm) PrintInfo() {\n    fmt.Printf(\"%s Farm has %d animals\\n\", f.Name, f.CountAnimals())\n    for _, animal := range f.Animals {\n        fmt.Printf(\"- %s the %s\\n\", animal.Name, animal.Type)\n    }\n}",
+      "title": "Methods on Structs",
+      "description": "Adding methods to struct types",
+      "tags": ["methods", "receiver", "struct-methods"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    feedSchedule := map[string]string{\n        \"morning\":   \"hay and grain\",\n        \"afternoon\": \"grass\",\n        \"evening\":   \"corn silage\",\n    }\n    \n    // Check if key exists in map\n    if food, exists := feedSchedule[\"morning\"]; exists {\n        fmt.Printf(\"Morning feeding: %s\\n\", food)\n    } else {\n        fmt.Println(\"No morning feeding scheduled\")\n    }\n}",
+      "title": "Map Key Existence Check",
+      "description": "Checking if a key exists in a map",
+      "tags": ["maps", "existence-check", "comma-ok"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "package main\n\nimport \"fmt\"\n\nfunc feedAnimal(animal string) (string, error) {\n    foods := map[string]string{\n        \"cow\": \"hay\",\n        \"pig\": \"corn\",\n        \"chicken\": \"seeds\",\n    }\n    \n    if food, ok := foods[animal]; ok {\n        return food, nil\n    }\n    return \"\", fmt.Errorf(\"don't know what %s eats\", animal)\n}",
+      "title": "Error Handling Basics",
+      "description": "Returning and handling errors in Go",
+      "tags": ["error-handling", "fmt.Errorf", "nil"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    animals := []string{\"cow\", \"pig\", \"duck\", \"chicken\"}\n    \n    for _, animal := range animals {\n        food, err := feedAnimal(animal)\n        if err != nil {\n            fmt.Printf(\"Error: %v\\n\", err)\n            continue\n        }\n        fmt.Printf(\"%s should eat %s\\n\", animal, food)\n    }\n}",
+      "title": "Error Checking Pattern",
+      "description": "The standard Go error checking pattern",
+      "tags": ["error-checking", "if-err-nil", "continue"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    farmyard := make([]Animal, 0, 5)\n    \n    cow := Animal{Name: \"Bessie\", Type: \"cow\", Food: \"grass\"}\n    pig := Animal{Name: \"Wilbur\", Type: \"pig\", Food: \"corn\"}\n    \n    farmyard = append(farmyard, cow)\n    farmyard = append(farmyard, pig)\n    \n    fmt.Printf(\"Farmyard has %d animals\\n\", len(farmyard))\n    fmt.Printf(\"Capacity: %d\\n\", cap(farmyard))\n}",
+      "title": "Make and Append for Slices",
+      "description": "Creating slices with make and adding elements with append",
+      "tags": ["make", "append", "capacity", "len"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    barn := [5]string{\"cow\", \"pig\", \"sheep\", \"goat\", \"horse\"}\n    \n    // Arrays have fixed size, slices are flexible\n    pasture := barn[1:4] // slice from index 1 to 3\n    \n    fmt.Println(\"Barn animals:\", barn)\n    fmt.Println(\"In pasture:\", pasture)\n    fmt.Printf(\"Slice length: %d, capacity: %d\\n\", \n               len(pasture), cap(pasture))\n}",
+      "title": "Arrays vs Slices",
+      "description": "Understanding the difference between arrays and slices",
+      "tags": ["arrays", "slices", "slicing", "capacity"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    // Pointers store memory addresses\n    sheepCount := 20\n    countPtr := &sheepCount // & gets address of variable\n    \n    fmt.Println(\"Sheep count:\", sheepCount)\n    fmt.Println(\"Pointer address:\", countPtr)\n    fmt.Println(\"Value at pointer:\", *countPtr) // * gets value at address\n    \n    *countPtr = 25 // modify value through pointer\n    fmt.Println(\"New sheep count:\", sheepCount)\n}",
+      "title": "Pointers Basics",
+      "description": "Understanding pointers and memory addresses",
+      "tags": ["pointers", "address", "dereference"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "package main\n\nimport \"fmt\"\n\ntype Feeder interface {\n    Feed() string\n}\n\ntype Cow struct {\n    Name string\n}\n\nfunc (c Cow) Feed() string {\n    return c.Name + \" munches on grass\"\n}\n\nfunc feedAnimalInterface(f Feeder) {\n    fmt.Println(f.Feed())\n}",
+      "title": "Interfaces Introduction",
+      "description": "Basic interface definition and implementation",
+      "tags": ["interfaces", "methods", "implementation"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "package main\n\nimport (\n    \"fmt\"\n    \"time\"\n)\n\nfunc main() {\n    feedingTimes := []string{\"6:00\", \"12:00\", \"18:00\"}\n    \n    for i, feedTime := range feedingTimes {\n        fmt.Printf(\"Feeding #%d at %s\\n\", i+1, feedTime)\n        if i < len(feedingTimes)-1 {\n            fmt.Println(\"Waiting until next feeding...\")\n            time.Sleep(time.Millisecond * 500)\n        }\n    }\n    fmt.Println(\"All animals fed for today!\")\n}",
+      "title": "Time Package and Sleep",
+      "description": "Using the time package for delays",
+      "tags": ["time", "sleep", "import", "package"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    defer fmt.Println(\"Closing barn door\") // runs at end\n    defer fmt.Println(\"Turning off lights\") // runs before previous defer\n    \n    fmt.Println(\"Feeding animals\")\n    fmt.Println(\"Collecting eggs\")\n    fmt.Println(\"Milking cows\")\n    \n    // defer statements run in reverse order when function ends\n}",
+      "title": "Defer Statement",
+      "description": "Using defer for cleanup operations",
+      "tags": ["defer", "cleanup", "reverse-order"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    eggs := 12\n    \n    // if statement with initialization\n    if dailyEggs := eggs * 7; dailyEggs > 50 {\n        fmt.Printf(\"Great! %d eggs per week\\n\", dailyEggs)\n    } else if dailyEggs > 30 {\n        fmt.Printf(\"Good production: %d eggs per week\\n\", dailyEggs)\n    } else {\n        fmt.Printf(\"Need more chickens: only %d eggs per week\\n\", dailyEggs)\n    }\n}",
+      "title": "If with Initialization",
+      "description": "Using if statements with variable initialization",
+      "tags": ["if", "initialization", "scope"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "package main\n\nimport \"fmt\"\n\nfunc countAnimals(animals ...string) int {\n    fmt.Println(\"Counting animals:\")\n    for i, animal := range animals {\n        fmt.Printf(\"%d. %s\\n\", i+1, animal)\n    }\n    return len(animals)\n}\n\nfunc main() {\n    total := countAnimals(\"cow\", \"pig\", \"chicken\", \"sheep\", \"goat\")\n    fmt.Printf(\"Total farm animals: %d\\n\", total)\n}",
+      "title": "Variadic Functions",
+      "description": "Functions that accept variable number of arguments",
+      "tags": ["variadic", "ellipsis", "variable-args"],
+      "difficulty": "beginner",
+      "language": "go"
+    },
+    {
+      "code": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    // Anonymous function (closure)\n    feedingSchedule := func(animal string, times int) {\n        fmt.Printf(\"%s needs feeding %d times per day\\n\", animal, times)\n    }\n    \n    animals := map[string]int{\"cow\": 2, \"pig\": 3, \"chicken\": 4}\n    \n    for animal, times := range animals {\n        feedingSchedule(animal, times)\n    }\n}",
+      "title": "Anonymous Functions and Closures",
+      "description": "Creating functions without names (closures)",
+      "tags": ["anonymous", "closures", "func-variables"],
+      "difficulty": "beginner",
+      "language": "go"
+    }
+  ]
+}
