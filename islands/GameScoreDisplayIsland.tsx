@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { TypingMetricsDisplay } from "../components/TypingMetricsDisplay.tsx";
 import { TypingMetrics } from "../hooks/useTypingMetrics.ts";
 import { DetailedGameResult, KeyboardHeatmapData } from "../types/userStats.ts";
@@ -91,9 +91,19 @@ export default function GameScoreDisplayIsland(
   const practiceButtonRef = useRef<HTMLButtonElement>(null);
   const t = useReactiveTranslation();
 
-  // Focus the primary button when component becomes visible
+  // State to track if button has been "selected" with first Enter press
+  const [isNextButtonSelected, setIsNextButtonSelected] = useState(false);
+  const [isPracticeButtonSelected, setIsPracticeButtonSelected] = useState(
+    false,
+  );
+
+  // Focus the primary button when component becomes visible and reset selection state
   useEffect(() => {
     if (isComplete) {
+      // Reset selection states when component becomes complete
+      setIsNextButtonSelected(false);
+      setIsPracticeButtonSelected(false);
+
       // Focus Next Quote button if available, otherwise Practice Again
       const buttonToFocus = onNextGame
         ? nextButtonRef.current
@@ -105,6 +115,55 @@ export default function GameScoreDisplayIsland(
       }
     }
   }, [isComplete, onNextGame]);
+
+  // Handle keyboard events for two-press Enter behavior
+  useEffect(() => {
+    if (!isComplete) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+
+        const activeElement = document.activeElement;
+
+        // Handle Next button
+        if (activeElement === nextButtonRef.current && onNextGame) {
+          if (!isNextButtonSelected) {
+            // First Enter: Select the button
+            setIsNextButtonSelected(true);
+          } else {
+            // Second Enter: Trigger the action
+            onNextGame();
+          }
+        } // Handle Practice Again button
+        else if (
+          activeElement === practiceButtonRef.current && onPracticeAgain
+        ) {
+          if (!isPracticeButtonSelected) {
+            // First Enter: Select the button
+            setIsPracticeButtonSelected(true);
+          } else {
+            // Second Enter: Trigger the action
+            onPracticeAgain();
+          }
+        }
+      }
+    };
+
+    // Add event listener
+    document.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [
+    isComplete,
+    onNextGame,
+    onPracticeAgain,
+    isNextButtonSelected,
+    isPracticeButtonSelected,
+  ]);
 
   if (!isComplete) {
     return null;
@@ -122,27 +181,59 @@ export default function GameScoreDisplayIsland(
             <button
               ref={nextButtonRef}
               type="button"
-              onClick={onNextGame}
-              class="px-6 py-3 bg-tt-darkblue text-white font-medium rounded-lg hover:bg-tt-darkblue-darker focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tt-darkblue transition-all duration-200 transform hover:scale-105"
+              onClick={(e) => {
+                // Allow mouse clicks to work immediately
+                // Only prevent for keyboard-triggered clicks
+                if (e.detail === 0) {
+                  // This is a keyboard-triggered click, prevent it
+                  e.preventDefault();
+                } else {
+                  // This is a mouse click, allow it
+                  onNextGame();
+                }
+              }}
+              class={`px-6 py-3 font-medium rounded-lg hover:bg-tt-darkblue-darker focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tt-darkblue transition-all duration-200 transform hover:scale-105 ${
+                isNextButtonSelected
+                  ? "bg-tt-lightblue text-white ring-2 ring-tt-lightblue/50"
+                  : "bg-tt-darkblue text-white"
+              }`}
             >
-              {gameType === "quote" && metrics.isComplete &&
+              {isNextButtonSelected ? "Press Enter again" : (
+                gameType === "quote" && metrics.isComplete &&
                   metrics.totalTimeSeconds > 0
-                ? t(TRANSLATION_KEYS.ACTIONS.NEXT_QUOTE)
-                : gameType === "alphabet"
-                ? t(TRANSLATION_KEYS.ACTIONS.REPLAY)
-                : gameType === "random"
-                ? t(TRANSLATION_KEYS.ACTIONS.NEXT_RANDOM)
-                : t(TRANSLATION_KEYS.ACTIONS.NEXT)}
+                  ? t(TRANSLATION_KEYS.ACTIONS.NEXT_QUOTE)
+                  : gameType === "alphabet"
+                  ? t(TRANSLATION_KEYS.ACTIONS.REPLAY)
+                  : gameType === "random"
+                  ? t(TRANSLATION_KEYS.ACTIONS.NEXT_RANDOM)
+                  : t(TRANSLATION_KEYS.ACTIONS.NEXT)
+              )}
             </button>
           )}
           {onPracticeAgain && (
             <button
               ref={practiceButtonRef}
               type="button"
-              onClick={onPracticeAgain}
-              class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+              onClick={(e) => {
+                // Allow mouse clicks to work immediately
+                // Only prevent for keyboard-triggered clicks
+                if (e.detail === 0) {
+                  // This is a keyboard-triggered click, prevent it
+                  e.preventDefault();
+                } else {
+                  // This is a mouse click, allow it
+                  onPracticeAgain();
+                }
+              }}
+              class={`px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 ${
+                isPracticeButtonSelected
+                  ? "bg-tt-lightblue text-white ring-2 ring-tt-lightblue/50 focus:ring-tt-lightblue"
+                  : "bg-gray-500 text-white hover:bg-gray-600 focus:ring-gray-500"
+              }`}
             >
-              {t(TRANSLATION_KEYS.ACTIONS.PRACTICE_AGAIN)}
+              {isPracticeButtonSelected
+                ? "Press Enter again"
+                : t(TRANSLATION_KEYS.ACTIONS.PRACTICE_AGAIN)}
             </button>
           )}
         </div>

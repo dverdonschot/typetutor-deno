@@ -1,33 +1,169 @@
 {
   "id": "javascript-basics",
   "name": "JavaScript Basics",
-  "description": "Fundamental JavaScript concepts and syntax",
-  "icon": "📚",
+  "description": "Learn JavaScript fundamentals through merchant marine and cargo operations",
+  "icon": "🚢",
   "difficulty": "beginner",
   "language": "javascript",
   "snippets": [
     {
-      "code": "function fizzBuzz(n) {\n  for (let i = 1; i <= n; i++) {\n    let output = \"\";\n    if (i % 3 === 0) {\n      output += \"Fizz\";\n    }\n    if (i % 5 === 0) {\n      output += \"Buzz\";\n    }\n    // If output is still empty, print the number itself\n    console.log(output || i);\n  }\n}\n\n// Print FizzBuzz sequence up to 15\nfizzBuzz(15);",
-      "title": "FizzBuzz Algorithm",
-      "description": "Classic programming challenge using loops and conditionals",
-      "tags": ["functions", "loops", "conditionals"],
-      "difficulty": "intermediate",
-      "language": "javascript"
-    },
-    {
-      "code": "function greetUser(name) {\n  return `Hello, ${name}! Welcome to our application.`;\n}\n\nconst message = greetUser(\"Alice\");\nconsole.log(message);",
-      "title": "Simple Function",
-      "description": "Basic function declaration and template literals",
-      "tags": ["functions", "template-literals"],
+      "code": "let shipName = \"Ocean Pioneer\";\nlet captain = \"Sarah Martinez\";\nlet cargoCapacity = 15000;\nlet isLoaded = true;\n\nconsole.log(`Ship: ${shipName}`);\nconsole.log(`Captain: ${captain}`);\nconsole.log(`Cargo capacity: ${cargoCapacity} tons`);\nconsole.log(`Currently loaded: ${isLoaded}`);\n\nconst homePort = \"Rotterdam\";\nconsole.log(`Home port: ${homePort}`);",
+      "title": "Variables and Template Literals",
+      "description": "Basic variable declarations and string interpolation",
+      "tags": ["variables", "template-literals", "const", "let"],
       "difficulty": "beginner",
       "language": "javascript"
     },
     {
-      "code": "const numbers = [1, 2, 3, 4, 5];\nconst doubled = numbers.map(num => num * 2);\nconst evens = numbers.filter(num => num % 2 === 0);\nconst sum = numbers.reduce((acc, num) => acc + num, 0);\n\nconsole.log(\"Original:\", numbers);\nconsole.log(\"Doubled:\", doubled);\nconsole.log(\"Evens:\", evens);\nconsole.log(\"Sum:\", sum);",
-      "title": "Array Methods",
-      "description": "Common array methods: map, filter, and reduce",
-      "tags": ["arrays", "map", "filter", "reduce"],
-      "difficulty": "intermediate",
+      "code": "function calculateShippingCost(weight, distance, rate = 0.5) {\n  const baseCost = weight * rate;\n  const distanceFee = distance * 0.1;\n  return baseCost + distanceFee;\n}\n\nconst containerWeight = 2500;\nconst routeDistance = 3200;\nconst totalCost = calculateShippingCost(containerWeight, routeDistance);\n\nconsole.log(`Shipping cost: $${totalCost.toFixed(2)}`);\nconsole.log(`Per ton: $${(totalCost / containerWeight).toFixed(2)}`);",
+      "title": "Functions and Default Parameters",
+      "description": "Function declaration with default parameters and calculations",
+      "tags": ["functions", "default-parameters", "calculations"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "const cargoManifest = [\"electronics\", \"textiles\", \"machinery\", \"coffee\", \"steel\"];\nconst containerSizes = [20, 40, 20, 40, 20];\n\nconsole.log(`Total cargo types: ${cargoManifest.length}`);\nconsole.log(`First cargo: ${cargoManifest[0]}`);\nconsole.log(`Last cargo: ${cargoManifest[cargoManifest.length - 1]}`);\n\nfor (let i = 0; i < cargoManifest.length; i++) {\n  console.log(`${cargoManifest[i]}: ${containerSizes[i]}ft container`);\n}",
+      "title": "Arrays and For Loops",
+      "description": "Working with arrays and traditional for loops",
+      "tags": ["arrays", "for-loops", "indexing"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "const ports = [\"Singapore\", \"Hamburg\", \"Shanghai\", \"Los Angeles\", \"Dubai\"];\nconst cargoCodes = [\"ELEC\", \"TEXT\", \"MACH\", \"FOOD\", \"FUEL\"];\n\n// for...of loop for values\nfor (const port of ports) {\n  console.log(`Calling at port: ${port}`);\n}\n\n// forEach method with index\ncargoCodes.forEach((code, index) => {\n  console.log(`Container ${index + 1}: ${code}`);\n});",
+      "title": "Array Iteration Methods",
+      "description": "Different ways to iterate through arrays",
+      "tags": ["arrays", "for-of", "forEach", "arrow-functions"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "const vessel = {\n  name: \"Maritime Express\",\n  type: \"Container Ship\",\n  length: 300,\n  crew: 25,\n  maxSpeed: 22,\n  currentCargo: [\"automobiles\", \"grain\", \"chemicals\"]\n};\n\nconsole.log(`${vessel.name} is a ${vessel.type}`);\nconsole.log(`Length: ${vessel.length}m, Crew: ${vessel.crew}`);\nconsole.log(`Carrying: ${vessel.currentCargo.join(\", \")}`);",
+      "title": "Objects and Properties",
+      "description": "Creating objects with properties and accessing them",
+      "tags": ["objects", "properties", "dot-notation"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "const fleetManagement = {\n  ships: [],\n  addShip(ship) {\n    this.ships.push(ship);\n    console.log(`Added ${ship.name} to fleet`);\n  },\n  getFleetSize() {\n    return this.ships.length;\n  },\n  listShips() {\n    return this.ships.map(ship => ship.name).join(\", \");\n  }\n};\n\nfleetManagement.addShip({ name: \"Ocean Titan\", type: \"Tanker\" });",
+      "title": "Object Methods and This",
+      "description": "Objects with methods and the 'this' keyword",
+      "tags": ["objects", "methods", "this", "arrow-functions"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "const cargoTypes = [\"containers\", \"bulk\", \"liquid\", \"refrigerated\", \"dangerous\"];\nconst weights = [2500, 1800, 3200, 1200, 800];\n\n// map: transform each element\nconst heavyCargo = weights.map(weight => weight > 2000);\n\n// filter: select elements that match condition\nconst lightCargo = cargoTypes.filter((type, index) => weights[index] < 2000);\n\n// reduce: combine all elements into single value\nconst totalWeight = weights.reduce((sum, weight) => sum + weight, 0);\n\nconsole.log(`Heavy cargo flags:`, heavyCargo);\nconsole.log(`Light cargo types:`, lightCargo);\nconsole.log(`Total weight: ${totalWeight} tons`);",
+      "title": "Array Methods: Map, Filter, Reduce",
+      "description": "Functional programming with array methods",
+      "tags": ["arrays", "map", "filter", "reduce", "functional"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "function checkWeather(condition) {\n  switch (condition) {\n    case \"clear\":\n      return \"Perfect sailing conditions\";\n    case \"cloudy\":\n      return \"Good for navigation\";\n    case \"rainy\":\n      return \"Reduce speed, increase watch\";\n    case \"stormy\":\n      return \"Seek shelter or delay departure\";\n    case \"foggy\":\n      return \"Use radar, sound fog signals\";\n    default:\n      return \"Unknown weather condition\";\n  }\n}\n\nconst currentWeather = \"foggy\";\nconsole.log(`Weather advice: ${checkWeather(currentWeather)}`);",
+      "title": "Switch Statements",
+      "description": "Using switch for multiple condition handling",
+      "tags": ["switch", "conditionals", "return"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "// Destructuring arrays\nconst route = [\"New York\", \"Southampton\", \"Le Havre\", \"Hamburg\"];\nconst [departure, ...destinations] = route;\n\nconsole.log(`Departing from: ${departure}`);\nconsole.log(`Destinations: ${destinations.join(\" -> \")}`);\n\n// Destructuring objects\nconst cargo = { type: \"electronics\", weight: 2400, value: 150000 };\nconst { type, weight, value = 0 } = cargo;\n\nconsole.log(`Cargo: ${type}, Weight: ${weight}t, Value: $${value}`);",
+      "title": "Destructuring Assignment",
+      "description": "Extracting values from arrays and objects",
+      "tags": ["destructuring", "spread-operator", "default-values"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "const portSchedule = new Map();\nportSchedule.set(\"Singapore\", \"2024-03-15\");\nportSchedule.set(\"Dubai\", \"2024-03-22\");\nportSchedule.set(\"Rotterdam\", \"2024-04-01\");\n\nconsole.log(`Arriving in Singapore: ${portSchedule.get(\"Singapore\")}`);\nconsole.log(`Has Dubai scheduled: ${portSchedule.has(\"Dubai\")}`);\n\nfor (const [port, date] of portSchedule) {\n  console.log(`${port}: ${date}`);\n}\n\nconsole.log(`Total ports: ${portSchedule.size}`);",
+      "title": "Map Data Structure",
+      "description": "Using Map for key-value pairs with any type of keys",
+      "tags": ["map", "data-structures", "iteration"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "const cargoSet = new Set([\"grain\", \"oil\", \"machinery\", \"grain\", \"textiles\", \"oil\"]);\n\nconsole.log(`Unique cargo types: ${cargoSet.size}`);\nconsole.log(`Has machinery: ${cargoSet.has(\"machinery\")}`);\n\ncargoSet.add(\"electronics\");\ncargoSet.delete(\"oil\");\n\nconsole.log(\"Current cargo types:\");\nfor (const cargoType of cargoSet) {\n  console.log(`- ${cargoType}`);\n}",
+      "title": "Set Data Structure",
+      "description": "Using Set for unique collections",
+      "tags": ["set", "data-structures", "unique-values"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "// Traditional function vs Arrow function\nconst calculateDistance = function(lat1, lon1, lat2, lon2) {\n  return Math.sqrt((lat2 - lat1) ** 2 + (lon2 - lon1) ** 2);\n};\n\n// Arrow function - concise syntax\nconst calculateFuelNeeded = (distance, consumption = 3.2) => distance * consumption;\n\nconst portA = { lat: 51.9, lon: 4.1 }; // Rotterdam\nconst portB = { lat: 1.3, lon: 103.8 }; // Singapore\n\nconst distance = calculateDistance(portA.lat, portA.lon, portB.lat, portB.lon);\nconst fuel = calculateFuelNeeded(distance);\n\nconsole.log(`Distance: ${distance.toFixed(2)} units`);\nconsole.log(`Fuel needed: ${fuel.toFixed(2)} tons`);",
+      "title": "Arrow Functions and Math",
+      "description": "Arrow function syntax and Math operations",
+      "tags": ["arrow-functions", "math", "exponentiation"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "function loadCargo(containerData) {\n  // Promise simulates async cargo loading\n  return new Promise((resolve, reject) => {\n    setTimeout(() => {\n      if (containerData.weight <= 30000) {\n        resolve(`Loaded ${containerData.type} successfully`);\n      } else {\n        reject(new Error(\"Container too heavy for ship capacity\"));\n      }\n    }, 1000);\n  });\n}\n\n// Using the promise\nloadCargo({ type: \"machinery\", weight: 25000 })\n  .then(result => console.log(result))\n  .catch(error => console.log(`Error: ${error.message}`));",
+      "title": "Promises and Error Handling",
+      "description": "Introduction to Promises for asynchronous operations",
+      "tags": ["promises", "async", "error-handling", "setTimeout"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "class Ship {\n  constructor(name, type, capacity) {\n    this.name = name;\n    this.type = type;\n    this.capacity = capacity;\n    this.currentLoad = 0;\n    this.cargo = [];\n  }\n  \n  loadCargo(item, weight) {\n    if (this.currentLoad + weight <= this.capacity) {\n      this.cargo.push({ item, weight });\n      this.currentLoad += weight;\n      return `Loaded ${item} (${weight}t)`;\n    }\n    return \"Insufficient capacity\";\n  }\n  \n  getCapacityUsed() {\n    return (this.currentLoad / this.capacity * 100).toFixed(1);\n  }\n}",
+      "title": "Classes and Constructors",
+      "description": "ES6 class syntax with constructor and methods",
+      "tags": ["classes", "constructor", "methods", "this"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "// Template literals with expressions\nconst ship = { name: \"Atlantic Voyager\", speed: 18, fuel: 75 };\nconst distance = 2400;\n\nconst report = `\n=== VOYAGE REPORT ===\nShip: ${ship.name}\nCurrent Speed: ${ship.speed} knots\nFuel Level: ${ship.fuel}%\nDistance Remaining: ${distance} nautical miles\nETA: ${(distance / ship.speed).toFixed(1)} hours\nFuel Status: ${ship.fuel > 50 ? \"Sufficient\" : \"Low - Refuel needed\"}\n==================`;\n\nconsole.log(report);",
+      "title": "Advanced Template Literals",
+      "description": "Multi-line strings and embedded expressions",
+      "tags": ["template-literals", "multiline", "conditional"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "const manifest = [\n  { container: \"CONT001\", type: \"electronics\", weight: 2200, priority: \"high\" },\n  { container: \"CONT002\", type: \"textiles\", weight: 1800, priority: \"normal\" },\n  { container: \"CONT003\", type: \"machinery\", weight: 3500, priority: \"high\" }\n];\n\n// Find specific container\nconst heavyContainer = manifest.find(item => item.weight > 3000);\nconsole.log(`Heavy container: ${heavyContainer?.container}`);\n\n// Check if any high priority\nconst hasHighPriority = manifest.some(item => item.priority === \"high\");\nconsole.log(`Has high priority cargo: ${hasHighPriority}`);\n\n// Check if all are loaded\nconst allLoaded = manifest.every(item => item.weight > 0);\nconsole.log(`All containers loaded: ${allLoaded}`);",
+      "title": "Array Search Methods",
+      "description": "Using find, some, and every for array searching",
+      "tags": ["arrays", "find", "some", "every", "optional-chaining"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "// Simulating API call to port authority\nconst portAPI = {\n  checkDockAvailability(portName) {\n    const availability = {\n      \"Singapore\": { available: true, dock: \"A-12\", time: \"14:00\" },\n      \"Hamburg\": { available: false, dock: null, time: null },\n      \"Rotterdam\": { available: true, dock: \"B-8\", time: \"09:30\" }\n    };\n    return availability[portName] || { available: false, dock: null, time: null };\n  }\n};\n\nconst requestedPorts = [\"Singapore\", \"Hamburg\", \"Rotterdam\"];\n\nrequestedPorts.forEach(port => {\n  const status = portAPI.checkDockAvailability(port);\n  const message = status.available \n    ? `${port}: Available at dock ${status.dock}, time ${status.time}`\n    : `${port}: No docks available`;\n  console.log(message);\n});",
+      "title": "Object Methods and Conditionals",
+      "description": "Working with object methods and conditional logic",
+      "tags": ["objects", "methods", "conditionals", "ternary"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "// JSON data simulation - common in maritime APIs\nconst shipDataJSON = `{\n  \"vessel\": {\n    \"name\": \"Pacific Trader\",\n    \"imo\": \"IMO9234567\",\n    \"position\": { \"lat\": 35.6762, \"lon\": 139.6503 },\n    \"cargo\": [\n      { \"type\": \"containers\", \"count\": 1200, \"teu\": 2400 },\n      { \"type\": \"vehicles\", \"count\": 350, \"value\": 12500000 }\n    ]\n  }\n}`;\n\nconst shipData = JSON.parse(shipDataJSON);\nconsole.log(`Ship: ${shipData.vessel.name}`);\nconsole.log(`Position: ${shipData.vessel.position.lat}, ${shipData.vessel.position.lon}`);\nconsole.log(`Total TEU: ${shipData.vessel.cargo[0].teu}`);\n\n// Convert back to JSON\nconst jsonString = JSON.stringify(shipData.vessel, null, 2);\nconsole.log(\"JSON representation:\", jsonString);",
+      "title": "JSON Parsing and Stringify",
+      "description": "Working with JSON data - common in APIs",
+      "tags": ["json", "parse", "stringify", "nested-objects"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "// Higher-order function for cargo processing\nfunction processCargoData(containers, processingFunction) {\n  return containers.map(processingFunction);\n}\n\nconst containers = [\n  { id: \"C001\", weight: 2500, type: \"dry\" },\n  { id: \"C002\", weight: 1800, type: \"refrigerated\" },\n  { id: \"C003\", weight: 3200, type: \"hazardous\" }\n];\n\n// Different processing functions\nconst addShippingCost = container => ({\n  ...container,\n  shippingCost: container.weight * 0.15\n});\n\nconst processedContainers = processCargoData(containers, addShippingCost);\nconsole.log(\"Containers with shipping costs:\");\nprocessedContainers.forEach(c => {\n  console.log(`${c.id}: $${c.shippingCost.toFixed(2)}`);\n});",
+      "title": "Higher-Order Functions and Spread",
+      "description": "Functions that take other functions as parameters",
+      "tags": ["higher-order", "spread-operator", "map", "functions"],
+      "difficulty": "beginner",
+      "language": "javascript"
+    },
+    {
+      "code": "// Module pattern for maritime operations\nconst MaritimeUtils = (function() {\n  // Private variables\n  const KNOTS_TO_KMH = 1.852;\n  const NAUTICAL_MILE_TO_KM = 1.852;\n  \n  // Public interface\n  return {\n    convertKnotsToKmh(knots) {\n      return knots * KNOTS_TO_KMH;\n    },\n    \n    convertNauticalMilesToKm(nauticalMiles) {\n      return nauticalMiles * NAUTICAL_MILE_TO_KM;\n    },\n    \n    calculateETA(distance, speed) {\n      return distance / speed;\n    }\n  };\n})();\n\nconst shipSpeed = 20; // knots\nconst distanceToPort = 500; // nautical miles\n\nconsole.log(`Speed: ${MaritimeUtils.convertKnotsToKmh(shipSpeed).toFixed(1)} km/h`);\nconsole.log(`Distance: ${MaritimeUtils.convertNauticalMilesToKm(distanceToPort).toFixed(1)} km`);\nconsole.log(`ETA: ${MaritimeUtils.calculateETA(distanceToPort, shipSpeed).toFixed(1)} hours`);",
+      "title": "Module Pattern and IIFE",
+      "description": "Organizing code with the module pattern",
+      "tags": ["modules", "iife", "closures", "encapsulation"],
+      "difficulty": "beginner",
       "language": "javascript"
     }
   ]

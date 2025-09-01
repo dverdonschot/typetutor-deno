@@ -1,0 +1,170 @@
+{
+  "id": "rust-basics",
+  "name": "Rust Basics",
+  "description": "Learn Rust fundamentals through metalworking, lathe, and milling operations",
+  "icon": "🔧",
+  "difficulty": "beginner",
+  "language": "rust",
+  "snippets": [
+    {
+      "code": "fn main() {\n    let lathe_model = \"South Bend 9A\";\n    let mill_type = \"Bridgeport Series 1\";\n    println!(\"Workshop has a {} lathe and {} mill\", lathe_model, mill_type);\n    \n    let mut tool_count = 8;\n    tool_count += 4;\n    println!(\"Total cutting tools: {}\", tool_count);\n}",
+      "title": "Variables and Mutability",
+      "description": "Basic variable declarations with immutable and mutable bindings",
+      "tags": ["variables", "mutability", "println"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "fn main() {\n    let tool_cost = 45.99;\n    let material_thickness = 3.2;\n    let spindle_speed = 1200;\n    let is_running = true;\n    \n    println!(\"Tool costs ${:.2}\", tool_cost);\n    println!(\"Material is {} mm thick\", material_thickness);\n    println!(\"Spindle running at {} RPM\", spindle_speed);\n    println!(\"Is lathe running? {}\", is_running);\n}",
+      "title": "Basic Data Types",
+      "description": "Working with integers, floats, and booleans",
+      "tags": ["types", "integers", "floats", "booleans"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "fn main() {\n    let cutting_tools = [\"end mill\", \"face mill\", \"drill bit\", \"boring bar\"];\n    let materials = [\"steel\", \"aluminum\", \"brass\"];\n    \n    println!(\"First tool: {}\", cutting_tools[0]);\n    println!(\"Last material: {}\", materials[materials.len() - 1]);\n    \n    for tool in &cutting_tools {\n        println!(\"Using {}\", tool);\n    }\n}",
+      "title": "Arrays and Iteration",
+      "description": "Creating arrays and iterating through them",
+      "tags": ["arrays", "iteration", "for-loops"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "fn main() {\n    let mut tool_inventory = Vec::new();\n    tool_inventory.push(\"carbide insert\");\n    tool_inventory.push(\"coolant pump\");\n    tool_inventory.push(\"dial indicator\");\n    \n    println!(\"Inventory has {} items\", tool_inventory.len());\n    \n    // pop() removes and returns the last item (if any exists)\n    if let Some(item) = tool_inventory.pop() {\n        println!(\"Removed: {}\", item);\n    }\n}",
+      "title": "Vectors and Methods",
+      "description": "Dynamic arrays (vectors) and method calls",
+      "tags": ["vectors", "methods", "option"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "fn calculate_machining_time(parts: u32, time_per_part: f64) -> f64 {\n    parts as f64 * time_per_part\n}\n\nfn main() {\n    let turning_time = calculate_machining_time(20, 4.5);\n    let milling_time = calculate_machining_time(15, 8.2);\n    \n    println!(\"Turning time: {:.2} minutes\", turning_time);\n    println!(\"Milling time: {:.2} minutes\", milling_time);\n}",
+      "title": "Functions and Type Casting",
+      "description": "Creating functions with parameters and return values",
+      "tags": ["functions", "parameters", "return-values"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "fn main() {\n    let material = \"aluminum\";\n    \n    match material {\n        \"steel\" => println!(\"Hard and strong, needs carbide tools!\"),\n        \"aluminum\" => println!(\"Soft and lightweight, machines easily!\"),\n        \"brass\" => println!(\"Smooth cutting, good surface finish!\"),\n        \"titanium\" => println!(\"Tough to machine, use slow speeds!\"),\n        _ => println!(\"Unknown material\"),\n    }\n}",
+      "title": "Match Expressions",
+      "description": "Pattern matching with match expressions",
+      "tags": ["match", "pattern-matching", "control-flow"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "struct CuttingTool {\n    name: String,\n    material: String,\n    diameter: u8,\n}\n\nfn main() {\n    let end_mill = CuttingTool {\n        name: String::from(\"4-flute end mill\"),\n        material: String::from(\"carbide\"),\n        diameter: 12,\n    };\n    \n    println!(\"{} is {} with diameter {}mm\", \n             end_mill.name, end_mill.material, end_mill.diameter);\n}",
+      "title": "Structs and Ownership",
+      "description": "Defining structs and understanding String ownership",
+      "tags": ["structs", "ownership", "strings"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "impl CuttingTool {\n    fn new(name: &str, material: &str, sharpness: u8) -> CuttingTool {\n        CuttingTool {\n            name: name.to_string(),\n            material: material.to_string(),\n            sharpness,\n        }\n    }\n    \n    fn is_sharp(&self) -> bool {\n        self.sharpness > 6\n    }\n}",
+      "title": "Implementation Blocks",
+      "description": "Adding methods to structs with impl blocks",
+      "tags": ["impl", "methods", "self"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "#[derive(Debug)]\nenum ToolType {\n    Cutting(String),\n    Measuring(String),\n    Holding(String),\n}\n\nfn main() {\n    let end_mill = ToolType::Cutting(String::from(\"Carbide\"));\n    let caliper = ToolType::Measuring(String::from(\"Digital\"));\n    \n    println!(\"{:?}\", end_mill);\n    println!(\"{:?}\", caliper);\n}",
+      "title": "Enums and Debug Trait",
+      "description": "Creating enums with associated data",
+      "tags": ["enums", "debug", "derive"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "fn get_tool_price(tool: &str) -> Option<f64> {\n    match tool {\n        \"end mill\" => Some(35.50),\n        \"drill bit\" => Some(12.20),\n        \"boring bar\" => Some(85.00),\n        _ => None,\n    }\n}\n\nfn main() {\n    if let Some(price) = get_tool_price(\"end mill\") {\n        println!(\"End mill costs ${:.2}\", price);\n    }\n}",
+      "title": "Option Type and If Let",
+      "description": "Handling optional values safely",
+      "tags": ["option", "if-let", "pattern-matching"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "fn main() {\n    let machine_name = String::from(\"South Bend Lathe\");\n    let machine_slice = &machine_name[0..5];\n    \n    println!(\"Full name: {}\", machine_name);\n    println!(\"Slice: {}\", machine_slice);\n    \n    let tool_type = \"carbide\";\n    let first_char = &tool_type[0..1];\n    println!(\"First letter of {}: {}\", tool_type, first_char);\n}",
+      "title": "String Slices and Borrowing",
+      "description": "Working with string slices and references",
+      "tags": ["strings", "slices", "borrowing"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "fn main() {\n    let tools = vec![\"drill\", \"end mill\", \"boring bar\", \"reamer\"];\n    \n    let long_tools: Vec<&str> = tools\n        .iter()\n        .filter(|&tool| tool.len() > 5)\n        .collect();\n    \n    println!(\"Long-named tools: {:?}\", long_tools);\n    \n    let total_chars: usize = tools.iter().map(|t| t.len()).sum();\n    println!(\"Total characters: {}\", total_chars);\n}",
+      "title": "Iterators and Closures",
+      "description": "Using iterator methods with closures",
+      "tags": ["iterators", "closures", "filter", "map"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "fn parse_rpm(input: &str) -> Result<u32, &str> {\n    match input.parse() {\n        Ok(num) => Ok(num),\n        Err(_) => Err(\"Invalid RPM format\"),\n    }\n}\n\nfn main() {\n    // Result has Ok(success value) or Err(error value)\n    match parse_rpm(\"1200\") {\n        Ok(rpm) => println!(\"Spindle speed: {} RPM\", rpm),\n        Err(msg) => println!(\"Error: {}\", msg),\n    }\n}",
+      "title": "Result Type and Error Handling",
+      "description": "Handling errors with Result type",
+      "tags": ["result", "error-handling", "parse"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "use std::collections::HashMap;\n\nfn main() {\n    let mut tool_inventory = HashMap::new();\n    tool_inventory.insert(\"end mills\", 50);\n    tool_inventory.insert(\"drill bits\", 30);\n    tool_inventory.insert(\"reamers\", 25);\n    \n    // get() returns Some(value) if key exists, None if not found\n    if let Some(count) = tool_inventory.get(\"end mills\") {\n        println!(\"We have {} end mills in stock\", count);\n    }\n    \n    tool_inventory.insert(\"end mills\", 45);\n}",
+      "title": "HashMap and Collections",
+      "description": "Using HashMaps for key-value storage",
+      "tags": ["hashmap", "collections", "insert", "get"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "#[derive(Debug, Clone)]\nstruct Workshop {\n    cutting_tools: Vec<String>,\n    measuring_tools: Vec<String>,\n}\n\nfn main() {\n    let mut my_shop = Workshop {\n        cutting_tools: vec![\"end mill\".to_string(), \"drill bit\".to_string()],\n        measuring_tools: vec![\"caliper\".to_string()],\n    };\n    \n    my_shop.cutting_tools.push(\"reamer\".to_string());\n    println!(\"{:?}\", my_shop);\n}",
+      "title": "Traits and Derive",
+      "description": "Using derive macros for common traits",
+      "tags": ["traits", "derive", "clone", "debug"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "fn main() {\n    let tools = vec![\"lathe\", \"mill\", \"grinder\"];\n    \n    for (index, tool) in tools.iter().enumerate() {\n        println!(\"{}. {}\", index + 1, tool);\n    }\n    \n    let sizes = vec![10, 12, 16];\n    let drill_types = vec![\"twist\", \"center\", \"spade\"];\n    \n    for (size, drill_type) in sizes.iter().zip(drill_types.iter()) {\n        println!(\"{}mm {} drill\", size, drill_type);\n    }\n}",
+      "title": "Enumerate and Zip",
+      "description": "Advanced iteration with enumerate and zip",
+      "tags": ["enumerate", "zip", "iteration"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "fn main() {\n    let shop_items: Vec<&str> = vec![\n        \"end mill\", \"wrench\", \"drill bit\", \"hammer\", \"reamer\"\n    ];\n    \n    // partition splits into two groups based on condition\n    // matches! checks if value equals any of the patterns\n    let (cutting, hand_tools): (Vec<&str>, Vec<&str>) = shop_items\n        .into_iter()\n        .partition(|&item| {\n            matches!(item, \"end mill\" | \"drill bit\" | \"reamer\" | \"tap\")\n        });\n    \n    println!(\"Cutting tools: {:?}\", cutting);\n    println!(\"Hand tools: {:?}\", hand_tools);\n}",
+      "title": "Partition and Matches Macro",
+      "description": "Partitioning collections with matches macro",
+      "tags": ["partition", "matches", "macro"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "struct ToolBox<T> {\n    contents: Vec<T>,\n}\n\nimpl<T> ToolBox<T> {\n    fn new() -> Self {\n        ToolBox {\n            contents: Vec::new(),\n        }\n    }\n    \n    fn add(&mut self, item: T) {\n        self.contents.push(item);\n    }\n}",
+      "title": "Basic Generics",
+      "description": "Introduction to generic types",
+      "tags": ["generics", "types", "struct"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "fn main() {\n    let tool_inventory = vec![\n        (\"end mill\", 3),\n        (\"drill bit\", 2),\n        (\"boring bar\", 4),\n    ];\n    \n    for (name, count) in &tool_inventory {\n        let status = if *count > 3 {\n            \"plenty\"\n        } else {\n            \"few\"\n        };\n        println!(\"We have {} {}\", status, name);\n    }\n}",
+      "title": "Tuples and Destructuring",
+      "description": "Working with tuples and pattern destructuring",
+      "tags": ["tuples", "destructuring", "patterns"],
+      "difficulty": "beginner",
+      "language": "rust"
+    },
+    {
+      "code": "fn describe_tool(item: &str) {\n    let description = match item {\n        // match guards: extra conditions after 'if'\n        tool if tool.ends_with(\"mill\") => \"This is a milling tool!\",\n        bit if bit.contains(\"drill\") => \"Drilling tool!\",\n        \"caliper\" => \"Measuring tool for precision!\",\n        \"micrometer\" => \"Ultra-precise measuring tool!\",\n        _ => \"Essential workshop tool!\",\n    };\n    \n    println!(\"{}: {}\", item, description);\n}",
+      "title": "Match Guards and String Methods",
+      "description": "Advanced pattern matching with guards",
+      "tags": ["match-guards", "string-methods", "patterns"],
+      "difficulty": "beginner",
+      "language": "rust"
+    }
+  ]
+}
