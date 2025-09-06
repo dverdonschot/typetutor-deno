@@ -19,7 +19,7 @@ interface CodeCollectionSelectorProps {
   ) => void;
   hideLabel?: boolean;
   label?: string;
-  difficultyLabel?: string;
+  _difficultyLabel?: string;
   randomMode?: boolean;
   onRandomModeChange?: (enabled: boolean) => void;
   disabled?: boolean;
@@ -32,7 +32,7 @@ export default function CodeCollectionSelector(
     onCollectionChange,
     hideLabel,
     label,
-    difficultyLabel,
+    _difficultyLabel,
     randomMode = false,
     onRandomModeChange,
     disabled = false,
@@ -177,7 +177,6 @@ export default function CodeCollectionSelector(
           </option>
         ))}
       </select>
-
 
       {/* Random mode toggle */}
       {onRandomModeChange && selectedCollectionId && !disabled && (

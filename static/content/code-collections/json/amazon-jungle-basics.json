@@ -1,162 +1,34 @@
 {
-  \"id\": \"amazon-jungle-basics\",
-  \"name\": \"JSON Amazon Jungle Basics\",
-  \"description\": \"Learn JSON data structures with Amazon rainforest and wildlife themes\",
-  \"icon\": \"🌿\",
-  \"difficulty\": \"beginner\",
-  \"language\": \"json\",
-  \"snippets\": [
+  "id": "amazon-jungle-basics",
+  "name": "JSON Amazon Jungle Basics",
+  "description": "Learn JSON data structures with Amazon rainforest and wildlife themes",
+  "icon": "🌿",
+  "difficulty": "beginner",
+  "language": "json",
+  "snippets": [
     {
-      \"code\": \"{\\n  \\\"species\\\": \\\"Jaguar\\\",\\n  \\\"scientific_name\\\": \\\"Panthera onca\\\",\\n  \\\"habitat\\\": \\\"Amazon Rainforest\\\",\\n  \\\"population\\\": 15000,\\n  \\\"endangered\\\": true\\n}\",
-      \"title\": \"Basic Animal Object\",
-      \"description\": \"Simple JSON object representing Amazon wildlife\",
-      \"tags\": [\"object\", \"properties\", \"strings\", \"numbers\", \"booleans\"],
-      \"difficulty\": \"beginner\",
-      \"language\": \"json\"
+      "code": "{\n  \"species\": \"Jaguar\",\n  \"scientific_name\": \"Panthera onca\",\n  \"habitat\": \"Amazon Rainforest\",\n  \"population\": 15000,\n  \"endangered\": true\n}",
+      "title": "Basic Animal Object",
+      "description": "Simple JSON object representing Amazon wildlife",
+      "tags": ["object", "properties", "strings", "numbers", "booleans"],
+      "difficulty": "beginner",
+      "language": "json"
     },
     {
-      \"code\": \"{\\n  \\\"rainforest_layers\\\": [\\n    \\\"Forest Floor\\\",\\n    \\\"Understory\\\",\\n    \\\"Canopy\\\",\\n    \\\"Emergent Layer\\\"\\n  ]\\n}\",
-      \"title\": \"Forest Layer Array\",
-      \"description\": \"JSON array containing rainforest vertical layers\",
-      \"tags\": [\"array\", \"strings\", \"list\"],
-      \"difficulty\": \"beginner\",
-      \"language\": \"json\"
+      "code": "{\n  \"rainforest_layers\": [\n    \"Forest Floor\",\n    \"Understory\",\n    \"Canopy\",\n    \"Emergent Layer\"\n  ]\n}",
+      "title": "Forest Layer Array",
+      "description": "JSON array containing rainforest vertical layers",
+      "tags": ["array", "strings", "list"],
+      "difficulty": "beginner",
+      "language": "json"
     },
     {
-      \"code\": \"{\\n  \\\"tree\\\": {\\n    \\\"species\\\": \\\"Brazil Nut\\\",\\n    \\\"height_meters\\\": 50,\\n    \\\"age_years\\\": 120,\\n    \\\"location\\\": {\\n      \\\"latitude\\\": -3.4653,\\n      \\\"longitude\\\": -62.2159\\n    }\\n  }\\n}\",
-      \"title\": \"Nested Tree Data\",
-      \"description\": \"Nested JSON objects for complex tree information\",
-      \"tags\": [\"nested-objects\", \"coordinates\", \"numbers\"],
-      \"difficulty\": \"beginner\",
-      \"language\": \"json\"
-    },
-    {
-      \"code\": \"{\\n  \\\"amazon_animals\\\": [\\n    {\\n      \\\"name\\\": \\\"Toucan\\\",\\n      \\\"type\\\": \\\"Bird\\\",\\n      \\\"diet\\\": \\\"Omnivore\\\"\\n    },\\n    {\\n      \\\"name\\\": \\\"Sloth\\\",\\n      \\\"type\\\": \\\"Mammal\\\",\\n      \\\"diet\\\": \\\"Herbivore\\\"\\n    },\\n    {\\n      \\\"name\\\": \\\"Anaconda\\\",\\n      \\\"type\\\": \\\"Reptile\\\",\\n      \\\"diet\\\": \\\"Carnivore\\\"\\n    }\\n  ]\\n}\",
-      \"title\": \"Animal Collection Array\",
-      \"description\": \"Array of objects representing various Amazon animals\",
-      \"tags\": [\"array-of-objects\", \"collection\", \"classification\"],
-      \"difficulty\": \"beginner\",
-      \"language\": \"json\"
-    },
-    {
-      \"code\": \"{\\n  \\\"weather_data\\\": {\\n    \\\"temperature_celsius\\\": 27.5,\\n    \\\"humidity_percent\\\": 85,\\n    \\\"rainfall_mm\\\": 12.3,\\n    \\\"wind_speed_kmh\\\": 8.2,\\n    \\\"cloudy\\\": true,\\n    \\\"visibility_km\\\": null\\n  }\\n}\",
-      \"title\": \"Rainforest Weather Data\",
-      \"description\": \"JSON with various data types including null values\",
-      \"tags\": [\"mixed-types\", \"null\", \"measurements\"],
-      \"difficulty\": \"beginner\",
-      \"language\": \"json\"
-    },
-    {
-      \"code\": \"{\\n  \\\"research_expedition\\\": {\\n    \\\"team_members\\\": [\\\"Dr. Maria Santos\\\", \\\"Prof. James Green\\\", \\\"Ana Rodriguez\\\"],\\n    \\\"duration_days\\\": 21,\\n    \\\"equipment\\\": [\\\"GPS\\\", \\\"Cameras\\\", \\\"Sample containers\\\", \\\"First aid kit\\\"],\\n    \\\"research_goals\\\": [\\\"Species documentation\\\", \\\"Habitat mapping\\\", \\\"Climate monitoring\\\"]\\n  }\\n}\",
-      \"title\": \"Research Expedition Data\",
-      \"description\": \"Complex structure with multiple arrays of different content\",
-      \"tags\": [\"multiple-arrays\", \"team-data\", \"planning\"],
-      \"difficulty\": \"beginner\",
-      \"language\": \"json\"
-    },
-    {
-      \"code\": \"{\\n  \\\"biodiversity_index\\\": {\\n    \\\"mammals\\\": 427,\\n    \\\"birds\\\": 1300,\\n    \\\"reptiles\\\": 378,\\n    \\\"amphibians\\\": 420,\\n    \\\"fish\\\": 3000,\\n    \\\"insects\\\": 2500000,\\n    \\\"plants\\\": 40000\\n  }\\n}\",
-      \"title\": \"Biodiversity Statistics\",
-      \"description\": \"JSON object with numerical data for species counts\",
-      \"tags\": [\"statistics\", \"large-numbers\", \"classification\"],
-      \"difficulty\": \"beginner\",
-      \"language\": \"json\"
-    },
-    {
-      \"code\": \"{\\n  \\\"conservation_status\\\": {\\n    \\\"critically_endangered\\\": [\\\"Amazonian Manatee\\\", \\\"Giant Otter\\\"],\\n    \\\"endangered\\\": [\\\"Jaguar\\\", \\\"Harpy Eagle\\\", \\\"Pink River Dolphin\\\"],\\n    \\\"vulnerable\\\": [\\\"Brazilian Tapir\\\", \\\"Giant Anteater\\\"],\\n    \\\"near_threatened\\\": [\\\"Ocelot\\\", \\\"Margay\\\"],\\n    \\\"least_concern\\\": [\\\"Capybara\\\", \\\"Howler Monkey\\\"]\\n  }\\n}\",
-      \"title\": \"Conservation Status Grouping\",
-      \"description\": \"Categorized arrays showing species conservation levels\",
-      \"tags\": [\"categorization\", \"conservation\", \"grouped-arrays\"],
-      \"difficulty\": \"intermediate\",
-      \"language\": \"json\"
-    },
-    {
-      \"code\": \"{\\n  \\\"ecosystem_monitoring\\\": {\\n    \\\"sensors\\\": [\\n      {\\n        \\\"id\\\": \\\"TEMP_001\\\",\\n        \\\"type\\\": \\\"Temperature\\\",\\n        \\\"location\\\": \\\"Canopy Level\\\",\\n        \\\"readings\\\": [26.5, 27.1, 26.8, 27.3]\\n      },\\n      {\\n        \\\"id\\\": \\\"HUMID_002\\\",\\n        \\\"type\\\": \\\"Humidity\\\",\\n        \\\"location\\\": \\\"Ground Level\\\",\\n        \\\"readings\\\": [82, 85, 88, 84]\\n      }\\n    ]\\n  }\\n}\",
-      \"title\": \"Sensor Data Collection\",
-      \"description\": \"Complex nested structure with sensor readings arrays\",
-      \"tags\": [\"sensor-data\", \"nested-arrays\", \"monitoring\"],
-      \"difficulty\": \"intermediate\",
-      \"language\": \"json\"
-    },
-    {
-      \"code\": \"{\\n  \\\"river_system\\\": {\\n    \\\"amazon_river\\\": {\\n      \\\"length_km\\\": 6400,\\n      \\\"tributaries\\\": [\\n        {\\n          \\\"name\\\": \\\"Rio Negro\\\",\\n          \\\"confluence_city\\\": \\\"Manaus\\\",\\n          \\\"characteristics\\\": {\\n            \\\"water_color\\\": \\\"dark\\\",\\n            \\\"ph_level\\\": 4.5,\\n            \\\"temperature_avg\\\": 28\\n          }\\n        },\\n        {\\n          \\\"name\\\": \\\"Rio Solimoes\\\",\\n          \\\"confluence_city\\\": \\\"Manaus\\\",\\n          \\\"characteristics\\\": {\\n            \\\"water_color\\\": \\\"muddy\\\",\\n            \\\"ph_level\\\": 6.2,\\n            \\\"temperature_avg\\\": 26\\n          }\\n        }\\n      ]\\n    }\\n  }\\n}\",
-      \"title\": \"River System Hierarchy\",
-      \"description\": \"Deep nested structure representing river tributaries\",
-      \"tags\": [\"deep-nesting\", \"hierarchical\", \"river-data\"],
-      \"difficulty\": \"intermediate\",
-      \"language\": \"json\"
-    },
-    {
-      \"code\": \"{\\n  \\\"indigenous_communities\\\": [\\n    {\\n      \\\"tribe_name\\\": \\\"Kayapó\\\",\\n      \\\"population\\\": 12000,\\n      \\\"territory_hectares\\\": 9600000,\\n      \\\"primary_language\\\": \\\"Kayapó\\\",\\n      \\\"traditional_practices\\\": [\\\"Body painting\\\", \\\"Sustainable farming\\\", \\\"Medicinal plants\\\"],\\n      \\\"contact_status\\\": \\\"contacted\\\"\\n    },\\n    {\\n      \\\"tribe_name\\\": \\\"Yanomami\\\",\\n      \\\"population\\\": 35000,\\n      \\\"territory_hectares\\\": 9600000,\\n      \\\"primary_language\\\": \\\"Yanomami\\\",\\n      \\\"traditional_practices\\\": [\\\"Shamanism\\\", \\\"Communal houses\\\", \\\"Hunting\\\"],\\n      \\\"contact_status\\\": \\\"limited_contact\\\"\\n    }\\n  ]\\n}\",
-      \"title\": \"Indigenous Communities Data\",
-      \"description\": \"Cultural and demographic information in structured format\",
-      \"tags\": [\"cultural-data\", \"demographics\", \"practices\"],
-      \"difficulty\": \"intermediate\",
-      \"language\": \"json\"
-    },
-    {
-      \"code\": \"{\\n  \\\"deforestation_data\\\": {\\n    \\\"yearly_loss_hectares\\\": {\\n      \\\"2019\\\": 10129,\\n      \\\"2020\\\": 11088,\\n      \\\"2021\\\": 13038,\\n      \\\"2022\\\": 11568,\\n      \\\"2023\\\": 9064\\n    },\\n    \\\"primary_causes\\\": {\\n      \\\"cattle_ranching\\\": 80,\\n      \\\"soy_farming\\\": 12,\\n      \\\"logging\\\": 5,\\n      \\\"other_agriculture\\\": 3\\n    },\\n    \\\"affected_regions\\\": [\\\"Pará\\\", \\\"Amazonas\\\", \\\"Rondônia\\\", \\\"Acre\\\"]\\n  }\\n}\",
-      \"title\": \"Environmental Impact Data\",
-      \"description\": \"Time series and percentage data for conservation tracking\",
-      \"tags\": [\"time-series\", \"percentages\", \"environmental\"],
-      \"difficulty\": \"intermediate\",
-      \"language\": \"json\"
-    },
-    {
-      \"code\": \"{\\n  \\\"medicinal_plants\\\": {\\n    \\\"database_version\\\": \\\"2.1.0\\\",\\n    \\\"last_updated\\\": \\\"2023-11-15T10:30:00Z\\\",\\n    \\\"plants\\\": [\\n      {\\n        \\\"common_name\\\": \\\"Cat's Claw\\\",\\n        \\\"scientific_name\\\": \\\"Uncaria tomentosa\\\",\\n        \\\"uses\\\": [\\\"Immune system support\\\", \\\"Anti-inflammatory\\\"],\\n        \\\"preparation_methods\\\": [\\\"Tea\\\", \\\"Extract\\\", \\\"Capsules\\\"],\\n        \\\"active_compounds\\\": [\\\"Oxindole alkaloids\\\", \\\"Quinovic acid glycosides\\\"],\\n        \\\"safety_rating\\\": \\\"generally_safe\\\",\\n        \\\"research_status\\\": \\\"clinical_trials_ongoing\\\"\\n      }\\n    ]\\n  }\\n}\",
-      \"title\": \"Medicinal Plant Database\",
-      \"description\": \"Scientific database structure with metadata and versioning\",
-      \"tags\": [\"database-structure\", \"metadata\", \"timestamps\"],
-      \"difficulty\": \"intermediate\",
-      \"language\": \"json\"
-    },
-    {
-      \"code\": \"{\\n  \\\"ecotourism_package\\\": {\\n    \\\"package_id\\\": \\\"AMZ-ECO-001\\\",\\n    \\\"title\\\": \\\"Amazon Wildlife Discovery\\\",\\n    \\\"duration_days\\\": 7,\\n    \\\"price_usd\\\": 2450,\\n    \\\"group_size\\\": {\\n      \\\"min\\\": 4,\\n      \\\"max\\\": 12\\n    },\\n    \\\"itinerary\\\": [\\n      {\\n        \\\"day\\\": 1,\\n        \\\"activities\\\": [\\\"Arrival in Manaus\\\", \\\"River boat boarding\\\", \\\"Sunset viewing\\\"],\\n        \\\"accommodation\\\": \\\"River boat\\\"\\n      },\\n      {\\n        \\\"day\\\": 2,\\n        \\\"activities\\\": [\\\"Pink dolphin watching\\\", \\\"Piranha fishing\\\", \\\"Night sounds tour\\\"],\\n        \\\"accommodation\\\": \\\"Jungle lodge\\\"\\n      }\\n    ],\\n    \\\"included\\\": [\\\"All meals\\\", \\\"Professional guide\\\", \\\"Transportation\\\", \\\"Equipment\\\"],\\n    \\\"difficulty_level\\\": \\\"moderate\\\"\\n  }\\n}\",
-      \"title\": \"Ecotourism Package Structure\",
-      \"description\": \"Complex booking system data with nested itinerary\",
-      \"tags\": [\"booking-system\", \"itinerary\", \"pricing\"],
-      \"difficulty\": \"advanced\",
-      \"language\": \"json\"
-    },
-    {
-      \"code\": \"{\\n  \\\"climate_research\\\": {\\n    \\\"study_id\\\": \\\"AMZ-CLIM-2023-001\\\",\\n    \\\"methodology\\\": \\\"Satellite and ground-based monitoring\\\",\\n    \\\"data_collection_period\\\": {\\n      \\\"start_date\\\": \\\"2023-01-01\\\",\\n      \\\"end_date\\\": \\\"2023-12-31\\\"\\n    },\\n    \\\"measurement_stations\\\": [\\n      {\\n        \\\"station_id\\\": \\\"AMZ-001\\\",\\n        \\\"coordinates\\\": [-3.1190, -60.0217],\\n        \\\"elevation_meters\\\": 85,\\n        \\\"measurements\\\": {\\n          \\\"temperature\\\": {\\n            \\\"min\\\": 22.1,\\n            \\\"max\\\": 32.8,\\n            \\\"average\\\": 27.4\\n          },\\n          \\\"precipitation_mm\\\": {\\n            \\\"annual_total\\\": 2456,\\n            \\\"wettest_month\\\": {\\n              \\\"month\\\": \\\"March\\\",\\n              \\\"amount\\\": 385\\n            }\\n          }\\n        }\\n      }\\n    ]\\n  }\\n}\",
-      \"title\": \"Climate Research Dataset\",
-      \"description\": \"Scientific research data with measurements and statistics\",
-      \"tags\": [\"research-data\", \"scientific\", \"measurements\"],
-      \"difficulty\": \"advanced\",
-      \"language\": \"json\"
-    },
-    {
-      \"code\": \"{\\n  \\\"amazon_api_response\\\": {\\n    \\\"status\\\": \\\"success\\\",\\n    \\\"timestamp\\\": \\\"2023-11-15T14:22:33.045Z\\\",\\n    \\\"request_id\\\": \\\"req_7f9e2a1b4c8d\\\",\\n    \\\"data\\\": {\\n      \\\"species_count\\\": 1247,\\n      \\\"results\\\": [\\n        {\\n          \\\"id\\\": \\\"sp_001\\\",\\n          \\\"name\\\": \\\"Green Anaconda\\\",\\n          \\\"status\\\": \\\"active\\\",\\n          \\\"last_sighting\\\": \\\"2023-11-10T08:15:00Z\\\",\\n          \\\"confidence_score\\\": 0.94\\n        }\\n      ]\\n    },\\n    \\\"pagination\\\": {\\n      \\\"page\\\": 1,\\n      \\\"per_page\\\": 50,\\n      \\\"total_pages\\\": 25,\\n      \\\"has_next\\\": true\\n    },\\n    \\\"meta\\\": {\\n      \\\"api_version\\\": \\\"v2.1\\\",\\n      \\\"rate_limit_remaining\\\": 847\\n    }\\n  }\\n}\",
-      \"title\": \"API Response Structure\",
-      \"description\": \"Standard API response with metadata and pagination\",
-      \"tags\": [\"api-response\", \"pagination\", \"metadata\"],
-      \"difficulty\": \"advanced\",
-      \"language\": \"json\"
-    },
-    {
-      \"code\": \"{\\n  \\\"$schema\\\": \\\"https://json-schema.org/draft/2020-12/schema\\\",\\n  \\\"title\\\": \\\"Amazon Species\\\",\\n  \\\"type\\\": \\\"object\\\",\\n  \\\"required\\\": [\\\"species_name\\\", \\\"classification\\\"],\\n  \\\"properties\\\": {\\n    \\\"species_name\\\": {\\n      \\\"type\\\": \\\"string\\\",\\n      \\\"minLength\\\": 1\\n    },\\n    \\\"classification\\\": {\\n      \\\"type\\\": \\\"object\\\",\\n      \\\"properties\\\": {\\n        \\\"kingdom\\\": {\\\"type\\\": \\\"string\\\"},\\n        \\\"phylum\\\": {\\\"type\\\": \\\"string\\\"},\\n        \\\"class\\\": {\\\"type\\\": \\\"string\\\"}\\n      },\\n      \\\"required\\\": [\\\"kingdom\\\", \\\"class\\\"]\\n    },\\n    \\\"habitat_preference\\\": {\\n      \\\"type\\\": \\\"array\\\",\\n      \\\"items\\\": {\\\"type\\\": \\\"string\\\"},\\n      \\\"minItems\\\": 1\\n    }\\n  }\\n}\",
-      \"title\": \"JSON Schema Definition\",
-      \"description\": \"Schema for validating Amazon species data structure\",
-      \"tags\": [\"json-schema\", \"validation\", \"data-structure\"],
-      \"difficulty\": \"advanced\",
-      \"language\": \"json\"
-    },
-    {
-      \"code\": \"{\\n  \\\"geospatial_data\\\": {\\n    \\\"type\\\": \\\"FeatureCollection\\\",\\n    \\\"features\\\": [\\n      {\\n        \\\"type\\\": \\\"Feature\\\",\\n        \\\"properties\\\": {\\n          \\\"name\\\": \\\"Protected Area Alpha\\\",\\n          \\\"area_hectares\\\": 125000,\\n          \\\"protection_level\\\": \\\"strict_nature_reserve\\\"\\n        },\\n        \\\"geometry\\\": {\\n          \\\"type\\\": \\\"Polygon\\\",\\n          \\\"coordinates\\\": [\\n            [\\n              [-60.5, -3.2],\\n              [-60.2, -3.2],\\n              [-60.2, -2.8],\\n              [-60.5, -2.8],\\n              [-60.5, -3.2]\\n            ]\\n          ]\\n        }\\n      }\\n    ]\\n  }\\n}\",
-      \"title\": \"GeoJSON Protected Areas\",
-      \"description\": \"Geographic data format for mapping conservation areas\",
-      \"tags\": [\"geojson\", \"geographic\", \"coordinates\"],
-      \"difficulty\": \"advanced\",
-      \"language\": \"json\"
-    },
-    {
-      \"code\": \"{\\n  \\\"research_collaboration\\\": {\\n    \\\"project_title\\\": \\\"Amazon Biodiversity Genomics\\\",\\n    \\\"funding_sources\\\": [\\n      {\\n        \\\"organization\\\": \\\"National Science Foundation\\\",\\n        \\\"amount_usd\\\": 2500000,\\n        \\\"currency\\\": \\\"USD\\\",\\n        \\\"grant_number\\\": \\\"NSF-BIO-2023-789\\\"\\n      }\\n    ],\\n    \\\"participating_institutions\\\": [\\n      {\\n        \\\"name\\\": \\\"Amazon Research Institute\\\",\\n        \\\"country\\\": \\\"Brazil\\\",\\n        \\\"role\\\": \\\"lead_coordinator\\\",\\n        \\\"researchers\\\": [\\n          {\\n            \\\"name\\\": \\\"Dr. Carlos Mendoza\\\",\\n            \\\"specialization\\\": \\\"Molecular Biology\\\",\\n            \\\"orcid\\\": \\\"0000-0002-1234-5678\\\"\\n          }\\n        ]\\n      }\\n    ],\\n    \\\"deliverables\\\": {\\n      \\\"publications_target\\\": 15,\\n      \\\"datasets_planned\\\": 8,\\n      \\\"species_to_sequence\\\": 500\\n    }\\n  }\\n}\",
-      \"title\": \"Research Project Metadata\",
-      \"description\": \"Comprehensive project structure with funding and collaboration details\",
-      \"tags\": [\"project-metadata\", \"collaboration\", \"funding\"],
-      \"difficulty\": \"advanced\",
-      \"language\": \"json\"
+      "code": "{\n  \"tree\": {\n    \"species\": \"Brazil Nut\",\n    \"height_meters\": 50,\n    \"age_years\": 120,\n    \"location\": {\n      \"latitude\": -3.4653,\n      \"longitude\": -62.2159\n    }\n  }\n}",
+      "title": "Nested Tree Data",
+      "description": "Nested JSON objects for complex tree information",
+      "tags": ["nested-objects", "coordinates", "numbers"],
+      "difficulty": "beginner",
+      "language": "json"
     }
   ]
 }

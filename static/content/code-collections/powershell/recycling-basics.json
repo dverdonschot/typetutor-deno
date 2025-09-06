@@ -130,7 +130,12 @@
       "code": "$EnvData = Get-WmiObject -Class Win32_Environment | Where-Object {\n    $_.Name -like \"*TEMP*\" -or $_.Name -like \"*PATH*\"\n} | Select-Object Name, VariableValue\n\nWrite-Host \"System environment check for green computing:\"\n$EnvData | Format-Table -AutoSize",
       "title": "Green Computing Environment Check",
       "description": "System monitoring for eco-friendly computing",
-      "tags": ["get-wmiobject", "where-object", "select-object", "format-table"],
+      "tags": [
+        "get-wmiobject",
+        "where-object",
+        "select-object",
+        "format-table"
+      ],
       "difficulty": "intermediate",
       "language": "powershell"
     },

@@ -133,7 +133,6 @@ export default function CodeLanguageSelector(
         ))}
       </select>
 
-
       {/* Random mode toggle */}
       {onRandomModeChange && selectedLanguage && (
         <div class="mt-3">
