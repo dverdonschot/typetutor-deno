@@ -38,5 +38,93 @@
     "description": "Systems programming language focused on safety, speed, and concurrency",
     "fileExtension": "rs",
     "syntaxHighlighting": "rust"
+  },
+  {
+    "code": "bash",
+    "name": "Bash",
+    "icon": "🐚",
+    "description": "Shell scripting for automation and system administration",
+    "fileExtension": "sh",
+    "syntaxHighlighting": "bash"
+  },
+  {
+    "code": "html",
+    "name": "HTML",
+    "icon": "🌐",
+    "description": "Markup language for creating web pages and applications",
+    "fileExtension": "html",
+    "syntaxHighlighting": "html"
+  },
+  {
+    "code": "css",
+    "name": "CSS",
+    "icon": "🎨",
+    "description": "Styling language for web design and visual presentation",
+    "fileExtension": "css",
+    "syntaxHighlighting": "css"
+  },
+  {
+    "code": "powershell",
+    "name": "PowerShell",
+    "icon": "⚡",
+    "description": "Command-line shell and scripting language for Windows administration",
+    "fileExtension": "ps1",
+    "syntaxHighlighting": "powershell"
+  },
+  {
+    "code": "sql",
+    "name": "SQL",
+    "icon": "🗄️",
+    "description": "Database query language for managing and retrieving data",
+    "fileExtension": "sql",
+    "syntaxHighlighting": "sql"
+  },
+  {
+    "code": "zig",
+    "name": "Zig",
+    "icon": "⚡",
+    "description": "Modern systems programming language focused on performance and safety",
+    "fileExtension": "zig",
+    "syntaxHighlighting": "zig"
+  },
+  {
+    "code": "lua",
+    "name": "Lua",
+    "icon": "🌙",
+    "description": "Lightweight scripting language designed for embedded applications",
+    "fileExtension": "lua",
+    "syntaxHighlighting": "lua"
+  },
+  {
+    "code": "json",
+    "name": "JSON",
+    "icon": "📋",
+    "description": "Data interchange format using human-readable text",
+    "fileExtension": "json",
+    "syntaxHighlighting": "json"
+  },
+  {
+    "code": "yaml",
+    "name": "YAML",
+    "icon": "📄",
+    "description": "Human-readable data serialization standard",
+    "fileExtension": "yaml",
+    "syntaxHighlighting": "yaml"
+  },
+  {
+    "code": "swift",
+    "name": "Swift",
+    "icon": "🦉",
+    "description": "Modern programming language for iOS, macOS, and beyond",
+    "fileExtension": "swift",
+    "syntaxHighlighting": "swift"
+  },
+  {
+    "code": "kotlin",
+    "name": "Kotlin",
+    "icon": "🎯",
+    "description": "Modern programming language for Android and cross-platform development",
+    "fileExtension": "kt",
+    "syntaxHighlighting": "kotlin"
   }
 ]

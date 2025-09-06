@@ -45,6 +45,8 @@ const localStorageKeys = {
   language: "code_selectedLanguage",
   collection: "code_selectedCollection",
   snippet: "code_selectedSnippet",
+  languageRandom: "code_languageRandomMode",
+  collectionRandom: "code_collectionRandomMode",
 };
 
 export default function CodeTyperMode() {
@@ -61,6 +63,12 @@ export default function CodeTyperMode() {
   >(null);
   const [codeSnippets, setCodeSnippets] = useState<CodeSnippet[]>([]);
   const [selectedSnippetIndex, setSelectedSnippetIndex] = useState<number>(0);
+
+  // Random mode states
+  const [languageRandomMode, setLanguageRandomMode] = useState<boolean>(false);
+  const [collectionRandomMode, setCollectionRandomMode] = useState<boolean>(
+    false,
+  );
 
   // Content and UI state
   const [targetText, setTargetText] = useState<string>("");
@@ -262,7 +270,100 @@ export default function CodeTyperMode() {
     localStorage.setItem(localStorageKeys.snippet, randomIndex.toString());
   }, [codeSnippets.length]);
 
-  // Load initial state
+  // Function to load a random snippet from any collection in the language
+  const loadLanguageRandomSnippet = useCallback(async () => {
+    if (!selectedLanguage) return;
+
+    // Reset completion state when loading random content
+    setShowCompletion(false);
+    setGameResult(null);
+    setStartTime(null);
+    finishedSentRef.current = false;
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(
+        `/api/code-collections/random-snippet/${selectedLanguage}`,
+      );
+      if (!response.ok) {
+        throw new Error(`Failed to fetch random snippet: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      // Set the target text directly from the random snippet
+      setTargetText(data.snippet.code);
+
+      // Update collection if it changed
+      if (data.collectionId !== selectedCollectionId) {
+        setSelectedCollectionId(data.collectionId);
+        localStorage.setItem(localStorageKeys.collection, data.collectionId);
+
+        // Find and set collection data
+        try {
+          const collectionResponse = await fetch(
+            `/api/code-collections/collections/${selectedLanguage}`,
+          );
+          if (collectionResponse.ok) {
+            const collections = await collectionResponse.json();
+            const collectionData = collections.find((
+              c: CodeCollectionMetadata,
+            ) => c.id === data.collectionId);
+            if (collectionData) {
+              setSelectedCollectionData(collectionData);
+            }
+          }
+        } catch (e) {
+          console.warn("Failed to update collection data:", e);
+        }
+
+        // Load the full collection to get other snippets
+        try {
+          const snippetsResponse = await fetch(
+            `/api/code-collections/snippets/${selectedLanguage}/${data.collectionId}`,
+          );
+          if (snippetsResponse.ok) {
+            const snippets = await snippetsResponse.json();
+            setCodeSnippets(snippets);
+
+            // Find the index of our random snippet
+            const snippetIndex = snippets.findIndex((s: CodeSnippet) =>
+              s.code === data.snippet.code
+            );
+            if (snippetIndex !== -1) {
+              setSelectedSnippetIndex(snippetIndex);
+              localStorage.setItem(
+                localStorageKeys.snippet,
+                snippetIndex.toString(),
+              );
+            }
+          }
+        } catch (e) {
+          console.warn("Failed to load collection snippets:", e);
+        }
+      } else {
+        // Same collection, just find the snippet index
+        const snippetIndex = codeSnippets.findIndex((s: CodeSnippet) =>
+          s.code === data.snippet.code
+        );
+        if (snippetIndex !== -1) {
+          setSelectedSnippetIndex(snippetIndex);
+          localStorage.setItem(
+            localStorageKeys.snippet,
+            snippetIndex.toString(),
+          );
+        }
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
+      setError(`Error loading random snippet: ${errorMessage}`);
+    }
+
+    setIsLoading(false);
+  }, [selectedLanguage, selectedCollectionId, codeSnippets]);
+
+  // Load initial state including random modes
   useEffect(() => {
     if (initialLoadComplete) return;
 
@@ -271,6 +372,21 @@ export default function CodeTyperMode() {
     setGameResult(null);
     setStartTime(null);
     finishedSentRef.current = false;
+
+    // Load random mode preferences from localStorage
+    const savedLanguageRandom = localStorage.getItem(
+      localStorageKeys.languageRandom,
+    );
+    const savedCollectionRandom = localStorage.getItem(
+      localStorageKeys.collectionRandom,
+    );
+
+    if (savedLanguageRandom === "true") {
+      setLanguageRandomMode(true);
+    }
+    if (savedCollectionRandom === "true") {
+      setCollectionRandomMode(true);
+    }
 
     // Let the individual selectors handle auto-selection
     // This ensures proper data loading flow
@@ -409,6 +525,39 @@ export default function CodeTyperMode() {
     }
   }, [selectedSnippetIndex, codeSnippets.length]);
 
+  // Random mode toggle handlers
+  const handleLanguageRandomToggle = useCallback((enabled: boolean) => {
+    setLanguageRandomMode(enabled);
+    localStorage.setItem(localStorageKeys.languageRandom, enabled.toString());
+
+    // If enabling language random, disable collection random
+    if (enabled && collectionRandomMode) {
+      setCollectionRandomMode(false);
+      localStorage.setItem(localStorageKeys.collectionRandom, "false");
+    }
+
+    // If enabling and we have a language, load a random snippet immediately
+    if (enabled && selectedLanguage) {
+      loadLanguageRandomSnippet();
+    }
+  }, [collectionRandomMode, selectedLanguage, loadLanguageRandomSnippet]);
+
+  const handleCollectionRandomToggle = useCallback((enabled: boolean) => {
+    setCollectionRandomMode(enabled);
+    localStorage.setItem(localStorageKeys.collectionRandom, enabled.toString());
+
+    // If enabling collection random, disable language random
+    if (enabled && languageRandomMode) {
+      setLanguageRandomMode(false);
+      localStorage.setItem(localStorageKeys.languageRandom, "false");
+    }
+
+    // If enabling and we have snippets, load a random snippet immediately
+    if (enabled && codeSnippets.length > 0) {
+      loadRandomSnippet();
+    }
+  }, [languageRandomMode, codeSnippets.length, loadRandomSnippet]);
+
   // Handle practice again
   const handlePracticeAgain = useCallback(() => {
     resetInput();
@@ -418,10 +567,43 @@ export default function CodeTyperMode() {
     finishedSentRef.current = false;
   }, [resetInput]);
 
-  // Handle next exercise
+  // Handle next exercise - use appropriate random mode
   const handleNextExercise = useCallback(() => {
-    loadNextSnippet();
-  }, [loadNextSnippet]);
+    if (languageRandomMode) {
+      loadLanguageRandomSnippet();
+    } else if (collectionRandomMode) {
+      loadRandomSnippet();
+    } else {
+      loadNextSnippet();
+    }
+  }, [
+    languageRandomMode,
+    collectionRandomMode,
+    loadLanguageRandomSnippet,
+    loadRandomSnippet,
+    loadNextSnippet,
+  ]);
+
+  // Auto-trigger random snippet on completion if random modes are enabled
+  useEffect(() => {
+    if (isComplete && !finishedSentRef.current) {
+      const timeoutId = setTimeout(() => {
+        if (languageRandomMode) {
+          loadLanguageRandomSnippet();
+        } else if (collectionRandomMode) {
+          loadRandomSnippet();
+        }
+      }, 2000); // 2 second delay after completion
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [
+    isComplete,
+    languageRandomMode,
+    collectionRandomMode,
+    loadLanguageRandomSnippet,
+    loadRandomSnippet,
+  ]);
 
   return (
     <div class="code-mode-container" ref={containerRef}>
@@ -459,6 +641,8 @@ export default function CodeTyperMode() {
                 <CodeLanguageSelector
                   selectedLanguage={selectedLanguage}
                   onLanguageChange={handleLanguageChange}
+                  randomMode={languageRandomMode}
+                  onRandomModeChange={handleLanguageRandomToggle}
                 />
               </div>
               <div class="selector-item">
@@ -466,6 +650,9 @@ export default function CodeTyperMode() {
                   languageCode={selectedLanguage}
                   selectedCollectionId={selectedCollectionId}
                   onCollectionChange={handleCollectionChange}
+                  randomMode={collectionRandomMode}
+                  onRandomModeChange={handleCollectionRandomToggle}
+                  disabled={languageRandomMode}
                 />
               </div>
             </div>
@@ -510,22 +697,48 @@ export default function CodeTyperMode() {
 
           {/* Action buttons */}
           <div class="code-actions">
-            <button
-              onClick={loadRandomSnippet}
-              class="code-button code-button-random"
-              type="button"
-              disabled={isComplete || codeSnippets.length === 0}
-            >
-              Random Snippet
-            </button>
-            <button
-              onClick={loadNextSnippet}
-              class="code-button code-button-next"
-              type="button"
-              disabled={isComplete || codeSnippets.length <= 1}
-            >
-              Next Snippet
-            </button>
+            {!languageRandomMode && !collectionRandomMode && (
+              <>
+                <button
+                  onClick={loadRandomSnippet}
+                  class="code-button code-button-random"
+                  type="button"
+                  disabled={isComplete || codeSnippets.length === 0}
+                >
+                  Random Snippet
+                </button>
+                <button
+                  onClick={loadNextSnippet}
+                  class="code-button code-button-next"
+                  type="button"
+                  disabled={isComplete || codeSnippets.length <= 1}
+                >
+                  Next Snippet
+                </button>
+              </>
+            )}
+
+            {languageRandomMode && (
+              <button
+                onClick={loadLanguageRandomSnippet}
+                class="code-button code-button-random"
+                type="button"
+                disabled={isComplete || !selectedLanguage}
+              >
+                Random from Language
+              </button>
+            )}
+
+            {collectionRandomMode && !languageRandomMode && (
+              <button
+                onClick={loadRandomSnippet}
+                class="code-button code-button-random"
+                type="button"
+                disabled={isComplete || codeSnippets.length === 0}
+              >
+                Random from Collection
+              </button>
+            )}
           </div>
 
           {/* Completion display with proper metrics */}

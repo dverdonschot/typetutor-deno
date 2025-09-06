@@ -1,0 +1,154 @@
+{
+  "id": "logistics-basics",
+  "name": "Lua Logistics Basics",
+  "description": "Learn Lua scripting with trucking and logistics management themes",
+  "icon": "🚛",
+  "difficulty": "beginner",
+  "language": "lua",
+  "snippets": [
+    {
+      "code": "truck_id = \"TRUCK-001\"\ndriver_name = \"Mike Rodriguez\"\ncargo_weight = 15.5\nis_loaded = true\n\nprint(\"Truck ID: \" .. truck_id)\nprint(\"Driver: \" .. driver_name)\nprint(\"Cargo weight: \" .. cargo_weight .. \" tons\")\nprint(\"Status: \" .. (is_loaded and \"Loaded\" or \"Empty\"))",
+      "title": "Truck Information Variables",
+      "description": "Basic Lua variables for tracking truck data",
+      "tags": ["variables", "strings", "numbers", "booleans", "print"],
+      "difficulty": "beginner",
+      "language": "lua"
+    },
+    {
+      "code": "function calculateDeliveryTime(distance, speed)\n    return distance / speed\nend\n\nfunction formatTime(hours)\n    local whole_hours = math.floor(hours)\n    local minutes = math.floor((hours - whole_hours) * 60)\n    return whole_hours .. \" hours \" .. minutes .. \" minutes\"\nend\n\nlocal delivery_time = calculateDeliveryTime(450, 75)\nprint(\"Estimated delivery: \" .. formatTime(delivery_time))",
+      "title": "Delivery Time Calculator",
+      "description": "Functions for calculating and formatting delivery times",
+      "tags": ["functions", "math", "local", "calculations"],
+      "difficulty": "beginner",
+      "language": "lua"
+    },
+    {
+      "code": "local routes = {\n    \"Highway 101 North\",\n    \"Interstate 85 East\",\n    \"Route 66 West\",\n    \"Coastal Highway South\"\n}\n\nfor i, route in ipairs(routes) do\n    print(\"Route \" .. i .. \": \" .. route)\nend\n\nprint(\"Total routes: \" .. #routes)",
+      "title": "Route Management Array",
+      "description": "Tables and loops for managing delivery routes",
+      "tags": ["tables", "ipairs", "for-loop", "length"],
+      "difficulty": "beginner",
+      "language": "lua"
+    },
+    {
+      "code": "local truck_fleet = {\n    [\"TRUCK-001\"] = {\n        driver = \"Mike Rodriguez\",\n        capacity = 20,\n        fuel_level = 85,\n        location = \"Dallas\"\n    },\n    [\"TRUCK-002\"] = {\n        driver = \"Sarah Chen\",\n        capacity = 25,\n        fuel_level = 92,\n        location = \"Houston\"\n    }\n}\n\nfor truck_id, details in pairs(truck_fleet) do\n    print(truck_id .. \" driven by \" .. details.driver)\n    print(\"  Capacity: \" .. details.capacity .. \" tons\")\n    print(\"  Fuel: \" .. details.fuel_level .. \"%\")\nend",
+      "title": "Fleet Management Table",
+      "description": "Nested tables for storing truck fleet information",
+      "tags": ["nested-tables", "pairs", "key-value"],
+      "difficulty": "beginner",
+      "language": "lua"
+    },
+    {
+      "code": "function checkDeliveryStatus(distance, fuel_range, cargo_weight, capacity)\n    if fuel_range < distance then\n        return \"Need refueling\"\n    elseif cargo_weight > capacity then\n        return \"Overloaded\"\n    elseif distance > 500 then\n        return \"Long haul delivery\"\n    else\n        return \"Ready for delivery\"\n    end\nend\n\nlocal status = checkDeliveryStatus(320, 400, 18, 20)\nprint(\"Delivery status: \" .. status)",
+      "title": "Delivery Status Checker",
+      "description": "Conditional logic for delivery validation",
+      "tags": ["if-elseif", "conditionals", "validation"],
+      "difficulty": "beginner",
+      "language": "lua"
+    },
+    {
+      "code": "local cargo_types = {\"electronics\", \"food\", \"clothing\", \"machinery\"}\nlocal delivery_count = 0\n\nfor i = 1, #cargo_types do\n    local cargo = cargo_types[i]\n    print(\"Loading \" .. cargo .. \"...\")\n    delivery_count = delivery_count + 1\nend\n\nprint(\"Total deliveries scheduled: \" .. delivery_count)",
+      "title": "Cargo Loading Loop",
+      "description": "Numeric for loops for cargo processing",
+      "tags": ["numeric-for", "increment", "counter"],
+      "difficulty": "beginner",
+      "language": "lua"
+    },
+    {
+      "code": "local gps_coordinates = {\n    warehouse = {lat = 32.7767, lon = -96.7970},\n    destination = {lat = 29.7604, lon = -95.3698}\n}\n\nfunction calculateDistance(point1, point2)\n    local lat_diff = point2.lat - point1.lat\n    local lon_diff = point2.lon - point1.lon\n    return math.sqrt(lat_diff^2 + lon_diff^2) * 69  -- Rough miles conversion\nend\n\nlocal distance = calculateDistance(gps_coordinates.warehouse, gps_coordinates.destination)\nprint(string.format(\"Distance: %.1f miles\", distance))",
+      "title": "GPS Distance Calculation",
+      "description": "Mathematical functions for route planning",
+      "tags": ["math-functions", "string-format", "coordinates"],
+      "difficulty": "intermediate",
+      "language": "lua"
+    },
+    {
+      "code": "local delivery_log = {}\n\nfunction logDelivery(truck_id, destination, timestamp)\n    table.insert(delivery_log, {\n        truck = truck_id,\n        location = destination,\n        time = timestamp or os.date(\"%Y-%m-%d %H:%M:%S\")\n    })\nend\n\nlogDelivery(\"TRUCK-001\", \"Austin TX\")\nlogDelivery(\"TRUCK-002\", \"San Antonio TX\")\n\nprint(\"Delivery Log:\")\nfor i, entry in ipairs(delivery_log) do\n    print(entry.time .. \" - \" .. entry.truck .. \" delivered to \" .. entry.location)\nend",
+      "title": "Delivery Logging System",
+      "description": "Table manipulation and timestamp handling",
+      "tags": ["table-insert", "os-date", "timestamps"],
+      "difficulty": "intermediate",
+      "language": "lua"
+    },
+    {
+      "code": "function generateManifest(cargo_list)\n    local manifest = {}\n    local total_weight = 0\n    \n    for _, item in ipairs(cargo_list) do\n        local entry = {\n            description = item.description,\n            weight = item.weight,\n            value = item.value or 0,\n            hazardous = item.hazardous or false\n        }\n        table.insert(manifest, entry)\n        total_weight = total_weight + item.weight\n    end\n    \n    manifest.summary = {\n        total_items = #manifest - 1,  -- Exclude summary itself\n        total_weight = total_weight\n    }\n    \n    return manifest\nend\n\nlocal cargo = {\n    {description = \"Electronics\", weight = 5.2, value = 15000},\n    {description = \"Textiles\", weight = 8.7, value = 3000}\n}\n\nlocal manifest = generateManifest(cargo)\nprint(\"Total weight: \" .. manifest.summary.total_weight .. \" tons\")",
+      "title": "Cargo Manifest Generator",
+      "description": "Complex table operations for cargo management",
+      "tags": ["table-operations", "summary", "complex-data"],
+      "difficulty": "intermediate",
+      "language": "lua"
+    },
+    {
+      "code": "local function createTruckObject(id, driver, capacity)\n    local truck = {\n        id = id,\n        driver = driver,\n        capacity = capacity,\n        current_load = 0,\n        \n        addCargo = function(self, weight)\n            if self.current_load + weight <= self.capacity then\n                self.current_load = self.current_load + weight\n                return true\n            else\n                return false\n            end\n        end,\n        \n        getLoadPercentage = function(self)\n            return (self.current_load / self.capacity) * 100\n        end\n    }\n    return truck\nend\n\nlocal truck = createTruckObject(\"TRUCK-003\", \"Alex Thompson\", 22)\nlocal loaded = truck:addCargo(15.5)\nprint(\"Load successful: \" .. tostring(loaded))\nprint(\"Load percentage: \" .. string.format(\"%.1f%%\", truck:getLoadPercentage()))",
+      "title": "Truck Object Constructor",
+      "description": "Object-oriented programming with metatables",
+      "tags": ["closures", "object-methods", "self"],
+      "difficulty": "intermediate",
+      "language": "lua"
+    },
+    {
+      "code": "local function processDeliveries(deliveries)\n    local results = {}\n    \n    for i, delivery in ipairs(deliveries) do\n        local success, result = pcall(function()\n            if not delivery.address or delivery.address == \"\" then\n                error(\"Missing delivery address\")\n            end\n            if delivery.weight <= 0 then\n                error(\"Invalid cargo weight\")\n            end\n            return \"Delivery \" .. i .. \" processed successfully\"\n        end)\n        \n        table.insert(results, {\n            delivery_id = i,\n            success = success,\n            message = result\n        })\n    end\n    \n    return results\nend\n\nlocal deliveries = {\n    {address = \"123 Main St\", weight = 5.5},\n    {address = \"\", weight = 3.2},  -- Invalid\n    {address = \"456 Oak Ave\", weight = 8.1}\n}\n\nlocal results = processDeliveries(deliveries)\nfor _, result in ipairs(results) do\n    print(\"ID \" .. result.delivery_id .. \": \" .. (result.success and \"OK\" or \"ERROR\"))\nend",
+      "title": "Error Handling for Deliveries",
+      "description": "Protected calls and error handling",
+      "tags": ["pcall", "error", "error-handling"],
+      "difficulty": "intermediate",
+      "language": "lua"
+    },
+    {
+      "code": "local Route = {}\nRoute.__index = Route\n\nfunction Route.new(name, distance, toll_cost)\n    local self = setmetatable({}, Route)\n    self.name = name\n    self.distance = distance\n    self.toll_cost = toll_cost or 0\n    self.traffic_multiplier = 1.0\n    return self\nend\n\nfunction Route:calculateCost(fuel_price, mpg)\n    local fuel_cost = (self.distance / mpg) * fuel_price\n    local total_cost = fuel_cost + self.toll_cost\n    return total_cost * self.traffic_multiplier\nend\n\nfunction Route:setTraffic(multiplier)\n    self.traffic_multiplier = multiplier\nend\n\nlocal route = Route.new(\"I-35 North\", 280, 15.50)\nroute:setTraffic(1.3)  -- Heavy traffic\nlocal cost = route:calculateCost(3.45, 8.2)\nprint(string.format(\"%s route cost: $%.2f\", route.name, cost))",
+      "title": "Route Class with Metatables",
+      "description": "Object-oriented programming using metatables",
+      "tags": ["metatables", "__index", "oop"],
+      "difficulty": "advanced",
+      "language": "lua"
+    },
+    {
+      "code": "local json = require(\"json\")  -- Simulated JSON module\n\nlocal function serializeDeliveryData(truck_data)\n    local serialized = {}\n    for truck_id, data in pairs(truck_data) do\n        serialized[truck_id] = {\n            driver = data.driver,\n            location = data.location,\n            status = data.fuel_level > 25 and \"operational\" or \"needs_fuel\",\n            timestamp = os.time()\n        }\n    end\n    return serialized\nend\n\nlocal truck_data = {\n    [\"TRUCK-001\"] = {driver = \"Mike\", location = \"Dallas\", fuel_level = 45},\n    [\"TRUCK-002\"] = {driver = \"Sarah\", location = \"Houston\", fuel_level = 15}\n}\n\nlocal serialized = serializeDeliveryData(truck_data)\nfor truck_id, data in pairs(serialized) do\n    print(truck_id .. \": \" .. data.driver .. \" (\" .. data.status .. \")\")\nend",
+      "title": "Data Serialization System",
+      "description": "Converting truck data for external systems",
+      "tags": ["serialization", "data-transformation", "status"],
+      "difficulty": "advanced",
+      "language": "lua"
+    },
+    {
+      "code": "local LogisticsManager = {}\n\nfunction LogisticsManager.new()\n    local manager = {\n        trucks = {},\n        routes = {},\n        active_deliveries = {}\n    }\n    \n    setmetatable(manager, {__index = LogisticsManager})\n    return manager\nend\n\nfunction LogisticsManager:assignDelivery(truck_id, route, cargo)\n    if not self.trucks[truck_id] then\n        return false, \"Truck not found\"\n    end\n    \n    local delivery_id = \"DEL-\" .. os.time()\n    self.active_deliveries[delivery_id] = {\n        truck_id = truck_id,\n        route = route,\n        cargo = cargo,\n        status = \"assigned\",\n        created_at = os.date(\"%Y-%m-%d %H:%M:%S\")\n    }\n    \n    return true, delivery_id\nend\n\nlocal manager = LogisticsManager.new()\nmanager.trucks[\"TRUCK-001\"] = {driver = \"Mike\", available = true}\n\nlocal success, delivery_id = manager:assignDelivery(\"TRUCK-001\", \"Route-A\", \"Electronics\")\nif success then\n    print(\"Delivery assigned: \" .. delivery_id)\nelse\n    print(\"Assignment failed: \" .. delivery_id)\nend",
+      "title": "Logistics Management System",
+      "description": "Complex object system for logistics operations",
+      "tags": ["complex-objects", "management", "assignment"],
+      "difficulty": "advanced",
+      "language": "lua"
+    },
+    {
+      "code": "local function createEventSystem()\n    local events = {}\n    local listeners = {}\n    \n    local eventSystem = {\n        subscribe = function(event_type, callback)\n            if not listeners[event_type] then\n                listeners[event_type] = {}\n            end\n            table.insert(listeners[event_type], callback)\n        end,\n        \n        emit = function(event_type, data)\n            if listeners[event_type] then\n                for _, callback in ipairs(listeners[event_type]) do\n                    callback(data)\n                end\n            end\n        end,\n        \n        log = function(event_type, data)\n            table.insert(events, {\n                type = event_type,\n                data = data,\n                timestamp = os.time()\n            })\n        end\n    }\n    \n    return eventSystem\nend\n\nlocal dispatcher = createEventSystem()\n\ndispatcher.subscribe(\"truck_departed\", function(data)\n    print(\"Truck \" .. data.truck_id .. \" departed for \" .. data.destination)\nend)\n\ndispatcher.emit(\"truck_departed\", {truck_id = \"TRUCK-001\", destination = \"Austin\"})",
+      "title": "Event-Driven Dispatch System",
+      "description": "Event system for real-time logistics tracking",
+      "tags": ["events", "callbacks", "dispatch"],
+      "difficulty": "advanced",
+      "language": "lua"
+    },
+    {
+      "code": "local co = coroutine.create(function()\n    local deliveries = {\"Austin\", \"San Antonio\", \"Houston\", \"Dallas\"}\n    \n    for i, city in ipairs(deliveries) do\n        print(\"Starting delivery to \" .. city)\n        coroutine.yield(\"In transit to \" .. city)\n        print(\"Delivered to \" .. city)\n        \n        if i < #deliveries then\n            coroutine.yield(\"Loading next cargo\")\n        end\n    end\n    \n    return \"All deliveries completed\"\nend)\n\nlocal status = \"running\"\nwhile status ~= \"dead\" do\n    local success, message = coroutine.resume(co)\n    if success and message then\n        print(\"Status: \" .. message)\n    end\n    status = coroutine.status(co)\n    \n    if status ~= \"dead\" then\n        print(\"--- Continuing route ---\")\n    end\nend",
+      "title": "Delivery Route Coroutine",
+      "description": "Coroutines for managing sequential deliveries",
+      "tags": ["coroutine", "yield", "resume"],
+      "difficulty": "advanced",
+      "language": "lua"
+    },
+    {
+      "code": "local function optimizeRoutes(locations, start_point)\n    -- Simple nearest neighbor algorithm simulation\n    local unvisited = {}\n    for i, location in ipairs(locations) do\n        unvisited[i] = location\n    end\n    \n    local route = {start_point}\n    local current = start_point\n    \n    while #unvisited > 0 do\n        local nearest_idx = 1\n        local nearest_distance = math.huge\n        \n        for i, location in ipairs(unvisited) do\n            -- Simplified distance calculation\n            local distance = math.abs(current.x - location.x) + math.abs(current.y - location.y)\n            if distance < nearest_distance then\n                nearest_distance = distance\n                nearest_idx = i\n            end\n        end\n        \n        current = unvisited[nearest_idx]\n        table.insert(route, current)\n        table.remove(unvisited, nearest_idx)\n    end\n    \n    return route\nend\n\nlocal warehouse = {x = 0, y = 0, name = \"Warehouse\"}\nlocal stops = {\n    {x = 5, y = 3, name = \"Store A\"},\n    {x = 2, y = 8, name = \"Store B\"},\n    {x = 7, y = 1, name = \"Store C\"}\n}\n\nlocal optimized = optimizeRoutes(stops, warehouse)\nfor i, stop in ipairs(optimized) do\n    print(\"Stop \" .. i .. \": \" .. stop.name)\nend",
+      "title": "Route Optimization Algorithm",
+      "description": "Advanced algorithm for optimal delivery routing",
+      "tags": ["algorithms", "optimization", "nearest-neighbor"],
+      "difficulty": "advanced",
+      "language": "lua"
+    },
+    {
+      "code": "local function createTruckSimulator()\n    local state = {\n        fuel = 100,\n        speed = 0,\n        position = 0,\n        destination = 500,\n        engine_temp = 180,\n        cargo_weight = 0\n    }\n    \n    local actions = {\n        accelerate = function(amount)\n            state.speed = math.min(state.speed + amount, 75)\n            state.fuel = state.fuel - (amount * 0.1)\n            state.engine_temp = state.engine_temp + (amount * 0.5)\n        end,\n        \n        brake = function(amount)\n            state.speed = math.max(state.speed - amount, 0)\n            state.engine_temp = math.max(state.engine_temp - (amount * 0.2), 160)\n        end,\n        \n        drive = function(hours)\n            local distance = state.speed * hours\n            state.position = state.position + distance\n            state.fuel = state.fuel - (distance * 0.08)\n            \n            if state.position >= state.destination then\n                return \"Destination reached!\"\n            elseif state.fuel <= 0 then\n                return \"Out of fuel!\"\n            elseif state.engine_temp > 220 then\n                return \"Engine overheated!\"\n            else\n                return string.format(\"Traveled %.1f miles, %.1f miles to go\", distance, state.destination - state.position)\n            end\n        end,\n        \n        getStatus = function()\n            return state\n        end\n    }\n    \n    return actions\nend\n\nlocal truck = createTruckSimulator()\ntruck.accelerate(25)\nprint(truck.drive(2))\nlocal status = truck.getStatus()\nprint(string.format(\"Speed: %.0f mph, Fuel: %.1f%%, Temp: %.0f°F\", status.speed, status.fuel, status.engine_temp))",
+      "title": "Advanced Truck Simulator",
+      "description": "Complex state machine for truck simulation",
+      "tags": ["simulation", "state-machine", "complex-logic"],
+      "difficulty": "advanced",
+      "language": "lua"
+    }
+  ]
+}

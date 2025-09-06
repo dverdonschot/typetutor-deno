@@ -1,0 +1,170 @@
+{
+  "id": "seaworld-basics",
+  "name": "Bash Seaworld Basics",
+  "description": "Learn Bash scripting with sea creatures and ocean adventures",
+  "icon": "🐋",
+  "difficulty": "beginner",
+  "language": "bash",
+  "snippets": [
+    {
+      "code": "#!/bin/bash\nwhale_name=\"Blue Whale\"\nocean_depth=200\nis_endangered=true\n\necho \"Creature: $whale_name\"\necho \"Diving depth: $ocean_depth meters\"\necho \"Endangered status: $is_endangered\"",
+      "title": "Variables and Output",
+      "description": "Basic variables and echo commands with whale data",
+      "tags": ["variables", "echo", "strings", "numbers", "booleans"],
+      "difficulty": "beginner",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\nread -p \"Enter dolphin name: \" dolphin_name\nread -p \"Enter pod size: \" pod_size\n\necho \"Welcome $dolphin_name!\"\necho \"Your pod has $pod_size dolphins\"\necho \"Swimming in the deep blue sea...\"",
+      "title": "User Input with Dolphins",
+      "description": "Reading user input and displaying dolphin pod information",
+      "tags": ["read", "input", "prompts"],
+      "difficulty": "beginner",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\nshark_speed=50\nmin_speed=30\n\nif [ $shark_speed -gt $min_speed ]; then\n  echo \"Great White is fast enough to hunt!\"\nelse\n  echo \"Shark needs to swim faster\"\nfi\necho \"Current speed: $shark_speed km/h\"",
+      "title": "Conditionals with Sharks",
+      "description": "If-else statements for comparing shark speeds",
+      "tags": ["if", "conditionals", "comparison", "gt"],
+      "difficulty": "beginner",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\nfor sea_animal in whale dolphin shark turtle octopus; do\n  echo \"Spotted a $sea_animal in the ocean!\"\n  echo \"Adding to marine life log...\"\ndone\necho \"Marine survey complete\"",
+      "title": "For Loops with Sea Animals",
+      "description": "Iterating through a list of marine creatures",
+      "tags": ["for", "loops", "lists"],
+      "difficulty": "beginner",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\nplankton_count=1\nmax_plankton=1000\n\nwhile [ $plankton_count -le $max_plankton ]; do\n  echo \"Plankton #$plankton_count floating by\"\n  plankton_count=$((plankton_count * 2))\ndone\necho \"Plankton bloom observed!\"",
+      "title": "While Loops with Plankton",
+      "description": "While loop demonstrating plankton population growth",
+      "tags": ["while", "loops", "arithmetic", "le"],
+      "difficulty": "beginner",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\ncount_fish() {\n  local species=$1\n  local count=$2\n  echo \"Found $count $species in the reef\"\n  return $count\n}\n\ncount_fish \"clownfish\" 25\ncount_fish \"angelfish\" 12\necho \"Fish counting complete\"",
+      "title": "Functions for Fish Counting",
+      "description": "Creating functions with parameters for marine biology",
+      "tags": ["functions", "parameters", "local", "return"],
+      "difficulty": "beginner",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\ncase $1 in\n  \"whale\") echo \"Largest marine mammal\" ;;\n  \"dolphin\") echo \"Intelligent and social\" ;;\n  \"shark\") echo \"Apex predator of the seas\" ;;\n  \"turtle\") echo \"Ancient ocean navigator\" ;;\n  *) echo \"Unknown sea creature\" ;;\nesac",
+      "title": "Case Statements for Sea Creatures",
+      "description": "Using case statements to classify marine animals",
+      "tags": ["case", "arguments", "classification"],
+      "difficulty": "beginner",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\nsea_creatures=(\"whale\" \"shark\" \"dolphin\" \"octopus\" \"jellyfish\")\necho \"Total creatures: ${#sea_creatures[@]}\"\necho \"First creature: ${sea_creatures[0]}\"\necho \"All creatures: ${sea_creatures[@]}\"\nsea_creatures+=(\"seahorse\")\necho \"Added seahorse: ${sea_creatures[@]}\"",
+      "title": "Arrays of Marine Life",
+      "description": "Working with arrays to store sea creature data",
+      "tags": ["arrays", "indexing", "append"],
+      "difficulty": "beginner",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\necho \"Creating ocean depth log...\"\necho \"Depth,Creature,Temperature\" > ocean_log.csv\necho \"100,Tuna,18C\" >> ocean_log.csv\necho \"500,Squid,12C\" >> ocean_log.csv\necho \"1000,Anglerfish,4C\" >> ocean_log.csv\necho \"Ocean log created successfully!\"",
+      "title": "File Operations for Ocean Data",
+      "description": "Creating and writing to files with marine data",
+      "tags": ["files", "redirection", "csv"],
+      "difficulty": "beginner",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\nif [ -f \"ocean_log.csv\" ]; then\n  echo \"Reading ocean data:\"\n  cat ocean_log.csv\n  echo \"Total entries: $(wc -l < ocean_log.csv)\"\nelse\n  echo \"Ocean log not found!\"\nfi",
+      "title": "Reading Ocean Files",
+      "description": "Checking file existence and reading marine data",
+      "tags": ["file-test", "cat", "wc"],
+      "difficulty": "beginner",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\nocean_temp=$(echo \"scale=2; 15.5 + 2.3\" | bc)\nwater_pressure=$(echo \"$ocean_temp * 1.5\" | bc)\necho \"Ocean temperature: ${ocean_temp}°C\"\necho \"Water pressure: $water_pressure atm\"\necho \"Conditions suitable for coral growth\"",
+      "title": "Ocean Mathematics",
+      "description": "Calculating ocean conditions with floating point math",
+      "tags": ["bc", "arithmetic", "scale"],
+      "difficulty": "beginner",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\nfind_treasure() {\n  local depth=$1\n  if [ $depth -gt 50 ]; then\n    echo \"Diving to $depth meters...\"\n    echo \"Found sunken treasure chest!\"\n  else\n    echo \"Too shallow, keep diving deeper\"\n  fi\n}\n\nfind_treasure 25\nfind_treasure 75",
+      "title": "Deep Sea Treasure Hunt",
+      "description": "Functions with conditionals for underwater exploration",
+      "tags": ["functions", "conditionals", "depth"],
+      "difficulty": "intermediate",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\nfor depth in {10..100..10}; do\n  if [ $((depth % 30)) -eq 0 ]; then\n    echo \"Depth $depth: Coral reef zone\"\n  else\n    echo \"Depth $depth: Open water\"\n  fi\ndone",
+      "title": "Ocean Zone Mapping",
+      "description": "Using range loops and modulo for depth zones",
+      "tags": ["range", "modulo", "zones"],
+      "difficulty": "intermediate",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\necho \"Marine life spotted today:\" | tee daily_log.txt\necho \"Dolphins: 8\" | tee -a daily_log.txt\necho \"Whales: 2\" | tee -a daily_log.txt\necho \"Sharks: 1\" | tee -a daily_log.txt\necho \"Log saved and displayed!\"",
+      "title": "Marine Life Logging",
+      "description": "Using tee command to log marine observations",
+      "tags": ["tee", "logging", "append"],
+      "difficulty": "intermediate",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\ngrep -i \"whale\" ocean_log.csv | while read line; do\n  echo \"Whale sighting: $line\"\n  echo \"Alerting marine biologists...\"\ndone\necho \"Whale monitoring complete\"",
+      "title": "Whale Tracking Pipeline",
+      "description": "Using pipes and while loops for data processing",
+      "tags": ["grep", "pipes", "while-read"],
+      "difficulty": "intermediate",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\nset -e\nbackup_dir=\"/tmp/ocean_backup_$(date +%Y%m%d)\"\nmkdir -p \"$backup_dir\"\ncp *.csv \"$backup_dir\" 2>/dev/null || echo \"No CSV files found\"\necho \"Ocean data backed up to $backup_dir\"",
+      "title": "Ocean Data Backup",
+      "description": "Error handling and date formatting for backups",
+      "tags": ["set", "date", "mkdir", "error-handling"],
+      "difficulty": "intermediate",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\nmonitor_temperature() {\n  while true; do\n    temp=$(( RANDOM % 30 + 10 ))\n    echo \"$(date): Ocean temp ${temp}°C\"\n    [ $temp -gt 28 ] && echo \"WARNING: High temperature!\"\n    sleep 2\n  done\n}\n\nmonitor_temperature",
+      "title": "Temperature Monitoring System",
+      "description": "Infinite loops for real-time ocean monitoring",
+      "tags": ["infinite-loop", "random", "sleep"],
+      "difficulty": "intermediate",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\nprocess_sonar_data() {\n  local sonar_file=$1\n  echo \"Processing sonar data from $sonar_file\"\n  local fish_count=$(grep -c \"fish\" \"$sonar_file\" 2>/dev/null || echo 0)\n  echo \"Detected $fish_count fish schools\"\n  return $fish_count\n}\n\nprocess_sonar_data \"sonar.log\"",
+      "title": "Sonar Data Processing",
+      "description": "Advanced function with error handling and return values",
+      "tags": ["functions", "grep-count", "error-handling"],
+      "difficulty": "intermediate",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\nexport OCEAN_RESEARCH_STATION=\"Pacific Deep\"\nexport DIVE_DEPTH_LIMIT=200\n\necho \"Research Station: $OCEAN_RESEARCH_STATION\"\necho \"Maximum dive depth: $DIVE_DEPTH_LIMIT meters\"\necho \"Environment configured for deep sea research!\"",
+      "title": "Ocean Research Environment",
+      "description": "Setting up environment variables for marine research",
+      "tags": ["export", "environment", "configuration"],
+      "difficulty": "advanced",
+      "language": "bash"
+    },
+    {
+      "code": "#!/bin/bash\ngenerate_report() {\n  echo \"=== DAILY OCEAN REPORT ===\"\n  echo \"Date: $(date '+%Y-%m-%d %H:%M')\"\n  echo \"Weather: $([[ $(date +%u) -le 5 ]] && echo 'Calm seas' || echo 'Stormy weather')\"\n  echo \"Visibility: $((RANDOM % 50 + 10))m\"\n  echo \"Report generated successfully!\"\n}\n\ngenerate_report > \"ocean_report_$(date +%Y%m%d).txt\"",
+      "title": "Automated Ocean Reports",
+      "description": "Complex script combining multiple concepts for reporting",
+      "tags": ["complex", "date-formatting", "redirection", "random"],
+      "difficulty": "advanced",
+      "language": "bash"
+    }
+  ]
+}

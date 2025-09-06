@@ -1,0 +1,162 @@
+{
+  "id": "it-consultancy-basics",
+  "name": "Zig IT Consultancy Basics",
+  "description": "Learn Zig programming with IT consulting and business solutions themes",
+  "icon": "💼",
+  "difficulty": "beginner",
+  "language": "zig",
+  "snippets": [
+    {
+      "code": "const std = @import(\"std\");\n\nconst client_name = \"TechCorp Solutions\";\nconst project_budget: u32 = 50000;\nconst is_priority: bool = true;\n\nconst print = std.debug.print;\n\npub fn main() void {\n    print(\"Client: {s}\\n\", .{client_name});\n    print(\"Budget: ${d}\\n\", .{project_budget});\n    print(\"Priority: {any}\\n\", .{is_priority});\n}",
+      "title": "Client Project Variables",
+      "description": "Basic Zig variables and constants for client management",
+      "tags": ["const", "variables", "types", "print"],
+      "difficulty": "beginner",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\n\nfn calculateHourlyRate(experience_years: u8) u16 {\n    const base_rate: u16 = 75;\n    return base_rate + (experience_years * 5);\n}\n\npub fn main() void {\n    const consultant_rate = calculateHourlyRate(8);\n    std.debug.print(\"Consultant rate: ${d}/hour\\n\", .{consultant_rate});\n}",
+      "title": "Consultant Rate Calculator",
+      "description": "Functions for calculating consulting fees",
+      "tags": ["functions", "parameters", "return", "arithmetic"],
+      "difficulty": "beginner",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\n\nconst ServiceType = enum {\n    web_development,\n    database_design,\n    cloud_migration,\n    security_audit,\n};\n\npub fn main() void {\n    const current_service = ServiceType.cloud_migration;\n    std.debug.print(\"Service: {any}\\n\", .{current_service});\n}",
+      "title": "IT Service Categories",
+      "description": "Using enums to categorize consulting services",
+      "tags": ["enum", "types", "categorization"],
+      "difficulty": "beginner",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\n\nconst Client = struct {\n    name: []const u8,\n    industry: []const u8,\n    employees: u16,\n    annual_revenue: u32,\n};\n\npub fn main() void {\n    const enterprise_client = Client{\n        .name = \"Global Finance Corp\",\n        .industry = \"Banking\",\n        .employees = 2500,\n        .annual_revenue = 1200000000,\n    };\n    std.debug.print(\"{s} has {d} employees\\n\", .{enterprise_client.name, enterprise_client.employees});\n}",
+      "title": "Client Data Structure",
+      "description": "Struct definition for storing client information",
+      "tags": ["struct", "fields", "initialization"],
+      "difficulty": "beginner",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\n\nfn assessProjectComplexity(requirements: u8, timeline_weeks: u8) []const u8 {\n    const complexity_score = requirements * timeline_weeks;\n    \n    if (complexity_score < 50) {\n        return \"Simple\";\n    } else if (complexity_score < 150) {\n        return \"Moderate\";\n    } else {\n        return \"Complex\";\n    }\n}\n\npub fn main() void {\n    const result = assessProjectComplexity(12, 8);\n    std.debug.print(\"Project complexity: {s}\\n\", .{result});\n}",
+      "title": "Project Assessment Logic",
+      "description": "Conditional statements for project evaluation",
+      "tags": ["if-else", "conditionals", "logic"],
+      "difficulty": "beginner",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\n\npub fn main() void {\n    const project_phases = [_][]const u8{\n        \"Requirements Analysis\",\n        \"System Design\",\n        \"Development\",\n        \"Testing\",\n        \"Deployment\",\n    };\n    \n    for (project_phases, 0..) |phase, index| {\n        std.debug.print(\"Phase {d}: {s}\\n\", .{index + 1, phase});\n    }\n}",
+      "title": "Project Phase Tracking",
+      "description": "Arrays and loops for project management",
+      "tags": ["arrays", "for-loop", "iteration"],
+      "difficulty": "beginner",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\n\nconst ProjectStatus = enum {\n    planning,\n    in_progress,\n    testing,\n    deployed,\n    maintenance,\n};\n\nfn getStatusDescription(status: ProjectStatus) []const u8 {\n    return switch (status) {\n        .planning => \"Gathering requirements\",\n        .in_progress => \"Active development\",\n        .testing => \"Quality assurance phase\",\n        .deployed => \"Live in production\",\n        .maintenance => \"Ongoing support\",\n    };\n}\n\npub fn main() void {\n    const current_status = ProjectStatus.testing;\n    std.debug.print(\"{s}\\n\", .{getStatusDescription(current_status)});\n}",
+      "title": "Project Status Management",
+      "description": "Switch statements for status handling",
+      "tags": ["switch", "enum-matching", "status"],
+      "difficulty": "intermediate",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\n\nconst ProjectError = error{\n    BudgetExceeded,\n    DeadlineMissed,\n    ResourceUnavailable,\n};\n\nfn validateProject(budget: u32, deadline_days: u8) ProjectError!void {\n    if (budget > 100000) return ProjectError.BudgetExceeded;\n    if (deadline_days < 14) return ProjectError.DeadlineMissed;\n}\n\npub fn main() void {\n    validateProject(75000, 30) catch |err| {\n        std.debug.print(\"Project validation failed: {any}\\n\", .{err});\n    };\n}",
+      "title": "Project Validation System",
+      "description": "Error handling for project constraints",
+      "tags": ["error-types", "try", "catch"],
+      "difficulty": "intermediate",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\nconst Allocator = std.mem.Allocator;\n\nfn createTeamList(allocator: Allocator, size: usize) ![][]const u8 {\n    var team = try allocator.alloc([]const u8, size);\n    team[0] = \"Project Manager\";\n    team[1] = \"Lead Developer\";\n    team[2] = \"QA Engineer\";\n    return team;\n}\n\npub fn main() !void {\n    var gpa = std.heap.GeneralPurposeAllocator(.{}){};\n    defer _ = gpa.deinit();\n    const allocator = gpa.allocator();\n    \n    const team = try createTeamList(allocator, 3);\n    defer allocator.free(team);\n    \n    std.debug.print(\"Team lead: {s}\\n\", .{team[1]});\n}",
+      "title": "Dynamic Team Allocation",
+      "description": "Memory management for team structures",
+      "tags": ["allocator", "memory", "defer"],
+      "difficulty": "intermediate",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\n\nconst ConsultingRate = struct {\n    junior: f32 = 65.0,\n    senior: f32 = 95.0,\n    principal: f32 = 150.0,\n    \n    pub fn calculateCost(self: ConsultingRate, level: []const u8, hours: f32) f32 {\n        const rate = if (std.mem.eql(u8, level, \"junior\")) self.junior\n                    else if (std.mem.eql(u8, level, \"senior\")) self.senior\n                    else self.principal;\n        return rate * hours;\n    }\n};\n\npub fn main() void {\n    const rates = ConsultingRate{};\n    const cost = rates.calculateCost(\"senior\", 40.0);\n    std.debug.print(\"Total cost: ${d:.2}\\n\", .{cost});\n}",
+      "title": "Consulting Cost Calculator",
+      "description": "Struct methods for business calculations",
+      "tags": ["struct-methods", "self", "calculations"],
+      "difficulty": "intermediate",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\n\nfn processClientData(comptime T: type, data: []const T) void {\n    std.debug.print(\"Processing {d} records of type {any}\\n\", .{data.len, T});\n    for (data, 0..) |item, index| {\n        std.debug.print(\"Record {d}: {any}\\n\", .{index, item});\n    }\n}\n\npub fn main() void {\n    const client_ids = [_]u32{1001, 1002, 1003};\n    const project_names = [_][]const u8{\"Website\", \"Database\", \"Mobile App\"};\n    \n    processClientData(u32, &client_ids);\n    processClientData([]const u8, &project_names);\n}",
+      "title": "Generic Data Processing",
+      "description": "Generic functions for handling different data types",
+      "tags": ["comptime", "generic", "type-parameters"],
+      "difficulty": "advanced",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\nconst ArrayList = std.ArrayList;\n\npub fn main() !void {\n    var gpa = std.heap.GeneralPurposeAllocator(.{}){};\n    defer _ = gpa.deinit();\n    const allocator = gpa.allocator();\n    \n    var project_tasks = ArrayList([]const u8).init(allocator);\n    defer project_tasks.deinit();\n    \n    try project_tasks.append(\"Database schema design\");\n    try project_tasks.append(\"API development\");\n    try project_tasks.append(\"Frontend implementation\");\n    \n    for (project_tasks.items, 0..) |task, i| {\n        std.debug.print(\"Task {d}: {s}\\n\", .{i + 1, task});\n    }\n}",
+      "title": "Dynamic Task Management",
+      "description": "ArrayList for managing project tasks",
+      "tags": ["arraylist", "append", "dynamic"],
+      "difficulty": "advanced",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\nconst testing = std.testing;\n\nfn calculateProjectDuration(tasks: u8, team_size: u8) u8 {\n    return (tasks * 2) / team_size;\n}\n\ntest \"project duration calculation\" {\n    const duration = calculateProjectDuration(20, 4);\n    try testing.expect(duration == 10);\n    \n    const small_project = calculateProjectDuration(8, 2);\n    try testing.expect(small_project == 8);\n}",
+      "title": "Project Planning Tests",
+      "description": "Unit testing for business logic functions",
+      "tags": ["testing", "expect", "unit-tests"],
+      "difficulty": "advanced",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\nconst Thread = std.Thread;\n\nfn processClientRequests(thread_id: u32) void {\n    std.debug.print(\"Thread {d}: Processing client requests\\n\", .{thread_id});\n    std.time.sleep(1000000000); // 1 second\n    std.debug.print(\"Thread {d}: Requests completed\\n\", .{thread_id});\n}\n\npub fn main() !void {\n    var threads: [3]Thread = undefined;\n    \n    for (&threads, 0..) |*thread, i| {\n        thread.* = try Thread.spawn(.{}, processClientRequests, .{@intCast(u32, i)});\n    }\n    \n    for (threads) |thread| {\n        thread.join();\n    }\n    \n    std.debug.print(\"All client requests processed\\n\");\n}",
+      "title": "Concurrent Request Processing",
+      "description": "Multi-threading for handling multiple clients",
+      "tags": ["threads", "spawn", "concurrent"],
+      "difficulty": "advanced",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\n\nconst ConfigError = error{ InvalidFormat, MissingField };\n\nconst ServerConfig = struct {\n    host: []const u8,\n    port: u16,\n    ssl_enabled: bool,\n    \n    pub fn fromJson(json_str: []const u8) ConfigError!ServerConfig {\n        // Simplified JSON parsing simulation\n        if (json_str.len < 10) return ConfigError.InvalidFormat;\n        \n        return ServerConfig{\n            .host = \"production.server.com\",\n            .port = 8080,\n            .ssl_enabled = true,\n        };\n    }\n};\n\npub fn main() !void {\n    const config_json = \"{\\\"host\\\":\\\"prod.com\\\",\\\"port\\\":8080}\";\n    const config = ServerConfig.fromJson(config_json) catch |err| {\n        std.debug.print(\"Config error: {any}\\n\", .{err});\n        return;\n    };\n    std.debug.print(\"Server: {s}:{d}\\n\", .{config.host, config.port});\n}",
+      "title": "Configuration Management",
+      "description": "Parsing and validating system configurations",
+      "tags": ["error-handling", "parsing", "configuration"],
+      "difficulty": "advanced",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\nconst builtin = @import(\"builtin\");\n\nconst DeploymentTarget = enum {\n    development,\n    staging,\n    production,\n};\n\nfn getOptimizationLevel() []const u8 {\n    return switch (builtin.mode) {\n        .Debug => \"No optimization - Development build\",\n        .ReleaseSafe => \"Safe optimization - Staging build\",\n        .ReleaseFast => \"Maximum performance - Production build\",\n        .ReleaseSmall => \"Size optimization - Embedded deployment\",\n    };\n}\n\npub fn main() void {\n    std.debug.print(\"Build info: {s}\\n\", .{getOptimizationLevel()});\n    std.debug.print(\"Target: {any}\\n\", .{builtin.target});\n    std.debug.print(\"Architecture: {any}\\n\", .{builtin.cpu.arch});\n}",
+      "title": "Build Configuration Analysis",
+      "description": "Compile-time build information for deployments",
+      "tags": ["builtin", "compile-time", "build-info"],
+      "difficulty": "advanced",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\nconst math = std.math;\n\ninline fn calculateSLA(uptime_hours: f64, total_hours: f64) f64 {\n    return (uptime_hours / total_hours) * 100.0;\n}\n\nfn generatePerformanceReport() void {\n    const systems = [_]struct { name: []const u8, uptime: f64, total: f64 }{\n        .{ .name = \"Web Server\", .uptime = 8736.0, .total = 8760.0 },\n        .{ .name = \"Database\", .uptime = 8752.0, .total = 8760.0 },\n        .{ .name = \"Cache Layer\", .uptime = 8720.0, .total = 8760.0 },\n    };\n    \n    for (systems) |system| {\n        const sla = calculateSLA(system.uptime, system.total);\n        std.debug.print(\"{s}: {d:.3}% uptime\\n\", .{system.name, sla});\n    }\n}\n\npub fn main() void {\n    std.debug.print(\"=== System Performance Report ===\\n\");\n    generatePerformanceReport();\n}",
+      "title": "System Performance Reporting",
+      "description": "Advanced calculations for SLA monitoring",
+      "tags": ["inline", "performance", "calculations"],
+      "difficulty": "advanced",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\nconst Allocator = std.mem.Allocator;\nconst HashMap = std.HashMap;\n\nconst ClientMetrics = struct {\n    requests: u32,\n    response_time: f32,\n    success_rate: f32,\n};\n\npub fn main() !void {\n    var gpa = std.heap.GeneralPurposeAllocator(.{}){};\n    defer _ = gpa.deinit();\n    const allocator = gpa.allocator();\n    \n    var client_stats = HashMap(u32, ClientMetrics, std.hash_map.default_hash, std.hash_map.default_eql, std.hash_map.default_max_load_percentage).init(allocator);\n    defer client_stats.deinit();\n    \n    try client_stats.put(1001, ClientMetrics{ .requests = 1250, .response_time = 0.045, .success_rate = 99.8 });\n    try client_stats.put(1002, ClientMetrics{ .requests = 890, .response_time = 0.032, .success_rate = 100.0 });\n    \n    const client_1001_stats = client_stats.get(1001).?;\n    std.debug.print(\"Client 1001: {d} requests, {d:.1}% success\\n\", .{client_1001_stats.requests, client_1001_stats.success_rate});\n}",
+      "title": "Advanced Client Analytics",
+      "description": "HashMap for storing complex client metrics",
+      "tags": ["hashmap", "analytics", "metrics"],
+      "difficulty": "advanced",
+      "language": "zig"
+    },
+    {
+      "code": "const std = @import(\"std\");\nconst print = std.debug.print;\n\ncomptime {\n    const project_count = 15;\n    const avg_duration = 8; // weeks\n    const total_weeks = project_count * avg_duration;\n    \n    if (total_weeks > 100) {\n        @compileError(\"Project portfolio exceeds capacity: \" ++ std.fmt.comptimePrint(\"{d} weeks\", .{total_weeks}));\n    }\n}\n\nconst MAX_CONCURRENT_PROJECTS = 5;\n\npub fn main() void {\n    print(\"IT Consultancy Management System Initialized\\n\");\n    print(\"Maximum concurrent projects: {d}\\n\", .{MAX_CONCURRENT_PROJECTS});\n    print(\"System validated at compile time\\n\");\n}",
+      "title": "Compile-Time Business Validation",
+      "description": "Using compile-time checks for business rules",
+      "tags": ["comptime", "compile-error", "validation"],
+      "difficulty": "advanced",
+      "language": "zig"
+    }
+  ]
+}
