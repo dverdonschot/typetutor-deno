@@ -13,6 +13,8 @@ import { UserStatsManager } from "../utils/userStatsManager.ts";
 import { DetailedGameResult } from "../types/userStats.ts";
 import CodeLanguageSelector from "../components/CodeLanguageSelector.tsx";
 import CodeCollectionSelector from "../components/CodeCollectionSelector.tsx";
+import CodeSourceSelector from "../components/CodeSourceSelector.tsx";
+import GitHubUrlInput from "../components/GitHubUrlInput.tsx";
 
 interface Language {
   code: string;
@@ -45,11 +47,34 @@ const localStorageKeys = {
   language: "code_selectedLanguage",
   collection: "code_selectedCollection",
   snippet: "code_selectedSnippet",
-  languageRandom: "code_languageRandomMode",
-  collectionRandom: "code_collectionRandomMode",
+  sourceType: "code_sourceType",
+  githubUrl: "code_githubUrl",
 };
 
+interface GitHubFileInfo {
+  user: string;
+  repo: string;
+  branch: string;
+  path: string;
+  fileName: string;
+  fileExtension: string;
+  url: string;
+}
+
 export default function CodeTyperMode() {
+  // Source type state
+  const [sourceType, setSourceType] = useState<"collections" | "github">(
+    "collections",
+  );
+
+  // GitHub-specific state
+  const [githubUrl, setGithubUrl] = useState<string>("");
+  const [githubFileInfo, setGithubFileInfo] = useState<GitHubFileInfo | null>(
+    null,
+  );
+  const [githubLoading, setGithubLoading] = useState<boolean>(false);
+  const [githubError, setGithubError] = useState<string | null>(null);
+
   // Selection state for new collection system
   const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
   const [selectedLanguageData, setSelectedLanguageData] = useState<
@@ -120,8 +145,9 @@ export default function CodeTyperMode() {
   // Focus management for overtype textarea
   useEffect(() => {
     if (
-      targetText && !isLoading && !showCompletion && !error &&
-      selectedCollectionId
+      targetText && !isLoading && !githubLoading && !showCompletion && !error &&
+      !githubError &&
+      (selectedCollectionId || (sourceType === "github" && githubFileInfo))
     ) {
       const timer = setTimeout(() => {
         if (overtypeRef.current) {
@@ -133,7 +159,17 @@ export default function CodeTyperMode() {
       }, 200);
       return () => clearTimeout(timer);
     }
-  }, [targetText, isLoading, showCompletion, error, selectedCollectionId]);
+  }, [
+    targetText,
+    isLoading,
+    githubLoading,
+    showCompletion,
+    error,
+    githubError,
+    selectedCollectionId,
+    sourceType,
+    githubFileInfo,
+  ]);
 
   // Calculate typing metrics
   const metrics = useTypingMetrics(
@@ -148,6 +184,47 @@ export default function CodeTyperMode() {
     backspaceCount,
     inputStartTime ?? Date.now(),
   );
+
+  // GitHub URL fetching
+  const fetchGitHubContent = useCallback(async (url: string) => {
+    setGithubLoading(true);
+    setGithubError(null);
+    setTargetText("");
+    setShowCompletion(false);
+    setGameResult(null);
+    setStartTime(null);
+    finishedSentRef.current = false;
+
+    try {
+      const response = await fetch("/api/github-content", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url }),
+      });
+
+      const data = await response.json();
+
+      if (!data.success) {
+        setGithubError(data.error || "Failed to fetch GitHub content");
+        setGithubFileInfo(null);
+        return;
+      }
+
+      setTargetText(data.content);
+      setGithubFileInfo(data.fileInfo);
+      setGithubError(null);
+    } catch (error) {
+      const errorMessage = error instanceof Error
+        ? error.message
+        : "Network error";
+      setGithubError(`Failed to fetch content: ${errorMessage}`);
+      setGithubFileInfo(null);
+    } finally {
+      setGithubLoading(false);
+    }
+  }, []);
 
   // Generate unique game ID
   const generateGameId = (): string => {
@@ -165,10 +242,17 @@ export default function CodeTyperMode() {
       const endTime = Date.now();
       const duration = (endTime - inputStartTime) / 1000;
 
-      // Get the programming language from the selected language
-      const programmingLanguage = selectedLanguage || "unknown";
+      // Get the programming language and source info
+      const programmingLanguage = sourceType === "github"
+        ? (githubFileInfo?.fileExtension || "unknown")
+        : (selectedLanguage || "unknown");
 
-      // Note: keystrokeData conversion removed - using empty array for now
+      // Determine source for metadata
+      const source = sourceType === "github"
+        ? `GitHub: ${githubFileInfo?.user}/${githubFileInfo?.repo}/${githubFileInfo?.fileName}`
+        : `${selectedLanguageData?.name || programmingLanguage}/${
+          selectedCollectionData?.name || "unknown"
+        }`;
 
       const gameResult: DetailedGameResult = {
         gameId: generateGameId(),
@@ -185,9 +269,7 @@ export default function CodeTyperMode() {
         keystrokeData: [],
         characterStats: {},
         contentMetadata: {
-          source: `${selectedLanguageData?.name || programmingLanguage}/${
-            selectedCollectionData?.name || "unknown"
-          }`,
+          source,
           totalCharacters: targetText.length,
           uniqueCharacters: new Set(targetText).size,
         },
@@ -373,23 +455,21 @@ export default function CodeTyperMode() {
     setStartTime(null);
     finishedSentRef.current = false;
 
-    // Load random mode preferences from localStorage
-    const savedLanguageRandom = localStorage.getItem(
-      localStorageKeys.languageRandom,
-    );
-    const savedCollectionRandom = localStorage.getItem(
-      localStorageKeys.collectionRandom,
-    );
 
-    if (savedLanguageRandom === "true") {
-      setLanguageRandomMode(true);
-    }
-    if (savedCollectionRandom === "true") {
-      setCollectionRandomMode(true);
+    // Load source type from localStorage
+    const savedSourceType = localStorage.getItem(localStorageKeys.sourceType) as
+      | "collections"
+      | "github"
+      | null;
+    if (savedSourceType) {
+      setSourceType(savedSourceType);
     }
 
-    // Let the individual selectors handle auto-selection
-    // This ensures proper data loading flow
+    // Load GitHub URL from localStorage
+    const savedGithubUrl = localStorage.getItem(localStorageKeys.githubUrl);
+    if (savedGithubUrl) {
+      setGithubUrl(savedGithubUrl);
+    }
 
     setInitialLoadComplete(true);
   }, [initialLoadComplete]);
@@ -525,38 +605,38 @@ export default function CodeTyperMode() {
     }
   }, [selectedSnippetIndex, codeSnippets.length]);
 
-  // Random mode toggle handlers
-  const handleLanguageRandomToggle = useCallback((enabled: boolean) => {
-    setLanguageRandomMode(enabled);
-    localStorage.setItem(localStorageKeys.languageRandom, enabled.toString());
 
-    // If enabling language random, disable collection random
-    if (enabled && collectionRandomMode) {
-      setCollectionRandomMode(false);
-      localStorage.setItem(localStorageKeys.collectionRandom, "false");
-    }
+  // Source type change handler
+  const handleSourceTypeChange = useCallback(
+    (newSourceType: "collections" | "github") => {
+      setSourceType(newSourceType);
+      localStorage.setItem(localStorageKeys.sourceType, newSourceType);
 
-    // If enabling and we have a language, load a random snippet immediately
-    if (enabled && selectedLanguage) {
-      loadLanguageRandomSnippet();
-    }
-  }, [collectionRandomMode, selectedLanguage, loadLanguageRandomSnippet]);
+      // Reset content when switching source types
+      setTargetText("");
+      setShowCompletion(false);
+      setGameResult(null);
+      setStartTime(null);
+      finishedSentRef.current = false;
 
-  const handleCollectionRandomToggle = useCallback((enabled: boolean) => {
-    setCollectionRandomMode(enabled);
-    localStorage.setItem(localStorageKeys.collectionRandom, enabled.toString());
+      if (newSourceType === "github") {
+        setGithubError(null);
+        setGithubFileInfo(null);
+      }
+    },
+    [],
+  );
 
-    // If enabling collection random, disable language random
-    if (enabled && languageRandomMode) {
-      setLanguageRandomMode(false);
-      localStorage.setItem(localStorageKeys.languageRandom, "false");
-    }
+  // GitHub URL change handler
+  const handleGithubUrlChange = useCallback((url: string) => {
+    setGithubUrl(url);
+    localStorage.setItem(localStorageKeys.githubUrl, url);
+  }, []);
 
-    // If enabling and we have snippets, load a random snippet immediately
-    if (enabled && codeSnippets.length > 0) {
-      loadRandomSnippet();
-    }
-  }, [languageRandomMode, codeSnippets.length, loadRandomSnippet]);
+  // GitHub fetch handler
+  const handleGithubFetch = useCallback((url: string) => {
+    fetchGitHubContent(url);
+  }, [fetchGitHubContent]);
 
   // Handle practice again
   const handlePracticeAgain = useCallback(() => {
@@ -607,21 +687,21 @@ export default function CodeTyperMode() {
 
   return (
     <div class="code-mode-container" ref={containerRef}>
-      {isLoading && (
+      {(isLoading || githubLoading) && (
         <div class="code-loading">
           <div class="code-spinner"></div>
           <span>Loading content...</span>
         </div>
       )}
 
-      {error && (
+      {(error || githubError) && (
         <div class="code-error">
           <span class="code-error-icon">⚠️</span>
-          <span>{error}</span>
+          <span>{error || githubError}</span>
         </div>
       )}
 
-      {!isLoading && !error && (
+      {!isLoading && !githubLoading && !error && !githubError && (
         <>
           {targetText && (
             <div ref={overtypeRef}>
@@ -634,32 +714,72 @@ export default function CodeTyperMode() {
             </div>
           )}
 
-          {/* Collection selectors */}
+          {/* Source type selector */}
           <div class="code-selectors">
-            <div class="selector-row">
-              <div class="selector-item">
-                <CodeLanguageSelector
-                  selectedLanguage={selectedLanguage}
-                  onLanguageChange={handleLanguageChange}
-                  randomMode={languageRandomMode}
-                  onRandomModeChange={handleLanguageRandomToggle}
-                />
-              </div>
-              <div class="selector-item">
-                <CodeCollectionSelector
-                  languageCode={selectedLanguage}
-                  selectedCollectionId={selectedCollectionId}
-                  onCollectionChange={handleCollectionChange}
-                  randomMode={collectionRandomMode}
-                  onRandomModeChange={handleCollectionRandomToggle}
-                  disabled={languageRandomMode}
-                />
-              </div>
+            <div class="source-selector-container">
+              <CodeSourceSelector
+                selectedSource={sourceType}
+                onSourceChange={handleSourceTypeChange}
+              />
             </div>
+
+            {/* Collection selectors - only show when collections mode */}
+            {sourceType === "collections" && (
+              <div class="selector-row">
+                <div class="selector-item">
+                  <CodeLanguageSelector
+                    selectedLanguage={selectedLanguage}
+                    onLanguageChange={handleLanguageChange}
+                  />
+                </div>
+                <div class="selector-item">
+                  <CodeCollectionSelector
+                    languageCode={selectedLanguage}
+                    selectedCollectionId={selectedCollectionId}
+                    onCollectionChange={handleCollectionChange}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* GitHub URL input - only show when GitHub mode */}
+            {sourceType === "github" && (
+              <div class="github-input-container">
+                <GitHubUrlInput
+                  value={githubUrl}
+                  onChange={handleGithubUrlChange}
+                  onFetch={handleGithubFetch}
+                  loading={githubLoading}
+                  error={githubError}
+                  disabled={showCompletion}
+                />
+              </div>
+            )}
           </div>
 
-          {/* Snippet selector and info */}
-          {codeSnippets.length > 0 && (
+          {/* GitHub file info */}
+          {sourceType === "github" && githubFileInfo && (
+            <div class="github-file-info">
+              <div class="file-info-header">
+                <h3 class="file-title">📁 {githubFileInfo.fileName}</h3>
+                <p class="file-path">
+                  <span class="repo-info">
+                    {githubFileInfo.user}/{githubFileInfo.repo}
+                  </span>
+                  <span class="branch-info">#{githubFileInfo.branch}</span>
+                </p>
+              </div>
+              <div class="file-stats">
+                <span class="char-count">{targetText.length} characters</span>
+                {githubFileInfo.fileExtension && (
+                  <span class="file-type">.{githubFileInfo.fileExtension}</span>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Snippet selector and info - only show for collections mode */}
+          {sourceType === "collections" && codeSnippets.length > 0 && (
             <div class="snippet-selector">
               <label class="code-label">
                 Code Snippet ({selectedSnippetIndex + 1} of{" "}
@@ -695,51 +815,27 @@ export default function CodeTyperMode() {
             </div>
           )}
 
-          {/* Action buttons */}
-          <div class="code-actions">
-            {!languageRandomMode && !collectionRandomMode && (
-              <>
-                <button
-                  onClick={loadRandomSnippet}
-                  class="code-button code-button-random"
-                  type="button"
-                  disabled={isComplete || codeSnippets.length === 0}
-                >
-                  Random Snippet
-                </button>
-                <button
-                  onClick={loadNextSnippet}
-                  class="code-button code-button-next"
-                  type="button"
-                  disabled={isComplete || codeSnippets.length <= 1}
-                >
-                  Next Snippet
-                </button>
-              </>
-            )}
-
-            {languageRandomMode && (
-              <button
-                onClick={loadLanguageRandomSnippet}
-                class="code-button code-button-random"
-                type="button"
-                disabled={isComplete || !selectedLanguage}
-              >
-                Random from Language
-              </button>
-            )}
-
-            {collectionRandomMode && !languageRandomMode && (
+          {/* Action buttons - only show for collections mode */}
+          {sourceType === "collections" && (
+            <div class="code-actions">
               <button
                 onClick={loadRandomSnippet}
                 class="code-button code-button-random"
                 type="button"
                 disabled={isComplete || codeSnippets.length === 0}
               >
-                Random from Collection
+                Random Snippet
               </button>
-            )}
-          </div>
+              <button
+                onClick={loadNextSnippet}
+                class="code-button code-button-next"
+                type="button"
+                disabled={isComplete || codeSnippets.length <= 1}
+              >
+                Next Snippet
+              </button>
+            </div>
+          )}
 
           {/* Completion display with proper metrics */}
           {showCompletion && isComplete && (
@@ -931,6 +1027,72 @@ export default function CodeTyperMode() {
 
         .code-button-focus:hover:not(:disabled) {
           background-color: #d97706;
+        }
+
+        /* GitHub-specific styles */
+        .source-selector-container {
+          margin-bottom: 1rem;
+        }
+
+        .github-input-container {
+          margin-top: 1rem;
+        }
+
+        .github-file-info {
+          margin: 1rem 0;
+          padding: 1rem;
+          background-color: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 8px;
+        }
+
+        .file-info-header {
+          margin-bottom: 0.75rem;
+        }
+
+        .file-title {
+          font-size: 1.125rem;
+          font-weight: 600;
+          color: #1f2937;
+          margin: 0 0 0.25rem 0;
+        }
+
+        .file-path {
+          font-size: 0.875rem;
+          color: #6b7280;
+          margin: 0;
+          font-family: monospace;
+        }
+
+        .repo-info {
+          font-weight: 500;
+          color: #374151;
+        }
+
+        .branch-info {
+          margin-left: 0.5rem;
+          color: #059669;
+          font-weight: 500;
+        }
+
+        .file-stats {
+          display: flex;
+          gap: 1rem;
+          font-size: 0.875rem;
+          color: #6b7280;
+        }
+
+        .char-count {
+          font-weight: 500;
+        }
+
+        .file-type {
+          background-color: #e5e7eb;
+          padding: 0.125rem 0.375rem;
+          border-radius: 4px;
+          font-family: monospace;
+          font-weight: 500;
+          color: #374151;
         }
       `}
       </style>
