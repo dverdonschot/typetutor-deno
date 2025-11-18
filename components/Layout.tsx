@@ -1,5 +1,5 @@
 import { ComponentChildren } from "preact";
-import { Logo } from "./logo.tsx";
+import { Logo } from "./Logo.tsx";
 import HamburgerMenu from "../islands/HamburgerMenu.tsx";
 import LanguageProvider from "./LanguageProvider.tsx";
 import GlobalLanguageSelector from "../islands/GlobalLanguageSelector.tsx";

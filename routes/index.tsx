@@ -1,15 +1,15 @@
 import { PageProps } from "$fresh/server.ts";
 import { Layout } from "../components/Layout.tsx";
-import NewQuoteTyperMode from "../islands/NewQuoteTyperMode.tsx";
+import CodeTyperMode from "../islands/CodeTyperMode.tsx";
 import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";
 
 export default function Home(props: PageProps) {
   return (
     <Layout
-      descriptionKey={TRANSLATION_KEYS.PAGES.HOME}
+      descriptionKey={TRANSLATION_KEYS.PAGES.CODE}
       currentPath={props.url.pathname}
     >
-      <NewQuoteTyperMode autoFocus />
+      <CodeTyperMode />
     </Layout>
   );
 }

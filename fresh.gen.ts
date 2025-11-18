@@ -24,7 +24,6 @@ import * as $api_translations_all from "./routes/api/translations/all.ts";
 import * as $api_translations_languages from "./routes/api/translations/languages.ts";
 import * as $api_trigraphs from "./routes/api/trigraphs.ts";
 import * as $api_trigraphs_name_ from "./routes/api/trigraphs/[name].ts";
-import * as $code_backup from "./routes/code-backup.tsx";
 import * as $code from "./routes/code.tsx";
 import * as $custom from "./routes/custom.tsx";
 import * as $index from "./routes/index.tsx";
@@ -39,7 +38,7 @@ import * as $GlobalLanguageSelector from "./islands/GlobalLanguageSelector.tsx";
 import * as $HamburgerMenu from "./islands/HamburgerMenu.tsx";
 import * as $KeyLogger from "./islands/KeyLogger.tsx";
 import * as $KeyboardHeatmapIsland from "./islands/KeyboardHeatmapIsland.tsx";
-import * as $NewQuoteTyperMode from "./islands/NewQuoteTyperMode.tsx";
+import * as $QuoteTyperMode from "./islands/QuoteTyperMode.tsx";
 import * as $RandomSettings from "./islands/RandomSettings.tsx";
 import * as $ReactiveDescription from "./islands/ReactiveDescription.tsx";
 import * as $RenderedQuoteResult from "./islands/RenderedQuoteResult.tsx";
@@ -83,7 +82,6 @@ const manifest = {
     "./routes/api/translations/languages.ts": $api_translations_languages,
     "./routes/api/trigraphs.ts": $api_trigraphs,
     "./routes/api/trigraphs/[name].ts": $api_trigraphs_name_,
-    "./routes/code-backup.tsx": $code_backup,
     "./routes/code.tsx": $code,
     "./routes/custom.tsx": $custom,
     "./routes/index.tsx": $index,
@@ -100,7 +98,7 @@ const manifest = {
     "./islands/HamburgerMenu.tsx": $HamburgerMenu,
     "./islands/KeyLogger.tsx": $KeyLogger,
     "./islands/KeyboardHeatmapIsland.tsx": $KeyboardHeatmapIsland,
-    "./islands/NewQuoteTyperMode.tsx": $NewQuoteTyperMode,
+    "./islands/QuoteTyperMode.tsx": $QuoteTyperMode,
     "./islands/RandomSettings.tsx": $RandomSettings,
     "./islands/ReactiveDescription.tsx": $ReactiveDescription,
     "./islands/RenderedQuoteResult.tsx": $RenderedQuoteResult,
