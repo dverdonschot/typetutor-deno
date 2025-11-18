@@ -1,0 +1,154 @@
+{
+  "id": "restaurant-basics",
+  "name": "Swift Restaurant Basics",
+  "description": "Learn Swift programming with restaurant management and culinary themes",
+  "icon": "🍽️",
+  "difficulty": "beginner",
+  "language": "swift",
+  "snippets": [
+    {
+      "code": "let restaurantName = \"The Golden Spoon\"\nlet chefName = \"Maria Rodriguez\"\nvar dailyRevenue = 2450.75\nvar isOpen = true\n\nprint(\"Restaurant: \\(restaurantName)\")\nprint(\"Head Chef: \\(chefName)\")\nprint(\"Today's Revenue: $\\(dailyRevenue)\")\nprint(\"Currently Open: \\(isOpen)\")",
+      "title": "Restaurant Variables",
+      "description": "Basic Swift variables and string interpolation",
+      "tags": ["variables", "let", "var", "print", "interpolation"],
+      "difficulty": "beginner",
+      "language": "swift"
+    },
+    {
+      "code": "func calculateTip(billAmount: Double, tipPercentage: Double = 18.0) -> Double {\n    return billAmount * (tipPercentage / 100.0)\n}\n\nfunc formatCurrency(_ amount: Double) -> String {\n    return String(format: \"$%.2f\", amount)\n}\n\nlet bill = 85.50\nlet tip = calculateTip(billAmount: bill)\nlet total = bill + tip\n\nprint(\"Bill: \\(formatCurrency(bill))\")\nprint(\"Tip: \\(formatCurrency(tip))\")\nprint(\"Total: \\(formatCurrency(total))\")",
+      "title": "Tip Calculator Functions",
+      "description": "Functions with default parameters for restaurant calculations",
+      "tags": ["functions", "default-parameters", "return", "formatting"],
+      "difficulty": "beginner",
+      "language": "swift"
+    },
+    {
+      "code": "enum MenuCategory {\n    case appetizers\n    case entrees\n    case desserts\n    case beverages\n}\n\nenum OrderStatus {\n    case pending\n    case preparing\n    case ready\n    case served\n}\n\nlet category: MenuCategory = .entrees\nvar status: OrderStatus = .preparing\n\nswitch category {\ncase .appetizers:\n    print(\"Starting with appetizers\")\ncase .entrees:\n    print(\"Main course selection\")\ncase .desserts:\n    print(\"Sweet endings\")\ncase .beverages:\n    print(\"Drink menu\")\n}",
+      "title": "Menu Categories and Order Status",
+      "description": "Enums and switch statements for restaurant organization",
+      "tags": ["enum", "switch", "cases"],
+      "difficulty": "beginner",
+      "language": "swift"
+    },
+    {
+      "code": "struct MenuItem {\n    let name: String\n    let price: Double\n    let category: MenuCategory\n    let isVegetarian: Bool\n    \n    func getDescription() -> String {\n        let vegLabel = isVegetarian ? \" (V)\" : \"\"\n        return \"\\(name) - $\\(String(format: \"%.2f\", price))\\(vegLabel)\"\n    }\n}\n\nlet pasta = MenuItem(name: \"Fettuccine Alfredo\", price: 16.95, category: .entrees, isVegetarian: true)\nlet steak = MenuItem(name: \"Ribeye Steak\", price: 28.50, category: .entrees, isVegetarian: false)\n\nprint(pasta.getDescription())\nprint(steak.getDescription())",
+      "title": "Menu Item Structure",
+      "description": "Struct definition with methods for menu items",
+      "tags": ["struct", "properties", "methods", "initialization"],
+      "difficulty": "beginner",
+      "language": "swift"
+    },
+    {
+      "code": "let menuItems = [\"Caesar Salad\", \"Grilled Salmon\", \"Chocolate Cake\", \"House Wine\"]\nlet prices = [12.50, 24.95, 8.75, 6.00]\n\nprint(\"Today's Specials:\")\nfor (index, item) in menuItems.enumerated() {\n    print(\"\\(index + 1). \\(item) - $\\(prices[index])\")\n}\n\nlet totalItems = menuItems.count\nlet averagePrice = prices.reduce(0, +) / Double(prices.count)\nprint(\"\\nMenu has \\(totalItems) items with average price: $\\(String(format: \"%.2f\", averagePrice))\")",
+      "title": "Menu Arrays and Loops",
+      "description": "Working with arrays and for loops in restaurant context",
+      "tags": ["arrays", "for-loop", "enumerated", "reduce"],
+      "difficulty": "beginner",
+      "language": "swift"
+    },
+    {
+      "code": "var restaurantHours: [String: String] = [\n    \"Monday\": \"11:00 AM - 10:00 PM\",\n    \"Tuesday\": \"11:00 AM - 10:00 PM\",\n    \"Wednesday\": \"11:00 AM - 10:00 PM\",\n    \"Thursday\": \"11:00 AM - 10:00 PM\",\n    \"Friday\": \"11:00 AM - 11:00 PM\",\n    \"Saturday\": \"10:00 AM - 11:00 PM\",\n    \"Sunday\": \"10:00 AM - 9:00 PM\"\n]\n\nif let todaysHours = restaurantHours[\"Friday\"] {\n    print(\"Today we're open: \\(todaysHours)\")\n} else {\n    print(\"Hours not available\")\n}\n\nrestaurantHours[\"Sunday\"] = \"Closed for renovation\"\nprint(\"Updated Sunday hours: \\(restaurantHours[\"Sunday\"] ?? \"Unknown\")\")",
+      "title": "Restaurant Hours Dictionary",
+      "description": "Dictionaries and optional binding for schedule management",
+      "tags": ["dictionary", "optional-binding", "if-let"],
+      "difficulty": "beginner",
+      "language": "swift"
+    },
+    {
+      "code": "func validateReservation(partySize: Int, requestedTime: String) -> String {\n    guard partySize > 0 else {\n        return \"Invalid party size\"\n    }\n    \n    guard partySize <= 8 else {\n        return \"Large parties require advance booking\"\n    }\n    \n    let availableTimes = [\"5:00 PM\", \"6:00 PM\", \"7:00 PM\", \"8:00 PM\"]\n    guard availableTimes.contains(requestedTime) else {\n        return \"Requested time not available\"\n    }\n    \n    return \"Reservation confirmed for \\(partySize) at \\(requestedTime)\"\n}\n\nlet result1 = validateReservation(partySize: 4, requestedTime: \"7:00 PM\")\nlet result2 = validateReservation(partySize: 10, requestedTime: \"6:00 PM\")\n\nprint(result1)\nprint(result2)",
+      "title": "Reservation Validation",
+      "description": "Guard statements for input validation",
+      "tags": ["guard", "validation", "early-return"],
+      "difficulty": "intermediate",
+      "language": "swift"
+    },
+    {
+      "code": "class Restaurant {\n    var name: String\n    var capacity: Int\n    private var currentOccupancy = 0\n    \n    init(name: String, capacity: Int) {\n        self.name = name\n        self.capacity = capacity\n    }\n    \n    func seatCustomers(_ partySize: Int) -> Bool {\n        if currentOccupancy + partySize <= capacity {\n            currentOccupancy += partySize\n            print(\"Seated \\(partySize) customers. Occupancy: \\(currentOccupancy)/\\(capacity)\")\n            return true\n        } else {\n            print(\"Cannot seat \\(partySize) customers. Not enough space.\")\n            return false\n        }\n    }\n    \n    func customersDeparted(_ partySize: Int) {\n        currentOccupancy = max(0, currentOccupancy - partySize)\n        print(\"\\(partySize) customers departed. Occupancy: \\(currentOccupancy)/\\(capacity)\")\n    }\n}\n\nlet restaurant = Restaurant(name: \"Bella Vista\", capacity: 60)\nrestaurant.seatCustomers(4)\nrestaurant.seatCustomers(6)\nrestaurant.customersDeparted(4)",
+      "title": "Restaurant Class Management",
+      "description": "Class definition with private properties and methods",
+      "tags": ["class", "init", "private", "methods"],
+      "difficulty": "intermediate",
+      "language": "swift"
+    },
+    {
+      "code": "protocol MenuItem {\n    var name: String { get }\n    var price: Double { get }\n    func getDescription() -> String\n}\n\nstruct Appetizer: MenuItem {\n    let name: String\n    let price: Double\n    let servingSize: String\n    \n    func getDescription() -> String {\n        return \"\\(name) (\\(servingSize)) - $\\(String(format: \"%.2f\", price))\"\n    }\n}\n\nstruct Entree: MenuItem {\n    let name: String\n    let price: Double\n    let cookingTime: Int\n    \n    func getDescription() -> String {\n        return \"\\(name) (~\\(cookingTime) min) - $\\(String(format: \"%.2f\", price))\"\n    }\n}\n\nlet appetizer: MenuItem = Appetizer(name: \"Bruschetta\", price: 8.95, servingSize: \"4 pieces\")\nlet entree: MenuItem = Entree(name: \"Grilled Chicken\", price: 19.95, cookingTime: 25)\n\nprint(appetizer.getDescription())\nprint(entree.getDescription())",
+      "title": "Menu Item Protocol",
+      "description": "Protocols and protocol conformance for menu structure",
+      "tags": ["protocol", "conformance", "polymorphism"],
+      "difficulty": "intermediate",
+      "language": "swift"
+    },
+    {
+      "code": "enum OrderError: Error {\n    case outOfStock\n    case invalidItem\n    case kitchenClosed\n}\n\nfunc processOrder(itemName: String, quantity: Int) throws -> String {\n    let availableItems = [\"Pizza\", \"Pasta\", \"Salad\", \"Soup\"]\n    \n    guard availableItems.contains(itemName) else {\n        throw OrderError.invalidItem\n    }\n    \n    // Simulate random out of stock\n    if quantity > 5 {\n        throw OrderError.outOfStock\n    }\n    \n    return \"Order processed: \\(quantity) x \\(itemName)\"\n}\n\ndo {\n    let order1 = try processOrder(itemName: \"Pizza\", quantity: 2)\n    print(order1)\n    \n    let order2 = try processOrder(itemName: \"Burger\", quantity: 1)\n    print(order2)\n} catch OrderError.invalidItem {\n    print(\"Item not on menu\")\n} catch OrderError.outOfStock {\n    print(\"Item currently out of stock\")\n} catch {\n    print(\"Order failed: \\(error)\")\n}",
+      "title": "Order Error Handling",
+      "description": "Error handling with custom error types and try-catch",
+      "tags": ["error", "throws", "do-catch", "custom-errors"],
+      "difficulty": "intermediate",
+      "language": "swift"
+    },
+    {
+      "code": "extension Restaurant {\n    func getOccupancyRate() -> Double {\n        return Double(currentOccupancy) / Double(capacity) * 100.0\n    }\n    \n    func getStatus() -> String {\n        let rate = getOccupancyRate()\n        switch rate {\n        case 0..<25:\n            return \"Quiet\"\n        case 25..<50:\n            return \"Moderate\"\n        case 50..<75:\n            return \"Busy\"\n        case 75..<90:\n            return \"Very Busy\"\n        default:\n            return \"At Capacity\"\n        }\n    }\n}\n\nlet bistro = Restaurant(name: \"Corner Bistro\", capacity: 40)\nbistro.seatCustomers(20)\nprint(\"\\(bistro.name) is \\(bistro.getStatus()) at \\(String(format: \"%.1f\", bistro.getOccupancyRate()))% capacity\")",
+      "title": "Restaurant Extensions",
+      "description": "Extensions to add functionality to existing classes",
+      "tags": ["extension", "computed-properties", "range-matching"],
+      "difficulty": "intermediate",
+      "language": "swift"
+    },
+    {
+      "code": "struct Order {\n    let id: String\n    let items: [MenuItem]\n    let timestamp: Date\n    \n    lazy var totalPrice: Double = {\n        return items.reduce(0.0) { $0 + $1.price }\n    }()\n    \n    var formattedTimestamp: String {\n        let formatter = DateFormatter()\n        formatter.dateStyle = .short\n        formatter.timeStyle = .short\n        return formatter.string(from: timestamp)\n    }\n}\n\nlet orderItems: [MenuItem] = [\n    Appetizer(name: \"Calamari\", price: 12.50, servingSize: \"Large\"),\n    Entree(name: \"Seafood Pasta\", price: 24.95, cookingTime: 30)\n]\n\nlet customerOrder = Order(id: \"ORD-001\", items: orderItems, timestamp: Date())\nprint(\"Order \\(customerOrder.id) at \\(customerOrder.formattedTimestamp)\")\nprint(\"Total: $\\(String(format: \"%.2f\", customerOrder.totalPrice))\")",
+      "title": "Order Management Structure",
+      "description": "Lazy properties and computed properties for order processing",
+      "tags": ["lazy", "computed-properties", "date-formatting"],
+      "difficulty": "intermediate",
+      "language": "swift"
+    },
+    {
+      "code": "class KitchenTimer {\n    private var completionHandler: ((String) -> Void)?\n    \n    func startTimer(for dish: String, minutes: Int, completion: @escaping (String) -> Void) {\n        completionHandler = completion\n        \n        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { // Simulating timer\n            self.completionHandler?(\"\\(dish) is ready! (\\(minutes) min cook time)\")\n        }\n    }\n}\n\nfunc notifyWaiter(message: String) {\n    print(\"🔔 Kitchen Alert: \\(message)\")\n}\n\nlet timer = KitchenTimer()\ntimer.startTimer(for: \"Grilled Salmon\", minutes: 15, completion: notifyWaiter)\n\n// Simulate some delay\nDispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {\n    print(\"Timer demonstration completed\")\n}",
+      "title": "Kitchen Timer with Closures",
+      "description": "Closures and completion handlers for kitchen operations",
+      "tags": ["closures", "escaping", "completion-handler"],
+      "difficulty": "advanced",
+      "language": "swift"
+    },
+    {
+      "code": "struct Menu {\n    private var items: [String: MenuItem] = [:]\n    \n    mutating func addItem(_ item: MenuItem) {\n        items[item.name] = item\n    }\n    \n    func getItem(named name: String) -> MenuItem? {\n        return items[name]\n    }\n    \n    func getItemsByPriceRange(min: Double, max: Double) -> [MenuItem] {\n        return items.values.filter { $0.price >= min && $0.price <= max }\n    }\n    \n    var averagePrice: Double {\n        guard !items.isEmpty else { return 0.0 }\n        let total = items.values.reduce(0.0) { $0 + $1.price }\n        return total / Double(items.count)\n    }\n}\n\nvar menu = Menu()\nmenu.addItem(Appetizer(name: \"Spring Rolls\", price: 7.50, servingSize: \"6 pieces\"))\nmenu.addItem(Entree(name: \"Beef Stir Fry\", price: 18.95, cookingTime: 20))\nmenu.addItem(Entree(name: \"Lobster Tail\", price: 32.50, cookingTime: 25))\n\nlet budgetItems = menu.getItemsByPriceRange(min: 5.0, max: 20.0)\nprint(\"Budget-friendly items (\\(budgetItems.count) found):\")\nfor item in budgetItems {\n    print(\"- \\(item.getDescription())\")\n}\nprint(\"Average menu price: $\\(String(format: \"%.2f\", menu.averagePrice))\")",
+      "title": "Advanced Menu Management",
+      "description": "Complex data structures with filtering and calculations",
+      "tags": ["mutating", "filter", "computed-properties"],
+      "difficulty": "advanced",
+      "language": "swift"
+    },
+    {
+      "code": "protocol RestaurantManaging {\n    associatedtype MenuItemType: MenuItem\n    var menu: [MenuItemType] { get set }\n    func addToMenu(_ item: MenuItemType)\n    func removeFromMenu(_ itemName: String)\n}\n\nclass PizzaRestaurant: RestaurantManaging {\n    typealias MenuItemType = PizzaItem\n    var menu: [PizzaItem] = []\n    \n    func addToMenu(_ item: PizzaItem) {\n        menu.append(item)\n        print(\"Added \\(item.name) to pizza menu\")\n    }\n    \n    func removeFromMenu(_ itemName: String) {\n        menu.removeAll { $0.name == itemName }\n        print(\"Removed \\(itemName) from pizza menu\")\n    }\n}\n\nstruct PizzaItem: MenuItem {\n    let name: String\n    let price: Double\n    let size: String\n    \n    func getDescription() -> String {\n        return \"\\(name) (\\(size)) - $\\(String(format: \"%.2f\", price))\"\n    }\n}\n\nlet pizzaPlace = PizzaRestaurant()\nlet margherita = PizzaItem(name: \"Margherita\", price: 14.95, size: \"Large\")\npizzaPlace.addToMenu(margherita)\nprint(\"Menu has \\(pizzaPlace.menu.count) items\")",
+      "title": "Generic Restaurant Management",
+      "description": "Associated types and generic protocols for specialized restaurants",
+      "tags": ["associatedtype", "generics", "protocol"],
+      "difficulty": "advanced",
+      "language": "swift"
+    },
+    {
+      "code": "import Foundation\n\nstruct RestaurantAnalytics {\n    let dailySales: [Double]\n    let customerCounts: [Int]\n    \n    var totalRevenue: Double {\n        return dailySales.reduce(0, +)\n    }\n    \n    var averageDailySale: Double {\n        return totalRevenue / Double(dailySales.count)\n    }\n    \n    var bestDay: (day: Int, revenue: Double)? {\n        guard let maxRevenue = dailySales.max(),\n              let bestDayIndex = dailySales.firstIndex(of: maxRevenue) else {\n            return nil\n        }\n        return (day: bestDayIndex + 1, revenue: maxRevenue)\n    }\n    \n    func getWeeklyReport() -> String {\n        let formatter = NumberFormatter()\n        formatter.numberStyle = .currency\n        \n        var report = \"Weekly Sales Report:\\n\"\n        report += \"Total Revenue: \\(formatter.string(from: NSNumber(value: totalRevenue)) ?? \"$0.00\")\\n\"\n        report += \"Average Daily: \\(formatter.string(from: NSNumber(value: averageDailySale)) ?? \"$0.00\")\\n\"\n        \n        if let best = bestDay {\n            report += \"Best Day: Day \\(best.day) with \\(formatter.string(from: NSNumber(value: best.revenue)) ?? \"$0.00\")\"\n        }\n        \n        return report\n    }\n}\n\nlet weeklyData = RestaurantAnalytics(\n    dailySales: [1250.50, 1840.25, 2100.75, 1950.00, 2450.80, 3200.25, 2890.40],\n    customerCounts: [45, 68, 78, 72, 89, 125, 110]\n)\n\nprint(weeklyData.getWeeklyReport())",
+      "title": "Restaurant Analytics System",
+      "description": "Complex data analysis with formatters and optional handling",
+      "tags": ["analytics", "number-formatter", "optional-chaining"],
+      "difficulty": "advanced",
+      "language": "swift"
+    },
+    {
+      "code": "enum ReservationResult {\n    case success(confirmationNumber: String)\n    case waitlist(position: Int, estimatedWait: Int)\n    case unavailable(reason: String)\n}\n\nclass ReservationSystem {\n    private var reservations: [String: [String]] = [:]\n    private let maxCapacityPerSlot = 8\n    \n    func makeReservation(date: String, time: String, partySize: Int, customerName: String) -> ReservationResult {\n        let slot = \"\\(date) \\(time)\"\n        let currentReservations = reservations[slot] ?? []\n        \n        if currentReservations.count >= maxCapacityPerSlot {\n            let waitlistPosition = (currentReservations.count - maxCapacityPerSlot) + 1\n            let estimatedWait = waitlistPosition * 15 // 15 minutes per position\n            return .waitlist(position: waitlistPosition, estimatedWait: estimatedWait)\n        }\n        \n        if partySize > 6 {\n            return .unavailable(reason: \"Large parties require special arrangements\")\n        }\n        \n        reservations[slot, default: []].append(customerName)\n        let confirmationNumber = \"RES-\\(Int.random(in: 1000...9999))\"\n        \n        return .success(confirmationNumber: confirmationNumber)\n    }\n}\n\nlet reservationSystem = ReservationSystem()\n\nlet results = [\n    reservationSystem.makeReservation(date: \"2024-01-15\", time: \"7:00 PM\", partySize: 4, customerName: \"Smith\"),\n    reservationSystem.makeReservation(date: \"2024-01-15\", time: \"7:00 PM\", partySize: 8, customerName: \"Johnson\"),\n    reservationSystem.makeReservation(date: \"2024-01-15\", time: \"7:00 PM\", partySize: 2, customerName: \"Williams\")\n]\n\nfor result in results {\n    switch result {\n    case .success(let confirmation):\n        print(\"✅ Reservation confirmed: \\(confirmation)\")\n    case .waitlist(let position, let wait):\n        print(\"⏳ Added to waitlist - Position: \\(position), Wait: ~\\(wait) minutes\")\n    case .unavailable(let reason):\n        print(\"❌ Unavailable: \\(reason)\")\n    }\n}",
+      "title": "Advanced Reservation System",
+      "description": "Complex enum with associated values and comprehensive business logic",
+      "tags": ["enum-associated-values", "complex-logic", "business-rules"],
+      "difficulty": "advanced",
+      "language": "swift"
+    },
+    {
+      "code": "@propertyWrapper\nstruct Price {\n    private var value: Double = 0.0\n    \n    var wrappedValue: Double {\n        get { value }\n        set { \n            value = max(0.0, newValue) // Ensure price is never negative\n        }\n    }\n    \n    var projectedValue: String {\n        return String(format: \"$%.2f\", value)\n    }\n}\n\nstruct RestaurantItem {\n    let name: String\n    @Price var basePrice: Double\n    let category: String\n    \n    var displayPrice: String {\n        return $basePrice // Using projected value\n    }\n    \n    func getPriceWithTax(taxRate: Double = 0.0875) -> Double {\n        return basePrice * (1.0 + taxRate)\n    }\n}\n\nvar specialDish = RestaurantItem(name: \"Chef's Special\", basePrice: 32.50, category: \"Entrees\")\nspecialDish.basePrice = -5.0 // This will be clamped to 0.0\nprint(\"\\(specialDish.name): \\(specialDish.displayPrice)\")\n\nspecialDish.basePrice = 28.75\nprint(\"With tax: $\\(String(format: \"%.2f\", specialDish.getPriceWithTax()))\")\n\n// Demonstrate property wrapper in action\nstruct MenuItem2 {\n    @Price var appetizer = 8.50\n    @Price var entree = 22.95\n    @Price var dessert = 7.25\n    \n    func printMenu() {\n        print(\"Appetizer: \\($appetizer)\")\n        print(\"Entree: \\($entree)\")\n        print(\"Dessert: \\($dessert)\")\n    }\n}\n\nlet todaysSpecial = MenuItem2()\ntodaysSpecial.printMenu()",
+      "title": "Property Wrappers for Pricing",
+      "description": "Advanced Swift features with property wrappers for business logic",
+      "tags": ["property-wrapper", "projected-value", "validation"],
+      "difficulty": "advanced",
+      "language": "swift"
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "id": "hollywood-basics",
+  "name": "YAML Hollywood Basics",
+  "description": "Learn YAML configuration with Hollywood film industry themes",
+  "icon": "🎬",
+  "difficulty": "beginner",
+  "language": "yaml",
+  "snippets": [
+    {
+      "code": "movie_title: \"The Great Adventure\"\ndirector: \"Steven Rodriguez\"\nrelease_year: 2024\nbudget_million: 85\nis_blockbuster: true",
+      "title": "Basic Movie Information",
+      "description": "Simple YAML key-value pairs for film data",
+      "tags": ["key-value", "strings", "numbers", "booleans"],
+      "difficulty": "beginner",
+      "language": "yaml"
+    },
+    {
+      "code": "cast_members:\n  - \"Emma Thompson\"\n  - \"Michael Chen\"\n  - \"Sofia Rodriguez\"\n  - \"David Kim\"\n  - \"Maria Santos\"",
+      "title": "Movie Cast List",
+      "description": "YAML array/list structure for cast members",
+      "tags": ["lists", "arrays", "dash-syntax"],
+      "difficulty": "beginner",
+      "language": "yaml"
+    },
+    {
+      "code": "production_details:\n  studio: \"Universal Pictures\"\n  producer: \"Jennifer Walsh\"\n  cinematographer: \"Robert Martinez\"\n  editor: \"Lisa Chang\"\n  music_composer: \"Hans Zimmer\"",
+      "title": "Nested Production Data",
+      "description": "Nested YAML structure for crew information",
+      "tags": ["nested", "indentation", "crew-data"],
+      "difficulty": "beginner",
+      "language": "yaml"
+    },
+    {
+      "code": "filming_locations:\n  - location: \"Los Angeles\"\n    scenes: 45\n    cost_per_day: 25000\n  - location: \"New York\"\n    scenes: 28\n    cost_per_day: 30000\n  - location: \"Vancouver\"\n    scenes: 15\n    cost_per_day: 15000",
+      "title": "Filming Location Details",
+      "description": "Array of objects with location-specific information",
+      "tags": ["array-of-objects", "location-data", "costs"],
+      "difficulty": "beginner",
+      "language": "yaml"
+    },
+    {
+      "code": "box_office:\n  opening_weekend: 45_000_000\n  domestic_total: 235_000_000\n  international: 420_000_000\n  worldwide_total: 655_000_000\n\nreviews:\n  rotten_tomatoes: 85\n  imdb_rating: 7.8\n  metacritic: 72",
+      "title": "Box Office and Reviews",
+      "description": "Multiple sections with financial and rating data",
+      "tags": ["multiple-sections", "underscores", "ratings"],
+      "difficulty": "beginner",
+      "language": "yaml"
+    },
+    {
+      "code": "genres:\n  - Action\n  - Adventure\n  - Thriller\n\nratings:\n  mpaa: \"PG-13\"\n  reason: \"Intense action sequences and mild language\"\n  \nruntime_minutes: 142\nlanguage: \"English\"\nsubtitles:\n  - Spanish\n  - French\n  - Mandarin",
+      "title": "Genre and Rating Information",
+      "description": "Mixed data types with arrays and nested values",
+      "tags": ["mixed-types", "ratings", "languages"],
+      "difficulty": "beginner",
+      "language": "yaml"
+    },
+    {
+      "code": "award_nominations:\n  - category: \"Best Picture\"\n    ceremony: \"Academy Awards\"\n    year: 2024\n    won: false\n  - category: \"Best Visual Effects\"\n    ceremony: \"Academy Awards\" \n    year: 2024\n    won: true\n  - category: \"Best Action Film\"\n    ceremony: \"MTV Movie Awards\"\n    year: 2024\n    won: true",
+      "title": "Awards and Recognition",
+      "description": "Structured data for tracking award nominations",
+      "tags": ["awards", "boolean-values", "ceremonies"],
+      "difficulty": "intermediate",
+      "language": "yaml"
+    },
+    {
+      "code": "# Hollywood Studio Configuration\nstudio_config:\n  name: \"DreamWorks Studios\"\n  founded: 1994\n  headquarters: \"Universal City, California\"\n  \n  # Production capabilities\n  facilities:\n    sound_stages: 12\n    post_production_suites: 8\n    screening_rooms: 4\n    \n  # Annual targets\n  yearly_goals:\n    films_produced: 15\n    revenue_target: 2_500_000_000",
+      "title": "Studio Configuration with Comments",
+      "description": "YAML with comments and hierarchical organization",
+      "tags": ["comments", "configuration", "hierarchy"],
+      "difficulty": "intermediate",
+      "language": "yaml"
+    },
+    {
+      "code": "movie_series:\n  franchise_name: \"Hero Chronicles\"\n  total_films: 5\n  films:\n    - title: \"Hero Chronicles: Origins\"\n      release_date: \"2020-06-15\"\n      box_office: 450_000_000\n    - title: \"Hero Chronicles: Rising\"\n      release_date: \"2022-05-20\"\n      box_office: 520_000_000\n    - title: \"Hero Chronicles: Destiny\"\n      release_date: \"2024-07-12\"\n      status: \"in_production\"",
+      "title": "Movie Franchise Structure",
+      "description": "Complex nested structure for film series data",
+      "tags": ["franchise", "dates", "status"],
+      "difficulty": "intermediate",
+      "language": "yaml"
+    },
+    {
+      "code": "casting_call:\n  project: \"Summer Blockbuster 2024\"\n  roles:\n    lead_actor:\n      gender: male\n      age_range: [25, 35]\n      requirements:\n        - \"Action experience\"\n        - \"Martial arts background\"\n        - \"International appeal\"\n    supporting_actress:\n      gender: female\n      age_range: [20, 30]\n      requirements:\n        - \"Comedy timing\"\n        - \"Chemistry with lead\"\n  audition_dates:\n    los_angeles: \"2024-01-15\"\n    new_york: \"2024-01-20\"\n    london: \"2024-01-25\"",
+      "title": "Casting Requirements",
+      "description": "Detailed casting specifications with ranges and requirements",
+      "tags": ["ranges", "requirements", "casting"],
+      "difficulty": "intermediate",
+      "language": "yaml"
+    },
+    {
+      "code": "production_schedule:\n  pre_production:\n    start_date: 2024-02-01\n    end_date: 2024-03-15\n    activities:\n      - Script finalization\n      - Location scouting\n      - Costume design\n      - Set construction\n      \n  principal_photography:\n    start_date: 2024-03-20\n    end_date: 2024-06-30\n    phases:\n      - name: \"Studio Scenes\"\n        duration_weeks: 8\n        location: \"Hollywood Studios\"\n      - name: \"Location Shoots\"\n        duration_weeks: 6\n        location: \"Various\"",
+      "title": "Production Timeline",
+      "description": "Time-based scheduling with phases and activities",
+      "tags": ["dates", "scheduling", "phases"],
+      "difficulty": "intermediate",
+      "language": "yaml"
+    },
+    {
+      "code": "visual_effects:\n  vfx_supervisor: \"Jennifer Park\"\n  total_shots: 1250\n  categories:\n    environment:\n      shots: 450\n      complexity: high\n      vendors:\n        - \"ILM\"\n        - \"Weta Digital\"\n    creatures:\n      shots: 320\n      complexity: very_high\n      vendors:\n        - \"Framestore\"\n    vehicles:\n      shots: 280\n      complexity: medium\n      vendors:\n        - \"Digital Domain\"\n  budget_allocation:\n    environment: 15_000_000\n    creatures: 25_000_000\n    vehicles: 8_000_000",
+      "title": "VFX Production Breakdown",
+      "description": "Complex VFX pipeline organization with budget allocation",
+      "tags": ["vfx", "budget", "vendors"],
+      "difficulty": "advanced",
+      "language": "yaml"
+    },
+    {
+      "code": "# Multi-environment deployment configuration\nenvironments:\n  development: &dev_config\n    database_host: \"dev-db.studio.com\"\n    api_endpoint: \"https://dev-api.studio.com\"\n    cache_enabled: false\n    debug_mode: true\n    \n  staging:\n    <<: *dev_config\n    database_host: \"stage-db.studio.com\"\n    api_endpoint: \"https://stage-api.studio.com\"\n    debug_mode: false\n    \n  production:\n    <<: *dev_config\n    database_host: \"prod-db.studio.com\"\n    api_endpoint: \"https://api.studio.com\"\n    cache_enabled: true\n    debug_mode: false\n    ssl_required: true",
+      "title": "Environment Configuration with Anchors",
+      "description": "Advanced YAML features with anchors and references",
+      "tags": ["anchors", "references", "inheritance"],
+      "difficulty": "advanced",
+      "language": "yaml"
+    },
+    {
+      "code": "streaming_distribution:\n  platforms:\n    - name: \"Netflix\"\n      territory: \"Worldwide\"\n      exclusive: false\n      revenue_split: 0.70\n      contract_terms:\n        minimum_guarantee: 50_000_000\n        marketing_commitment: 15_000_000\n    - name: \"Amazon Prime\"\n      territory: [\"US\", \"Canada\", \"UK\"]\n      exclusive: true\n      revenue_split: 0.80\n      contract_terms:\n        minimum_guarantee: 75_000_000\n        bonus_thresholds:\n          - views: 100_000_000\n            bonus: 10_000_000\n          - views: 200_000_000\n            bonus: 20_000_000",
+      "title": "Streaming Platform Contracts",
+      "description": "Complex contract structures with nested bonus systems",
+      "tags": ["contracts", "revenue", "bonuses"],
+      "difficulty": "advanced",
+      "language": "yaml"
+    },
+    {
+      "code": "soundtrack:\n  composer: \"Hans Zimmer\"\n  orchestra: \"London Symphony Orchestra\"\n  recording_studio: \"Abbey Road Studios\"\n  \n  tracks:\n    - &main_theme\n      title: \"Hero's Journey\"\n      duration: \"4:32\"\n      instruments: [\"Orchestra\", \"Choir\", \"Synthesizer\"]\n      themes: [\"heroic\", \"adventure\"]\n      \n    - title: \"The Chase\"\n      duration: \"3:18\"\n      instruments: [\"Percussion\", \"Brass\", \"Strings\"]\n      themes: [\"action\", \"tension\"]\n      tempo: \"Allegro\"\n      \n    - <<: *main_theme\n      title: \"Hero's Journey (Finale)\"\n      duration: \"6:45\"\n      additional_elements:\n        - \"Full choir\"\n        - \"Extended brass section\"",
+      "title": "Soundtrack Composition Details",
+      "description": "Music production with track variations using YAML anchors",
+      "tags": ["music", "variations", "anchors"],
+      "difficulty": "advanced",
+      "language": "yaml"
+    },
+    {
+      "code": "marketing_campaign:\n  strategy: \"Global Tentpole Release\"\n  total_budget: 120_000_000\n  \n  channels:\n    digital:\n      budget_percent: 0.45\n      platforms:\n        social_media:\n          facebook: {budget: 8_000_000, target_demos: [\"25-54\"]}\n          instagram: {budget: 6_000_000, target_demos: [\"18-34\"]}\n          tiktok: {budget: 4_000_000, target_demos: [\"13-25\"]}\n        streaming_ads:\n          youtube: 12_000_000\n          hulu: 8_000_000\n          \n    traditional:\n      budget_percent: 0.35\n      tv_spots: 25_000_000\n      print_ads: 8_000_000\n      outdoor_billboards: 9_000_000\n      \n    partnerships:\n      budget_percent: 0.20\n      brand_collaborations:\n        - partner: \"McDonald's\"\n          investment: 15_000_000\n          deliverables: [\"Happy Meal toys\", \"Co-branded cups\"]\n        - partner: \"Nike\"\n          investment: 9_000_000\n          deliverables: [\"Limited edition shoes\", \"Athlete endorsements\"]",
+      "title": "Comprehensive Marketing Strategy",
+      "description": "Multi-level marketing campaign with budget breakdowns",
+      "tags": ["marketing", "budgets", "partnerships"],
+      "difficulty": "advanced",
+      "language": "yaml"
+    },
+    {
+      "code": "premiere_events:\n  world_premiere:\n    date: 2024-06-15\n    venue: \"TCL Chinese Theatre\"\n    city: \"Hollywood\"\n    red_carpet: true\n    capacity: 932\n    \n    guest_categories:\n      - category: \"Cast & Crew\"\n        allocation: 200\n        plus_ones: true\n      - category: \"Industry VIPs\"\n        allocation: 150\n        includes: [\"Executives\", \"Directors\", \"Producers\"]\n      - category: \"Press\"\n        allocation: 100\n        credentials_required: true\n      - category: \"Contest Winners\"\n        allocation: 50\n        selection_method: \"Random drawing\"\n        \n    after_party:\n      venue: \"Hollywood Roosevelt Hotel\"\n      capacity: 400\n      catering:\n        style: \"Cocktail reception\"\n        dietary_options:\n          - Vegetarian\n          - Vegan\n          - Gluten-free\n          - Kosher\n      entertainment:\n        - \"Live jazz band\"\n        - \"Celebrity DJ set\"",
+      "title": "Premiere Event Planning",
+      "description": "Detailed event management with guest allocation and logistics",
+      "tags": ["events", "planning", "logistics"],
+      "difficulty": "advanced",
+      "language": "yaml"
+    },
+    {
+      "code": "international_releases:\n  distribution_strategy: \"Day-and-Date Global\"\n  \n  regions:\n    north_america: &na_release\n      release_date: 2024-07-04\n      rating: \"PG-13\"\n      theaters: 4200\n      languages: [\"English\"]\n      subtitles: [\"Spanish\", \"French\"]\n      \n    europe:\n      <<: *na_release\n      theaters: 3500\n      languages: [\"English\", \"French\", \"German\", \"Spanish\"]\n      subtitles: [\"Multiple\"]\n      classification:\n        uk: \"12A\"\n        germany: \"12\"\n        france: \"Tous publics\"\n        \n    asia_pacific:\n      <<: *na_release\n      release_date: 2024-07-03  # Day earlier\n      theaters: 5800\n      languages: [\"English\", \"Mandarin\", \"Japanese\", \"Korean\"]\n      localization:\n        china:\n          censorship_review: \"Required\"\n          local_partnership: \"China Film Group\"\n        japan:\n          voice_cast: \"Celebrity Japanese actors\"\n          promotional_tie_ins: [\"Anime collaboration\"]\n          \n  box_office_projections:\n    opening_weekend:\n      north_america: 85_000_000\n      international: 120_000_000\n    total_lifetime:\n      domestic: 320_000_000\n      international: 580_000_000",
+      "title": "Global Release Strategy",
+      "description": "International distribution with localization and projections",
+      "tags": ["international", "localization", "projections"],
+      "difficulty": "advanced",
+      "language": "yaml"
+    },
+    {
+      "code": "sequel_development:\n  working_title: \"The Great Adventure: Legacy\"\n  development_stage: \"Script Development\"\n  \n  key_personnel:\n    returning:\n      director: \"Steven Rodriguez\"\n      producer: \"Jennifer Walsh\"\n      lead_actor: \"Chris Evans\"\n    new_additions:\n      co_director: \"Ava Chen\"\n      executive_producer: \"Michael Bay\"\n      \n  story_elements:\n    timeline: \"5 years after original\"\n    new_locations:\n      - \"Tokyo\"\n      - \"London\"\n      - \"Sydney\"\n    character_arcs:\n      protagonist:\n        development: \"Mentoring next generation\"\n        challenges: [\"Legacy pressure\", \"New threats\"]\n      new_character:\n        role: \"Protégé\"\n        casting_preference: \"Unknown actor\"\n        \n  production_timeline:\n    script_completion: \"2024-12-01\"\n    pre_production_start: \"2025-03-01\"\n    filming_start: \"2025-08-15\"\n    target_release: \"2026-07-04\"\n    \n  budget_projections:\n    total_budget: 150_000_000\n    compared_to_original: \"+76%\"\n    justification:\n      - \"Inflation adjustment\"\n      - \"Higher star salaries\"\n      - \"More complex VFX\"\n      - \"International locations\"",
+      "title": "Sequel Development Planning",
+      "description": "Comprehensive sequel planning with comparisons and projections",
+      "tags": ["sequel", "development", "comparisons"],
+      "difficulty": "advanced",
+      "language": "yaml"
+    }
+  ]
+}

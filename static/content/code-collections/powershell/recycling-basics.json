@@ -1,0 +1,167 @@
+{
+  "id": "recycling-basics",
+  "name": "PowerShell Recycling Basics",
+  "description": "Learn PowerShell with eco-friendly recycling and waste reduction themes",
+  "icon": "♻️",
+  "difficulty": "beginner",
+  "language": "powershell",
+  "snippets": [
+    {
+      "code": "$RecyclingCenter = \"GreenEarth Facility\"\n$PlasticBottles = 150\n$IsOperational = $true\n\nWrite-Host \"Center: $RecyclingCenter\"\nWrite-Host \"Plastic bottles processed: $PlasticBottles\"\nWrite-Host \"Currently operational: $IsOperational\"",
+      "title": "Recycling Center Variables",
+      "description": "Basic PowerShell variables for tracking recycling data",
+      "tags": ["variables", "write-host", "strings", "numbers", "booleans"],
+      "difficulty": "beginner",
+      "language": "powershell"
+    },
+    {
+      "code": "$UserName = Read-Host \"Enter your name\"\n$WasteType = Read-Host \"What type of waste? (plastic/paper/glass)\"\n\nWrite-Host \"Welcome $UserName to our recycling program!\"\nWrite-Host \"Thank you for bringing $WasteType waste\"\nWrite-Host \"Every item counts for our planet!\"",
+      "title": "Eco-Friendly User Input",
+      "description": "Collecting user information for recycling programs",
+      "tags": ["read-host", "user-input", "prompts"],
+      "difficulty": "beginner",
+      "language": "powershell"
+    },
+    {
+      "code": "$CarbonSaved = 25.5\n$MinimumSavings = 20.0\n\nif ($CarbonSaved -gt $MinimumSavings) {\n    Write-Host \"Excellent! You've saved $CarbonSaved kg of CO2\"\n} else {\n    Write-Host \"Keep recycling to reach the minimum savings\"\n}\nWrite-Host \"Current carbon savings: $CarbonSaved kg\"",
+      "title": "Carbon Footprint Calculator",
+      "description": "Conditional logic for environmental impact tracking",
+      "tags": ["if-else", "conditionals", "comparison", "gt"],
+      "difficulty": "beginner",
+      "language": "powershell"
+    },
+    {
+      "code": "$WasteTypes = @(\"plastic\", \"paper\", \"glass\", \"metal\", \"organic\")\n\nforeach ($waste in $WasteTypes) {\n    Write-Host \"Processing $waste waste...\"\n    Write-Host \"Sorting into appropriate recycling bin\"\n}\nWrite-Host \"All waste sorted successfully!\"",
+      "title": "Waste Sorting Loop",
+      "description": "Iterating through different types of recyclable materials",
+      "tags": ["arrays", "foreach", "loops"],
+      "difficulty": "beginner",
+      "language": "powershell"
+    },
+    {
+      "code": "$RecycledItems = 1\n$MaxCapacity = 500\n\nwhile ($RecycledItems -le $MaxCapacity) {\n    Write-Host \"Item #$RecycledItems added to recycling bin\"\n    $RecycledItems += 50\n}\nWrite-Host \"Recycling bin is now full!\"",
+      "title": "Recycling Bin Fill Tracker",
+      "description": "While loop for tracking recycling bin capacity",
+      "tags": ["while", "loops", "increment", "le"],
+      "difficulty": "beginner",
+      "language": "powershell"
+    },
+    {
+      "code": "function Calculate-WasteReduction {\n    param($OriginalWaste, $RecycledAmount)\n    $Reduction = ($RecycledAmount / $OriginalWaste) * 100\n    Write-Host \"Waste reduction: $Reduction%\"\n    return $Reduction\n}\n\nCalculate-WasteReduction -OriginalWaste 1000 -RecycledAmount 750",
+      "title": "Waste Reduction Calculator",
+      "description": "Function to calculate recycling effectiveness",
+      "tags": ["functions", "param", "calculations", "return"],
+      "difficulty": "beginner",
+      "language": "powershell"
+    },
+    {
+      "code": "switch ($args[0]) {\n    \"plastic\" { Write-Host \"Goes in the blue recycling bin\" }\n    \"paper\" { Write-Host \"Goes in the green recycling bin\" }\n    \"glass\" { Write-Host \"Goes in the clear recycling bin\" }\n    \"organic\" { Write-Host \"Goes in the compost bin\" }\n    default { Write-Host \"Please check recycling guidelines\" }\n}",
+      "title": "Waste Classification System",
+      "description": "Switch statement for sorting waste types",
+      "tags": ["switch", "args", "classification"],
+      "difficulty": "beginner",
+      "language": "powershell"
+    },
+    {
+      "code": "$EcoProducts = @(\"bamboo\", \"recycled-plastic\", \"organic\", \"biodegradable\")\nWrite-Host \"Available eco-products: $($EcoProducts.Count)\"\nWrite-Host \"First product: $($EcoProducts[0])\"\nWrite-Host \"All products: $($EcoProducts -join ', ')\"\n$EcoProducts += \"solar-powered\"",
+      "title": "Eco-Product Inventory",
+      "description": "Array operations for sustainable product management",
+      "tags": ["arrays", "count", "indexing", "join"],
+      "difficulty": "beginner",
+      "language": "powershell"
+    },
+    {
+      "code": "Write-Host \"Creating environmental impact report...\"\n\"Date,Action,Impact\" | Out-File -FilePath \"green_log.csv\"\n\"$(Get-Date),Recycled bottles,5kg CO2 saved\" | Add-Content \"green_log.csv\"\n\"$(Get-Date),Composted organic,2kg waste diverted\" | Add-Content \"green_log.csv\"\nWrite-Host \"Environmental log created!\"",
+      "title": "Environmental Impact Logging",
+      "description": "File operations for tracking green initiatives",
+      "tags": ["files", "out-file", "add-content", "get-date"],
+      "difficulty": "beginner",
+      "language": "powershell"
+    },
+    {
+      "code": "if (Test-Path \"green_log.csv\") {\n    Write-Host \"Reading environmental data:\"\n    Get-Content \"green_log.csv\"\n    $LineCount = (Get-Content \"green_log.csv\").Count\n    Write-Host \"Total entries: $LineCount\"\n} else {\n    Write-Host \"Environmental log not found!\"\n}",
+      "title": "Green Data Analysis",
+      "description": "Reading and analyzing environmental impact files",
+      "tags": ["test-path", "get-content", "file-analysis"],
+      "difficulty": "beginner",
+      "language": "powershell"
+    },
+    {
+      "code": "$WaterSaved = [math]::Round(15.75 + 8.25, 2)\n$EnergyEfficiency = [math]::Pow(0.95, 12)\nWrite-Host \"Water saved: $WaterSaved liters\"\nWrite-Host \"Annual efficiency: $([math]::Round($EnergyEfficiency * 100, 1))%\"\nWrite-Host \"Sustainable operations achieved!\"",
+      "title": "Sustainability Calculations",
+      "description": "Mathematical operations for environmental metrics",
+      "tags": ["math", "round", "pow", "calculations"],
+      "difficulty": "beginner",
+      "language": "powershell"
+    },
+    {
+      "code": "function Monitor-EcoProgress {\n    param($Days)\n    for ($i = 1; $i -le $Days; $i++) {\n        $Savings = Get-Random -Minimum 10 -Maximum 50\n        Write-Host \"Day $i: Saved $Savings kg of waste\"\n        if ($Savings -gt 40) {\n            Write-Host \"Excellent progress today!\"\n        }\n    }\n}\n\nMonitor-EcoProgress -Days 7",
+      "title": "Weekly Eco-Progress Tracker",
+      "description": "Advanced function with loops and conditionals",
+      "tags": ["functions", "for-loops", "get-random", "conditionals"],
+      "difficulty": "intermediate",
+      "language": "powershell"
+    },
+    {
+      "code": "Get-ChildItem -Path \"./recycling/*.txt\" | ForEach-Object {\n    $Content = Get-Content $_.FullName\n    Write-Host \"Processing $($_.Name)...\"\n    $WasteCount = ($Content | Measure-Object -Line).Lines\n    Write-Host \"Found $WasteCount waste entries\"\n}",
+      "title": "Batch Recycling File Processing",
+      "description": "Pipeline processing for multiple recycling files",
+      "tags": ["get-childitem", "foreach-object", "pipeline", "measure-object"],
+      "difficulty": "intermediate",
+      "language": "powershell"
+    },
+    {
+      "code": "try {\n    $RecyclingData = Import-Csv \"green_log.csv\"\n    $TotalImpact = ($RecyclingData | Measure-Object -Property Impact -Sum).Sum\n    Write-Host \"Total environmental impact: $TotalImpact\"\n} catch {\n    Write-Host \"Error reading data: $($_.Exception.Message)\"\n} finally {\n    Write-Host \"Sustainability report complete\"\n}",
+      "title": "Robust Data Processing",
+      "description": "Error handling for environmental data analysis",
+      "tags": ["try-catch", "import-csv", "error-handling"],
+      "difficulty": "intermediate",
+      "language": "powershell"
+    },
+    {
+      "code": "$EcoHash = @{\n    \"PlasticBottles\" = 1250\n    \"PaperSheets\" = 3000\n    \"GlassJars\" = 500\n    \"MetalCans\" = 800\n}\n\n$EcoHash.GetEnumerator() | ForEach-Object {\n    Write-Host \"$($_.Key): $($_.Value) items recycled\"\n}",
+      "title": "Recycling Statistics Hash Table",
+      "description": "Using hash tables for structured recycling data",
+      "tags": ["hashtable", "getenumerator", "key-value"],
+      "difficulty": "intermediate",
+      "language": "powershell"
+    },
+    {
+      "code": "$EnvData = Get-WmiObject -Class Win32_Environment | Where-Object {\n    $_.Name -like \"*TEMP*\" -or $_.Name -like \"*PATH*\"\n} | Select-Object Name, VariableValue\n\nWrite-Host \"System environment check for green computing:\"\n$EnvData | Format-Table -AutoSize",
+      "title": "Green Computing Environment Check",
+      "description": "System monitoring for eco-friendly computing",
+      "tags": [
+        "get-wmiobject",
+        "where-object",
+        "select-object",
+        "format-table"
+      ],
+      "difficulty": "intermediate",
+      "language": "powershell"
+    },
+    {
+      "code": "Start-Job -Name \"EcoMonitoring\" -ScriptBlock {\n    1..5 | ForEach-Object {\n        Write-Output \"Monitoring cycle $_: All recycling systems operational\"\n        Start-Sleep 2\n    }\n}\n\nWait-Job -Name \"EcoMonitoring\"\nReceive-Job -Name \"EcoMonitoring\"",
+      "title": "Background Eco-Monitoring",
+      "description": "Background jobs for continuous environmental monitoring",
+      "tags": ["start-job", "wait-job", "receive-job", "background"],
+      "difficulty": "advanced",
+      "language": "powershell"
+    },
+    {
+      "code": "$SustainabilityModule = @\"\nfunction Get-CarbonFootprint {\n    param([int]$ElectricityUsage, [int]$WasteGenerated)\n    $CarbonFactor = 0.233\n    $WasteFactor = 0.5\n    return ($ElectricityUsage * $CarbonFactor) + ($WasteGenerated * $WasteFactor)\n}\n\"@\n\nInvoke-Expression $SustainabilityModule\nGet-CarbonFootprint -ElectricityUsage 500 -WasteGenerated 50",
+      "title": "Dynamic Sustainability Module",
+      "description": "Creating and executing dynamic PowerShell modules",
+      "tags": ["here-string", "invoke-expression", "dynamic-modules"],
+      "difficulty": "advanced",
+      "language": "powershell"
+    },
+    {
+      "code": "$Global:EcoSettings = @{\n    RecyclingTarget = 1000\n    CarbonGoal = 500\n    WasteReduction = 75\n}\n\nfunction Set-GlobalEcoTarget {\n    param([string]$Setting, [int]$Value)\n    $Global:EcoSettings[$Setting] = $Value\n    Write-Host \"Updated $Setting to $Value for global sustainability\"\n}\n\nSet-GlobalEcoTarget \"RecyclingTarget\" 1500",
+      "title": "Global Sustainability Configuration",
+      "description": "Advanced scope management for environmental settings",
+      "tags": ["global-scope", "advanced-functions", "configuration"],
+      "difficulty": "advanced",
+      "language": "powershell"
+    }
+  ]
+}

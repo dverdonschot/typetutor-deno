@@ -1,0 +1,170 @@
+{
+  "id": "knights-basics",
+  "name": "CSS Knights & Castles",
+  "description": "Learn CSS styling with medieval knights and castle themes",
+  "icon": "🏰",
+  "difficulty": "beginner",
+  "language": "css",
+  "snippets": [
+    {
+      "code": ".castle {\n    color: gray;\n    background-color: lightgray;\n    font-family: 'Medieval', serif;\n    font-size: 16px;\n    text-align: center;\n}",
+      "title": "Castle Basic Styling",
+      "description": "Fundamental CSS properties for castle elements",
+      "tags": ["color", "background", "font", "text-align"],
+      "difficulty": "beginner",
+      "language": "css"
+    },
+    {
+      "code": "#throne-room {\n    width: 300px;\n    height: 200px;\n    border: 3px solid gold;\n    margin: 20px auto;\n    padding: 15px;\n}",
+      "title": "Throne Room Dimensions",
+      "description": "Setting up box model for royal chambers",
+      "tags": ["width", "height", "border", "margin", "padding"],
+      "difficulty": "beginner",
+      "language": "css"
+    },
+    {
+      "code": ".knight {\n    font-weight: bold;\n    text-decoration: underline;\n    text-transform: uppercase;\n    letter-spacing: 2px;\n    line-height: 1.5;\n}",
+      "title": "Knight Text Formatting",
+      "description": "Typography for medieval knight titles",
+      "tags": ["font-weight", "text-decoration", "text-transform", "spacing"],
+      "difficulty": "beginner",
+      "language": "css"
+    },
+    {
+      "code": ".castle-wall {\n    background: linear-gradient(to bottom, #8B4513, #A0522D);\n    border-radius: 10px;\n    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);\n}",
+      "title": "Medieval Wall Effects",
+      "description": "Gradients and shadows for stone walls",
+      "tags": ["gradient", "border-radius", "box-shadow", "rgba"],
+      "difficulty": "beginner",
+      "language": "css"
+    },
+    {
+      "code": ".banner {\n    display: block;\n    position: relative;\n    top: 10px;\n    left: 20px;\n    z-index: 100;\n}",
+      "title": "Castle Banner Positioning",
+      "description": "Positioning medieval banners and flags",
+      "tags": ["display", "position", "top", "left", "z-index"],
+      "difficulty": "beginner",
+      "language": "css"
+    },
+    {
+      "code": ".great-hall {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    gap: 20px;\n    flex-wrap: wrap;\n}",
+      "title": "Great Hall Layout",
+      "description": "Flexbox for arranging castle hall elements",
+      "tags": ["flexbox", "justify-content", "align-items", "gap", "flex-wrap"],
+      "difficulty": "beginner",
+      "language": "css"
+    },
+    {
+      "code": ".castle-grid {\n    display: grid;\n    grid-template-columns: 1fr 2fr 1fr;\n    grid-template-rows: auto 1fr auto;\n    grid-gap: 10px;\n    height: 100vh;\n}",
+      "title": "Castle Grid Layout",
+      "description": "CSS Grid for medieval castle structure",
+      "tags": ["grid", "template-columns", "template-rows", "gap", "vh"],
+      "difficulty": "intermediate",
+      "language": "css"
+    },
+    {
+      "code": ".drawbridge:hover {\n    transform: rotate(-45deg);\n    transition: transform 0.5s ease;\n}\n.moat {\n    background: blue;\n    opacity: 0.7;\n}",
+      "title": "Interactive Castle Features",
+      "description": "Hover effects and transitions for castle elements",
+      "tags": ["hover", "transform", "transition", "opacity"],
+      "difficulty": "intermediate",
+      "language": "css"
+    },
+    {
+      "code": "@media (max-width: 768px) {\n    .castle {\n        width: 100%;\n        padding: 10px;\n    }\n    .tower {\n        height: 150px;\n    }\n}",
+      "title": "Responsive Castle Design",
+      "description": "Media queries for mobile-friendly castles",
+      "tags": ["media-query", "responsive", "max-width"],
+      "difficulty": "intermediate",
+      "language": "css"
+    },
+    {
+      "code": ".knight::before {\n    content: '⚔️';\n    margin-right: 5px;\n}\n.knight::after {\n    content: ' - Defender of the Realm';\n    font-style: italic;\n}",
+      "title": "Knight Pseudo-elements",
+      "description": "Adding decorative elements to knight titles",
+      "tags": ["pseudo-elements", "before", "after", "content"],
+      "difficulty": "intermediate",
+      "language": "css"
+    },
+    {
+      "code": ".armor {\n    background: url('chainmail.png') repeat;\n    background-size: 50px 50px;\n    border: 2px solid silver;\n    background-attachment: fixed;\n}",
+      "title": "Knight Armor Texture",
+      "description": "Background images and patterns for armor",
+      "tags": ["background-image", "repeat", "background-size", "attachment"],
+      "difficulty": "intermediate",
+      "language": "css"
+    },
+    {
+      "code": ".castle-entrance {\n    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);\n    background: #654321;\n    width: 200px;\n    height: 150px;\n}",
+      "title": "Castle Gate Shape",
+      "description": "Creating custom shapes with clip-path",
+      "tags": ["clip-path", "polygon", "custom-shapes"],
+      "difficulty": "advanced",
+      "language": "css"
+    },
+    {
+      "code": "@keyframes flag-wave {\n    0% { transform: rotate(0deg); }\n    25% { transform: rotate(5deg); }\n    75% { transform: rotate(-5deg); }\n    100% { transform: rotate(0deg); }\n}\n.banner {\n    animation: flag-wave 2s infinite;\n}",
+      "title": "Animated Castle Banner",
+      "description": "CSS animations for waving flags",
+      "tags": ["keyframes", "animation", "rotate", "infinite"],
+      "difficulty": "advanced",
+      "language": "css"
+    },
+    {
+      "code": ".torch {\n    position: relative;\n}\n.torch::before {\n    content: '';\n    position: absolute;\n    top: -10px;\n    left: 50%;\n    width: 20px;\n    height: 20px;\n    background: radial-gradient(circle, orange, red);\n    border-radius: 50%;\n    animation: flicker 1s infinite alternate;\n}",
+      "title": "Flickering Torch Effect",
+      "description": "Advanced pseudo-element animation for torches",
+      "tags": ["pseudo-elements", "radial-gradient", "animation", "flicker"],
+      "difficulty": "advanced",
+      "language": "css"
+    },
+    {
+      "code": ".round-table {\n    display: grid;\n    place-items: center;\n    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));\n    gap: 20px;\n    border-radius: 50%;\n    aspect-ratio: 1;\n}",
+      "title": "Knights' Round Table",
+      "description": "Advanced grid layout for circular seating",
+      "tags": ["grid", "place-items", "auto-fit", "aspect-ratio", "circle"],
+      "difficulty": "advanced",
+      "language": "css"
+    },
+    {
+      "code": ".castle-shadow {\n    filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.6));\n}\n.stained-glass {\n    filter: hue-rotate(45deg) saturate(1.5) brightness(1.2);\n}",
+      "title": "Castle Lighting Effects",
+      "description": "CSS filters for atmospheric lighting",
+      "tags": ["filter", "drop-shadow", "hue-rotate", "saturate", "brightness"],
+      "difficulty": "advanced",
+      "language": "css"
+    },
+    {
+      "code": ".quest-scroll {\n    writing-mode: vertical-rl;\n    text-orientation: mixed;\n    border: 3px solid #8B4513;\n    background: parchment;\n    padding: 20px;\n    scroll-behavior: smooth;\n}",
+      "title": "Medieval Quest Scroll",
+      "description": "Advanced text layout for scrolls and documents",
+      "tags": ["writing-mode", "text-orientation", "scroll-behavior"],
+      "difficulty": "advanced",
+      "language": "css"
+    },
+    {
+      "code": ".heraldic-shield {\n    width: 100px;\n    height: 120px;\n    background: linear-gradient(45deg, red 50%, gold 50%);\n    clip-path: polygon(50% 0%, 0% 40%, 0% 90%, 50% 100%, 100% 90%, 100% 40%);\n    border: 3px solid #333;\n}",
+      "title": "Heraldic Shield Design",
+      "description": "Creating medieval shields with gradients and shapes",
+      "tags": ["clip-path", "linear-gradient", "heraldic", "shield"],
+      "difficulty": "advanced",
+      "language": "css"
+    },
+    {
+      "code": ".tournament-arena {\n    display: subgrid;\n    container-type: inline-size;\n}\n@container (min-width: 400px) {\n    .knight-tile {\n        grid-column: span 2;\n        font-size: 1.2em;\n    }\n}",
+      "title": "Tournament Container Queries",
+      "description": "Modern CSS container queries for tournaments",
+      "tags": ["subgrid", "container-query", "container-type"],
+      "difficulty": "advanced",
+      "language": "css"
+    },
+    {
+      "code": ".medieval-layout {\n    display: grid;\n    grid-template-areas:\n        \"header header header\"\n        \"sidebar main tower\"\n        \"footer footer footer\";\n    grid-template-columns: 200px 1fr 150px;\n    grid-template-rows: auto 1fr auto;\n    min-height: 100vh;\n}",
+      "title": "Complete Castle Layout",
+      "description": "Full page layout using CSS Grid areas",
+      "tags": ["grid-areas", "template-areas", "layout", "full-page"],
+      "difficulty": "advanced",
+      "language": "css"
+    }
+  ]
+}

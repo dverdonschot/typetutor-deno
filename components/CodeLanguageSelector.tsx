@@ -1,4 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
+import RandomToggle from "./RandomToggle.tsx";
 
 interface Language {
   code: string;
@@ -12,6 +13,8 @@ interface CodeLanguageSelectorProps {
   onLanguageChange: (languageCode: string, language: Language) => void;
   hideLabel?: boolean;
   label?: string;
+  randomMode?: boolean;
+  onRandomModeChange?: (enabled: boolean) => void;
 }
 
 export default function CodeLanguageSelector(
@@ -20,6 +23,8 @@ export default function CodeLanguageSelector(
     onLanguageChange,
     hideLabel,
     label,
+    randomMode = false,
+    onRandomModeChange,
   }: CodeLanguageSelectorProps,
 ) {
   const [languages, setLanguages] = useState<Language[]>([]);
@@ -128,20 +133,17 @@ export default function CodeLanguageSelector(
         ))}
       </select>
 
-      {/* Show additional language info */}
-      {selectedLanguage && languages.find((l) => l.code === selectedLanguage) &&
-        (
-          <div class="mt-2 text-sm text-gray-600">
-            {(() => {
-              const selectedLang = languages.find((l) =>
-                l.code === selectedLanguage
-              );
-              return selectedLang?.description
-                ? <p>{selectedLang.description}</p>
-                : null;
-            })()}
-          </div>
-        )}
+      {/* Random mode toggle */}
+      {onRandomModeChange && selectedLanguage && (
+        <div class="mt-3">
+          <RandomToggle
+            id="language-random-toggle"
+            label="Random from All Collections"
+            checked={randomMode}
+            onChange={onRandomModeChange}
+          />
+        </div>
+      )}
     </div>
   );
 }

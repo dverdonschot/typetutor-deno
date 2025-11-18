@@ -1,0 +1,170 @@
+{
+  "id": "pirates-basics",
+  "name": "HTML Pirates Basics",
+  "description": "Learn HTML markup with pirates and Caribbean adventures",
+  "icon": "🏴‍☠️",
+  "difficulty": "beginner",
+  "language": "html",
+  "snippets": [
+    {
+      "code": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Captain Blackbeard's Ship</title>\n</head>\n<body>\n    <h1>Welcome Aboard!</h1>\n    <p>The finest pirate ship in the Caribbean</p>\n</body>\n</html>",
+      "title": "Basic HTML Structure",
+      "description": "Document structure with pirate ship theme",
+      "tags": ["doctype", "html", "head", "title", "body"],
+      "difficulty": "beginner",
+      "language": "html"
+    },
+    {
+      "code": "<h1>Captain's Quarters</h1>\n<h2>Treasure Room</h2>\n<h3>Map Collection</h3>\n<h4>Navigation Tools</h4>\n<h5>Personal Items</h5>\n<h6>Ship's Log Entries</h6>",
+      "title": "Pirate Ship Headings",
+      "description": "Using different heading levels for ship organization",
+      "tags": ["headings", "h1", "h2", "h3", "hierarchy"],
+      "difficulty": "beginner",
+      "language": "html"
+    },
+    {
+      "code": "<p>Captain Jack sailed across the <strong>seven seas</strong> searching for treasure.</p>\n<p>His crew was <em>brave and loyal</em>, ready for any adventure.</p>\n<p>The ship's motto: <strong><em>\"Fortune favors the bold!\"</em></strong></p>",
+      "title": "Text Formatting for Pirates",
+      "description": "Bold and italic text in pirate stories",
+      "tags": ["p", "strong", "em", "emphasis"],
+      "difficulty": "beginner",
+      "language": "html"
+    },
+    {
+      "code": "<ul>\n    <li>Cutlass</li>\n    <li>Pistol</li>\n    <li>Compass</li>\n    <li>Treasure map</li>\n    <li>Rum bottle</li>\n</ul>",
+      "title": "Pirate Equipment List",
+      "description": "Unordered list of essential pirate gear",
+      "tags": ["ul", "li", "unordered-list"],
+      "difficulty": "beginner",
+      "language": "html"
+    },
+    {
+      "code": "<ol>\n    <li>Raise the anchor</li>\n    <li>Set the sails</li>\n    <li>Chart the course</li>\n    <li>Watch for enemy ships</li>\n    <li>Search for treasure islands</li>\n</ol>",
+      "title": "Ship Departure Checklist",
+      "description": "Ordered list of sailing procedures",
+      "tags": ["ol", "li", "ordered-list", "procedures"],
+      "difficulty": "beginner",
+      "language": "html"
+    },
+    {
+      "code": "<a href=\"treasure-island.html\">Visit Treasure Island</a>\n<a href=\"crew-quarters.html\">Crew Quarters</a>\n<a href=\"captain-cabin.html\">Captain's Cabin</a>\n<a href=\"mailto:blackbeard@pirates.sea\">Contact Captain</a>",
+      "title": "Pirate Ship Navigation",
+      "description": "Creating links between ship sections",
+      "tags": ["a", "href", "links", "mailto"],
+      "difficulty": "beginner",
+      "language": "html"
+    },
+    {
+      "code": "<img src=\"jolly-roger.png\" alt=\"Pirate flag with skull and crossbones\">\n<img src=\"treasure-chest.jpg\" alt=\"Golden treasure chest\" width=\"300\">\n<img src=\"pirate-ship.png\" alt=\"Black Pearl sailing at sunset\" height=\"200\">",
+      "title": "Pirate Images and Flags",
+      "description": "Adding images with proper alt text",
+      "tags": ["img", "src", "alt", "width", "height"],
+      "difficulty": "beginner",
+      "language": "html"
+    },
+    {
+      "code": "<table>\n    <tr>\n        <th>Pirate Name</th>\n        <th>Position</th>\n        <th>Years at Sea</th>\n    </tr>\n    <tr>\n        <td>Long John Silver</td>\n        <td>Cook</td>\n        <td>15</td>\n    </tr>\n    <tr>\n        <td>Bootstrap Bill</td>\n        <td>Gunner</td>\n        <td>8</td>\n    </tr>\n</table>",
+      "title": "Crew Roster Table",
+      "description": "Table structure for pirate crew information",
+      "tags": ["table", "tr", "th", "td", "roster"],
+      "difficulty": "beginner",
+      "language": "html"
+    },
+    {
+      "code": "<form action=\"join-crew.php\" method=\"post\">\n    <label for=\"name\">Pirate Name:</label>\n    <input type=\"text\" id=\"name\" name=\"pirate_name\">\n    \n    <label for=\"skill\">Special Skill:</label>\n    <input type=\"text\" id=\"skill\" name=\"skill\">\n    \n    <input type=\"submit\" value=\"Join Crew\">\n</form>",
+      "title": "Pirate Recruitment Form",
+      "description": "Basic form for joining the pirate crew",
+      "tags": ["form", "label", "input", "text", "submit"],
+      "difficulty": "beginner",
+      "language": "html"
+    },
+    {
+      "code": "<div class=\"treasure-map\">\n    <h2>Treasure Map</h2>\n    <p>X marks the spot where the gold is buried!</p>\n</div>\n<div class=\"ship-inventory\">\n    <h3>Ship's Inventory</h3>\n    <p>Cannons, ropes, and barrels of rum</p>\n</div>",
+      "title": "Pirate Content Sections",
+      "description": "Using div elements to group related content",
+      "tags": ["div", "class", "sections"],
+      "difficulty": "beginner",
+      "language": "html"
+    },
+    {
+      "code": "<select name=\"ship_destination\">\n    <option value=\"tortuga\">Tortuga</option>\n    <option value=\"port-royal\">Port Royal</option>\n    <option value=\"nassau\">Nassau</option>\n    <option selected value=\"treasure-island\">Treasure Island</option>\n</select>",
+      "title": "Choose Your Destination",
+      "description": "Dropdown menu for selecting pirate ports",
+      "tags": ["select", "option", "selected", "dropdown"],
+      "difficulty": "intermediate",
+      "language": "html"
+    },
+    {
+      "code": "<textarea name=\"ship_log\" rows=\"5\" cols=\"40\" placeholder=\"Record today's adventures...\"></textarea>\n<input type=\"checkbox\" id=\"danger\" name=\"dangers\" value=\"sea_monster\">\n<label for=\"danger\">Sea Monster Spotted</label>",
+      "title": "Ship's Log Entry Form",
+      "description": "Textarea and checkbox for logging adventures",
+      "tags": ["textarea", "checkbox", "placeholder", "rows", "cols"],
+      "difficulty": "intermediate",
+      "language": "html"
+    },
+    {
+      "code": "<fieldset>\n    <legend>Cannon Configuration</legend>\n    <input type=\"radio\" id=\"port\" name=\"cannon_side\" value=\"port\">\n    <label for=\"port\">Port Side</label>\n    <input type=\"radio\" id=\"starboard\" name=\"cannon_side\" value=\"starboard\">\n    <label for=\"starboard\">Starboard Side</label>\n</fieldset>",
+      "title": "Cannon Battle Setup",
+      "description": "Radio buttons grouped in fieldset for cannon selection",
+      "tags": ["fieldset", "legend", "radio", "name"],
+      "difficulty": "intermediate",
+      "language": "html"
+    },
+    {
+      "code": "<audio controls>\n    <source src=\"sea-shanty.mp3\" type=\"audio/mpeg\">\n    Your browser doesn't support audio\n</audio>\n<video controls width=\"400\">\n    <source src=\"ship-battle.mp4\" type=\"video/mp4\">\n    Battle footage not supported\n</video>",
+      "title": "Pirate Entertainment Media",
+      "description": "Adding audio and video for ship atmosphere",
+      "tags": ["audio", "video", "controls", "source"],
+      "difficulty": "intermediate",
+      "language": "html"
+    },
+    {
+      "code": "<header>\n    <h1>The Black Pearl</h1>\n    <nav>\n        <a href=\"#deck\">Main Deck</a>\n        <a href=\"#cabin\">Captain's Cabin</a>\n        <a href=\"#treasure\">Treasure Hold</a>\n    </nav>\n</header>",
+      "title": "Ship Header Navigation",
+      "description": "Semantic header with navigation menu",
+      "tags": ["header", "nav", "semantic", "anchors"],
+      "difficulty": "intermediate",
+      "language": "html"
+    },
+    {
+      "code": "<main>\n    <article>\n        <h2>The Legend of Captain Morgan</h2>\n        <p>A tale of the most feared pirate captain...</p>\n    </article>\n    <aside>\n        <h3>Quick Facts</h3>\n        <p>Active years: 1668-1688</p>\n    </aside>\n</main>",
+      "title": "Pirate Story Structure",
+      "description": "Main content area with article and sidebar",
+      "tags": ["main", "article", "aside", "semantic"],
+      "difficulty": "intermediate",
+      "language": "html"
+    },
+    {
+      "code": "<section id=\"crew-quarters\">\n    <h2>Living Quarters</h2>\n    <details>\n        <summary>Hammock Assignments</summary>\n        <p>Each crew member gets a hammock and storage chest</p>\n    </details>\n</section>",
+      "title": "Expandable Ship Sections",
+      "description": "Using details and summary for collapsible content",
+      "tags": ["section", "details", "summary", "id"],
+      "difficulty": "intermediate",
+      "language": "html"
+    },
+    {
+      "code": "<footer>\n    <p>&copy; 1715 Caribbean Pirates Guild</p>\n    <address>\n        <p>Contact: <a href=\"mailto:info@pirates.sea\">Pirate Council</a></p>\n        <p>Port Royal, Jamaica</p>\n    </address>\n</footer>",
+      "title": "Ship Footer Information",
+      "description": "Footer with copyright and contact information",
+      "tags": ["footer", "copyright", "address", "semantic"],
+      "difficulty": "intermediate",
+      "language": "html"
+    },
+    {
+      "code": "<figure>\n    <img src=\"treasure-map.jpg\" alt=\"Ancient treasure map\">\n    <figcaption>Original map drawn by Captain Kidd in 1701</figcaption>\n</figure>\n<time datetime=\"1715-09-19\">September 19, 1715</time>\n<mark>International Talk Like a Pirate Day</mark>",
+      "title": "Rich Content Elements",
+      "description": "Figure with caption, time, and highlighted text",
+      "tags": ["figure", "figcaption", "time", "mark"],
+      "difficulty": "advanced",
+      "language": "html"
+    },
+    {
+      "code": "<form>\n    <label for=\"treasure-search\">Search Treasure:</label>\n    <input type=\"search\" id=\"treasure-search\" list=\"treasures\">\n    <datalist id=\"treasures\">\n        <option value=\"Gold Doubloons\">\n        <option value=\"Silver Pieces of Eight\">\n        <option value=\"Precious Gems\">\n        <option value=\"Ancient Artifacts\">\n    </datalist>\n    <input type=\"submit\" value=\"Find Treasure\">\n</form>",
+      "title": "Advanced Treasure Search",
+      "description": "Search input with datalist suggestions",
+      "tags": ["search", "datalist", "option", "autocomplete"],
+      "difficulty": "advanced",
+      "language": "html"
+    }
+  ]
+}

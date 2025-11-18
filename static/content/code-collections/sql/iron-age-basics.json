@@ -1,0 +1,170 @@
+{
+  "id": "iron-age-basics",
+  "name": "SQL Iron Age Basics",
+  "description": "Learn SQL database queries with Iron Age civilizations and early human settlements",
+  "icon": "🏛️",
+  "difficulty": "beginner",
+  "language": "sql",
+  "snippets": [
+    {
+      "code": "SELECT tribe_name, population, chief_name\nFROM ancient_tribes\nWHERE population > 500;",
+      "title": "Basic SELECT Query",
+      "description": "Selecting tribe information from ancient settlements",
+      "tags": ["select", "from", "where", "basic-query"],
+      "difficulty": "beginner",
+      "language": "sql"
+    },
+    {
+      "code": "CREATE TABLE iron_tools (\n    tool_id INTEGER PRIMARY KEY,\n    tool_name VARCHAR(50),\n    material VARCHAR(30),\n    craftsman VARCHAR(40),\n    year_created INTEGER\n);",
+      "title": "Creating Iron Tools Table",
+      "description": "Designing a table to store Iron Age tool information",
+      "tags": ["create-table", "primary-key", "varchar", "integer"],
+      "difficulty": "beginner",
+      "language": "sql"
+    },
+    {
+      "code": "INSERT INTO iron_tools (tool_name, material, craftsman, year_created)\nVALUES ('Sword', 'Iron', 'Blacksmith Gareth', 800),\n       ('Plow', 'Iron', 'Smith Aldric', 750),\n       ('Axe', 'Iron', 'Forge Master Eoric', 820);",
+      "title": "Adding Iron Age Tools",
+      "description": "Inserting tool records into the ancient database",
+      "tags": ["insert", "values", "multiple-records"],
+      "difficulty": "beginner",
+      "language": "sql"
+    },
+    {
+      "code": "UPDATE ancient_tribes\nSET population = population + 50\nWHERE tribe_name = 'Celtic Warriors';",
+      "title": "Updating Tribe Population",
+      "description": "Modifying population records for growing settlements",
+      "tags": ["update", "set", "arithmetic"],
+      "difficulty": "beginner",
+      "language": "sql"
+    },
+    {
+      "code": "DELETE FROM iron_tools\nWHERE year_created < 700;",
+      "title": "Removing Ancient Tools",
+      "description": "Deleting very old tool records from the database",
+      "tags": ["delete", "where", "comparison"],
+      "difficulty": "beginner",
+      "language": "sql"
+    },
+    {
+      "code": "SELECT COUNT(*) as total_settlements,\n       AVG(population) as avg_population\nFROM ancient_tribes\nWHERE region = 'Northern Highlands';",
+      "title": "Settlement Statistics",
+      "description": "Calculating aggregate data for tribal settlements",
+      "tags": ["count", "avg", "aggregate", "alias"],
+      "difficulty": "beginner",
+      "language": "sql"
+    },
+    {
+      "code": "SELECT tribe_name, population\nFROM ancient_tribes\nORDER BY population DESC\nLIMIT 5;",
+      "title": "Largest Iron Age Tribes",
+      "description": "Finding the five most populous ancient settlements",
+      "tags": ["order-by", "desc", "limit"],
+      "difficulty": "beginner",
+      "language": "sql"
+    },
+    {
+      "code": "SELECT t.tribe_name, t.population, s.skill_name\nFROM ancient_tribes t\nINNER JOIN tribal_skills s ON t.tribe_id = s.tribe_id\nWHERE s.skill_level > 3;",
+      "title": "Tribes and Their Skills",
+      "description": "Joining tribes with their specialized crafting abilities",
+      "tags": ["inner-join", "on", "table-alias"],
+      "difficulty": "intermediate",
+      "language": "sql"
+    },
+    {
+      "code": "SELECT region,\n       COUNT(*) as tribe_count,\n       SUM(population) as total_people\nFROM ancient_tribes\nGROUP BY region\nHAVING COUNT(*) > 2;",
+      "title": "Regional Tribal Analysis",
+      "description": "Grouping settlements by geographical regions",
+      "tags": ["group-by", "having", "sum"],
+      "difficulty": "intermediate",
+      "language": "sql"
+    },
+    {
+      "code": "SELECT tool_name,\n       CASE \n           WHEN year_created < 700 THEN 'Ancient'\n           WHEN year_created < 900 THEN 'Classical'\n           ELSE 'Late Period'\n       END as era_category\nFROM iron_tools;",
+      "title": "Categorizing Tool Eras",
+      "description": "Using conditional logic to classify tool periods",
+      "tags": ["case", "when", "conditional"],
+      "difficulty": "intermediate",
+      "language": "sql"
+    },
+    {
+      "code": "SELECT t.tribe_name, t.population,\n       COALESCE(w.weapon_count, 0) as weapons\nFROM ancient_tribes t\nLEFT JOIN (\n    SELECT tribe_id, COUNT(*) as weapon_count\n    FROM tribal_weapons\n    GROUP BY tribe_id\n) w ON t.tribe_id = w.tribe_id;",
+      "title": "Tribal Armament Analysis",
+      "description": "Analyzing weapon inventories across settlements",
+      "tags": ["left-join", "subquery", "coalesce"],
+      "difficulty": "intermediate",
+      "language": "sql"
+    },
+    {
+      "code": "CREATE INDEX idx_tribe_population ON ancient_tribes(population);\nCREATE INDEX idx_tool_year ON iron_tools(year_created);",
+      "title": "Optimizing Ancient Queries",
+      "description": "Creating indexes for faster historical data retrieval",
+      "tags": ["create-index", "performance"],
+      "difficulty": "intermediate",
+      "language": "sql"
+    },
+    {
+      "code": "SELECT tribe_name, population,\n       population - LAG(population) OVER (ORDER BY year_established) as growth\nFROM ancient_tribes\nWHERE region = 'River Valley';",
+      "title": "Settlement Growth Tracking",
+      "description": "Using window functions to analyze population changes",
+      "tags": ["window-function", "lag", "over"],
+      "difficulty": "advanced",
+      "language": "sql"
+    },
+    {
+      "code": "WITH ranked_tribes AS (\n    SELECT tribe_name, population,\n           RANK() OVER (PARTITION BY region ORDER BY population DESC) as rank\n    FROM ancient_tribes\n)\nSELECT * FROM ranked_tribes WHERE rank <= 3;",
+      "title": "Top Tribes by Region",
+      "description": "Finding the largest settlements in each area",
+      "tags": ["cte", "rank", "partition-by"],
+      "difficulty": "advanced",
+      "language": "sql"
+    },
+    {
+      "code": "SELECT EXTRACT(CENTURY FROM TIMESTAMP '0800-01-01') as iron_age_century,\n       DATE_PART('year', CURRENT_DATE) - 800 as years_since_iron_age;",
+      "title": "Iron Age Timeline Calculations",
+      "description": "Working with dates and time periods in ancient history",
+      "tags": ["extract", "date-part", "timestamp"],
+      "difficulty": "advanced",
+      "language": "sql"
+    },
+    {
+      "code": "CREATE VIEW tribal_summary AS\nSELECT region, COUNT(*) as tribes,\n       AVG(population) as avg_pop,\n       MAX(population) as largest_tribe\nFROM ancient_tribes\nGROUP BY region;",
+      "title": "Tribal Summary View",
+      "description": "Creating a view for regional settlement analysis",
+      "tags": ["create-view", "aggregation"],
+      "difficulty": "advanced",
+      "language": "sql"
+    },
+    {
+      "code": "BEGIN TRANSACTION;\nUPDATE ancient_tribes SET population = population * 1.1 WHERE region = 'Fertile Plains';\nUPDATE iron_tools SET material = 'High-grade Iron' WHERE tool_name = 'Sword';\nCOMMIT;",
+      "title": "Coordinated Settlement Updates",
+      "description": "Using transactions for consistent data modifications",
+      "tags": ["transaction", "begin", "commit"],
+      "difficulty": "advanced",
+      "language": "sql"
+    },
+    {
+      "code": "SELECT tribe_name, population,\n       NTILE(4) OVER (ORDER BY population) as population_quartile\nFROM ancient_tribes\nORDER BY population_quartile, population DESC;",
+      "title": "Settlement Size Distribution",
+      "description": "Dividing tribes into population quartiles",
+      "tags": ["ntile", "quartile", "distribution"],
+      "difficulty": "advanced",
+      "language": "sql"
+    },
+    {
+      "code": "EXPLAIN QUERY PLAN\nSELECT t.tribe_name, COUNT(w.weapon_id)\nFROM ancient_tribes t\nLEFT JOIN tribal_weapons w ON t.tribe_id = w.tribe_id\nWHERE t.population > 1000\nGROUP BY t.tribe_name;",
+      "title": "Query Performance Analysis",
+      "description": "Analyzing execution plans for complex tribal queries",
+      "tags": ["explain", "query-plan", "optimization"],
+      "difficulty": "advanced",
+      "language": "sql"
+    },
+    {
+      "code": "CREATE TRIGGER update_tribe_modified\nAFTER UPDATE ON ancient_tribes\nFOR EACH ROW\nBEGIN\n    UPDATE tribe_audit SET last_modified = CURRENT_TIMESTAMP\n    WHERE tribe_id = NEW.tribe_id;\nEND;",
+      "title": "Tribal Record Auditing",
+      "description": "Automatically tracking changes to settlement data",
+      "tags": ["trigger", "after-update", "audit"],
+      "difficulty": "advanced",
+      "language": "sql"
+    }
+  ]
+}

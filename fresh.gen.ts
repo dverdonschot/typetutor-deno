@@ -11,6 +11,7 @@ import * as $api_code_collections_collections_lang_ from "./routes/api/code-coll
 import * as $api_code_collections_content_lang_category_id_ from "./routes/api/code-collections/content/[lang]/[category]/[id].ts";
 import * as $api_code_collections_languages from "./routes/api/code-collections/languages.ts";
 import * as $api_code_collections_metadata_lang_category_ from "./routes/api/code-collections/metadata/[lang]/[category].ts";
+import * as $api_code_collections_random_snippet_lang_ from "./routes/api/code-collections/random-snippet/[lang].ts";
 import * as $api_code_collections_snippets_lang_id_ from "./routes/api/code-collections/snippets/[lang]/[id].ts";
 import * as $api_game_stats from "./routes/api/game-stats.ts";
 import * as $api_github_content from "./routes/api/github-content.ts";
@@ -65,6 +66,8 @@ const manifest = {
       $api_code_collections_languages,
     "./routes/api/code-collections/metadata/[lang]/[category].ts":
       $api_code_collections_metadata_lang_category_,
+    "./routes/api/code-collections/random-snippet/[lang].ts":
+      $api_code_collections_random_snippet_lang_,
     "./routes/api/code-collections/snippets/[lang]/[id].ts":
       $api_code_collections_snippets_lang_id_,
     "./routes/api/game-stats.ts": $api_game_stats,

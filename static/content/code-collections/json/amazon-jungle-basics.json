@@ -1,0 +1,34 @@
+{
+  "id": "amazon-jungle-basics",
+  "name": "JSON Amazon Jungle Basics",
+  "description": "Learn JSON data structures with Amazon rainforest and wildlife themes",
+  "icon": "🌿",
+  "difficulty": "beginner",
+  "language": "json",
+  "snippets": [
+    {
+      "code": "{\n  \"species\": \"Jaguar\",\n  \"scientific_name\": \"Panthera onca\",\n  \"habitat\": \"Amazon Rainforest\",\n  \"population\": 15000,\n  \"endangered\": true\n}",
+      "title": "Basic Animal Object",
+      "description": "Simple JSON object representing Amazon wildlife",
+      "tags": ["object", "properties", "strings", "numbers", "booleans"],
+      "difficulty": "beginner",
+      "language": "json"
+    },
+    {
+      "code": "{\n  \"rainforest_layers\": [\n    \"Forest Floor\",\n    \"Understory\",\n    \"Canopy\",\n    \"Emergent Layer\"\n  ]\n}",
+      "title": "Forest Layer Array",
+      "description": "JSON array containing rainforest vertical layers",
+      "tags": ["array", "strings", "list"],
+      "difficulty": "beginner",
+      "language": "json"
+    },
+    {
+      "code": "{\n  \"tree\": {\n    \"species\": \"Brazil Nut\",\n    \"height_meters\": 50,\n    \"age_years\": 120,\n    \"location\": {\n      \"latitude\": -3.4653,\n      \"longitude\": -62.2159\n    }\n  }\n}",
+      "title": "Nested Tree Data",
+      "description": "Nested JSON objects for complex tree information",
+      "tags": ["nested-objects", "coordinates", "numbers"],
+      "difficulty": "beginner",
+      "language": "json"
+    }
+  ]
+}

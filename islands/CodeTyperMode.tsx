@@ -89,6 +89,12 @@ export default function CodeTyperMode() {
   const [codeSnippets, setCodeSnippets] = useState<CodeSnippet[]>([]);
   const [selectedSnippetIndex, setSelectedSnippetIndex] = useState<number>(0);
 
+  // Random mode states
+  const [languageRandomMode, setLanguageRandomMode] = useState<boolean>(false);
+  const [collectionRandomMode, setCollectionRandomMode] = useState<boolean>(
+    false,
+  );
+
   // Content and UI state
   const [targetText, setTargetText] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -346,7 +352,100 @@ export default function CodeTyperMode() {
     localStorage.setItem(localStorageKeys.snippet, randomIndex.toString());
   }, [codeSnippets.length]);
 
-  // Load initial state
+  // Function to load a random snippet from any collection in the language
+  const loadLanguageRandomSnippet = useCallback(async () => {
+    if (!selectedLanguage) return;
+
+    // Reset completion state when loading random content
+    setShowCompletion(false);
+    setGameResult(null);
+    setStartTime(null);
+    finishedSentRef.current = false;
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(
+        `/api/code-collections/random-snippet/${selectedLanguage}`,
+      );
+      if (!response.ok) {
+        throw new Error(`Failed to fetch random snippet: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      // Set the target text directly from the random snippet
+      setTargetText(data.snippet.code);
+
+      // Update collection if it changed
+      if (data.collectionId !== selectedCollectionId) {
+        setSelectedCollectionId(data.collectionId);
+        localStorage.setItem(localStorageKeys.collection, data.collectionId);
+
+        // Find and set collection data
+        try {
+          const collectionResponse = await fetch(
+            `/api/code-collections/collections/${selectedLanguage}`,
+          );
+          if (collectionResponse.ok) {
+            const collections = await collectionResponse.json();
+            const collectionData = collections.find((
+              c: CodeCollectionMetadata,
+            ) => c.id === data.collectionId);
+            if (collectionData) {
+              setSelectedCollectionData(collectionData);
+            }
+          }
+        } catch (e) {
+          console.warn("Failed to update collection data:", e);
+        }
+
+        // Load the full collection to get other snippets
+        try {
+          const snippetsResponse = await fetch(
+            `/api/code-collections/snippets/${selectedLanguage}/${data.collectionId}`,
+          );
+          if (snippetsResponse.ok) {
+            const snippets = await snippetsResponse.json();
+            setCodeSnippets(snippets);
+
+            // Find the index of our random snippet
+            const snippetIndex = snippets.findIndex((s: CodeSnippet) =>
+              s.code === data.snippet.code
+            );
+            if (snippetIndex !== -1) {
+              setSelectedSnippetIndex(snippetIndex);
+              localStorage.setItem(
+                localStorageKeys.snippet,
+                snippetIndex.toString(),
+              );
+            }
+          }
+        } catch (e) {
+          console.warn("Failed to load collection snippets:", e);
+        }
+      } else {
+        // Same collection, just find the snippet index
+        const snippetIndex = codeSnippets.findIndex((s: CodeSnippet) =>
+          s.code === data.snippet.code
+        );
+        if (snippetIndex !== -1) {
+          setSelectedSnippetIndex(snippetIndex);
+          localStorage.setItem(
+            localStorageKeys.snippet,
+            snippetIndex.toString(),
+          );
+        }
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
+      setError(`Error loading random snippet: ${errorMessage}`);
+    }
+
+    setIsLoading(false);
+  }, [selectedLanguage, selectedCollectionId, codeSnippets]);
+
+  // Load initial state including random modes
   useEffect(() => {
     if (initialLoadComplete) return;
 
@@ -355,6 +454,7 @@ export default function CodeTyperMode() {
     setGameResult(null);
     setStartTime(null);
     finishedSentRef.current = false;
+
 
     // Load source type from localStorage
     const savedSourceType = localStorage.getItem(localStorageKeys.sourceType) as
@@ -505,6 +605,7 @@ export default function CodeTyperMode() {
     }
   }, [selectedSnippetIndex, codeSnippets.length]);
 
+
   // Source type change handler
   const handleSourceTypeChange = useCallback(
     (newSourceType: "collections" | "github") => {
@@ -546,10 +647,43 @@ export default function CodeTyperMode() {
     finishedSentRef.current = false;
   }, [resetInput]);
 
-  // Handle next exercise
+  // Handle next exercise - use appropriate random mode
   const handleNextExercise = useCallback(() => {
-    loadNextSnippet();
-  }, [loadNextSnippet]);
+    if (languageRandomMode) {
+      loadLanguageRandomSnippet();
+    } else if (collectionRandomMode) {
+      loadRandomSnippet();
+    } else {
+      loadNextSnippet();
+    }
+  }, [
+    languageRandomMode,
+    collectionRandomMode,
+    loadLanguageRandomSnippet,
+    loadRandomSnippet,
+    loadNextSnippet,
+  ]);
+
+  // Auto-trigger random snippet on completion if random modes are enabled
+  useEffect(() => {
+    if (isComplete && !finishedSentRef.current) {
+      const timeoutId = setTimeout(() => {
+        if (languageRandomMode) {
+          loadLanguageRandomSnippet();
+        } else if (collectionRandomMode) {
+          loadRandomSnippet();
+        }
+      }, 2000); // 2 second delay after completion
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [
+    isComplete,
+    languageRandomMode,
+    collectionRandomMode,
+    loadLanguageRandomSnippet,
+    loadRandomSnippet,
+  ]);
 
   return (
     <div class="code-mode-container" ref={containerRef}>
