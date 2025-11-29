@@ -12,12 +12,25 @@ import { currentLanguageSignal } from "../contexts/LanguageContext.ts";
 import { useReactiveTranslation } from "../utils/translations.ts";
 import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";
 
-interface NewQuoteTyperModeProps {
+// Constant styles to avoid recreating objects on every render
+const HIDDEN_INPUT_STYLE = {
+  position: "absolute" as const,
+  top: "-9999px",
+  left: "-9999px",
+  opacity: 0,
+  pointerEvents: "none" as const,
+};
+
+const TEXT_CURSOR_STYLE = {
+  cursor: "text",
+};
+
+interface QuoteTyperModeProps {
   autoFocus?: boolean;
 }
 
-export default function NewQuoteTyperMode(
-  { autoFocus = true }: NewQuoteTyperModeProps,
+export default function QuoteTyperMode(
+  { autoFocus = true }: QuoteTyperModeProps,
 ) {
   // Global language from signal - use .value directly in effects for reactivity
   const t = useReactiveTranslation();
@@ -740,20 +753,14 @@ export default function NewQuoteTyperMode(
             ref={hiddenInputRef}
             {...inputProps}
             type="text"
-            style={{
-              position: "absolute",
-              top: "-9999px",
-              left: "-9999px",
-              opacity: 0,
-              pointerEvents: "none",
-            }}
+            style={HIDDEN_INPUT_STYLE}
             aria-hidden="true"
           />
 
           {/* Quote display */}
           <div
             onClick={() => hiddenInputRef.current?.focus()}
-            style={{ cursor: "text" }}
+            style={TEXT_CURSOR_STYLE}
             class="w-full min-h-[300px] rounded-lg bg-white shadow mb-4"
           >
             <div class="w-full">

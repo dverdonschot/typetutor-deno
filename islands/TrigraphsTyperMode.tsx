@@ -21,6 +21,19 @@ import { DetailedGameResult } from "../types/userStats.ts";
 import { useReactiveTranslation } from "../utils/translations.ts";
 import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";
 
+// Constant styles to avoid recreating objects on every render
+const HIDDEN_INPUT_STYLE = {
+  position: "absolute" as const,
+  top: "-9999px",
+  left: "-9999px",
+  opacity: 0,
+  pointerEvents: "none" as const,
+};
+
+const TEXT_CURSOR_STYLE = {
+  cursor: "text",
+};
+
 const TrigraphsTyperMode: FC = () => {
   const t = useReactiveTranslation();
   const [isLoading, setIsLoading] = useState(true);
@@ -355,20 +368,14 @@ const TrigraphsTyperMode: FC = () => {
                     ref={hiddenInputRef} // Assign the ref
                     {...inputProps}
                     type="text"
-                    style={{
-                      position: "absolute",
-                      top: "-9999px",
-                      left: "-9999px",
-                      opacity: 0,
-                      pointerEvents: "none",
-                    }}
+                    style={HIDDEN_INPUT_STYLE}
                     aria-hidden="true" // Hide from screen readers as interaction is visual
                   />
                   {/* Display the text to be typed */}
                   {/* Wrap display in a div to allow focusing the hidden input on click */}
                   <div
                     onClick={() => hiddenInputRef.current?.focus()}
-                    style={{ cursor: "text" }}
+                    style={TEXT_CURSOR_STYLE}
                     class="p-4" // Remove background and border, keep padding
                   >
                     <QuoteTextDisplay charStates={charStates} />

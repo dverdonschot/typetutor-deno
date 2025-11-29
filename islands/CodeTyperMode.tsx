@@ -90,8 +90,8 @@ export default function CodeTyperMode() {
   const [selectedSnippetIndex, setSelectedSnippetIndex] = useState<number>(0);
 
   // Random mode states
-  const [languageRandomMode, setLanguageRandomMode] = useState<boolean>(false);
-  const [collectionRandomMode, setCollectionRandomMode] = useState<boolean>(
+  const [languageRandomMode] = useState<boolean>(false);
+  const [collectionRandomMode] = useState<boolean>(
     false,
   );
 
@@ -289,8 +289,11 @@ export default function CodeTyperMode() {
     backspaceCount,
     keystrokeData,
     targetText,
+    selectedLanguage,
     selectedLanguageData,
     selectedCollectionData,
+    sourceType,
+    githubFileInfo,
     getWrongCharactersArray,
   ]);
 
@@ -455,7 +458,6 @@ export default function CodeTyperMode() {
     setStartTime(null);
     finishedSentRef.current = false;
 
-
     // Load source type from localStorage
     const savedSourceType = localStorage.getItem(localStorageKeys.sourceType) as
       | "collections"
@@ -596,15 +598,9 @@ export default function CodeTyperMode() {
   );
 
   const handleSnippetChange = useCallback((index: number) => {
-    if (
-      index !== selectedSnippetIndex && index >= 0 &&
-      index < codeSnippets.length
-    ) {
-      setSelectedSnippetIndex(index);
-      localStorage.setItem(localStorageKeys.snippet, index.toString());
-    }
-  }, [selectedSnippetIndex, codeSnippets.length]);
-
+    setSelectedSnippetIndex(index);
+    localStorage.setItem(localStorageKeys.snippet, index.toString());
+  }, []);
 
   // Source type change handler
   const handleSourceTypeChange = useCallback(
@@ -786,7 +782,6 @@ export default function CodeTyperMode() {
                 {codeSnippets.length}):
               </label>
               <select
-                key={`snippet-selector-${selectedCollectionId}-${codeSnippets.length}`}
                 value={selectedSnippetIndex}
                 onChange={(e) =>
                   handleSnippetChange(parseInt(e.currentTarget.value, 10))}

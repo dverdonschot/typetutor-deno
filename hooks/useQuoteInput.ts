@@ -62,7 +62,7 @@ interface QuoteInputState {
  * - Errors are tracked by character and position for analysis
  * - Backspace usage is monitored for typing pattern insights
  *
- * Usage: Called by typing components (CodeTyperMode, TrigraphsTyperMode, NewQuoteTyperMode, etc.)
+ * Usage: Called by typing components (CodeTyperMode, TrigraphsTyperMode, QuoteTyperMode, etc.)
  * Output: Provides game result data to UserStatsManager when complete
  *
  * @param targetText The text the user should type

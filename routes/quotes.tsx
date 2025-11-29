@@ -1,6 +1,6 @@
 import { PageProps } from "$fresh/server.ts";
 import { Layout } from "../components/Layout.tsx";
-import NewQuoteTyperMode from "../islands/NewQuoteTyperMode.tsx";
+import QuoteTyperMode from "../islands/QuoteTyperMode.tsx";
 import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";
 
 export default function Quotes(props: PageProps) {
@@ -9,7 +9,7 @@ export default function Quotes(props: PageProps) {
       descriptionKey={TRANSLATION_KEYS.PAGES.QUOTES}
       currentPath={props.url.pathname}
     >
-      <NewQuoteTyperMode autoFocus />
+      <QuoteTyperMode autoFocus />
     </Layout>
   );
 }
