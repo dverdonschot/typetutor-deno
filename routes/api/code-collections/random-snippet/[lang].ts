@@ -1,4 +1,4 @@
-import { Handlers } from "$fresh/server.ts";
+import { Handlers } from "fresh/compat";
 
 interface CodeSnippet {
   code: string;
@@ -40,7 +40,7 @@ interface RandomSnippetResponse {
 
 export const handler: Handlers = {
   /** Returns a random snippet from ANY collection within the specified language. */
-  async GET(_req, ctx) {
+  async GET(ctx) {
     try {
       const languageCode = ctx.params.lang;
 

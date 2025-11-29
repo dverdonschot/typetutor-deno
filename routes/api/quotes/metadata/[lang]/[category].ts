@@ -1,4 +1,3 @@
-import { Handlers } from "$fresh/server.ts";
 import {
   buildQuoteCache,
   getQuoteCache,
@@ -7,10 +6,11 @@ import {
   getCachedQuoteMetadata,
   isCacheEmpty,
 } from "../../../../../utils/quoteCache.ts";
+import { Handlers } from "fresh/compat";
 
 export const handler: Handlers = {
   /** Returns quote file metadata for a specific language and category from cache. */
-  async GET(_req, ctx) {
+  async GET(ctx) {
     try {
       const languageCode = ctx.params.lang;
       const categoryName = ctx.params.category;

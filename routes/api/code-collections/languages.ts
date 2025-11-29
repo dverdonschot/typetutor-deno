@@ -1,8 +1,8 @@
-import { Handlers } from "$fresh/server.ts";
+import { Handlers } from "fresh/compat";
 
 export const handler: Handlers = {
   /** Returns available programming languages for code collections. */
-  async GET(_req, _ctx) {
+  async GET(_ctx) {
     try {
       const languagesPath = "./static/content/code-collections/languages.json";
 

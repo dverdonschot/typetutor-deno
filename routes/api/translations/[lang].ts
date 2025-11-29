@@ -1,8 +1,7 @@
-import { HandlerContext } from "$fresh/server.ts";
+import { HandlerContext } from "fresh";
 import { translationCache } from "../../../utils/translationCache.ts";
 
 export async function handler(
-  _req: Request,
   ctx: HandlerContext,
 ): Promise<Response> {
   const { lang } = ctx.params;

@@ -1,8 +1,8 @@
-import { Handlers } from "$fresh/server.ts";
+import { Handlers } from "fresh/compat";
 
 export const handler: Handlers = {
   /** Returns code snippets from a specific collection. */
-  async GET(_req, ctx) {
+  async GET(ctx) {
     try {
       const languageCode = ctx.params.lang;
       const categoryName = ctx.params.category;

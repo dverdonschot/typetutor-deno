@@ -1,14 +1,16 @@
-import { Handlers } from "$fresh/server.ts";
 import {
   buildQuoteCache,
   getQuoteCache,
   refreshCacheSection,
 } from "../../../functions/cacheManager.ts";
 import { getCachePerformanceMetrics } from "../../../functions/cacheManager.ts";
+import { Handlers } from "fresh/compat";
 
 export const handler: Handlers = {
   /** Manually refreshes the quote cache. */
-  async POST(req) {
+  async POST(ctx) {
+    const req = ctx.req;
+
     try {
       const url = new URL(req.url);
       const language = url.searchParams.get("lang");
@@ -79,7 +81,7 @@ export const handler: Handlers = {
   },
 
   /** Gets current cache status and metrics. */
-  GET(_req) {
+  GET() {
     try {
       const cache = getQuoteCache();
       const metrics = getCachePerformanceMetrics(cache);

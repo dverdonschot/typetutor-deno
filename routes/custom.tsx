@@ -1,4 +1,4 @@
-import { PageProps } from "$fresh/server.ts";
+import { PageProps } from "fresh";
 import { Layout } from "../components/Layout.tsx";
 // We'll need to create a Custom component
 import { Random } from "../components/random.tsx"; // Temporarily using Random until we create a Custom component

@@ -1,8 +1,5 @@
-import {
-  type FreshContext,
-  type Handlers,
-  type PageProps,
-} from "$fresh/server.ts";
+import { type FreshContext, type PageProps } from "fresh";
+import { Handlers } from "fresh/compat";
 
 export default function App({ Component }: PageProps) {
   return (
@@ -22,7 +19,7 @@ export default function App({ Component }: PageProps) {
 }
 
 export const handler: Handlers = {
-  async GET(_req: Request, ctx: FreshContext) {
+  async GET(ctx: FreshContext) {
     const resp = await ctx.render();
     resp.headers.set("X-Content-Type-Options", "nosniff");
     return resp;

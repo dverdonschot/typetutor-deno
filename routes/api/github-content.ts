@@ -1,11 +1,13 @@
-import { Handlers } from "$fresh/server.ts";
 import {
   convertToGitHubRawUrl,
   fetchGitHubContent,
 } from "../../utils/githubValidator.ts";
+import { Handlers } from "fresh/compat";
 
 export const handler: Handlers = {
-  async POST(req) {
+  async POST(ctx) {
+    const req = ctx.req;
+
     try {
       const { url } = await req.json();
 

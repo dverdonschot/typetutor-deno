@@ -1,4 +1,4 @@
-import { Handlers } from "$fresh/server.ts";
+import { Handlers } from "fresh/compat";
 
 interface CodeSnippet {
   code: string;
@@ -20,7 +20,7 @@ interface CodeCollectionMetadata {
 
 export const handler: Handlers = {
   /** Returns code collection metadata for a specific language and category. */
-  async GET(_req, ctx) {
+  async GET(ctx) {
     try {
       const languageCode = ctx.params.lang;
       const categoryName = ctx.params.category;
