@@ -5,11 +5,9 @@
 /// <reference lib="deno.ns" />
 /// <reference lib="deno.unstable" />
 
-import "$std/dotenv/load.ts";
+import "\$std/dotenv/load.ts";
 
-import { start } from "$fresh/server.ts";
-import manifest from "./fresh.gen.ts";
-import config from "./fresh.config.ts";
+import { App } from "fresh";
 import { initializeQuoteCache } from "./functions/initializeCache.ts";
 import { translationCache } from "./utils/translationCache.ts";
 
@@ -21,4 +19,10 @@ console.log("Initializing translation cache...");
 await translationCache.getCache();
 console.log("Translation cache initialized");
 
-await start(manifest, config);
+export const app = new App();
+
+app.fsRoutes();
+
+if (import.meta.main) {
+  await app.listen();
+}
