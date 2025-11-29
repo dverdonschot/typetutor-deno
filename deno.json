@@ -1,9 +1,9 @@
 {
   "tasks": {
     "check": "deno fmt --check && deno lint && deno check",
-    "dev": "deno run -A npm:vite@^5.4",
-    "start": "deno run -A npm:vite@^5.4",
-    "build": "deno run -A npm:vite@^5.4 build",
+    "dev": "deno run -A npm:vite",
+    "start": "deno run -A npm:vite",
+    "build": "deno run -A npm:vite build",
     "preview": "deno serve -A _fresh/server.js",
     "update": "deno run -A -r jsr:@fresh/update .",
     "esm:add": "deno run -A https://esm.sh/v135 add",
