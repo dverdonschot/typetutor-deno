@@ -90,8 +90,8 @@ export default function CodeTyperMode() {
   const [selectedSnippetIndex, setSelectedSnippetIndex] = useState<number>(0);
 
   // Random mode states
-  const [languageRandomMode, _setLanguageRandomMode] = useState<boolean>(false);
-  const [collectionRandomMode, _setCollectionRandomMode] = useState<boolean>(
+  const [languageRandomMode] = useState<boolean>(false);
+  const [collectionRandomMode] = useState<boolean>(
     false,
   );
 
