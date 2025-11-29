@@ -1,8 +1,9 @@
 {
   "tasks": {
     "check": "deno fmt --check && deno lint && deno check",
-    "start": "deno run -A --watch=static/,routes/ --unstable-kv dev.ts",
-    "build": "deno run -A dev.ts build",
+    "dev": "deno run -A npm:vite@^5.4",
+    "start": "deno run -A npm:vite@^5.4",
+    "build": "deno run -A npm:vite@^5.4 build",
     "preview": "deno serve -A _fresh/server.js",
     "update": "deno run -A -r jsr:@fresh/update .",
     "esm:add": "deno run -A https://esm.sh/v135 add",
@@ -25,7 +26,9 @@
     "tailwindcss/": "npm:/tailwindcss@3.4.14/",
     "tailwindcss/plugin": "npm:/tailwindcss@3.4.14/plugin.js",
     "tailwindcss": "npm:tailwindcss@3.4.14",
-    "fresh": "jsr:@fresh/core@^2.2.0"
+    "fresh": "jsr:@fresh/core@^2.2.0",
+    "@fresh/plugin-vite": "jsr:@fresh/plugin-vite@^1.0.8",
+    "vite": "npm:vite@^5.4.21"
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
   "nodeModulesDir": "auto",
