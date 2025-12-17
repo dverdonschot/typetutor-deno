@@ -3,7 +3,7 @@ import { Layout } from "../components/Layout.tsx";
 import { SingleLetters } from "../islands/SingleLetters.tsx";
 import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";
 
-export default function Home(props: PageProps) {
+export default function singleLetters(props: PageProps) {
   return (
     <Layout
       descriptionKey={TRANSLATION_KEYS.PAGES.SINGLE_LETTERS}

@@ -6,6 +6,7 @@
     "code": "Code",
     "alphabet": "Alfabet",
     "random": "Willekeurig",
+    "singleLetters": "Enkele Letters",
     "stats": "Statistieken"
   },
   "common": {
@@ -28,6 +29,7 @@
     "code": "Oefen typen met code fragmenten!",
     "trigraphs": "Oefen typen met drie-letter combinaties!",
     "alphabet": "Oefen typen met het complete alfabet!",
+    "singleLetters": "Leer toetsenbordletters met leuke emoji's!",
     "custom": "Oefen typen met je eigen aangepaste tekst!",
     "serverstats": "Bekijk server-side spelcompletie statistieken.",
     "userstats": "Volg je tikvoortgang, analyseer prestatietrends en visualiseer je toetsenbordgebruikspatronen."

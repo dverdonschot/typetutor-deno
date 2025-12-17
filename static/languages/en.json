@@ -6,6 +6,7 @@
     "code": "Code",
     "alphabet": "Alphabet",
     "random": "Random",
+    "singleLetters": "Single Letters",
     "stats": "Stats"
   },
   "common": {
@@ -28,6 +29,7 @@
     "code": "Master programming syntax by typing real code with overtype-style visual feedback!",
     "trigraphs": "Practice typing with three-letter combinations!",
     "alphabet": "Practice typing with the full alphabet!",
+    "singleLetters": "Learn keyboard letters with fun emojis!",
     "custom": "Practice typing with your own custom text!",
     "serverstats": "View server-side game completion statistics.",
     "userstats": "Track your typing progress, analyze performance trends, and visualize your keyboard usage patterns."

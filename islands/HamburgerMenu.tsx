@@ -71,7 +71,7 @@ export default function HamburgerMenu(props: HamburgerMenuProps) {
       >
         <div class="py-1" role="menu" aria-orientation="vertical">
           <a
-            href="/"
+            href="/quotes"
             class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
             role="menuitem"
           >
@@ -133,6 +133,28 @@ export default function HamburgerMenu(props: HamburgerMenuProps) {
               </path>
             </svg>
             Random
+          </a>
+
+          <a
+            href="/singleLetters"
+            class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
+            role="menuitem"
+          >
+            <svg
+              class="w-5 h-5 mr-3 text-tt-lightblue"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              />
+            </svg>
+            Single Letters
           </a>
 
           <a

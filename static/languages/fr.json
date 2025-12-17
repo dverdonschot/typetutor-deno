@@ -6,6 +6,7 @@
     "code": "Code",
     "alphabet": "Alphabet",
     "random": "Aléatoire",
+    "singleLetters": "Lettres Individuelles",
     "stats": "Statistiques"
   },
   "common": {
@@ -28,6 +29,7 @@
     "code": "Pratiquez la dactylographie avec des extraits de code !",
     "trigraphs": "Pratiquez la dactylographie avec des combinaisons de trois lettres !",
     "alphabet": "Pratiquez la dactylographie avec tout l'alphabet !",
+    "singleLetters": "Apprenez les lettres du clavier avec des emojis amusants !",
     "custom": "Pratiquez la dactylographie avec votre propre texte personnalisé !",
     "serverstats": "Voir les statistiques de completion des jeux côté serveur.",
     "userstats": "Suivez vos progrès en dactylographie, analysez les tendances de performance et visualisez vos modèles d'utilisation du clavier."
