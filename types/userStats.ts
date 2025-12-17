@@ -50,7 +50,7 @@ export interface CharacterStats {
 export interface DetailedGameResult {
   gameId: string; // Unique identifier for this game session
   userId: string; // localStorage-based user ID
-  mode: "quotes" | "trigraphs" | "code" | "alphabet" | "random"; // Game type
+  mode: "quotes" | "trigraphs" | "code" | "alphabet" | "random" | "singleLetters"; // Game type
   startTime: string; // ISO timestamp when game started
   endTime: string; // ISO timestamp when game ended
   duration: number; // Total time in milliseconds
@@ -226,7 +226,7 @@ export type HeatmapColorScheme =
   | "game-errors";
 
 // Game mode types
-export type GameMode = "quotes" | "trigraphs" | "code" | "alphabet" | "random";
+export type GameMode = "quotes" | "trigraphs" | "code" | "alphabet" | "random" | "singleLetters";
 
 // Time period filters
 export type TimePeriod = "last10" | "last30" | "last100" | "allTime";
