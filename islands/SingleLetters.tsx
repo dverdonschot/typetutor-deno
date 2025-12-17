@@ -260,6 +260,7 @@ export const SingleLetters: FC = () => {
       <div class="mb-8 flex flex-wrap justify-center gap-3">
         {(Object.keys(CHARACTER_SETS) as CharacterSet[]).map((set) => (
           <button
+            type="button"
             key={set}
             onClick={() => handleCharacterSetChange(set)}
             class={`px-6 py-3 rounded-lg font-semibold transition-all ${
