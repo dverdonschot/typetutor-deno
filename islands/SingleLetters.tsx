@@ -1,13 +1,19 @@
 import { FunctionComponent as FC } from "preact";
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
-import { TrainingChar, randomTrainingSet } from "../functions/randomTrainingSet.ts";
+import {
+  randomTrainingSet,
+  TrainingChar,
+} from "../functions/randomTrainingSet.ts";
 import { useMobileInput } from "../hooks/useMobileInput.ts";
 import { useTypingMetrics } from "../hooks/useTypingMetrics.ts";
 import GameScoreDisplayIsland from "./GameScoreDisplayIsland.tsx";
 import { recordGameStats } from "../utils/recordGameStats.ts";
 import { UserStatsManager } from "../utils/userStatsManager.ts";
 import { CharacterStats, DetailedGameResult } from "../types/userStats.ts";
-import { getRandomHappyEmoji, getRandomSadEmoji } from "../functions/getRandomEmoji.ts";
+import {
+  getRandomHappyEmoji,
+  getRandomSadEmoji,
+} from "../functions/getRandomEmoji.ts";
 
 type CharacterSet = "lowercase" | "uppercase" | "numbers" | "special" | "all";
 
@@ -16,7 +22,8 @@ const CHARACTER_SETS: Record<CharacterSet, string> = {
   uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
   numbers: "0123456789",
   special: "!@#$%^&*()_+-=[]{}|;:',.<>?/`~",
-  all: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:',.<>?/`~",
+  all:
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:',.<>?/`~",
 };
 
 const CHARACTER_SET_LABELS: Record<CharacterSet, string> = {
@@ -72,7 +79,10 @@ export const SingleLetters: FC = () => {
   // Handle character set change
   const handleCharacterSetChange = (set: CharacterSet) => {
     setSelectedSet(set);
-    const newTrainingSet = randomTrainingSet(TRAINING_LENGTH, CHARACTER_SETS[set]);
+    const newTrainingSet = randomTrainingSet(
+      TRAINING_LENGTH,
+      CHARACTER_SETS[set],
+    );
     setTrainingChars(newTrainingSet);
     setCurrentEmoji("");
     globalThis.location.reload(); // Reload to reset the game
@@ -86,7 +96,10 @@ export const SingleLetters: FC = () => {
   // Monitor for correct/incorrect keystrokes and show emoji
   const previousTypedCount = useRef(typedCount);
   useEffect(() => {
-    if (typedCount > previousTypedCount.current && typedCount <= trainingChars.length) {
+    if (
+      typedCount > previousTypedCount.current &&
+      typedCount <= trainingChars.length
+    ) {
       const lastChar = trainingChars[typedCount - 1];
       if (lastChar.state === "correct") {
         setCurrentEmoji(getRandomHappyEmoji());
@@ -229,7 +242,17 @@ export const SingleLetters: FC = () => {
       sendDetailedStats();
       finishedSentRef.current = true;
     }
-  }, [typedCount, trainingChars.length, sendDetailedStats, selectedSet, metrics, mistakeCount, backspaceCount, getWrongCharactersArray, startTime]);
+  }, [
+    typedCount,
+    trainingChars.length,
+    sendDetailedStats,
+    selectedSet,
+    metrics,
+    mistakeCount,
+    backspaceCount,
+    getWrongCharactersArray,
+    startTime,
+  ]);
 
   return (
     <div class="w-full min-h-[500px] rounded-lg bg-white shadow p-8">
@@ -237,6 +260,7 @@ export const SingleLetters: FC = () => {
       <div class="mb-8 flex flex-wrap justify-center gap-3">
         {(Object.keys(CHARACTER_SETS) as CharacterSet[]).map((set) => (
           <button
+            type="button"
             key={set}
             onClick={() => handleCharacterSetChange(set)}
             class={`px-6 py-3 rounded-lg font-semibold transition-all ${
