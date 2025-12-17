@@ -6,6 +6,7 @@
     "code": "Código",
     "alphabet": "Alfabeto",
     "random": "Aleatorio",
+    "singleLetters": "Letras Individuales",
     "stats": "Estadísticas"
   },
   "common": {
@@ -28,6 +29,7 @@
     "code": "¡Practica mecanografía con fragmentos de código!",
     "trigraphs": "¡Practica mecanografía con combinaciones de tres letras!",
     "alphabet": "¡Practica mecanografía con todo el alfabeto!",
+    "singleLetters": "¡Aprende las letras del teclado con emojis divertidos!",
     "custom": "¡Practica mecanografía con tu propio texto personalizado!",
     "serverstats": "Ver estadísticas de finalización de juegos del servidor.",
     "userstats": "Rastrea tu progreso de escritura, analiza tendencias de rendimiento y visualiza tus patrones de uso del teclado."

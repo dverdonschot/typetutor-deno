@@ -80,3 +80,31 @@ header {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
+
+/* Custom bounce animation that stops after 3 bounces */
+@keyframes bounce-three-times {
+  0%, 100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  16.66% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+  33.33%, 66.66% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(-15%);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+  83.33% {
+    transform: translateY(-8%);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.animate-bounce-three {
+  animation: bounce-three-times 1.5s ease-in-out;
+}

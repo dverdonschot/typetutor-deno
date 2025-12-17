@@ -11,6 +11,7 @@ export const TRANSLATION_KEYS = {
     CODE: "nav.code",
     ALPHABET: "nav.alphabet",
     RANDOM: "nav.random",
+    SINGLE_LETTERS: "nav.singleLetters",
     STATS: "nav.stats",
   },
 
@@ -37,6 +38,7 @@ export const TRANSLATION_KEYS = {
     CODE: "pages.code",
     TRIGRAPHS: "pages.trigraphs",
     ALPHABET: "pages.alphabet",
+    SINGLE_LETTERS: "pages.singleLetters",
     CUSTOM: "pages.custom",
     SERVERSTATS: "pages.serverstats",
     USERSTATS: "pages.userstats",

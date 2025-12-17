@@ -30,6 +30,7 @@ import * as $index from "./routes/index.tsx";
 import * as $quotes from "./routes/quotes.tsx";
 import * as $random from "./routes/random.tsx";
 import * as $serverstats from "./routes/serverstats.tsx";
+import * as $singleLetters from "./routes/singleLetters.tsx";
 import * as $trigraphs from "./routes/trigraphs.tsx";
 import * as $userstats from "./routes/userstats.tsx";
 import * as $CodeTyperMode from "./islands/CodeTyperMode.tsx";
@@ -42,6 +43,7 @@ import * as $QuoteTyperMode from "./islands/QuoteTyperMode.tsx";
 import * as $RandomSettings from "./islands/RandomSettings.tsx";
 import * as $ReactiveDescription from "./islands/ReactiveDescription.tsx";
 import * as $RenderedQuoteResult from "./islands/RenderedQuoteResult.tsx";
+import * as $SingleLetters from "./islands/SingleLetters.tsx";
 import * as $StatsPage from "./islands/StatsPage.tsx";
 import * as $TranslationInitializer from "./islands/TranslationInitializer.tsx";
 import * as $TrigraphsTyperMode from "./islands/TrigraphsTyperMode.tsx";
@@ -88,6 +90,7 @@ const manifest = {
     "./routes/quotes.tsx": $quotes,
     "./routes/random.tsx": $random,
     "./routes/serverstats.tsx": $serverstats,
+    "./routes/singleLetters.tsx": $singleLetters,
     "./routes/trigraphs.tsx": $trigraphs,
     "./routes/userstats.tsx": $userstats,
   },
@@ -102,6 +105,7 @@ const manifest = {
     "./islands/RandomSettings.tsx": $RandomSettings,
     "./islands/ReactiveDescription.tsx": $ReactiveDescription,
     "./islands/RenderedQuoteResult.tsx": $RenderedQuoteResult,
+    "./islands/SingleLetters.tsx": $SingleLetters,
     "./islands/StatsPage.tsx": $StatsPage,
     "./islands/TranslationInitializer.tsx": $TranslationInitializer,
     "./islands/TrigraphsTyperMode.tsx": $TrigraphsTyperMode,
