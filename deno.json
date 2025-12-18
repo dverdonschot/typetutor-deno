@@ -17,7 +17,7 @@
   "lint": { "rules": { "tags": ["fresh", "recommended"] } },
   "exclude": ["**/_fresh/*"],
   "imports": {
-    "$std/": "https://deno.land/std@0.224.0/",
+    "$std/": "https://deno.land/std@0.241.0/",
     "$fresh/": "https://deno.land/x/fresh@1.7.3/",
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.12.1",
     "@preact/signals": "https://esm.sh/*@preact/signals@2.3.2",
@@ -27,9 +27,9 @@
     "react": "https://esm.sh/v135/preact@10.27.2/compat",
     "react-dom": "https://esm.sh/v135/*react-dom@18.3.1",
     "react-dom/": "https://esm.sh/v135/*react-dom@18.3.1/",
-    "tailwindcss/": "npm:/tailwindcss@3.4.14/",
-    "tailwindcss/plugin": "npm:/tailwindcss@3.4.14/plugin.js",
-    "tailwindcss": "npm:tailwindcss@3.4.14"
+    "tailwindcss/": "npm:/tailwindcss@3.4.17/",
+    "tailwindcss/plugin": "npm:/tailwindcss@3.4.17/plugin.js",
+    "tailwindcss": "npm:tailwindcss@3.4.17"
   },
   "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
   "nodeModulesDir": "auto",

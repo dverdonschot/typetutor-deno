@@ -42,7 +42,7 @@ export const SingleLetters: FC = () => {
     randomTrainingSet(TRAINING_LENGTH, CHARACTER_SETS.all)
   );
   const [currentEmoji, setCurrentEmoji] = useState<string>("");
-  const [startTime] = useState<number>(Date.now());
+  const [startTime, setStartTime] = useState<number>(Date.now());
   const inputRef = useRef<HTMLInputElement>(null);
   const [isInputActive, setIsInputActive] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -55,6 +55,7 @@ export const SingleLetters: FC = () => {
     backspaceCount,
     inputProps,
     getWrongCharactersArray,
+    resetInput,
   } = useMobileInput(trainingChars);
 
   const metrics = useTypingMetrics(
@@ -85,7 +86,16 @@ export const SingleLetters: FC = () => {
     );
     setTrainingChars(newTrainingSet);
     setCurrentEmoji("");
-    globalThis.location.reload(); // Reload to reset the game
+    // Reset game state without full page reload
+    setIsComplete(false);
+    setGameResult(null);
+    setStartTime(Date.now());
+    finishedSentRef.current = false;
+    resetInput();
+    // Focus input after state reset
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
   };
 
   // Handle practice again
