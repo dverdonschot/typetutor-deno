@@ -1,11 +1,11 @@
-import { assert, assertEquals } from "$std/assert/mod.ts";
+import { assert, assertEquals } from "$std/assert";
 import {
   scanAllQuoteContent,
   scanQuoteCategories,
   scanQuoteFiles,
   scanQuoteLanguages,
 } from "../functions/contentScanner.ts";
-import { ensureDir } from "$std/fs/mod.ts";
+import { ensureDir } from "$std/fs";
 
 // Helper function to create test directory structure
 async function createTestStructure() {
@@ -108,14 +108,18 @@ Deno.test("scanQuoteCategories() finds category directories", async function () 
       const motivational = result.content.find((c) =>
         c.directory === "motivational"
       );
-      assert(motivational);
-      assertEquals(motivational.name, "Motivational Quotes");
-      assertEquals(motivational.description, "Inspiring quotes");
-      assertEquals(motivational.icon, "💪");
+      assert(motivational, "Motivational category should exist");
+      if (motivational) {
+        assertEquals(motivational.name, "Motivational Quotes");
+        assertEquals(motivational.description, "Inspiring quotes");
+        assertEquals(motivational.icon, "💪");
+      }
 
       const literary = result.content.find((c) => c.directory === "literary");
-      assert(literary);
-      assertEquals(literary.name, "Literary"); // Default formatting
+      assert(literary, "Literary category should exist");
+      if (literary) {
+        assertEquals(literary.name, "Literary"); // Default formatting
+      }
     }
   } finally {
     await cleanupTestStructure();
@@ -150,16 +154,20 @@ Deno.test("scanQuoteFiles() finds quote files", async function () {
       const successFile = result.content.find((f) =>
         f.fileName === "success.json"
       );
-      assert(successFile);
-      assertEquals(successFile.fileTitle, "Success");
-      assertEquals(successFile.language, "en");
-      assertEquals(successFile.category, "motivational");
+      assert(successFile, "Success file should exist");
+      if (successFile) {
+        assertEquals(successFile.fileTitle, "Success");
+        assertEquals(successFile.language, "en");
+        assertEquals(successFile.category, "motivational");
+      }
 
       const legacyFile = result.content.find((f) =>
         f.fileName === "legacy.txt"
       );
-      assert(legacyFile);
-      assertEquals(legacyFile.fileTitle, "Legacy");
+      assert(legacyFile, "Legacy file should exist");
+      if (legacyFile) {
+        assertEquals(legacyFile.fileTitle, "Legacy");
+      }
     }
   } finally {
     await cleanupTestStructure();
@@ -206,8 +214,10 @@ Deno.test("scanAllQuoteContent() scans entire structure", async function () {
       assert(categories.has("es"));
 
       const enCategories = categories.get("en");
-      assert(enCategories);
-      assertEquals(enCategories.length, 2);
+      assert(enCategories, "English categories should exist");
+      if (enCategories) {
+        assertEquals(enCategories.length, 2);
+      }
 
       // Check quote metadata
       assert(quotesMetadata.has("en/motivational"));
@@ -215,8 +225,10 @@ Deno.test("scanAllQuoteContent() scans entire structure", async function () {
       assert(quotesMetadata.has("es/motivacional"));
 
       const enMotivationalFiles = quotesMetadata.get("en/motivational");
-      assert(enMotivationalFiles);
-      assertEquals(enMotivationalFiles.length, 2);
+      assert(enMotivationalFiles, "English motivational files should exist");
+      if (enMotivationalFiles) {
+        assertEquals(enMotivationalFiles.length, 2);
+      }
     }
   } finally {
     await cleanupTestStructure();

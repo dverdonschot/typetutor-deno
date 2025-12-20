@@ -1,4 +1,4 @@
-import { assertArrayIncludes, assertEquals } from "$std/assert/mod.ts";
+import { assertArrayIncludes, assertEquals } from "$std/assert";
 import {
   detectFileFormat,
   extractQuoteSummary,
