@@ -1,13 +1,13 @@
-import { Handlers } from "$fresh/server.ts";
 import {
   buildQuoteCache,
   getQuoteCache,
 } from "../../../functions/cacheManager.ts";
 import { getCachedLanguages, isCacheEmpty } from "../../../utils/quoteCache.ts";
+import { Handlers } from "fresh/compat";
 
 export const handler: Handlers = {
   /** Returns all available quote languages from cache. */
-  async GET(_req) {
+  async GET() {
     try {
       const cache = getQuoteCache();
 

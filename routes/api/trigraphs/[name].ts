@@ -1,7 +1,8 @@
-import { Handlers } from "$fresh/server.ts";
+import { Handlers } from "fresh/compat";
 
 export const handler: Handlers = {
-  async GET(req, ctx) {
+  async GET(ctx) {
+    const req = ctx.req;
     const url = new URL(req.url);
     const name = ctx.params.name;
     const count = parseInt(url.searchParams.get("count") || "20", 10);

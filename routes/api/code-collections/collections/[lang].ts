@@ -1,4 +1,4 @@
-import { Handlers } from "$fresh/server.ts";
+import { Handlers } from "fresh/compat";
 
 interface Collection {
   id: string;
@@ -23,7 +23,7 @@ interface CollectionMetadata {
 
 export const handler: Handlers = {
   /** Returns available collections for a specific programming language. */
-  async GET(_req, ctx) {
+  async GET(ctx) {
     try {
       const languageCode = ctx.params.lang;
 

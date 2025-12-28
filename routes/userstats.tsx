@@ -1,4 +1,4 @@
-import { PageProps } from "$fresh/server.ts";
+import { PageProps } from "fresh";
 import { Layout } from "../components/Layout.tsx";
 import UserStatsPageContentIsland from "../islands/UserStatsPageContentIsland.tsx";
 

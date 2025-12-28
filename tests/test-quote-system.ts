@@ -6,7 +6,7 @@
  */
 
 import { buildQuoteCache } from "./functions/cacheManager.ts";
-import { ensureDir } from "$std/fs/mod.ts";
+import { ensureDir } from "$std/fs/ensure-dir";
 
 async function setupTestData() {
   console.log("🔧 Setting up test quote data...");

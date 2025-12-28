@@ -1,15 +1,17 @@
-import { Handlers } from "$fresh/server.ts";
 import { getGameStats, updateGameStats } from "../../utils/gameStats.ts";
+import { Handlers } from "fresh/compat";
 
 export const handler: Handlers = {
-  async GET(_req, _ctx) {
+  async GET(_ctx) {
     const stats = await getGameStats();
     return new Response(JSON.stringify(stats), {
       headers: { "Content-Type": "application/json" },
     });
   },
 
-  async POST(req) {
+  async POST(ctx) {
+    const req = ctx.req;
+
     try {
       const { gameType, category, isFinished } = await req.json();
       const updatedStats = await updateGameStats(

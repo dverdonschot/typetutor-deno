@@ -4,13 +4,13 @@
  * Test script for the historical quotes we just added.
  */
 
-import { buildQuoteCache } from "./functions/cacheManager.ts";
+import { buildQuoteCache } from "../functions/cacheManager.ts";
 import {
   getCachedCategories,
   getCachedLanguages,
   getCachedQuoteMetadata,
-} from "./utils/quoteCache.ts";
-import { parseQuoteFile } from "./functions/quoteParser.ts";
+} from "../utils/quoteCache.ts";
+import { parseQuoteFile } from "../functions/quoteParser.ts";
 
 async function testHistoricalQuotes() {
   console.log("🏛️ Testing historical quotes system...");

@@ -1,4 +1,3 @@
-import { Handlers } from "$fresh/server.ts";
 import {
   buildQuoteCache,
   getQuoteCache,
@@ -7,10 +6,11 @@ import {
   getCachedCategories,
   isCacheEmpty,
 } from "../../../../utils/quoteCache.ts";
+import { Handlers } from "fresh/compat";
 
 export const handler: Handlers = {
   /** Returns all categories for a specific language from cache. */
-  async GET(_req, ctx) {
+  async GET(ctx) {
     try {
       const languageCode = ctx.params.lang;
 

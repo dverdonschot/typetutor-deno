@@ -1,4 +1,4 @@
-import { PageProps } from "$fresh/server.ts";
+import { PageProps } from "fresh";
 import { Layout } from "../components/Layout.tsx";
 import { Alphabet } from "../components/alphabet.tsx";
 import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";

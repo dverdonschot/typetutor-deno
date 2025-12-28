@@ -1,8 +1,8 @@
-import { Handlers } from "$fresh/server.ts";
 import TrigraphsTyperMode from "../islands/TrigraphsTyperMode.tsx";
+import { Handlers } from "fresh/compat";
 
 export const handler: Handlers = {
-  GET(_req, ctx) {
+  GET(ctx) {
     return ctx.render();
   },
 };

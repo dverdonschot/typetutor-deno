@@ -1,7 +1,7 @@
-import { Handlers } from "$fresh/server.ts";
+import { Handlers } from "fresh/compat";
 
 export const handler: Handlers = {
-  async GET(_req) {
+  async GET() {
     const trigraphsDir = "./static/content/trigraphs";
     try {
       const files = [];
