@@ -45,6 +45,9 @@ jobs:
       - name: Run tests
         run: deno task test
 
+      - name: Clear esbuild cache
+        run: rm -rf ~/.cache/esbuild
+
       - name: Build step
         run: "deno task build"
 
