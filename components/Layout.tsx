@@ -18,9 +18,9 @@ export function Layout(
   return (
     <LanguageProvider>
       <TranslationInitializer>
-        <div class="flex flex-col gap-6 flex-grow min-h-screen">
+        <div class="flex flex-col gap-4 sm:gap-6 flex-grow min-h-screen-dynamic">
           {/* Header Section */}
-          <header class="flex flex-col sm:flex-row justify-between items-center p-4 bg-white rounded-lg shadow">
+          <header class="flex flex-col sm:flex-row justify-between items-center p-2 sm:p-4 bg-white rounded-lg shadow">
             <div class="order-1 w-full sm:w-auto flex justify-center">
               <Logo />
             </div>

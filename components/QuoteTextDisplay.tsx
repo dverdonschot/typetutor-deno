@@ -14,7 +14,7 @@ export default function QuoteTextDisplay(
   { charStates }: QuoteTextDisplayProps,
 ) {
   return (
-    <div class="flex justify-center items-center py-6 px-4 typing-text tracking-wider">
+    <div class="flex justify-center items-center py-3 px-2 sm:py-6 sm:px-4 typing-text tracking-wider">
       <pre class="whitespace-pre-wrap break-words text-center">
         {charStates.map((charState, index) => {
           let charToShow = charState.original;
@@ -29,7 +29,7 @@ export default function QuoteTextDisplay(
               <div key={index} class="inline-block">
                 <span
                   class={cn(
-                    "transition-colors duration-100 ease-in-out text-2xl sm:text-3xl md:text-4xl typing-text font-bold",
+                    "transition-colors duration-100 ease-in-out text-base xs:text-lg sm:text-2xl md:text-3xl lg:text-4xl typing-text font-bold",
                     {
                       "text-tt-darkblue": charState.state === "none",
                       "text-green-500": charState.state === "correct",
@@ -52,7 +52,7 @@ export default function QuoteTextDisplay(
             <span
               key={index}
               class={cn(
-                "transition-colors duration-100 ease-in-out text-2xl sm:text-3xl md:text-4xl typing-text",
+                "transition-colors duration-100 ease-in-out text-base xs:text-lg sm:text-2xl md:text-3xl lg:text-4xl typing-text",
                 {
                   "text-tt-darkblue": charState.state === "none",
                   "text-green-500": charState.state === "correct",

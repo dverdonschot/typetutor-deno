@@ -80,24 +80,6 @@ export default function OvertypeContainer({
           onInput={handleInput}
           disabled={disabled}
           class="overtype-textarea"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            background: "transparent",
-            color: "transparent",
-            border: "none",
-            outline: "none",
-            resize: "none",
-            fontFamily: "monospace",
-            fontSize: "20px",
-            lineHeight: "1.5",
-            padding: "16px",
-            caretColor: "#000",
-            zIndex: 2,
-          }}
           spellcheck={false}
           autocomplete="off"
           autocorrect="off"
@@ -108,21 +90,6 @@ export default function OvertypeContainer({
         <div
           ref={previewRef}
           class="overtype-preview"
-          style={{
-            position: "relative",
-            fontFamily: "monospace",
-            fontSize: "20px",
-            lineHeight: "1.5",
-            padding: "16px",
-            whiteSpace: "pre-wrap",
-            wordBreak: "break-all",
-            zIndex: 1,
-            pointerEvents: "none",
-            minHeight: "400px",
-            border: "2px solid #e5e7eb",
-            borderRadius: "8px",
-            backgroundColor: "#f9fafb",
-          }}
         >
           {charStates.map(renderCharacter)}
         </div>
@@ -133,13 +100,71 @@ export default function OvertypeContainer({
         .overtype-container-wrapper {
           position: relative;
           width: 100%;
-          margin: 0.75rem 0;
+          margin: 0.5rem 0;
           max-width: none;
+        }
+
+        @media (min-width: 640px) {
+          .overtype-container-wrapper {
+            margin: 0.75rem 0;
+          }
         }
 
         .overtype-container {
           position: relative;
           width: 100%;
+        }
+
+        .overtype-textarea {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: transparent;
+          color: transparent;
+          border: none;
+          outline: none;
+          resize: none;
+          font-family: monospace;
+          font-size: 14px;
+          line-height: 1.4;
+          padding: 8px;
+          caret-color: #000;
+          z-index: 2;
+        }
+
+        @media (min-width: 640px) {
+          .overtype-textarea {
+            font-size: 20px;
+            line-height: 1.5;
+            padding: 16px;
+          }
+        }
+
+        .overtype-preview {
+          position: relative;
+          font-family: monospace;
+          font-size: 14px;
+          line-height: 1.4;
+          padding: 8px;
+          white-space: pre-wrap;
+          word-break: break-all;
+          z-index: 1;
+          pointer-events: none;
+          min-height: 120px;
+          border: 2px solid #e5e7eb;
+          border-radius: 8px;
+          background-color: #f9fafb;
+        }
+
+        @media (min-width: 640px) {
+          .overtype-preview {
+            font-size: 20px;
+            line-height: 1.5;
+            padding: 16px;
+            min-height: 400px;
+          }
         }
 
         .overtype-char {

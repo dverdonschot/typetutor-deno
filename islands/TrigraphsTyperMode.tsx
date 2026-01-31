@@ -357,7 +357,7 @@ const TrigraphsTyperMode: FC = () => {
         {!isLoading && !error && (
           <>
             {/* Combined Typing Area and Trigraph Selection */}
-            <div class="w-full p-4 bg-white rounded-lg shadow">
+            <div class="w-full p-2 sm:p-4 bg-white rounded-lg shadow">
               {/* Full width, padding, white background, rounded corners, shadow */}
               {/* Typing Area */}
               {targetText && (
@@ -376,7 +376,7 @@ const TrigraphsTyperMode: FC = () => {
                   <div
                     onClick={() => hiddenInputRef.current?.focus()}
                     style={TEXT_CURSOR_STYLE}
-                    class="p-4" // Remove background and border, keep padding
+                    class="p-1 sm:p-4" // Reduced padding on mobile
                   >
                     <QuoteTextDisplay charStates={charStates} />
                   </div>
@@ -384,7 +384,7 @@ const TrigraphsTyperMode: FC = () => {
               )}
 
               {/* Trigraph Selection and Word Count */}
-              <div class="w-full mt-4 flex flex-wrap gap-4 items-center">
+              <div class="w-full mt-2 sm:mt-4 flex flex-wrap gap-2 sm:gap-4 items-center">
                 {/* Make selection area full width, add margin-top, use flexbox */}
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">
