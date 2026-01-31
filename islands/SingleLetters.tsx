@@ -122,11 +122,17 @@ export const SingleLetters: FC = () => {
 
   // Send detailed stats to UserStatsManager
   const sendDetailedStats = useCallback(async () => {
-    if (!isComplete || !gameResult) return;
+    // Check if game is actually finished (don't rely on state)
+    const totalChars = trainingChars.length;
+    const isGameFinished = totalChars > 0 && typedCount === totalChars;
+    if (!isGameFinished) return;
 
     try {
       const userStatsManager = UserStatsManager.getInstance();
       await userStatsManager.initialize();
+
+      const endTime = Date.now();
+      const duration = (endTime - startTime) / 1000;
 
       const keystrokeData = trainingChars.map((char, index) => ({
         key: char.char,
@@ -154,19 +160,45 @@ export const SingleLetters: FC = () => {
         }
       });
 
-      const updatedGameResult: DetailedGameResult = {
-        ...gameResult,
+      // Create game result directly (don't rely on state)
+      const detailedGameResult: DetailedGameResult = {
+        gameId: generateGameId(),
         userId: userStatsManager.getUserId(),
+        mode: "singleLetters",
+        startTime: new Date(startTime).toISOString(),
+        endTime: new Date(endTime).toISOString(),
+        duration,
+        wpm: metrics.wordsPerMinute,
+        cpm: metrics.charactersPerMinute,
+        accuracy: metrics.accuracyPercentage,
+        mistakeCount,
+        backspaceCount,
         keystrokeData,
         characterStats,
+        contentMetadata: {
+          source: `single-letters-${selectedSet}`,
+          totalCharacters: trainingChars.length,
+          uniqueCharacters: new Set(trainingChars.map((c) => c.char)).size,
+        },
+        wrongCharacters: getWrongCharactersArray(),
       };
 
-      await userStatsManager.updateStats(updatedGameResult);
+      await userStatsManager.updateStats(detailedGameResult);
+      setGameResult(detailedGameResult);
       console.log("Single letters game stats updated successfully");
     } catch (error) {
       console.error("Failed to update single letters stats:", error);
     }
-  }, [isComplete, gameResult, startTime, trainingChars]);
+  }, [
+    startTime,
+    trainingChars,
+    typedCount,
+    metrics,
+    mistakeCount,
+    backspaceCount,
+    selectedSet,
+    getWrongCharactersArray,
+  ]);
 
   // Input style (hidden off-screen)
   const inputStyle = {
@@ -212,36 +244,12 @@ export const SingleLetters: FC = () => {
     const isGameFinished = totalChars > 0 && typedCount === totalChars;
 
     if (isGameFinished && !finishedSentRef.current) {
-      const endTime = Date.now();
-      const duration = (endTime - startTime) / 1000;
-
-      const gameResultData: DetailedGameResult = {
-        gameId: generateGameId(),
-        userId: "user",
-        mode: "singleLetters",
-        startTime: new Date(startTime).toISOString(),
-        endTime: new Date(endTime).toISOString(),
-        duration,
-        wpm: metrics.wordsPerMinute,
-        cpm: metrics.charactersPerMinute,
-        accuracy: metrics.accuracyPercentage,
-        mistakeCount,
-        backspaceCount,
-        keystrokeData: [],
-        characterStats: {},
-        contentMetadata: {
-          source: `single-letters-${selectedSet}`,
-          totalCharacters: trainingChars.length,
-          uniqueCharacters: new Set(trainingChars.map((c) => c.char)).size,
-        },
-        wrongCharacters: getWrongCharactersArray(),
-      };
-
-      setGameResult(gameResultData);
       setIsComplete(true);
 
+      // Send server stats
       recordGameStats({
         gameType: "singleLetters",
+        category: selectedSet,
         isFinished: true,
       }).then(() => {
         console.log("Single letters game finished stats sent");
@@ -249,6 +257,7 @@ export const SingleLetters: FC = () => {
         console.error("Error sending single letters stats:", error);
       });
 
+      // Send detailed stats to UserStatsManager (creates game result and updates state)
       sendDetailedStats();
       finishedSentRef.current = true;
     }
@@ -257,29 +266,24 @@ export const SingleLetters: FC = () => {
     trainingChars.length,
     sendDetailedStats,
     selectedSet,
-    metrics,
-    mistakeCount,
-    backspaceCount,
-    getWrongCharactersArray,
-    startTime,
   ]);
 
   return (
-    <div class="w-full min-h-[500px] rounded-lg bg-white shadow p-8">
+    <div class="w-full min-h-[300px] sm:min-h-[500px] rounded-lg bg-white shadow p-4 sm:p-8">
       {/* Character Set Selector */}
-      <div class="mb-8 flex flex-wrap justify-center gap-3">
+      <div class="mb-4 sm:mb-8 flex flex-wrap justify-center gap-2 sm:gap-3">
         {(Object.keys(CHARACTER_SETS) as CharacterSet[]).map((set) => (
           <button
             type="button"
             key={set}
             onClick={() => handleCharacterSetChange(set)}
-            class={`px-6 py-3 rounded-lg font-semibold transition-all ${
+            class={`px-3 py-2 sm:px-6 sm:py-3 text-sm sm:text-base rounded-lg font-semibold transition-all ${
               selectedSet === set
                 ? "bg-tt-darkblue text-white shadow-lg"
                 : "bg-gray-200 text-gray-700 hover:bg-gray-300"
             }`}
           >
-            {selectedSet === set && <span class="mr-2">✓</span>}
+            {selectedSet === set && <span class="mr-1 sm:mr-2">✓</span>}
             {CHARACTER_SET_LABELS[set]}
           </button>
         ))}
@@ -288,21 +292,29 @@ export const SingleLetters: FC = () => {
       {/* Main Game Area */}
       <div onClick={focusInput} style={{ cursor: "pointer" }}>
         {!isComplete && (
-          <div class="flex flex-col items-center justify-center min-h-[300px] space-y-8">
-            {/* Current Letter Display - Very Large */}
-            <div class="text-[12rem] font-bold text-tt-darkblue select-none">
-              {currentChar}
+          <div class="flex flex-col items-center justify-center min-h-[140px] sm:min-h-[300px] space-y-2 sm:space-y-8">
+            {/* Letter + Emoji: horizontal on mobile, vertical on desktop */}
+            <div class="flex flex-row sm:flex-col items-center justify-center gap-2 sm:gap-8">
+              {/* Current Letter Display - Responsive sizing */}
+              <div class="text-[5rem] xs:text-[6rem] sm:text-[10rem] md:text-[12rem] font-bold text-tt-darkblue select-none leading-none">
+                {currentChar}
+              </div>
+
+              {/* Emoji Feedback - side of letter on mobile, below on desktop */}
+              <div class="min-w-[3rem] xs:min-w-[4rem] sm:min-w-0 flex items-center justify-center">
+                {currentEmoji && (
+                  <div
+                    key={typedCount}
+                    class="text-[3rem] xs:text-[4rem] sm:text-[6rem] md:text-[8rem] animate-bounce-three"
+                  >
+                    {currentEmoji}
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Emoji Feedback - Large, shown below letter */}
-            {currentEmoji && (
-              <div key={typedCount} class="text-[8rem] animate-bounce-three">
-                {currentEmoji}
-              </div>
-            )}
-
             {/* Progress Indicator */}
-            <div class="text-2xl text-gray-600 font-medium">
+            <div class="text-base sm:text-2xl text-gray-600 font-medium">
               {typedCount} / {trainingChars.length}
             </div>
           </div>

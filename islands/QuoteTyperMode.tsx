@@ -761,16 +761,16 @@ export default function QuoteTyperMode(
           <div
             onClick={() => hiddenInputRef.current?.focus()}
             style={TEXT_CURSOR_STYLE}
-            class="w-full min-h-[300px] rounded-lg bg-white shadow mb-4"
+            class="w-full min-h-[80px] sm:min-h-[200px] md:min-h-[300px] rounded-lg bg-white shadow mb-1 sm:mb-4"
           >
             <div class="w-full">
               <QuoteTextDisplay charStates={charStates} />
             </div>
           </div>
 
-          {/* Quote Attribution Box */}
+          {/* Quote Attribution Box - hidden on mobile to save space */}
           {allQuotes[currentQuoteIndex] && (
-            <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200 mb-4">
+            <div class="hidden sm:block bg-white p-2 sm:p-4 rounded-lg shadow-md border border-gray-200 mb-2 sm:mb-4">
               <div class="flex items-start justify-between">
                 {/* Primary attribution - author and year */}
                 <div class="flex-1">
@@ -870,7 +870,7 @@ export default function QuoteTyperMode(
           {/* Progress indicator */}
           {(allQuotes.length > 1 || randomQuotesEnabled ||
             randomizeCategoryEnabled) && (
-            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <div class="bg-white p-2 sm:p-6 rounded-xl shadow-md border border-gray-200">
               <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center space-x-3">
                   {randomQuotesEnabled || randomizeCategoryEnabled
@@ -958,7 +958,7 @@ export default function QuoteTyperMode(
       )}
 
       {/* Selection Controls - moved to bottom */}
-      <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+      <div class="bg-white p-2 sm:p-6 rounded-xl shadow-md border border-gray-200">
         <div class="space-y-4">
           {/* Random Quotes Toggle */}
           <div class="flex items-center justify-between">

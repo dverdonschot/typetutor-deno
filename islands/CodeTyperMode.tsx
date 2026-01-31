@@ -851,7 +851,13 @@ export default function CodeTyperMode() {
         .code-mode-container {
           max-width: 95vw;
           margin: 0 auto;
-          padding: 0.5rem 1rem 1rem 1rem;
+          padding: 0.25rem 0.5rem 0.5rem 0.5rem;
+        }
+
+        @media (min-width: 640px) {
+          .code-mode-container {
+            padding: 0.5rem 1rem 1rem 1rem;
+          }
         }
 
         .code-header {
@@ -908,7 +914,13 @@ export default function CodeTyperMode() {
         }
 
         .code-selectors {
-          margin: 1rem 0;
+          margin: 0.5rem 0;
+        }
+
+        @media (min-width: 640px) {
+          .code-selectors {
+            margin: 1rem 0;
+          }
         }
 
         .selector-row {
@@ -930,7 +942,13 @@ export default function CodeTyperMode() {
         }
 
         .snippet-selector {
-          margin: 1rem 0;
+          margin: 0.5rem 0;
+        }
+
+        @media (min-width: 640px) {
+          .snippet-selector {
+            margin: 1rem 0;
+          }
         }
 
         .code-label {
@@ -955,12 +973,19 @@ export default function CodeTyperMode() {
         }
 
         .snippet-info {
-          margin-top: 0.75rem;
-          padding: 0.75rem;
-          background-color: #f9fafb;
-          border: 1px solid #e5e7eb;
-          border-radius: 6px;
-          font-size: 0.875rem;
+          display: none;
+        }
+
+        @media (min-width: 640px) {
+          .snippet-info {
+            display: block;
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 0.875rem;
+          }
         }
 
         .snippet-description {
@@ -977,19 +1002,33 @@ export default function CodeTyperMode() {
 
         .code-actions {
           display: flex;
-          gap: 1rem;
+          gap: 0.5rem;
           justify-content: center;
-          margin: 1rem 0;
+          margin: 0.5rem 0;
+        }
+
+        @media (min-width: 640px) {
+          .code-actions {
+            gap: 1rem;
+            margin: 1rem 0;
+          }
         }
 
         .code-button {
-          padding: 0.75rem 1.5rem;
+          padding: 0.5rem 1rem;
           border: none;
           border-radius: 6px;
-          font-size: 1rem;
+          font-size: 0.875rem;
           font-weight: 500;
           cursor: pointer;
           transition: all 0.2s;
+        }
+
+        @media (min-width: 640px) {
+          .code-button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+          }
         }
 
         .code-button:disabled {
@@ -1034,11 +1073,18 @@ export default function CodeTyperMode() {
         }
 
         .github-file-info {
-          margin: 1rem 0;
-          padding: 1rem;
-          background-color: #f8fafc;
-          border: 1px solid #e2e8f0;
-          border-radius: 8px;
+          display: none;
+        }
+
+        @media (min-width: 640px) {
+          .github-file-info {
+            display: block;
+            margin: 1rem 0;
+            padding: 1rem;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+          }
         }
 
         .file-info-header {

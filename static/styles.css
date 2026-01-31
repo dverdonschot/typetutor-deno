@@ -4,6 +4,20 @@
 /* Import Fira Code - a monospaced font with programming ligatures and excellent character distinction */
 @import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap");
 
+/* Dynamic viewport height for mobile keyboard handling */
+:root {
+  --app-height: 100dvh;
+  --app-height-safe: calc(100dvh - env(safe-area-inset-bottom, 0px));
+}
+
+/* Fallback for browsers without dvh support */
+@supports not (height: 100dvh) {
+  :root {
+    --app-height: 100vh;
+    --app-height-safe: 100vh;
+  }
+}
+
 /* Specific class for typing text to ensure font is applied */
 .typing-text {
   font-family: "Fira Code", monospace !important;
@@ -19,7 +33,7 @@
 
 body {
   background-color: #f4f4f4;
-  min-height: 100vh;
+  min-height: var(--app-height, 100vh);
 }
 
 .container {
