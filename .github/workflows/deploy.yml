@@ -24,8 +24,11 @@ jobs:
         with:
           deno-version: v2.x
 
-      - name: Clear esbuild cache
-        run: rm -rf ~/.cache/esbuild
+      - name: Setup esbuild binary
+        run: |
+          rm -rf ~/.cache/esbuild
+          npm install esbuild@0.20.2
+          echo "ESBUILD_BINARY_PATH=$(pwd)/node_modules/.bin/esbuild" >> $GITHUB_ENV
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
