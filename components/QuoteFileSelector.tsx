@@ -83,33 +83,30 @@ export default function QuoteFileSelector(
   // Don't render if no language or category is selected
   if (!languageCode || !categoryDirectory) {
     return (
-      <div class="bg-gray-50 border border-gray-200 rounded-md p-3">
-        <p class="text-sm text-gray-500">
-          Select a language and category first
-        </p>
+      <div class="card card-padded text-sm text-gray-500">
+        Select a language and category first
       </div>
     );
   }
 
   if (loading) {
     return (
-      <div class="animate-pulse">
-        {!hideLabel && <div class="h-4 bg-gray-200 rounded mb-2 w-24"></div>}
-        <div class="h-10 bg-gray-200 rounded-md"></div>
-        <div class="mt-1 h-3 bg-gray-100 rounded w-36"></div>
+      <div style={{ opacity: 0.6 }}>
+        {!hideLabel && <div class="form-label" style={{ width: "6rem", height: "1rem", backgroundColor: "#e5e7eb", borderRadius: "0.25rem", marginBottom: "0.5rem" }}></div>}
+        <div style={{ height: "2.5rem", backgroundColor: "#e5e7eb", borderRadius: "0.375rem" }}></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div class="bg-red-50 border border-red-200 rounded-md p-3">
+      <div class="error-container">
         <div class="flex items-center justify-between">
-          <p class="text-sm text-red-600">Error loading quote files: {error}</p>
+          <p class="error-message">Error loading quote files: {error}</p>
           <button
             type="button"
             onClick={() => globalThis.location.reload()}
-            class="text-xs text-red-700 hover:text-red-800 underline focus:outline-none"
+            class="error-link"
           >
             Retry
           </button>
@@ -120,8 +117,8 @@ export default function QuoteFileSelector(
 
   if (quoteFiles.length === 0) {
     return (
-      <div class="bg-yellow-50 border border-yellow-200 rounded-md p-3">
-        <p class="text-sm text-yellow-600">
+      <div class="card card-padded" style={{ backgroundColor: "#fefce8", borderColor: "#fde047" }}>
+        <p class="text-sm" style={{ color: "#ca8a04" }}>
           No quote files available in this category
         </p>
       </div>
@@ -131,10 +128,7 @@ export default function QuoteFileSelector(
   return (
     <div>
       {!hideLabel && (
-        <label
-          htmlFor="quote-file-selector"
-          class="block text-sm font-medium text-gray-700 mb-1"
-        >
+        <label htmlFor="quote-file-selector" class="form-label">
           {label || "Quote Collection"}:
         </label>
       )}
@@ -142,7 +136,7 @@ export default function QuoteFileSelector(
         id="quote-file-selector"
         value={selectedFileId || ""}
         onChange={handleChange}
-        class="block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-tt-lightblue focus:border-tt-lightblue sm:text-sm rounded-md shadow-sm bg-white border transition-colors duration-200 hover:border-gray-400"
+        class="form-select"
       >
         <option value="" disabled>-- Select a quote collection --</option>
         {quoteFiles.map((file) => (

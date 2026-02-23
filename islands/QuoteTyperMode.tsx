@@ -690,19 +690,18 @@ export default function QuoteTyperMode(
   }, [autoFocus, isLoading, error, targetText, showCompletion]);
 
   return (
-    <div class="space-y-4 -mt-5">
+    <div class="space-y-4" style={{ marginTop: "-1.25rem" }}>
       {/* Loading State */}
       {isLoading && (
-        <div class="bg-white p-8 rounded-xl shadow-md border border-gray-200">
-          <div class="text-center">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-tt-lightblue bg-opacity-10 rounded-full mb-4">
-              <div class="animate-spin rounded-full h-8 w-8 border-2 border-tt-lightblue border-t-transparent">
-              </div>
+        <div class="card card-padded-lg">
+          <div class="loading-container">
+            <div class="loading-spinner">
+              <div class="loading-spinner-inner"></div>
             </div>
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">
+            <h3 class="loading-title">
               {t("quotes.loadingQuotes")}
             </h3>
-            <p class="text-gray-600">
+            <p class="loading-text">
               {t("quotes.fetchingCollection")}
             </p>
           </div>
@@ -711,32 +710,30 @@ export default function QuoteTyperMode(
 
       {/* Error State */}
       {error && (
-        <div class="bg-red-50 border border-red-200 rounded-xl p-6">
-          <div class="flex items-start space-x-4">
-            <div class="flex-shrink-0">
-              <svg
-                class="w-6 h-6 text-red-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-            <div class="flex-1">
-              <h3 class="text-sm font-semibold text-red-800 mb-1">
+        <div class="error-container">
+          <div class="error-content">
+            <svg
+              class="error-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <div>
+              <h3 class="error-title">
                 {t("quotes.errorLoading")}
               </h3>
-              <p class="text-sm text-red-600">{error}</p>
+              <p class="error-message">{error}</p>
               <button
                 type="button"
                 onClick={() => globalThis.location.reload()}
-                class="mt-3 text-sm text-red-700 hover:text-red-800 underline focus:outline-none"
+                class="error-link"
               >
                 {t("quotes.tryAgain")}
               </button>
@@ -761,7 +758,7 @@ export default function QuoteTyperMode(
           <div
             onClick={() => hiddenInputRef.current?.focus()}
             style={TEXT_CURSOR_STYLE}
-            class="w-full min-h-[80px] sm:min-h-[200px] md:min-h-[300px] rounded-lg bg-white shadow mb-1 sm:mb-4"
+            class="quote-display"
           >
             <div class="w-full">
               <QuoteTextDisplay charStates={charStates} />
@@ -770,15 +767,15 @@ export default function QuoteTyperMode(
 
           {/* Quote Attribution Box - hidden on mobile to save space */}
           {allQuotes[currentQuoteIndex] && (
-            <div class="hidden sm:block bg-white p-2 sm:p-4 rounded-lg shadow-md border border-gray-200 mb-2 sm:mb-4">
+            <div class="quote-attribution">
               <div class="flex items-start justify-between">
                 {/* Primary attribution - author and year */}
-                <div class="flex-1">
+                <div style={{ flex: 1 }}>
                   {allQuotes[currentQuoteIndex].author && (
-                    <div class="text-lg font-medium text-gray-800 mb-1">
+                    <div class="quote-author">
                       — {allQuotes[currentQuoteIndex].author}
                       {allQuotes[currentQuoteIndex].year && (
-                        <span class="text-base text-gray-600 ml-2">
+                        <span class="quote-year">
                           ({allQuotes[currentQuoteIndex].year})
                         </span>
                       )}
@@ -788,34 +785,31 @@ export default function QuoteTyperMode(
                   {/* Author biographical information */}
                   {allQuotes[currentQuoteIndex]?.authorBio &&
                     allQuotes[currentQuoteIndex].authorBio.trim() !== "" && (
-                    <div class="text-sm text-gray-600 italic mb-2">
+                    <div class="quote-bio">
                       <strong>Bio:</strong>{" "}
                       {allQuotes[currentQuoteIndex].authorBio}
                     </div>
                   )}
 
                   {/* Secondary metadata */}
-                  <div class="space-y-1 text-sm text-gray-500">
+                  <div class="space-y-1">
                     {allQuotes[currentQuoteIndex]?.source &&
                       allQuotes[currentQuoteIndex].source.trim() !== "" && (
-                      <div class="italic">
+                      <div class="quote-source">
                         <strong>Source:</strong>{" "}
                         {allQuotes[currentQuoteIndex].source}
                       </div>
                     )}
                     {allQuotes[currentQuoteIndex].tags &&
                       allQuotes[currentQuoteIndex].tags.length > 0 && (
-                      <div class="flex items-center space-x-1">
+                      <div class="quote-tags">
                         <span>Tags:</span>
                         <div class="flex flex-wrap gap-1">
                           {allQuotes[currentQuoteIndex].tags.map((
                             tag: string,
                             index: number,
                           ) => (
-                            <span
-                              key={index}
-                              class="px-2 py-1 bg-gray-100 rounded text-xs"
-                            >
+                            <span key={index} class="quote-tag">
                               {tag}
                             </span>
                           ))}
@@ -823,9 +817,9 @@ export default function QuoteTyperMode(
                       </div>
                     )}
                     {allQuotes[currentQuoteIndex].difficulty && (
-                      <div>
+                      <div class="quote-difficulty">
                         {t(TRANSLATION_KEYS.COMMON.DIFFICULTY)}:{" "}
-                        <span class="capitalize font-medium">
+                        <span class="font-medium" style={{ textTransform: "capitalize" }}>
                           {allQuotes[currentQuoteIndex].difficulty}
                         </span>
                       </div>
@@ -834,11 +828,11 @@ export default function QuoteTyperMode(
                 </div>
 
                 {/* Collection info */}
-                <div class="text-right text-sm text-gray-500 ml-4">
+                <div class="text-sm text-gray-500" style={{ textAlign: "right", marginLeft: "1rem" }}>
                   {selectedCategory && !randomQuotesEnabled && (
                     <div class="mb-1">
                       {t(TRANSLATION_KEYS.COMMON.CATEGORY)}:{" "}
-                      <span class="font-medium capitalize">
+                      <span class="font-medium" style={{ textTransform: "capitalize" }}>
                         {selectedCategory}
                       </span>
                     </div>
@@ -853,12 +847,12 @@ export default function QuoteTyperMode(
                     </div>
                   )}
                   {randomQuotesEnabled && (
-                    <div class="text-xs bg-blue-50 px-2 py-1 rounded text-blue-700">
+                    <div class="info-badge info-badge-blue">
                       🎲 {t(TRANSLATION_KEYS.QUOTES.RANDOM_FROM_ALL_QUOTES)}
                     </div>
                   )}
                   {randomizeCategoryEnabled && selectedCategory && (
-                    <div class="text-xs bg-green-50 px-2 py-1 rounded text-green-700">
+                    <div class="info-badge info-badge-green">
                       🎲 Random from {selectedCategory}
                     </div>
                   )}
@@ -870,9 +864,9 @@ export default function QuoteTyperMode(
           {/* Progress indicator */}
           {(allQuotes.length > 1 || randomQuotesEnabled ||
             randomizeCategoryEnabled) && (
-            <div class="bg-white p-2 sm:p-6 rounded-xl shadow-md border border-gray-200">
+            <div class="card card-padded">
               <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center space-x-3">
+                <div class="flex items-center gap-3">
                   {randomQuotesEnabled || randomizeCategoryEnabled
                     ? (
                       // Random modes - show games played
@@ -958,12 +952,12 @@ export default function QuoteTyperMode(
       )}
 
       {/* Selection Controls - moved to bottom */}
-      <div class="bg-white p-2 sm:p-6 rounded-xl shadow-md border border-gray-200">
+      <div class="settings-panel">
         <div class="space-y-4">
           {/* Random Quotes Toggle */}
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-              <label class="flex items-center space-x-2 cursor-pointer">
+          <div class="settings-row">
+            <div class="settings-group">
+              <label class="settings-group" style={{ cursor: "pointer" }}>
                 <input
                   type="checkbox"
                   checked={randomQuotesEnabled}
@@ -971,13 +965,13 @@ export default function QuoteTyperMode(
                     handleRandomQuotesToggle(
                       (e.target as HTMLInputElement).checked,
                     )}
-                  class="w-4 h-4 text-tt-lightblue bg-gray-100 border-gray-300 rounded focus:ring-tt-lightblue focus:ring-2"
+                  class="form-checkbox"
                 />
                 <span class="text-sm font-medium text-gray-700">
                   {t(TRANSLATION_KEYS.QUOTES.RANDOM_QUOTES)}
                 </span>
               </label>
-              <div class="text-xs text-gray-500">
+              <div class="text-sm text-gray-500">
                 {t(TRANSLATION_KEYS.QUOTES.GET_RANDOM_QUOTES_ENTIRE_LANGUAGE)}
               </div>
             </div>
@@ -985,7 +979,7 @@ export default function QuoteTyperMode(
             <button
               type="button"
               onClick={loadRandomFile}
-              class="bg-gradient-to-r from-tt-lightblue to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-sm"
+              class="action-btn-primary"
             >
               🎲 {t("quotes.loadRandomCollection")}
             </button>
@@ -996,8 +990,8 @@ export default function QuoteTyperMode(
             <>
               {/* Category Selector with Randomize Category Toggle */}
               <div class="space-y-2">
-                <div class="flex items-center space-x-4">
-                  <div class="flex-1">
+                <div class="selector-row">
+                  <div class="selector-group">
                     <CategorySelector
                       languageCode={currentLanguageSignal.value.code}
                       selectedCategory={selectedCategory}
@@ -1007,7 +1001,7 @@ export default function QuoteTyperMode(
                     />
                   </div>
                   {selectedCategory && (
-                    <label class="flex items-center space-x-2 cursor-pointer whitespace-nowrap">
+                    <label class="settings-group" style={{ cursor: "pointer", whiteSpace: "nowrap" }}>
                       <input
                         type="checkbox"
                         checked={randomizeCategoryEnabled}
@@ -1015,7 +1009,7 @@ export default function QuoteTyperMode(
                           handleRandomizeCategoryToggle(
                             (e.target as HTMLInputElement).checked,
                           )}
-                        class="w-4 h-4 text-tt-lightblue bg-gray-100 border-gray-300 rounded focus:ring-tt-lightblue focus:ring-2"
+                        class="form-checkbox"
                       />
                       <span class="text-sm font-medium text-gray-700">
                         {t(TRANSLATION_KEYS.QUOTES.RANDOMIZE_CATEGORY)}
@@ -1024,7 +1018,7 @@ export default function QuoteTyperMode(
                   )}
                 </div>
                 {selectedCategory && randomizeCategoryEnabled && (
-                  <div class="text-xs text-gray-500 pl-1">
+                  <div class="text-sm text-gray-500" style={{ paddingLeft: "0.25rem" }}>
                     Get random quotes from the entire "{selectedCategory}"
                     category
                   </div>
@@ -1049,11 +1043,11 @@ export default function QuoteTyperMode(
 
       {/* Empty state */}
       {!isLoading && !error && !targetText && (
-        <div class="bg-white rounded-xl shadow-md border border-gray-200 p-12">
+        <div class="card card-padded-lg">
           <div class="text-center">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-6">
+            <div class="loading-spinner mb-6" style={{ backgroundColor: "#f3f4f6" }}>
               <svg
-                class="w-8 h-8 text-gray-400"
+                style={{ width: "2rem", height: "2rem", color: "#9ca3af" }}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

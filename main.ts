@@ -7,9 +7,7 @@
 
 import "jsr:@std/dotenv@^0.225/load";
 
-import { start } from "$fresh/server.ts";
-import manifest from "./fresh.gen.ts";
-import config from "./fresh.config.ts";
+import { App, staticFiles } from "fresh";
 import { initializeQuoteCache } from "./functions/initializeCache.ts";
 import { translationCache } from "./utils/translationCache.ts";
 
@@ -21,4 +19,12 @@ console.log("Initializing translation cache...");
 await translationCache.getCache();
 console.log("Translation cache initialized");
 
-await start(manifest, config);
+// Create Fresh app with file-based routing
+export const app = new App()
+  .use(staticFiles())
+  .fsRoutes();
+
+// For Deno Deploy
+if (import.meta.main) {
+  Deno.serve(app.handler());
+}

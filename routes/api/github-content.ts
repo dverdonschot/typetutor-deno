@@ -1,13 +1,13 @@
-import { Handlers } from "$fresh/server.ts";
+import { define } from "@/utils/define.ts";
 import {
   convertToGitHubRawUrl,
   fetchGitHubContent,
 } from "../../utils/githubValidator.ts";
 
-export const handler: Handlers = {
-  async POST(req) {
+export const handler = define.handlers({
+  async POST(ctx) {
     try {
-      const { url } = await req.json();
+      const { url } = await ctx.req.json();
 
       if (!url || typeof url !== "string") {
         return new Response(
@@ -93,4 +93,4 @@ export const handler: Handlers = {
       );
     }
   },
-};
+});

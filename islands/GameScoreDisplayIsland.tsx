@@ -170,13 +170,13 @@ export default function GameScoreDisplayIsland(
   }
 
   return (
-    <div class="mt-8 space-y-6">
+    <div class="game-score-wrapper">
       {/* Game Summary */}
-      <div class="p-4 bg-tt-lightblue rounded-lg text-white">
+      <div class="score-summary">
         {/* Use the existing TypingMetricsDisplay component */}
         <TypingMetricsDisplay metrics={metrics} />
 
-        <div class="text-center mt-4 space-x-3">
+        <div class="score-actions">
           {onNextGame && (
             <button
               ref={nextButtonRef}
@@ -192,11 +192,7 @@ export default function GameScoreDisplayIsland(
                   onNextGame();
                 }
               }}
-              class={`px-6 py-3 font-medium rounded-lg hover:bg-tt-darkblue-darker focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tt-darkblue transition-all duration-200 transform hover:scale-105 ${
-                isNextButtonSelected
-                  ? "bg-tt-lightblue text-white ring-2 ring-tt-lightblue/50"
-                  : "bg-tt-darkblue text-white"
-              }`}
+              class={`action-btn-primary ${isNextButtonSelected ? "selected" : ""}`}
             >
               {isNextButtonSelected ? "Press Enter again" : (
                 gameType === "quote" && metrics.isComplete &&
@@ -225,11 +221,7 @@ export default function GameScoreDisplayIsland(
                   onPracticeAgain();
                 }
               }}
-              class={`px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200 ${
-                isPracticeButtonSelected
-                  ? "bg-tt-lightblue text-white ring-2 ring-tt-lightblue/50 focus:ring-tt-lightblue"
-                  : "bg-gray-500 text-white hover:bg-gray-600 focus:ring-gray-500"
-              }`}
+              class={`action-btn-secondary ${isPracticeButtonSelected ? "selected" : ""}`}
             >
               {isPracticeButtonSelected
                 ? "Press Enter again"
@@ -240,15 +232,15 @@ export default function GameScoreDisplayIsland(
       </div>
 
       {/* Character Errors Heatmap Section */}
-      <div class="p-4 bg-white rounded-lg shadow-md">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">
+      <div class="heatmap-section">
+        <h3 class="heatmap-title">
           {t(TRANSLATION_KEYS.METRICS.CHARACTER_ERRORS_THIS_GAME)}
         </h3>
 
         {gameResult && gameResult.wrongCharacters.length > 0
           ? (
-            <div class="space-y-4">
-              <div class="flex justify-center">
+            <div class="heatmap-container">
+              <div class="heatmap-wrapper">
                 <KeyboardHeatmap
                   heatmapData={createGameHeatmapData(gameResult)}
                   colorScheme="game-errors"
@@ -256,7 +248,7 @@ export default function GameScoreDisplayIsland(
                   className="max-w-4xl"
                 />
               </div>
-              <div class="text-sm text-gray-600 text-center">
+              <div class="heatmap-description">
                 <p>{t(TRANSLATION_KEYS.METRICS.RED_KEYS_EXPLANATION)}</p>
                 <p>
                   {(() => {
@@ -285,9 +277,9 @@ export default function GameScoreDisplayIsland(
             </div>
           )
           : (
-            <div class="text-center py-8 text-green-600">
-              <div class="text-4xl mb-2">🎉</div>
-              <p class="text-lg font-medium">
+            <div class="perfect-score">
+              <div class="perfect-score-emoji">🎉</div>
+              <p class="perfect-score-text">
                 Perfect! No character errors in this game.
               </p>
             </div>

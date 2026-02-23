@@ -1,4 +1,4 @@
-import { Handlers } from "$fresh/server.ts";
+import { define } from "@/utils/define.ts";
 import {
   buildQuoteCache,
   getQuoteCache,
@@ -9,9 +9,9 @@ import {
 } from "../../../../../../utils/quoteCache.ts";
 import { parseQuoteFile } from "../../../../../../functions/quoteParser.ts";
 
-export const handler: Handlers = {
+export const handler = define.handlers({
   /** Returns the actual quote content for a specific file on-demand. */
-  async GET(_req, ctx) {
+  async GET(ctx) {
     try {
       const languageCode = ctx.params.lang;
       const categoryName = ctx.params.category;
@@ -124,4 +124,4 @@ export const handler: Handlers = {
       );
     }
   },
-};
+});

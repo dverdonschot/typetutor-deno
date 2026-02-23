@@ -1,4 +1,4 @@
-import { Handlers } from "$fresh/server.ts";
+import { define } from "@/utils/define.ts";
 
 interface CodeSnippet {
   code: string;
@@ -18,9 +18,9 @@ interface CodeCollectionMetadata {
   description?: string;
 }
 
-export const handler: Handlers = {
+export const handler = define.handlers({
   /** Returns code collection metadata for a specific language and category. */
-  async GET(_req, ctx) {
+  async GET(ctx) {
     try {
       const languageCode = ctx.params.lang;
       const categoryName = ctx.params.category;
@@ -155,4 +155,4 @@ export const handler: Handlers = {
       );
     }
   },
-};
+});

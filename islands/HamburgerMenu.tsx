@@ -32,18 +32,18 @@ export default function HamburgerMenu(props: HamburgerMenuProps) {
   }, []);
 
   return (
-    <div class="relative" ref={menuRef}>
+    <div class="hamburger-wrapper" ref={menuRef}>
       {/* Hamburger Button */}
       <button
         type="button"
         onClick={toggleMenu}
-        class="flex items-center justify-center p-2 rounded-md text-tt-darkblue hover:bg-gray-100 focus:outline-none"
+        class="hamburger-btn"
         aria-expanded={isOpen.value ? "true" : "false"}
       >
         <span class="sr-only">Open main menu</span>
         {/* Hamburger Icon */}
         <svg
-          class="h-6 w-6"
+          class="hamburger-icon"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -63,20 +63,16 @@ export default function HamburgerMenu(props: HamburgerMenuProps) {
 
       {/* Dropdown Menu */}
       <div
-        class={`absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10 transition-all duration-200 ${
-          isOpen.value
-            ? "opacity-100 scale-100"
-            : "opacity-0 scale-95 pointer-events-none"
-        }`}
+        class={`menu-dropdown ${isOpen.value ? "visible" : "hidden"}`}
       >
-        <div class="py-1" role="menu" aria-orientation="vertical">
+        <div class="menu-items" role="menu" aria-orientation="vertical">
           <a
             href="/quotes"
-            class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
+            class="menu-item"
             role="menuitem"
           >
             <svg
-              class="w-5 h-5 mr-3 text-tt-lightblue"
+              class="menu-item-icon"
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
               viewBox="0 0 24 24"
@@ -92,11 +88,11 @@ export default function HamburgerMenu(props: HamburgerMenuProps) {
 
           <a
             href="/alphabet"
-            class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
+            class="menu-item"
             role="menuitem"
           >
             <svg
-              class="w-5 h-5 mr-3 text-tt-lightblue"
+              class="menu-item-icon"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -114,11 +110,11 @@ export default function HamburgerMenu(props: HamburgerMenuProps) {
 
           <a
             href="/random"
-            class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
+            class="menu-item"
             role="menuitem"
           >
             <svg
-              class="w-5 h-5 mr-3 text-tt-lightblue"
+              class="menu-item-icon"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -137,11 +133,11 @@ export default function HamburgerMenu(props: HamburgerMenuProps) {
 
           <a
             href="/singleLetters"
-            class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
+            class="menu-item"
             role="menuitem"
           >
             <svg
-              class="w-5 h-5 mr-3 text-tt-lightblue"
+              class="menu-item-icon"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -159,11 +155,11 @@ export default function HamburgerMenu(props: HamburgerMenuProps) {
 
           <a
             href="/custom"
-            class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
+            class="menu-item"
             role="menuitem"
           >
             <svg
-              class="w-5 h-5 mr-3 text-tt-lightblue"
+              class="menu-item-icon"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -180,11 +176,11 @@ export default function HamburgerMenu(props: HamburgerMenuProps) {
           </a>
           <a
             href="/code"
-            class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
+            class="menu-item"
             role="menuitem"
           >
             <svg
-              class="w-5 h-5 mr-3 text-tt-lightblue"
+              class="menu-item-icon"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -201,11 +197,11 @@ export default function HamburgerMenu(props: HamburgerMenuProps) {
           </a>
           <a
             href="/userstats"
-            class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
+            class="menu-item"
             role="menuitem"
           >
             <svg
-              class="w-5 h-5 mr-3 text-tt-lightblue"
+              class="menu-item-icon"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -222,11 +218,11 @@ export default function HamburgerMenu(props: HamburgerMenuProps) {
           </a>
           <a
             href="/serverstats"
-            class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
+            class="menu-item"
             role="menuitem"
           >
             <svg
-              class="w-5 h-5 mr-3 text-tt-lightblue"
+              class="menu-item-icon"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -249,11 +245,11 @@ export default function HamburgerMenu(props: HamburgerMenuProps) {
           </a>
           <a
             href="/trigraphs"
-            class="flex items-center px-4 py-2 text-sm text-tt-darkblue hover:bg-gray-100"
+            class="menu-item"
             role="menuitem"
           >
             <svg
-              class="w-5 h-5 mr-3 text-tt-lightblue"
+              class="menu-item-icon"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"

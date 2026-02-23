@@ -1,4 +1,4 @@
-import { Handlers } from "$fresh/server.ts";
+import { define } from "@/utils/define.ts";
 
 interface Collection {
   id: string;
@@ -21,9 +21,9 @@ interface CollectionMetadata {
   tags: string[];
 }
 
-export const handler: Handlers = {
+export const handler = define.handlers({
   /** Returns available collections for a specific programming language. */
-  async GET(_req, ctx) {
+  async GET(ctx) {
     try {
       const languageCode = ctx.params.lang;
 
@@ -134,4 +134,4 @@ export const handler: Handlers = {
       );
     }
   },
-};
+});

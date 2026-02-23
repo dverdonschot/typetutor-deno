@@ -42,11 +42,11 @@ export default function GlobalLanguageSelector(
 
   if (compact) {
     return (
-      <div class="relative">
+      <div class="lang-selector-wrapper">
         <select
           value={currentLanguage.code}
           onChange={handleChange}
-          class="appearance-none bg-transparent border border-gray-300 rounded-md px-3 py-1 pr-8 text-sm text-gray-700 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-tt-lightblue focus:border-transparent cursor-pointer"
+          class="lang-selector"
           title="Select Language"
         >
           {availableLanguages.map((language) => (
@@ -55,9 +55,9 @@ export default function GlobalLanguageSelector(
             </option>
           ))}
         </select>
-        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+        <div class="lang-selector-arrow">
           <svg
-            class="fill-current h-4 w-4"
+            class="lang-selector-icon"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
           >

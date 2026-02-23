@@ -1,4 +1,4 @@
-import { Handlers } from "$fresh/server.ts";
+import { define } from "@/utils/define.ts";
 import {
   buildQuoteCache,
   getQuoteCache,
@@ -6,11 +6,11 @@ import {
 } from "../../../functions/cacheManager.ts";
 import { getCachePerformanceMetrics } from "../../../functions/cacheManager.ts";
 
-export const handler: Handlers = {
+export const handler = define.handlers({
   /** Manually refreshes the quote cache. */
-  async POST(req) {
+  async POST(ctx) {
     try {
-      const url = new URL(req.url);
+      const url = new URL(ctx.req.url);
       const language = url.searchParams.get("lang");
       const category = url.searchParams.get("category");
       const basePath = url.searchParams.get("basePath") ||
@@ -79,7 +79,7 @@ export const handler: Handlers = {
   },
 
   /** Gets current cache status and metrics. */
-  GET(_req) {
+  GET() {
     try {
       const cache = getQuoteCache();
       const metrics = getCachePerformanceMetrics(cache);
@@ -111,4 +111,4 @@ export const handler: Handlers = {
       );
     }
   },
-};
+});

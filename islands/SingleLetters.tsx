@@ -269,21 +269,17 @@ export const SingleLetters: FC = () => {
   ]);
 
   return (
-    <div class="w-full min-h-[300px] sm:min-h-[500px] rounded-lg bg-white shadow p-4 sm:p-8">
+    <div class="game-container">
       {/* Character Set Selector */}
-      <div class="mb-4 sm:mb-8 flex flex-wrap justify-center gap-2 sm:gap-3">
+      <div class="char-set-container">
         {(Object.keys(CHARACTER_SETS) as CharacterSet[]).map((set) => (
           <button
             type="button"
             key={set}
             onClick={() => handleCharacterSetChange(set)}
-            class={`px-3 py-2 sm:px-6 sm:py-3 text-sm sm:text-base rounded-lg font-semibold transition-all ${
-              selectedSet === set
-                ? "bg-tt-darkblue text-white shadow-lg"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
+            class={`char-set-btn ${selectedSet === set ? "selected" : ""}`}
           >
-            {selectedSet === set && <span class="mr-1 sm:mr-2">✓</span>}
+            {selectedSet === set && <span class="checkmark">✓</span>}
             {CHARACTER_SET_LABELS[set]}
           </button>
         ))}
@@ -292,20 +288,20 @@ export const SingleLetters: FC = () => {
       {/* Main Game Area */}
       <div onClick={focusInput} style={{ cursor: "pointer" }}>
         {!isComplete && (
-          <div class="flex flex-col items-center justify-center min-h-[140px] sm:min-h-[300px] space-y-2 sm:space-y-8">
+          <div class="game-area">
             {/* Letter + Emoji: horizontal on mobile, vertical on desktop */}
-            <div class="flex flex-row sm:flex-col items-center justify-center gap-2 sm:gap-8">
+            <div class="letter-emoji-container">
               {/* Current Letter Display - Responsive sizing */}
-              <div class="text-[5rem] xs:text-[6rem] sm:text-[10rem] md:text-[12rem] font-bold text-tt-darkblue select-none leading-none">
+              <div class="current-letter">
                 {currentChar}
               </div>
 
               {/* Emoji Feedback - side of letter on mobile, below on desktop */}
-              <div class="min-w-[3rem] xs:min-w-[4rem] sm:min-w-0 flex items-center justify-center">
+              <div class="emoji-container">
                 {currentEmoji && (
                   <div
                     key={typedCount}
-                    class="text-[3rem] xs:text-[4rem] sm:text-[6rem] md:text-[8rem] animate-bounce-three"
+                    class="emoji-display animate-bounce-three"
                   >
                     {currentEmoji}
                   </div>
@@ -314,7 +310,7 @@ export const SingleLetters: FC = () => {
             </div>
 
             {/* Progress Indicator */}
-            <div class="text-base sm:text-2xl text-gray-600 font-medium">
+            <div class="progress-indicator">
               {typedCount} / {trainingChars.length}
             </div>
           </div>

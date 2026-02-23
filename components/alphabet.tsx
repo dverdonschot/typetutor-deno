@@ -16,7 +16,7 @@ export function Alphabet() {
   };
 
   return (
-    <div class="w-full min-h-[300px] rounded-lg bg-white shadow">
+    <div class="game-container">
       <KeyLogger
         codeableKeys={trainingSet}
         gameType="alphabet"

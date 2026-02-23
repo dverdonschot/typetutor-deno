@@ -22,19 +22,17 @@ jobs:
       - name: Install Deno
         uses: denoland/setup-deno@v2
         with:
-          deno-version: v2.x
+          deno-version: "2.6.1"  # Pinned for Fresh 2.x compatibility
 
-      - name: Setup esbuild binary
-        run: |
-          rm -rf ~/.cache/esbuild
-          npm install esbuild@0.20.2
-          echo "ESBUILD_BINARY_PATH=$(pwd)/node_modules/.bin/esbuild" >> $GITHUB_ENV
+      # Fresh 2.x uses Vite - no esbuild workaround needed
+
+      - name: Install dependencies
+        run: deno install
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: "javascript-typescript"
-          # queries: +security-extended # Optional: Uncomment to include more security queries
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
@@ -46,20 +44,18 @@ jobs:
         run: deno lint
 
       - name: Check for type and module errors
-        run: deno check main.ts # Specify relevant entry points/files
+        run: deno check main.ts
 
       - name: Run tests
         run: deno task test
 
       - name: Build step
-        run: "deno task build"
+        run: deno task build
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
           project: "typetutor"
-          entrypoint: "main.ts"
-          root: "."
+          entrypoint: "_fresh/server.js"
         env:
           USE_DENO_KV: "true"
-          # DENO_KV_PATH: "./data/kv.db" # Optional: configure KV path if needed for your Deno Deploy setup. Deno Deploy provides a managed KV store.

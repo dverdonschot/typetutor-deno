@@ -74,7 +74,7 @@ export default function ContentSelector(
       {!hideLabel && ( // Conditionally render the label
         <label
           htmlFor="content-selector"
-          class="block text-sm font-medium text-gray-700 mb-1"
+          class="form-label"
         >
           Select Content:
         </label>
@@ -83,7 +83,7 @@ export default function ContentSelector(
         id="content-selector"
         value={selectedId || ""}
         onChange={handleChange}
-        class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm bg-white border"
+        class="form-select"
       >
         <option value="" disabled>-- Select an option --</option>
         {groupedOptions.map(([groupName, items]) => (

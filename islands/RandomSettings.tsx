@@ -108,64 +108,67 @@ export default function RandomSettings(
   return (
     <div>
       {/* KeyLogger Component with key prop to force remount */}
-      <div class="w-full min-h-[300px] rounded-lg bg-white shadow mb-4">
+      <div class="game-container mb-4">
         <KeyLogger
           key={keyLoggerKey}
           codeableKeys={trainingSet}
           gameType="random"
-          onPracticeAgain={handleRegenerate} // Pass handleRegenerate as onPracticeAgain
-          onNextGame={handleNextRandom} // Pass handleNextRandom as onNextGame
+          onPracticeAgain={handleRegenerate}
+          onNextGame={handleNextRandom}
         />
       </div>
 
       {/* Settings Bar - moved below the main element */}
-      <div class="p-4 bg-gray-100 rounded-lg flex flex-wrap gap-4 items-center">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">
-            {t(TRANSLATION_KEYS.RANDOM.CHARACTER_LENGTH)}
-          </label>
-          <input
-            type="number"
-            min="5"
-            max="100"
-            value={characterLength}
-            onChange={handleLengthChange}
-            class="w-20 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          />
-        </div>
+      <div class="settings-panel">
+        <div class="settings-row">
+          <div class="form-group" style={{ marginBottom: 0 }}>
+            <label class="form-label">
+              {t(TRANSLATION_KEYS.RANDOM.CHARACTER_LENGTH)}
+            </label>
+            <input
+              type="number"
+              min="5"
+              max="100"
+              value={characterLength}
+              onChange={handleLengthChange}
+              class="form-input"
+              style={{ width: "5rem" }}
+            />
+          </div>
 
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">
-            {t(TRANSLATION_KEYS.RANDOM.CHARACTER_SET)}
-          </label>
-          <select
-            onChange={handleSetChange}
-            // Calculate the display name corresponding to the current characterSet state
-            value={Object.keys(characterSetOptions).find((key) =>
-              characterSetOptions[key as keyof typeof characterSetOptions] ===
-                characterSet
-            ) || "All Characters"}
-            class="block w-48 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          >
-            {Object.keys(characterSetOptions).map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </div>
+          <div class="form-group" style={{ marginBottom: 0 }}>
+            <label class="form-label">
+              {t(TRANSLATION_KEYS.RANDOM.CHARACTER_SET)}
+            </label>
+            <select
+              onChange={handleSetChange}
+              value={Object.keys(characterSetOptions).find((key) =>
+                characterSetOptions[key as keyof typeof characterSetOptions] ===
+                  characterSet
+              ) || "All Characters"}
+              class="form-select"
+              style={{ width: "12rem" }}
+            >
+              {Object.keys(characterSetOptions).map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1 opacity-0">
-            {t(TRANSLATION_KEYS.RANDOM.REGENERATE)}
-          </label>
-          <button
-            type="button"
-            onClick={handleRegenerate}
-            class="px-4 py-2 border-tt-lightblue border-2 rounded-md bg-tt-lightblue hover:bg-tt-lightblue-darker hover:opacity-80 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-opacity cursor-pointer"
-          >
-            {t(TRANSLATION_KEYS.RANDOM.REGENERATE)}
-          </button>
+          <div class="form-group" style={{ marginBottom: 0 }}>
+            <label class="form-label" style={{ opacity: 0 }}>
+              {t(TRANSLATION_KEYS.RANDOM.REGENERATE)}
+            </label>
+            <button
+              type="button"
+              onClick={handleRegenerate}
+              class="action-btn-primary"
+            >
+              {t(TRANSLATION_KEYS.RANDOM.REGENERATE)}
+            </button>
+          </div>
         </div>
       </div>
     </div>

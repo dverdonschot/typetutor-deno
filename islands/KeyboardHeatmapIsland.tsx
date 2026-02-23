@@ -161,10 +161,10 @@ export default function KeyboardHeatmapIsland() {
           <button
             type="button"
             onClick={() => setColorScheme("errors")}
-            className={`px-3 py-1 rounded text-sm transition-colors ${
+            className={`px-3 py-1 rounded-md text-sm transition-colors border ${
               colorScheme === "errors"
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                ? "bg-tt-darkblue text-white border-tt-darkblue"
+                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400"
             }`}
           >
             Errors
@@ -172,10 +172,10 @@ export default function KeyboardHeatmapIsland() {
           <button
             type="button"
             onClick={() => setColorScheme("speed")}
-            className={`px-3 py-1 rounded text-sm transition-colors ${
+            className={`px-3 py-1 rounded-md text-sm transition-colors border ${
               colorScheme === "speed"
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                ? "bg-tt-darkblue text-white border-tt-darkblue"
+                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400"
             }`}
           >
             Speed
@@ -183,10 +183,10 @@ export default function KeyboardHeatmapIsland() {
           <button
             type="button"
             onClick={() => setColorScheme("accuracy")}
-            className={`px-3 py-1 rounded text-sm transition-colors ${
+            className={`px-3 py-1 rounded-md text-sm transition-colors border ${
               colorScheme === "accuracy"
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                ? "bg-tt-darkblue text-white border-tt-darkblue"
+                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400"
             }`}
           >
             Accuracy

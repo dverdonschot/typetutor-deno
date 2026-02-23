@@ -12,35 +12,35 @@ export function TypingMetricsDisplay({ metrics }: TypingMetricsDisplayProps) {
   if (!metrics.isComplete) return null;
 
   return (
-    <div class="mt-8 p-4 bg-tt-lightblue rounded-lg text-white">
-      <h2 class="text-2xl font-bold mb-4">
+    <div class="metrics-container">
+      <h2 class="metrics-title">
         {t(TRANSLATION_KEYS.METRICS.TYPING_SUMMARY)}
       </h2>
-      <div class="grid grid-cols-2 gap-4">
+      <div class="metrics-grid">
         <div>
-          <p class="text-lg">
+          <p class="metrics-item">
             {t(TRANSLATION_KEYS.METRICS.SPEED)}: {metrics.charactersPerMinute}
             {" "}
             {t(TRANSLATION_KEYS.METRICS.CPM)} / {metrics.wordsPerMinute}{" "}
             {t(TRANSLATION_KEYS.METRICS.WPM)}
           </p>
-          <p class="text-lg">
+          <p class="metrics-item">
             {t(TRANSLATION_KEYS.METRICS.MISTAKES)}: {metrics.mistakes}
           </p>
-          <p class="text-lg">
+          <p class="metrics-item">
             {t(TRANSLATION_KEYS.METRICS.BACKSPACES)}: {metrics.backspaceCount}
           </p>
-          <p class="text-lg">
+          <p class="metrics-item">
             {t(TRANSLATION_KEYS.METRICS.BACKSPACE_RATIO)}:{" "}
             {metrics.backspaceRatioPercent}%
           </p>
         </div>
         <div>
-          <p class="text-lg">
+          <p class="metrics-item">
             {t(TRANSLATION_KEYS.METRICS.ACCURACY)}:{" "}
             {metrics.accuracyPercentage}%
           </p>
-          <p class="text-lg">
+          <p class="metrics-item">
             {t(TRANSLATION_KEYS.METRICS.TIME)}:{" "}
             {Math.round(metrics.totalTimeSeconds)}s
           </p>

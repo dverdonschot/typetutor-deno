@@ -1,4 +1,4 @@
-import { Handlers } from "$fresh/server.ts";
+import { define } from "@/utils/define.ts";
 
 interface CodeSnippet {
   code: string;
@@ -20,17 +20,6 @@ interface Collection {
   snippets: CodeSnippet[];
 }
 
-interface CollectionMetadata {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  difficulty: string;
-  language: string;
-  snippetCount: number;
-  tags: string[];
-}
-
 interface RandomSnippetResponse {
   snippet: CodeSnippet;
   collectionId: string;
@@ -38,9 +27,9 @@ interface RandomSnippetResponse {
   totalSnippets: number;
 }
 
-export const handler: Handlers = {
+export const handler = define.handlers({
   /** Returns a random snippet from ANY collection within the specified language. */
-  async GET(_req, ctx) {
+  async GET(ctx) {
     try {
       const languageCode = ctx.params.lang;
 
@@ -155,4 +144,4 @@ export const handler: Handlers = {
       );
     }
   },
-};
+});

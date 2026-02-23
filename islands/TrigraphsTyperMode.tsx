@@ -341,15 +341,12 @@ const TrigraphsTyperMode: FC = () => {
       descriptionKey="pages.trigraphs"
       currentPath={currentPath}
     >
-      {/* Wrap content in Layout component and provide props */}
-      <div class="flex flex-col gap-4">
-        {/* Use flex column layout with gap */}
+      <div class="space-y-4">
         {isLoading && (
-          <div class="text-center">{t(TRANSLATION_KEYS.TRIGRAPHS.LOADING)}</div>
-        )} {/* Removed padding as it's on the container */}
+          <div class="card card-padded text-center">{t(TRANSLATION_KEYS.TRIGRAPHS.LOADING)}</div>
+        )}
         {error && (
-          <div class="text-center text-red-600 bg-red-100 rounded-md">
-            {/* Removed padding */}
+          <div class="error-container text-center">
             {error}
           </div>
         )}
@@ -357,7 +354,7 @@ const TrigraphsTyperMode: FC = () => {
         {!isLoading && !error && (
           <>
             {/* Combined Typing Area and Trigraph Selection */}
-            <div class="w-full p-2 sm:p-4 bg-white rounded-lg shadow">
+            <div class="game-container">
               {/* Full width, padding, white background, rounded corners, shadow */}
               {/* Typing Area */}
               {targetText && (
@@ -384,10 +381,9 @@ const TrigraphsTyperMode: FC = () => {
               )}
 
               {/* Trigraph Selection and Word Count */}
-              <div class="w-full mt-2 sm:mt-4 flex flex-wrap gap-2 sm:gap-4 items-center">
-                {/* Make selection area full width, add margin-top, use flexbox */}
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">
+              <div class="settings-row mt-4">
+                <div class="form-group" style={{ marginBottom: 0 }}>
+                  <label class="form-label">
                     {t(TRANSLATION_KEYS.TRIGRAPHS.SELECT_TRIGRAPH)}
                   </label>
                   {availableTrigraphs.length > 0 && (
@@ -397,18 +393,18 @@ const TrigraphsTyperMode: FC = () => {
                         name: trigraph,
                         sourceUrl: `/content/trigraphs/${trigraph}.txt`,
                         type: "trigraph",
-                      }))} // Map trigraph strings to ContentItem structure
+                      }))}
                       selectedId={selectedTrigraph}
                       onSelect={handleSelectTrigraph}
-                      contentType="trigraph" // Specify content type
-                      hideLabel // Hide the "Select Content:" label
+                      contentType="trigraph"
+                      hideLabel
                     />
                   )}
                 </div>
 
                 {/* Word Count Setting for Trigraphs */}
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                <div class="form-group" style={{ marginBottom: 0 }}>
+                  <label class="form-label">
                     {t(TRANSLATION_KEYS.TRIGRAPHS.NUMBER_OF_WORDS)}
                   </label>
                   <input
@@ -416,12 +412,13 @@ const TrigraphsTyperMode: FC = () => {
                     min="1"
                     value={wordCount}
                     onChange={handleWordCountChange}
-                    class="w-20 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    class="form-input"
+                    style={{ width: "5rem" }}
                   />
                 </div>
                 {/* Random Trigraph Button */}
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1 opacity-0">
+                <div class="form-group" style={{ marginBottom: 0 }}>
+                  <label class="form-label" style={{ opacity: 0 }}>
                     Toggle
                   </label>
                   <button
@@ -436,11 +433,7 @@ const TrigraphsTyperMode: FC = () => {
                         );
                       }
                     }}
-                    class={`px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-opacity ${
-                      isRandomTrigraphEnabled
-                        ? "bg-tt-lightblue text-white hover:bg-tt-lightblue-darker hover:opacity-80 focus:ring-tt-lightblue"
-                        : "bg-tt-darkblue text-white hover:bg-blue-800 hover:opacity-80 focus:ring-tt-darkblue"
-                    }`}
+                    class={`toggle-btn ${isRandomTrigraphEnabled ? "active" : "inactive"}`}
                   >
                     {isRandomTrigraphEnabled
                       ? t(TRANSLATION_KEYS.TRIGRAPHS.RANDOM_TRIGRAPH_ENABLED)
@@ -464,13 +457,11 @@ const TrigraphsTyperMode: FC = () => {
         )}
         {/* Focus effect moved to hook declarations section */}
         {!isLoading && !error && !targetText && !selectedTrigraph && (
-          <div class="text-center text-gray-500">
-            {/* Removed padding */}
+          <div class="card card-padded text-center text-gray-500">
             {t(TRANSLATION_KEYS.TRIGRAPHS.PLEASE_SELECT_TRIGRAPH)}
           </div>
         )}
-      </div>{" "}
-      {/* Close container div */}
+      </div>
     </Layout> // Close Layout component
   );
 };

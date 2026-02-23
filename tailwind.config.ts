@@ -1,4 +1,4 @@
-import type { Config } from "https://esm.sh/tailwindcss@latest";
+import type { Config } from "tailwindcss";
 
 export default {
   content: [

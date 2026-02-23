@@ -1,15 +1,15 @@
-import { PageProps } from "$fresh/server.ts";
+import { define } from "@/utils/define.ts";
 import { Layout } from "../components/Layout.tsx";
 import { SingleLetters } from "../islands/SingleLetters.tsx";
 import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";
 
-export default function singleLetters(props: PageProps) {
+export default define.page(function SingleLettersPage(ctx) {
   return (
     <Layout
       descriptionKey={TRANSLATION_KEYS.PAGES.SINGLE_LETTERS}
-      currentPath={props.url.pathname}
+      currentPath={ctx.url.pathname}
     >
       <SingleLetters />
     </Layout>
   );
-}
+});

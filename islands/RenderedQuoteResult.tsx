@@ -5,7 +5,7 @@ export default function RenderedQuoteResult(results: TrainingChar[]) {
     if (item.state == "none") {
       return (
         <span
-          class="text-tt-darkblue text-3xl sm:text-4xl md:text-5xl typing-text"
+          class="char-none typing-text"
           key={index}
         >
           {item.char}
@@ -14,7 +14,7 @@ export default function RenderedQuoteResult(results: TrainingChar[]) {
     } else if (item.state == "correct") {
       return (
         <span
-          class="text-green-500 text-3xl sm:text-4xl md:text-5xl typing-text"
+          class="char-correct typing-text"
           key={index}
         >
           {item.typedChar}
@@ -24,13 +24,13 @@ export default function RenderedQuoteResult(results: TrainingChar[]) {
       return (
         <div>
           <div
-            class="text-green-500 text-3xl sm:text-4xl md:text-5xl typing-text"
+            class="char-expected typing-text"
             key={`${index}-char`}
           >
             {item.char}
           </div>
           <span
-            class="text-red-500 text-3xl sm:text-4xl md:text-5xl typing-text"
+            class="char-incorrect typing-text"
             key={`${index}-typed`}
           >
             {item.typedChar}
@@ -42,7 +42,7 @@ export default function RenderedQuoteResult(results: TrainingChar[]) {
 
   return (
     <div>
-      <div class="flex justify-center items-center gap-8 py-6 mt-2 mb-2 ml-6 mr-0 flex-wrap typing-text tracking-wider">
+      <div class="typing-display typing-text">
         {RenderedQuoteResult}
       </div>
     </div>

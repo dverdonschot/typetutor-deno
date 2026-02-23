@@ -18,34 +18,27 @@ export function Layout(
   return (
     <LanguageProvider>
       <TranslationInitializer>
-        <div class="flex flex-col gap-4 sm:gap-6 flex-grow min-h-screen-dynamic">
+        <div class="app-layout">
           {/* Header Section */}
-          <header class="flex flex-col sm:flex-row justify-between items-center p-2 sm:p-4 bg-white rounded-lg shadow">
-            <div class="order-1 w-full sm:w-auto flex justify-center">
+          <header class="app-header">
+            <div class="header-logo">
               <Logo />
             </div>
-            <div class="order-2 w-full sm:w-auto flex justify-end items-center space-x-4">
+            <div class="header-controls">
               <GlobalLanguageSelector compact />
               <HamburgerMenu currentPath={currentPath} />
             </div>
           </header>
 
           {/* Description Section - Hidden on mobile */}
-          <section class="hidden sm:block p-4 bg-white rounded-lg shadow">
+          <section class="description-section">
             <ReactiveDescription descriptionKey={descriptionKey} />
           </section>
 
           {/* Main Content Section (Typing Area) */}
-          <main class="w-full -mt-5">
+          <main class="main-content">
             {children}
           </main>
-
-          {/* Optional Footer - can be added later if needed */}
-          {
-            /* <footer class="text-center text-gray-500 text-sm py-4 mt-auto">
-            Footer content
-          </footer> */
-          }
         </div>
       </TranslationInitializer>
     </LanguageProvider>
