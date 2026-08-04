@@ -8,7 +8,7 @@ import { getCachePerformanceMetrics } from "../../../functions/cacheManager.ts";
 
 export const handler = define.handlers({
   /** Manually refreshes the quote cache. */
-  async POST(_ctx) {
+  async POST(ctx) {
     try {
       const url = new URL(ctx.req.url);
       const language = url.searchParams.get("lang");

@@ -9,7 +9,7 @@ export const handler = define.handlers({
     });
   },
 
-  async POST(_ctx) {
+  async POST(ctx) {
     try {
       const { gameType, category, isFinished } = await ctx.req.json();
       const updatedStats = await updateGameStats(
