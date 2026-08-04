@@ -1,15 +1,15 @@
-import { PageProps } from "$fresh/server.ts";
+import { define } from "../utils.ts";
 import { Layout } from "../components/Layout.tsx";
 import { Alphabet } from "../components/alphabet.tsx";
 import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";
 
-export default function alphabet(props: PageProps) {
+export default define.page(function alphabet(ctx) {
   return (
     <Layout
       descriptionKey={TRANSLATION_KEYS.PAGES.ALPHABET}
-      currentPath={props.url.pathname}
+      currentPath={ctx.url.pathname}
     >
       <Alphabet />
     </Layout>
   );
-}
+});

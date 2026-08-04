@@ -1,12 +1,6 @@
-import { Handlers } from "$fresh/server.ts";
+import { define } from "../utils.ts";
 import TrigraphsTyperMode from "../islands/TrigraphsTyperMode.tsx";
 
-export const handler: Handlers = {
-  GET(_req, ctx) {
-    return ctx.render();
-  },
-};
-
-export default function TrigraphsPage() {
+export default define.page(function TrigraphsPage(_ctx) {
   return <TrigraphsTyperMode />;
-}
+});

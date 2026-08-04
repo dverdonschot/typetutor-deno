@@ -1,8 +1,12 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-/* Import Fira Code - a monospaced font with programming ligatures and excellent character distinction */
 @import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap");
+@import "tailwindcss";
+
+/* Custom theme tokens — replaces the v3 tailwind.config.ts `extend.colors` block.
+   The `tt-*` names are preserved as `bg-tt-darkblue` / `bg-tt-lightblue` etc. */
+@theme {
+  --color-tt-darkblue: #0044aa;
+  --color-tt-lightblue: #5fbcd3;
+}
 
 /* Specific class for typing text to ensure font is applied */
 .typing-text {

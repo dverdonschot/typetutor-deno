@@ -1,4 +1,4 @@
-import { Handlers } from "$fresh/server.ts";
+import { define } from "../../../../../utils.ts";
 
 interface CodeSnippet {
   code: string;
@@ -18,9 +18,9 @@ interface CodeCollectionMetadata {
   description?: string;
 }
 
-export const handler: Handlers = {
+export const handler = define.handlers({
   /** Returns code collection metadata for a specific language and category. */
-  async GET(_req, ctx) {
+  async GET(ctx) {
     try {
       const languageCode = ctx.params.lang;
       const categoryName = ctx.params.category;
@@ -50,92 +50,60 @@ export const handler: Handlers = {
       const metadata: CodeCollectionMetadata[] = [];
 
       try {
-        // Read all JSON files in the category directory
         for await (const dirEntry of Deno.readDir(categoryDir)) {
           if (
-            dirEntry.isFile && dirEntry.name.endsWith(".json") &&
-            dirEntry.name !== "category.json"
-          ) {
-            const filePath = `${categoryDir}/${dirEntry.name}`;
-
-            try {
-              const fileContent = await Deno.readTextFile(filePath);
-              const snippets: CodeSnippet[] = JSON.parse(fileContent);
-
-              if (Array.isArray(snippets) && snippets.length > 0) {
-                // Extract metadata from the collection
-                const fileId = dirEntry.name.replace(".json", "");
-                const allTags = [...new Set(snippets.flatMap((s) => s.tags))];
-                const difficulties = [
-                  ...new Set(snippets.map((s) => s.difficulty)),
-                ];
-                const primaryDifficulty = difficulties.length === 1
-                  ? difficulties[0]
-                  : difficulties.includes("beginner")
-                  ? "mixed (beginner+)"
-                  : difficulties.includes("intermediate")
-                  ? "mixed (intermediate+)"
-                  : "mixed";
-
-                metadata.push({
-                  id: fileId,
-                  fileTitle: fileId.split("-").map((word) =>
-                    word.charAt(0).toUpperCase() + word.slice(1)
-                  ).join(" "),
-                  snippetCount: snippets.length,
-                  difficulty: primaryDifficulty,
-                  tags: allTags,
-                  description: snippets[0]?.description || "",
-                });
-              }
-            } catch (error) {
-              console.warn(
-                `Failed to read collection ${dirEntry.name}:`,
-                error,
-              );
-              // Continue with other collections
+            !dirEntry.isFile ||
+            !dirEntry.name.endsWith(".json") ||
+            dirEntry.name === "languages.json"
+          ) continue;
+          try {
+            const content = await Deno.readTextFile(
+              `${categoryDir}/${dirEntry.name}`,
+            );
+            const parsed = JSON.parse(content);
+            if (parsed && Array.isArray(parsed.snippets)) {
+              const id = parsed.id || dirEntry.name.replace(".json", "");
+              metadata.push({
+                id,
+                fileTitle: parsed.name || id,
+                snippetCount: parsed.snippets.length,
+                difficulty: parsed.difficulty,
+                tags: parsed.tags,
+                description: parsed.description,
+              });
             }
+          } catch {
+            // skip malformed files
           }
         }
       } catch (error) {
-        console.error(
-          `Error reading collections for ${languageCode}/${categoryName}:`,
-          error,
-        );
+        console.error(`Error reading category dir ${categoryDir}:`, error);
         return new Response(
-          JSON.stringify({
-            error: `No collections found for ${languageCode}/${categoryName}`,
-          }),
+          JSON.stringify({ error: "Failed to load collection metadata" }),
           {
-            status: 404,
+            status: 500,
             headers: { "Content-Type": "application/json" },
           },
         );
       }
 
       // Sort by difficulty and then by name
-      const difficultyOrder = {
-        "beginner": 1,
-        "intermediate": 2,
-        "advanced": 3,
-        "mixed (beginner+)": 4,
-        "mixed (intermediate+)": 5,
-        "mixed": 6,
+      const difficultyOrder: Record<string, number> = {
+        beginner: 0,
+        intermediate: 1,
+        advanced: 2,
       };
-
       metadata.sort((a, b) => {
-        const orderA =
-          difficultyOrder[a.difficulty as keyof typeof difficultyOrder] || 99;
-        const orderB =
-          difficultyOrder[b.difficulty as keyof typeof difficultyOrder] || 99;
-        if (orderA !== orderB) return orderA - orderB;
+        const da = difficultyOrder[a.difficulty ?? ""] ?? 99;
+        const db = difficultyOrder[b.difficulty ?? ""] ?? 99;
+        if (da !== db) return da - db;
         return a.fileTitle.localeCompare(b.fileTitle);
       });
 
       return new Response(JSON.stringify(metadata), {
         headers: {
           "Content-Type": "application/json",
-          "Cache-Control": "public, max-age=300", // 5 minutes cache
+          "Cache-Control": "public, max-age=300",
         },
       });
     } catch (error) {
@@ -155,4 +123,4 @@ export const handler: Handlers = {
       );
     }
   },
-};
+});

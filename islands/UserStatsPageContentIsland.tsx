@@ -1,4 +1,4 @@
-import { Head } from "$fresh/runtime.ts";
+import { Head } from "fresh/runtime";
 import KeyboardHeatmapIsland from "./KeyboardHeatmapIsland.tsx";
 import UserStatsIsland from "./UserStatsIsland.tsx";
 import { useReactiveTranslation } from "../utils/translations.ts";

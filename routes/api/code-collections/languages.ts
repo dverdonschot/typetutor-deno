@@ -1,8 +1,8 @@
-import { Handlers } from "$fresh/server.ts";
+import { define } from "../../../utils.ts";
 
-export const handler: Handlers = {
+export const handler = define.handlers({
   /** Returns available programming languages for code collections. */
-  async GET(_req, _ctx) {
+  async GET(_ctx) {
     try {
       const languagesPath = "./static/content/code-collections/languages.json";
 
@@ -41,4 +41,4 @@ export const handler: Handlers = {
       );
     }
   },
-};
+});

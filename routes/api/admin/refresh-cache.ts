@@ -1,4 +1,4 @@
-import { Handlers } from "$fresh/server.ts";
+import { define } from "../../../utils.ts";
 import {
   buildQuoteCache,
   getQuoteCache,
@@ -6,11 +6,11 @@ import {
 } from "../../../functions/cacheManager.ts";
 import { getCachePerformanceMetrics } from "../../../functions/cacheManager.ts";
 
-export const handler: Handlers = {
+export const handler = define.handlers({
   /** Manually refreshes the quote cache. */
-  async POST(req) {
+  async POST(_ctx) {
     try {
-      const url = new URL(req.url);
+      const url = new URL(ctx.req.url);
       const language = url.searchParams.get("lang");
       const category = url.searchParams.get("category");
       const basePath = url.searchParams.get("basePath") ||
@@ -19,23 +19,18 @@ export const handler: Handlers = {
       let result;
 
       if (language && category) {
-        // Refresh specific category
-        const cache = getQuoteCache();
-        result = await refreshCacheSection(cache, basePath, language, category);
+        result = await refreshCacheSection(basePath, language, category);
       } else if (language) {
-        // Refresh specific language
-        const cache = getQuoteCache();
-        result = await refreshCacheSection(cache, basePath, language);
+        result = await refreshCacheSection(basePath, language);
       } else {
-        // Full cache rebuild
-        result = await buildQuoteCache(basePath, { watchFiles: true });
+        result = await buildQuoteCache(basePath);
       }
 
       if (!result.success) {
         return new Response(
           JSON.stringify({
-            error: "Cache refresh failed",
-            details: result.error,
+            success: false,
+            error: result.error || "Failed to refresh cache",
           }),
           {
             status: 500,
@@ -51,13 +46,15 @@ export const handler: Handlers = {
       return new Response(
         JSON.stringify({
           success: true,
-          message: language && category
-            ? `Cache refreshed for ${language}/${category}`
-            : language
-            ? `Cache refreshed for language ${language}`
-            : "Full cache rebuild completed",
-          metrics: metrics.stats,
-          memoryUsage: metrics.memoryUsage,
+          refreshed: { language, category },
+          cache: {
+            size: cache.size,
+            hitRate: metrics.hitRate,
+            missRate: metrics.missRate,
+            totalHits: metrics.totalHits,
+            totalMisses: metrics.totalMisses,
+            lastRefreshed: cache.lastUpdated,
+          },
         }),
         {
           headers: { "Content-Type": "application/json" },
@@ -67,6 +64,7 @@ export const handler: Handlers = {
       console.error("Error refreshing cache:", error);
       return new Response(
         JSON.stringify({
+          success: false,
           error: "Failed to refresh cache",
           details: error instanceof Error ? error.message : "unknown error",
         }),
@@ -79,22 +77,22 @@ export const handler: Handlers = {
   },
 
   /** Gets current cache status and metrics. */
-  GET(_req) {
+  GET(_ctx) {
     try {
       const cache = getQuoteCache();
       const metrics = getCachePerformanceMetrics(cache);
 
       return new Response(
         JSON.stringify({
-          status: "active",
-          metrics: metrics.stats,
-          memoryUsage: metrics.memoryUsage,
+          size: cache.size,
+          hitRate: metrics.hitRate,
+          missRate: metrics.missRate,
+          totalHits: metrics.totalHits,
+          totalMisses: metrics.totalMisses,
+          lastRefreshed: cache.lastUpdated,
         }),
         {
-          headers: {
-            "Content-Type": "application/json",
-            "Cache-Control": "no-cache", // Don't cache admin endpoints
-          },
+          headers: { "Content-Type": "application/json" },
         },
       );
     } catch (error) {
@@ -111,4 +109,4 @@ export const handler: Handlers = {
       );
     }
   },
-};
+});

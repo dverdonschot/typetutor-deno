@@ -12,12 +12,23 @@ import { CharacterStats, DetailedGameResult } from "../types/userStats.ts";
 interface KeyLoggerProps {
   codeableKeys: TrainingChar[];
   gameType: string;
-  onPracticeAgain?: () => void; // Add callback prop
-  onNextGame?: () => void; // Add callback prop
+  // Callbacks default to `() => globalThis.location.reload()` below so that
+  // server components like `components/alphabet.tsx` can mount the island
+  // without passing function props across the SSR/island boundary (Fresh 2
+  // refuses to serialize functions: "Serializing functions is not supported").
+  onPracticeAgain?: () => void;
+  onNextGame?: () => void;
 }
 
+const defaultReset = () => globalThis.location.reload();
+
 const KeyLogger: FC<KeyLoggerProps> = (
-  { codeableKeys, gameType, onPracticeAgain, onNextGame }, // Destructure new props
+  {
+    codeableKeys,
+    gameType,
+    onPracticeAgain = defaultReset,
+    onNextGame = defaultReset,
+  },
 ) => {
   const [startTime] = useState<number>(Date.now());
   const inputRef = useRef<HTMLInputElement>(null);

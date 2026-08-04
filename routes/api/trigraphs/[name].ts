@@ -1,8 +1,8 @@
-import { Handlers } from "$fresh/server.ts";
+import { define } from "../../../utils.ts";
 
-export const handler: Handlers = {
-  async GET(req, ctx) {
-    const url = new URL(req.url);
+export const handler = define.handlers({
+  async GET(ctx) {
+    const url = new URL(ctx.req.url);
     const name = ctx.params.name;
     const count = parseInt(url.searchParams.get("count") || "20", 10);
 
@@ -45,4 +45,4 @@ export const handler: Handlers = {
       );
     }
   },
-};
+});

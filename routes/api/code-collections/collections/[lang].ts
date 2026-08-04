@@ -1,4 +1,4 @@
-import { Handlers } from "$fresh/server.ts";
+import { define } from "../../../../utils.ts";
 
 interface Collection {
   id: string;
@@ -21,9 +21,9 @@ interface CollectionMetadata {
   tags: string[];
 }
 
-export const handler: Handlers = {
+export const handler = define.handlers({
   /** Returns available collections for a specific programming language. */
-  async GET(_req, ctx) {
+  async GET(ctx) {
     try {
       const languageCode = ctx.params.lang;
 
@@ -41,80 +41,69 @@ export const handler: Handlers = {
       const collections: CollectionMetadata[] = [];
 
       try {
-        // Read all JSON files in the language directory
         for await (const dirEntry of Deno.readDir(languageDir)) {
-          if (dirEntry.isFile && dirEntry.name.endsWith(".json")) {
-            const filePath = `${languageDir}/${dirEntry.name}`;
-
-            try {
-              const fileContent = await Deno.readTextFile(filePath);
-              const collection: Collection = JSON.parse(fileContent);
-
-              if (collection.snippets && Array.isArray(collection.snippets)) {
-                // Extract all unique tags from snippets
-                const allTags = [
-                  ...new Set(
-                    collection.snippets.flatMap((s: unknown) =>
-                      (s as { tags?: string[] })?.tags || []
-                    ),
-                  ),
-                ];
-
-                collections.push({
-                  id: collection.id,
-                  name: collection.name,
-                  description: collection.description,
-                  icon: collection.icon,
-                  difficulty: collection.difficulty,
-                  language: collection.language,
-                  snippetCount: collection.snippets.length,
-                  tags: allTags,
-                });
+          if (!dirEntry.isDirectory) continue;
+          const catDir = `${languageDir}/${dirEntry.name}`;
+          try {
+            for await (const colEntry of Deno.readDir(catDir)) {
+              if (
+                colEntry.isFile &&
+                colEntry.name.endsWith(".json") &&
+                colEntry.name !== "languages.json"
+              ) {
+                try {
+                  const colContent = await Deno.readTextFile(
+                    `${catDir}/${colEntry.name}`,
+                  );
+                  const col: Collection = JSON.parse(colContent);
+                  if (col.snippets && Array.isArray(col.snippets)) {
+                    collections.push({
+                      id: col.id,
+                      name: col.name,
+                      description: col.description,
+                      icon: col.icon,
+                      difficulty: col.difficulty,
+                      language: col.language,
+                      snippetCount: col.snippets.length,
+                      tags: [],
+                    });
+                  }
+                } catch {
+                  // skip malformed collection files
+                }
               }
-            } catch (error) {
-              console.warn(
-                `Failed to read collection ${dirEntry.name}:`,
-                error,
-              );
-              // Continue with other collections
             }
+          } catch (error) {
+            console.error(`Error reading category ${catDir}:`, error);
           }
         }
       } catch (error) {
-        console.error(
-          `Error reading collections for language ${languageCode}:`,
-          error,
-        );
+        console.error(`Error reading language dir ${languageDir}:`, error);
         return new Response(
-          JSON.stringify({
-            error: `No collections found for language: ${languageCode}`,
-          }),
+          JSON.stringify({ error: "Failed to load collections" }),
           {
-            status: 404,
+            status: 500,
             headers: { "Content-Type": "application/json" },
           },
         );
       }
 
       // Sort collections by difficulty (beginner -> intermediate -> advanced)
-      const difficultyOrder = {
-        "beginner": 1,
-        "intermediate": 2,
-        "advanced": 3,
+      const difficultyOrder: Record<string, number> = {
+        beginner: 0,
+        intermediate: 1,
+        advanced: 2,
       };
       collections.sort((a, b) => {
-        const orderA =
-          difficultyOrder[a.difficulty as keyof typeof difficultyOrder] || 99;
-        const orderB =
-          difficultyOrder[b.difficulty as keyof typeof difficultyOrder] || 99;
-        if (orderA !== orderB) return orderA - orderB;
-        return a.name.localeCompare(b.name);
+        const da = difficultyOrder[a.difficulty] ?? 99;
+        const db = difficultyOrder[b.difficulty] ?? 99;
+        return da - db;
       });
 
       return new Response(JSON.stringify(collections), {
         headers: {
           "Content-Type": "application/json",
-          "Cache-Control": "public, max-age=3600", // 1 hour cache
+          "Cache-Control": "public, max-age=300",
         },
       });
     } catch (error) {
@@ -134,4 +123,4 @@ export const handler: Handlers = {
       );
     }
   },
-};
+});

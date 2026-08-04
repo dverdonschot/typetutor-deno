@@ -1,17 +1,17 @@
-import { Handlers } from "$fresh/server.ts";
+import { define } from "../../utils.ts";
 import { getGameStats, updateGameStats } from "../../utils/gameStats.ts";
 
-export const handler: Handlers = {
-  async GET(_req, _ctx) {
+export const handler = define.handlers({
+  async GET(_ctx) {
     const stats = await getGameStats();
     return new Response(JSON.stringify(stats), {
       headers: { "Content-Type": "application/json" },
     });
   },
 
-  async POST(req) {
+  async POST(_ctx) {
     try {
-      const { gameType, category, isFinished } = await req.json();
+      const { gameType, category, isFinished } = await ctx.req.json();
       const updatedStats = await updateGameStats(
         gameType,
         category,
@@ -37,4 +37,4 @@ export const handler: Handlers = {
       );
     }
   },
-};
+});
