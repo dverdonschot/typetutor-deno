@@ -331,6 +331,32 @@ We welcome contributions! Here's how you can help:
 - **Test coverage** for new functionality
 - **Follow code standards** (will be checked automatically)
 
+
+## Docker
+
+The repo ships a multi-stage Dockerfile that builds a slim production image
+(~165 MB, down from ~600 MB before optimization). The key tricks:
+
+- `node_modules` and `deno.json`/`deno.lock` are not copied into the runtime
+  image — Vite inlines all npm deps into `_fresh/server.js` and the bundle
+  resolves `jsr:` / `https://` URLs against a pre-populated Deno cache.
+- `deno cache _fresh/server.js` runs in the build stage so cold starts have
+  zero network downloads.
+- The runtime stage runs as the non-root `deno` user.
+
+### Build and run locally
+
+```bash
+docker build -t typetutor:local .
+docker run --rm -p 127.0.0.1:8000:8000 typetutor:local
+```
+
+### Production compose (Traefik + typetutor)
+
+Production deployment lives at `/opt/typetutor/docker-compose.yml` in the
+`vps-public-services` repo and is symlinked from there. It binds to the
+rate limiting.
+
 ## Acknowledgments
 
 - Built with [Fresh](https://fresh.deno.dev/) framework

@@ -1,0 +1,54 @@
+# .dockerignore
+#
+# What NOT to send to the Docker daemon. Smaller build context =
+# faster builds and a smaller chance of leaking secrets.
+
+# VCS / IDE
+.git/
+.git/
+.gitignore
+.github/
+.vscode/
+.roo/
+.idea/
+.DS_Store
+
+# devenv / direnv (Devenv is for local dev, not the container)
+.devenv*/
+devenv.local.nix
+devenv.lock
+devenv.nix
+devenv.yaml
+.direnv/
+
+# Build outputs produced locally — re-built inside the container
+_fresh/
+node_modules/
+
+# Tests, docs, ADRs — not needed at runtime
+tests/
+docs/
+adrs/
+*.md
+!README.md
+LICENSE
+
+# Secrets / env
+.env
+.env.*
+!.env.example
+.envrc
+
+# Backup / temp
+*.bak
+*.swp
+*~
+*.tmp
+
+# CI workflows (not needed in build context)
+.github/
+
+# This file itself
+.dockerignore
+Dockerfile
+docker-compose.yml

@@ -1,0 +1,25 @@
+# docker-compose.yml — local validation only.
+#
+# NOT the production deployment. The production compose lives at
+# /opt/typetutor/docker-compose.yml in the vps-public-services
+# project and is symlinked from there. This file is here so that
+# `docker compose up` works inside the typetutor repo during
+# development and CI.
+#
+# Production binds to the `web` Docker network with Traefik labels.
+# This one binds 127.0.0.1:8000 only — for browser-and-curl checks
+# on the dev host.
+
+services:
+  typetutor:
+    build: .
+    image: typetutor:local
+    container_name: typetutor-dev
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8000:8000"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8000/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
