@@ -11,8 +11,9 @@ deno task ci-checks
 
 This runs (from `deno.json`):
 
-- `deno fmt --check --ignore="components/QuoteTextDisplay.tsx" --ignore="memory-bank/*"`
-  — formatting
+- `deno fmt --check --unstable-css --ignore="components/QuoteTextDisplay.tsx" --ignore="memory-bank/*"`
+  — formatting (CSS is behind `--unstable-css` in older Deno 2.x; newer versions
+  format CSS by default)
 - `deno lint` — lint rules (`fresh`, `recommended`)
 - `deno task typecheck` — runs `deno check main.ts client.ts`
 
@@ -22,7 +23,7 @@ If you only changed one area:
 
 ```sh
 # Format only (apply with `deno fmt`)
-deno fmt --check --ignore="components/QuoteTextDisplay.tsx" --ignore="memory-bank/*" --ignore="static/*"
+deno fmt --check --unstable-css --ignore="components/QuoteTextDisplay.tsx" --ignore="memory-bank/*" --ignore="static/*"
 
 # Full fmt+lint+typecheck+tests (matches GitHub Actions)
 deno task check
