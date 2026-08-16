@@ -12,8 +12,7 @@ deno task ci-checks
 This runs (from `deno.json`):
 
 - `deno fmt --check --unstable-css --ignore="components/QuoteTextDisplay.tsx" --ignore="memory-bank/*"`
-  — formatting (CSS is behind `--unstable-css` in older Deno 2.x; newer versions
-  format CSS by default)
+  — formatting
 - `deno lint` — lint rules (`fresh`, `recommended`)
 - `deno task typecheck` — runs `deno check main.ts client.ts`
 
@@ -30,6 +29,20 @@ deno task check
 
 # Build the production bundle (catches SSR/import errors that check misses)
 deno task build
+```
+
+## Deno version
+
+CI pins **Deno v2.9.5** in `.github/workflows/deploy.yml`. Use the same version
+locally so `deno fmt` produces output that matches CI. Newer 2.x releases change
+formatter behavior (e.g. how CSS comma-separated selectors are wrapped), which
+causes avoidable CI failures.
+
+```sh
+# Install the pinned version with the official installer
+curl -fsSL https://deno.land/install.sh | DENO_INSTALL=/home/runner/.deno sh -s -- -y v2.9.5
+# or, if you already have deno:
+deno upgrade --version 2.9.5
 ```
 
 ## Notes
