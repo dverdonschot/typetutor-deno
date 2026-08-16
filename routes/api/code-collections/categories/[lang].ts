@@ -29,86 +29,59 @@ export const handler = define.handlers({
       > = [];
 
       try {
-        for await (
-          const dirEntry of Deno.readDir(categoryDir)
-        ) {
-          if (!dirEntry.isDirectory) continue;
-          const catDir = `${categoryDir}/${dirEntry.name}`;
-          let collectionCount = 0;
-          let firstCollectionMeta: { name?: string; icon?: string } = {};
-          const difficulties: string[] = [];
+        // Read all directories in the language folder
+        for await (const dirEntry of Deno.readDir(categoryDir)) {
+          if (dirEntry.isDirectory) {
+            const categoryPath =
+              `${categoryDir}/${dirEntry.name}/category.json`;
 
-          for await (const colEntry of Deno.readDir(catDir)) {
-            if (
-              colEntry.isFile &&
-              colEntry.name.endsWith(".json") &&
-              colEntry.name !== "languages.json"
-            ) {
-              collectionCount++;
-              try {
-                const colContent = await Deno.readTextFile(
-                  `${catDir}/${colEntry.name}`,
-                );
-                const col = JSON.parse(colContent);
-                if (!firstCollectionMeta.name && col.name) {
-                  firstCollectionMeta = {
-                    name: col.name,
-                    icon: col.icon,
-                  };
-                }
-                if (col.difficulty) difficulties.push(col.difficulty);
-              } catch {
-                // skip malformed
-              }
+            try {
+              const categoryData = await Deno.readTextFile(categoryPath);
+              const category = JSON.parse(categoryData);
+              categories.push({
+                id: dirEntry.name,
+                ...category,
+              });
+            } catch (error) {
+              console.warn(`Failed to read category ${dirEntry.name}:`, error);
+              // Continue with other categories
             }
           }
-
-          // Pick most common difficulty (or fallback to first)
-          const difficultyCount: Record<string, number> = {};
-          for (const d of difficulties) {
-            difficultyCount[d] = (difficultyCount[d] || 0) + 1;
-          }
-          const difficulty = Object.entries(difficultyCount).sort((a, b) =>
-            b[1] - a[1]
-          )[0]?.[0] ?? "beginner";
-
-          categories.push({
-            id: dirEntry.name,
-            name: firstCollectionMeta.name || dirEntry.name,
-            description: `${collectionCount} collection${
-              collectionCount === 1 ? "" : "s"
-            }`,
-            icon: firstCollectionMeta.icon || "📁",
-            difficulty,
-          });
         }
       } catch (error) {
-        console.error(`Error reading category dir ${categoryDir}:`, error);
+        console.error(
+          `Error reading categories for language ${languageCode}:`,
+          error,
+        );
         return new Response(
-          JSON.stringify({ error: "Failed to load categories" }),
+          JSON.stringify({
+            error: `No categories found for language: ${languageCode}`,
+          }),
           {
-            status: 500,
+            status: 404,
             headers: { "Content-Type": "application/json" },
           },
         );
       }
 
       // Sort categories by difficulty (beginner -> intermediate -> advanced)
-      const difficultyOrder: Record<string, number> = {
-        beginner: 0,
-        intermediate: 1,
-        advanced: 2,
+      const difficultyOrder = {
+        "beginner": 1,
+        "intermediate": 2,
+        "advanced": 3,
       };
       categories.sort((a, b) => {
-        const da = difficultyOrder[a.difficulty] ?? 99;
-        const db = difficultyOrder[b.difficulty] ?? 99;
-        return da - db;
+        const orderA =
+          difficultyOrder[a.difficulty as keyof typeof difficultyOrder] || 99;
+        const orderB =
+          difficultyOrder[b.difficulty as keyof typeof difficultyOrder] || 99;
+        return orderA - orderB;
       });
 
       return new Response(JSON.stringify(categories), {
         headers: {
           "Content-Type": "application/json",
-          "Cache-Control": "public, max-age=300",
+          "Cache-Control": "public, max-age=3600", // 1 hour cache
         },
       });
     } catch (error) {

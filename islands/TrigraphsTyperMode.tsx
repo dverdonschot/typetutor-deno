@@ -7,7 +7,6 @@ import QuoteTextDisplay from "../components/QuoteTextDisplay.tsx";
 //import { TypingMetricsDisplay } from "../components/TypingMetricsDisplay.tsx";
 import { useQuoteInput } from "../hooks/useQuoteInput.ts"; // Assuming this hook is adaptable
 import { useTypingMetrics } from "../hooks/useTypingMetrics.ts"; // Assuming this hook is adaptable
-import { Layout } from "../components/Layout.tsx"; // Import Layout component as named import
 import GameScoreDisplayIsland from "./GameScoreDisplayIsland.tsx";
 
 // Import content fetching logic
@@ -337,10 +336,7 @@ const TrigraphsTyperMode: FC = () => {
   };
 
   return (
-    <Layout
-      descriptionKey="pages.trigraphs"
-      currentPath={currentPath}
-    >
+    <>
       {/* Wrap content in Layout component and provide props */}
       <div class="flex flex-col gap-4">
         {/* Use flex column layout with gap */}
@@ -471,7 +467,7 @@ const TrigraphsTyperMode: FC = () => {
         )}
       </div>{" "}
       {/* Close container div */}
-    </Layout> // Close Layout component
+    </> // Close Layout component
   );
 };
 
