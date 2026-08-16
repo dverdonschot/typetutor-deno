@@ -1,6 +1,7 @@
 # AGENTS.md
 
-Pre-commit checks for this project. Run these locally before pushing so the CI workflow in `.github/workflows/deploy.yml` doesn't fail on avoidable errors.
+Pre-commit checks for this project. Run these locally before pushing so the CI
+workflow in `.github/workflows/deploy.yml` doesn't fail on avoidable errors.
 
 ## Required before pushing
 
@@ -10,7 +11,8 @@ deno task ci-checks
 
 This runs (from `deno.json`):
 
-- `deno fmt --check --ignore="components/QuoteTextDisplay.tsx" --ignore="memory-bank/*"` — formatting
+- `deno fmt --check --ignore="components/QuoteTextDisplay.tsx" --ignore="memory-bank/*"`
+  — formatting
 - `deno lint` — lint rules (`fresh`, `recommended`)
 - `deno task typecheck` — runs `deno check main.ts client.ts`
 
@@ -31,6 +33,10 @@ deno task build
 
 ## Notes
 
-- The CI `fmt --check` excludes `static/*`; locally it's worth also running `deno fmt` over `static/` if you touched content files, but CI will not fail on them.
-- `components/QuoteTextDisplay.tsx` and `memory-bank/*` are intentionally excluded from fmt — do not reformat them.
-- After `deno task build`, restart `deno task start` to pick up the new bundle (it doesn't hot-reload).
+- The CI `fmt --check` excludes `static/*`; locally it's worth also running
+  `deno fmt` over `static/` if you touched content files, but CI will not fail
+  on them.
+- `components/QuoteTextDisplay.tsx` and `memory-bank/*` are intentionally
+  excluded from fmt — do not reformat them.
+- After `deno task build`, restart `deno task start` to pick up the new bundle
+  (it doesn't hot-reload).
