@@ -150,7 +150,8 @@ const renderCharacter = (charState: OvertypeCharState, index: number) => {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
