@@ -12,6 +12,24 @@ import { currentLanguageSignal } from "../contexts/LanguageContext.ts";
 import { useReactiveTranslation } from "../utils/translations.ts";
 import { TRANSLATION_KEYS } from "../constants/translationKeys.ts";
 
+/** Safely extracts the quote array from an API response.
+ *
+ * The endpoint returns either `{ quotes: Quote[] }` on success or
+ * `{ error: string }` on failure. The previous `responseData.quotes ||
+ * responseData` shape silently fell through to the error object and
+ * crashed later with `<errorObject> is not iterable`. */
+function extractQuotes(data: unknown, fileId: string): Quote[] {
+  if (data && typeof data === "object") {
+    const obj = data as { quotes?: unknown; error?: unknown };
+    if (Array.isArray(obj.quotes)) return obj.quotes as Quote[];
+    if (typeof obj.error === "string") {
+      throw new Error(obj.error);
+    }
+  }
+  if (Array.isArray(data)) return data as Quote[];
+  throw new Error(`Invalid response for ${fileId}`);
+}
+
 // Constant styles to avoid recreating objects on every render
 const HIDDEN_INPUT_STYLE = {
   position: "absolute" as const,
@@ -210,7 +228,10 @@ export default function QuoteTyperMode(
               if (!contentResponse.ok) continue;
 
               const responseData = await contentResponse.json();
-              const fileQuotes: Quote[] = responseData.quotes || responseData;
+              const fileQuotes: Quote[] = extractQuotes(
+                responseData,
+                file.id,
+              );
 
               quotes.push(...fileQuotes);
             }
@@ -236,7 +257,10 @@ export default function QuoteTyperMode(
             if (!contentResponse.ok) continue;
 
             const responseData = await contentResponse.json();
-            const fileQuotes: Quote[] = responseData.quotes || responseData;
+            const fileQuotes: Quote[] = extractQuotes(
+              responseData,
+              file.id,
+            );
             quotes.push(...fileQuotes);
           }
 
@@ -254,7 +278,7 @@ export default function QuoteTyperMode(
           }
 
           const responseData = await response.json();
-          quotes = responseData.quotes || responseData;
+          quotes = extractQuotes(responseData, selectedFileId);
 
           // Shuffle the quotes for variety
           const shuffledQuotes = [...quotes].sort(() => Math.random() - 0.5);
@@ -520,7 +544,10 @@ export default function QuoteTyperMode(
             if (!contentResponse.ok) continue;
 
             const responseData = await contentResponse.json();
-            const fileQuotes: Quote[] = responseData.quotes || responseData;
+            const fileQuotes: Quote[] = extractQuotes(
+              responseData,
+              file.id,
+            );
             quotes.push(...fileQuotes);
           }
         }
@@ -540,7 +567,10 @@ export default function QuoteTyperMode(
           if (!contentResponse.ok) continue;
 
           const responseData = await contentResponse.json();
-          const fileQuotes: Quote[] = responseData.quotes || responseData;
+          const fileQuotes: Quote[] = extractQuotes(
+            responseData,
+            file.id,
+          );
           quotes.push(...fileQuotes);
         }
       }

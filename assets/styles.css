@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap");
+@import "tailwindcss";
+
+/* Custom theme tokens — replaces the v3 tailwind.config.ts `extend.colors` block.
+   The `tt-*` names are preserved as `bg-tt-darkblue` / `bg-tt-lightblue` etc. */
+@theme {
+  --color-tt-darkblue: #0044aa;
+  --color-tt-lightblue: #5fbcd3;
+}
+
+/* Specific class for typing text to ensure font is applied */
+.typing-text {
+  font-family: "Fira Code", monospace !important;
+  letter-spacing: 0.05em;
+}
+
+/* Custom bounce animation that stops after 3 bounces */
+@keyframes bounce-three-times {
+  0%,
+  100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  16.66% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+  33.33%,
+  66.66% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(-15%);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+  83.33% {
+    transform: translateY(-8%);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.animate-bounce-three {
+  animation: bounce-three-times 1.5s ease-in-out;
+}

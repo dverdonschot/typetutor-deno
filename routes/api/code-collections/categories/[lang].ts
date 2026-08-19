@@ -1,8 +1,8 @@
-import { Handlers } from "$fresh/server.ts";
+import { define } from "../../../../utils.ts";
 
-export const handler: Handlers = {
+export const handler = define.handlers({
   /** Returns available categories for a specific programming language. */
-  async GET(_req, ctx) {
+  async GET(ctx) {
     try {
       const languageCode = ctx.params.lang;
 
@@ -98,4 +98,4 @@ export const handler: Handlers = {
       );
     }
   },
-};
+});

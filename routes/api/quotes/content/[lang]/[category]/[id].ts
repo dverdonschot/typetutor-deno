@@ -1,4 +1,4 @@
-import { Handlers } from "$fresh/server.ts";
+import { define } from "../../../../../../utils.ts";
 import {
   buildQuoteCache,
   getQuoteCache,
@@ -9,9 +9,9 @@ import {
 } from "../../../../../../utils/quoteCache.ts";
 import { parseQuoteFile } from "../../../../../../functions/quoteParser.ts";
 
-export const handler: Handlers = {
+export const handler = define.handlers({
   /** Returns the actual quote content for a specific file on-demand. */
-  async GET(_req, ctx) {
+  async GET(ctx) {
     try {
       const languageCode = ctx.params.lang;
       const categoryName = ctx.params.category;
@@ -19,9 +19,7 @@ export const handler: Handlers = {
 
       if (!languageCode || !categoryName || !fileId) {
         return new Response(
-          JSON.stringify({
-            error: "Missing required parameters: lang, category, or id",
-          }),
+          JSON.stringify({ error: "Missing required parameters" }),
           {
             status: 400,
             headers: { "Content-Type": "application/json" },
@@ -60,7 +58,10 @@ export const handler: Handlers = {
 
       if (!fileMetadata) {
         return new Response(
-          JSON.stringify({ error: `Quote file not found: ${fileId}` }),
+          JSON.stringify({
+            error:
+              `Quote file not found: ${languageCode}/${categoryName}/${fileId}`,
+          }),
           {
             status: 404,
             headers: { "Content-Type": "application/json" },
@@ -70,23 +71,29 @@ export const handler: Handlers = {
 
       // Read and parse the actual file content
       try {
-        const content = await Deno.readTextFile(fileMetadata.filePath);
-        const parseResult = parseQuoteFile(content, { validateFormat: true });
+        const fileContent = await Deno.readTextFile(fileMetadata.filePath);
+        const parsed = await parseQuoteFile(
+          fileContent,
+          { validateFormat: true },
+        );
 
-        if (!parseResult.success) {
-          throw new Error(parseResult.error);
+        if (!parsed.success) {
+          return new Response(
+            JSON.stringify({
+              error: `Failed to parse quote file: ${fileId}`,
+              details: parsed.error,
+            }),
+            {
+              status: 500,
+              headers: { "Content-Type": "application/json" },
+            },
+          );
         }
 
-        // Return the quotes with metadata
-        const response = {
-          metadata: fileMetadata,
-          quotes: parseResult.content,
-        };
-
-        return new Response(JSON.stringify(response), {
+        return new Response(JSON.stringify({ quotes: parsed.content }), {
           headers: {
             "Content-Type": "application/json",
-            "Cache-Control": "public, max-age=3600", // 1 hour cache for content
+            "Cache-Control": "public, max-age=3600", // 1 hour cache
           },
         });
       } catch (fileError) {
@@ -96,7 +103,7 @@ export const handler: Handlers = {
         );
         return new Response(
           JSON.stringify({
-            error: "Failed to read quote file",
+            error: `Failed to read quote file: ${fileId}`,
             details: fileError instanceof Error
               ? fileError.message
               : "unknown error",
@@ -124,4 +131,4 @@ export const handler: Handlers = {
       );
     }
   },
-};
+});

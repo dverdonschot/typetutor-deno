@@ -1,7 +1,7 @@
-import { Handlers } from "$fresh/server.ts";
+import { define } from "../../utils.ts";
 
-export const handler: Handlers = {
-  async GET(_req) {
+export const handler = define.handlers({
+  async GET(_ctx) {
     const trigraphsDir = "./static/content/trigraphs";
     try {
       const files = [];
@@ -24,4 +24,4 @@ export const handler: Handlers = {
       );
     }
   },
-};
+});

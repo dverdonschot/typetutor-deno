@@ -1,4 +1,4 @@
-import { Handlers } from "$fresh/server.ts";
+import { define } from "../../../../utils.ts";
 
 interface CodeSnippet {
   code: string;
@@ -38,9 +38,9 @@ interface RandomSnippetResponse {
   totalSnippets: number;
 }
 
-export const handler: Handlers = {
+export const handler = define.handlers({
   /** Returns a random snippet from ANY collection within the specified language. */
-  async GET(_req, ctx) {
+  async GET(ctx) {
     try {
       const languageCode = ctx.params.lang;
 
@@ -62,48 +62,41 @@ export const handler: Handlers = {
       }> = [];
 
       try {
-        // Read all JSON files in the language directory
-        for await (const dirEntry of Deno.readDir(languageDir)) {
-          if (dirEntry.isFile && dirEntry.name.endsWith(".json")) {
-            const filePath = `${languageDir}/${dirEntry.name}`;
-
-            try {
-              const fileContent = await Deno.readTextFile(filePath);
-              const collection: Collection = JSON.parse(fileContent);
-
-              if (collection.snippets && Array.isArray(collection.snippets)) {
-                // Add all snippets from this collection to our pool
-                collection.snippets.forEach((snippet, index) => {
-                  allSnippets.push({
-                    snippet: {
-                      ...snippet,
-                      index, // Preserve original index within collection
-                    },
-                    collectionId: collection.id,
-                    collectionName: collection.name,
-                  });
-                });
+        for await (const catEntry of Deno.readDir(languageDir)) {
+          if (!catEntry.isDirectory) continue;
+          const catDir = `${languageDir}/${catEntry.name}`;
+          for await (const colEntry of Deno.readDir(catDir)) {
+            if (
+              colEntry.isFile &&
+              colEntry.name.endsWith(".json") &&
+              colEntry.name !== "languages.json"
+            ) {
+              try {
+                const colContent = await Deno.readTextFile(
+                  `${catDir}/${colEntry.name}`,
+                );
+                const col: Collection = JSON.parse(colContent);
+                if (col.snippets && Array.isArray(col.snippets)) {
+                  for (const snippet of col.snippets) {
+                    allSnippets.push({
+                      snippet,
+                      collectionId: col.id,
+                      collectionName: col.name,
+                    });
+                  }
+                }
+              } catch {
+                // skip malformed
               }
-            } catch (error) {
-              console.warn(
-                `Failed to read collection ${dirEntry.name} for random selection:`,
-                error,
-              );
-              // Continue with other collections
             }
           }
         }
       } catch (error) {
-        console.error(
-          `Error reading collections for language ${languageCode}:`,
-          error,
-        );
+        console.error(`Error reading language dir ${languageDir}:`, error);
         return new Response(
-          JSON.stringify({
-            error: `No collections found for language: ${languageCode}`,
-          }),
+          JSON.stringify({ error: "Failed to load random snippet" }),
           {
-            status: 404,
+            status: 500,
             headers: { "Content-Type": "application/json" },
           },
         );
@@ -112,7 +105,7 @@ export const handler: Handlers = {
       if (allSnippets.length === 0) {
         return new Response(
           JSON.stringify({
-            error: `No snippets found for language: ${languageCode}`,
+            error: "No snippets available for this language",
           }),
           {
             status: 404,
@@ -135,7 +128,7 @@ export const handler: Handlers = {
       return new Response(JSON.stringify(response), {
         headers: {
           "Content-Type": "application/json",
-          "Cache-Control": "no-cache", // Don't cache random results
+          "Cache-Control": "public, max-age=60",
         },
       });
     } catch (error) {
@@ -155,4 +148,4 @@ export const handler: Handlers = {
       );
     }
   },
-};
+});

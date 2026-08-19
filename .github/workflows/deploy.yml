@@ -17,24 +17,27 @@ jobs:
 
     steps:
       - name: Clone repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install Deno
         uses: denoland/setup-deno@v2
         with:
-          deno-version: v2.x
+          deno-version: v2.9.5
+
+      - name: Install dependencies
+        run: deno install
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: "javascript-typescript"
           # queries: +security-extended # Optional: Uncomment to include more security queries
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
 
       - name: Check code formatting
-        run: deno fmt --check --ignore="components/QuoteTextDisplay.tsx" --ignore="memory-bank/*" --ignore="static/*"
+        run: deno fmt --check --unstable-css --ignore="components/QuoteTextDisplay.tsx" --ignore="memory-bank/*" --ignore="static/*"
 
       - name: Lint code
         run: deno lint
@@ -47,13 +50,3 @@ jobs:
 
       - name: Build step
         run: "deno task build"
-
-      - name: Upload to Deno Deploy
-        uses: denoland/deployctl@v1
-        with:
-          project: "typetutor"
-          entrypoint: "main.ts"
-          root: "."
-        env:
-          USE_DENO_KV: "true"
-          # DENO_KV_PATH: "./data/kv.db" # Optional: configure KV path if needed for your Deno Deploy setup. Deno Deploy provides a managed KV store.
