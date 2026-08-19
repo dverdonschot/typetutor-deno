@@ -1,0 +1,42 @@
+# .dockerignore for typetutor-deno
+#
+# Mirrors .gitignore but tighter: skip the dotenv-loaded tooling the
+# project ships with but doesn't ship to the image, plus the untracked
+# `feat/` scratch directory the dev was working in at index time.
+
+# Devenv + direnv + claude/gemini helpers — never go in the image
+.devenv*
+.direnv
+devenv.local.nix
+.envrc
+CLAUDE.md
+GEMINI.md
+.claude
+.vscode
+.roo
+.github
+
+# Local env files (.env* are gitignored; we don't want them anyway)
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# node_modules — re-installed inside the build stage via `deno install`
+# (deno.json declares nodeModulesDir: "auto"). Copying the dev
+# node_modules in just bloats the context.
+node_modules
+
+# Fresh build output — regenerated in the build stage. Copying it
+# stale-locks the build to a prior compile.
+_fresh
+
+# Untracked dev scratch
+feat/
+
+# Misc
+*.log
+.DS_Store
+*.md.bak
+*.tsbuildinfo
