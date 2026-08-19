@@ -2,11 +2,14 @@
 # Dockerfile for typetutor-deno (Fresh 2 + Vite + Tailwind 4).
 #
 # Two stages:
-#   build   — deno install + deno task build (vite build) which
-#             produces _fresh/server.js.
-#   runtime — denoland/deno:alpine with the cache pre-populated
-#             against _fresh/server.js, so the cold start has no
-#             remote downloads. Listens on PORT=8000.
+#   build   — debian (glibc) because vite's tailwindcss plugin loads
+#             @tailwindcss/oxide, a native module that ships glibc
+#             binaries only. Alpine (musl) builds fail with
+#             "Cannot find native binding".
+#   runtime — alpine (musl) because the Vite output bundles every
+#             npm dep into _fresh/server.js; the runtime never
+#             resolves tailwindcss, so the native-binary problem
+#             doesn't apply at runtime.
 #
 # The Fresh 2 entrypoint is _fresh/server.js (the Vite output), not
 # main.ts: main.ts exports an `App` but does not start a server; the
@@ -22,7 +25,7 @@
 # 8000 (TYPETUTOR_PORT=8000 in .env).
 
 # --- Stage 1: build ---------------------------------------------------------
-FROM denoland/deno:alpine AS build
+FROM denoland/deno:2.6.8 AS build
 WORKDIR /app
 
 # Pre-copy deno config + lock so the dependency install is cacheable.
