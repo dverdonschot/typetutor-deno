@@ -1,77 +1,87 @@
-# Dockerfile for typetutor-deno (Fresh + Deno)
+# syntax=docker/dockerfile:1.7
+# Dockerfile for typetutor-deno (Fresh 2 + Vite + Tailwind 4).
 #
-# Multi-stage build: a build stage that compiles the Fresh bundle and
-# installs node_modules via Deno's npm bridge, then a slim runtime
-# stage that only ships what's needed to serve.
+# Two stages:
+#   build   — deno install + deno task build (vite build) which
+#             produces _fresh/server.js.
+#   runtime — denoland/deno:alpine with the cache pre-populated
+#             against _fresh/server.js, so the cold start has no
+#             remote downloads. Listens on PORT=8000.
 #
-# Build context: this repo's root (~/projects/typetutor-deno).
-# See .dockerignore for exclusions.
+# The Fresh 2 entrypoint is _fresh/server.js (the Vite output), not
+# main.ts: main.ts exports an `App` but does not start a server; the
+# server is started by `deno serve _fresh/server.js`.
 #
 # Build:
 #   docker build -t typetutor:latest .
 #
-# Run (port configurable via PORT env, default 8080):
-#   docker run --rm -p 8080:8080 -e PORT=8080 typetutor:latest
+# Run:
+#   docker run --rm -p 127.0.0.1:8000:8000 typetutor:latest
 #
-# Fresh's `start()` (in main.ts) reads the `PORT` environment
-# variable to choose its bind port. There is no `--port` CLI flag
-# for `deno run` — that flag only exists on the `deno serve`
-# subcommand, which we are not using.
+# Traefik labels in /opt/typetutor/docker-compose.yml must point at
+# 8000 (TYPETUTOR_PORT=8000 in .env).
 
-# -------- build stage --------
-FROM denoland/deno:2.6.8 AS build
-
+# --- Stage 1: build ---------------------------------------------------------
+FROM denoland/deno:alpine AS build
 WORKDIR /app
 
-# Copy lockfile + deno.json first so deno cache + node_modules install
-# are cached as a layer when only source files change.
+# Pre-copy deno config + lock so the dependency install is cacheable.
 COPY deno.json deno.lock ./
 
-# Pre-cache deps and run an npm install for the node_modules dir that
-# deno.json's `nodeModulesDir: "auto"` will populate. `deno install`
-# resolves the JSR + npm + https imports declared in deno.json.
+# Install JS/TS deps. nodeModulesDir is "manual" in deno.json, so
+# `deno install` populates ./node_modules. --allow-scripts lets npm
+# packages with postinstall scripts run.
 RUN deno install --allow-scripts
 
-# Now copy the rest of the source.
+# Copy the rest of the source.
 COPY . .
 
-# Fresh production build: emits a manifest under _fresh/ and compiles
-# islands. Required by `main.ts` at runtime — it imports the
-# generated fresh.gen.ts which references the built artifacts.
+# Build the production bundle. `deno task build` runs `vite build`,
+# which produces _fresh/server.js (the artifact `deno serve` runs).
 RUN deno task build
 
-# -------- runtime stage --------
-FROM denoland/deno:2.6.8 AS runtime
-
+# --- Stage 2: runtime -------------------------------------------------------
+FROM denoland/deno:alpine AS runtime
 WORKDIR /app
 
-# Copy the built app + deps from the build stage. We deliberately
-# re-run `deno install` here rather than carrying over the build
-# stage's $DENO_DIR: the official image puts it under `/root/.cache`
-# but the runtime stage runs as USER deno (uid 1000), which can't
-# read /root. Running install as deno lands the cache under
-# /home/deno/.cache/deno and avoids the permission mismatch.
-# Install wget for the compose-level healthcheck (`services/typetutor/
-# docker-compose.yml`). Traefik's docker provider filters out
-# containers in 'starting' or 'unhealthy' state by default, so an
-# always-failing healthcheck would prevent the typetutor router
-# from ever registering.
-USER root
-RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends wget ca-certificates && rm -rf /var/lib/apt/lists/*
+# The Deno alpine image ships a `deno` user (uid 1000). Use it.
+# DENO_DIR is the cache root; setting it under the user's home keeps
+# the cache owned by `deno` so it can be written at startup.
+ENV DENO_DIR=/home/deno/.cache/deno
 USER deno
-COPY --from=build --chown=deno:deno /app /app
 
-# Re-cache deps as the unprivileged deno user. This is network-bound
-# once and then cached in the image layer for every container start.
-USER deno
-RUN deno install --allow-scripts --entrypoint main.ts
+# Copy the Vite output before caching so `deno cache` can resolve
+# against the actual runtime entry graph.
+COPY --from=build --chown=deno:deno /app/_fresh             ./_fresh
 
-# Default port (Fresh reads the PORT env var via Deno.serve).
-ENV PORT=8080
-EXPOSE 8080
+# Pre-populate the remote module cache (jsr + deno.land/std) so the
+# cold start has no downloads to perform. We cache against
+# _fresh/server.js (the actual runtime entrypoint).
+RUN deno cache --quiet _fresh/server.js
 
-# `--unstable-kv` is required because main.ts initialises a
-# KV-backed cache (see initializeQuoteCache / translationCache).
-# Shell form (`sh -c`) so any future flag interpolation works;
-# today no env expansion happens here.
-ENTRYPOINT ["sh", "-c", "deno run -A --unstable-kv main.ts"]
+# Copy source the runtime needs (server.js + main.ts imports flow).
+COPY --from=build --chown=deno:deno /app/main.ts            ./main.ts
+COPY --from=build --chown=deno:deno /app/utils.ts           ./utils.ts
+COPY --from=build --chown=deno:deno /app/utils              ./utils
+COPY --from=build --chown=deno:deno /app/static             ./static
+COPY --from=build --chown=deno:deno /app/client.ts          ./client.ts
+COPY --from=build --chown=deno:deno /app/components         ./components
+COPY --from=build --chown=deno:deno /app/config             ./config
+COPY --from=build --chown=deno:deno /app/constants          ./constants
+COPY --from=build --chown=deno:deno /app/contexts           ./contexts
+COPY --from=build --chown=deno:deno /app/hooks              ./hooks
+COPY --from=build --chown=deno:deno /app/islands            ./islands
+COPY --from=build --chown=deno:deno /app/routes             ./routes
+COPY --from=build --chown=deno:deno /app/types              ./types
+COPY --from=build --chown=deno:deno /app/assets             ./assets
+
+ENV PORT=8000
+EXPOSE 8000
+
+# Healthcheck: Fresh responds 200 on the root.
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+  CMD wget -qO- http://127.0.0.1:8000/ >/dev/null || exit 1
+
+# --unstable-kv is required by initializeQuoteCache() in main.ts.
+# -A grants all permissions; tighten later if the app's needs shrink.
+CMD ["deno", "serve", "--unstable-kv", "-A", "_fresh/server.js"]
