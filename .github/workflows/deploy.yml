@@ -24,6 +24,9 @@ jobs:
         with:
           deno-version: v2.9.5
 
+      - name: Install dependencies
+        run: deno install
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         with:
