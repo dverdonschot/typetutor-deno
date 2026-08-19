@@ -71,13 +71,26 @@ export const handler = define.handlers({
 
       // Read and parse the actual file content
       try {
-        const fileContent = await Deno.readTextFile(fileMetadata.path);
+        const fileContent = await Deno.readTextFile(fileMetadata.filePath);
         const parsed = await parseQuoteFile(
           fileContent,
-          fileMetadata.path,
+          { validateFormat: true },
         );
 
-        return new Response(JSON.stringify(parsed), {
+        if (!parsed.success) {
+          return new Response(
+            JSON.stringify({
+              error: `Failed to parse quote file: ${fileId}`,
+              details: parsed.error,
+            }),
+            {
+              status: 500,
+              headers: { "Content-Type": "application/json" },
+            },
+          );
+        }
+
+        return new Response(JSON.stringify({ quotes: parsed.content }), {
           headers: {
             "Content-Type": "application/json",
             "Cache-Control": "public, max-age=3600", // 1 hour cache
@@ -85,7 +98,7 @@ export const handler = define.handlers({
         });
       } catch (fileError) {
         console.error(
-          `Error reading quote file ${fileMetadata.path}:`,
+          `Error reading quote file ${fileMetadata.filePath}:`,
           fileError,
         );
         return new Response(
