@@ -42,7 +42,6 @@ const TrigraphsTyperMode: FC = () => {
   const [availableTrigraphs, setAvailableTrigraphs] = useState<string[]>([]);
   const [startTime, setStartTime] = useState<number | null>(null); // For metrics calculation
   const hiddenInputRef = useRef<HTMLInputElement>(null); // Ref for the hidden input
-  const [currentPath, setCurrentPath] = useState(""); // State to store the current path
   const [hasCompleted, setHasCompleted] = useState(false); // New state to track if the game has been completed at least once
   const [gameResult, setGameResult] = useState<DetailedGameResult | null>(null); // Store game result
   const [isRandomTrigraphEnabled, setIsRandomTrigraphEnabled] = useState(() => { // Load state from local storage
@@ -67,13 +66,6 @@ const TrigraphsTyperMode: FC = () => {
     }
     return 20;
   });
-
-  // Effect to set the current path on the client side
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setCurrentPath(globalThis.location.pathname);
-    }
-  }, []); // Empty dependency array ensures this runs once on mount
 
   // Effect to fetch available trigraphs
   useEffect(() => {
