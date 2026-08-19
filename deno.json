@@ -51,5 +51,17 @@
       "template"
     ],
     "types": ["vite/client"]
+  },
+  "scopes": {
+    "https://esm.sh/": {
+      "loose-envify": "https://esm.sh/v135/loose-envify@1.4.0",
+      "object-assign": "https://esm.sh/v135/object-assign@4.1.1",
+      "scheduler": "https://esm.sh/v135/scheduler@0.23.2"
+    },
+    "https://esm.sh/v135/": {
+      "loose-envify": "https://esm.sh/v135/loose-envify@1.4.0",
+      "object-assign": "https://esm.sh/v135/object-assign@4.1.1",
+      "scheduler": "https://esm.sh/v135/scheduler@0.23.2"
+    }
   }
 }
