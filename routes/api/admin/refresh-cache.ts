@@ -6,6 +6,14 @@ import {
 } from "../../../functions/cacheManager.ts";
 import { getCachePerformanceMetrics } from "../../../functions/cacheManager.ts";
 
+// The quotes tree is fixed at build time and is never accepted from
+// the request: the basePath query parameter this endpoint used to
+// accept turned it into an unauthenticated arbitrary file read
+// (Deno runs with filesystem access). The endpoint keeps its purpose
+// — manually rebuilding/refreshing the quote cache — with the path
+// pinned to the app's own content directory.
+const QUOTES_BASE_PATH = "./static/content/quotes";
+
 export const handler = define.handlers({
   /** Manually refreshes the quote cache. */
   async POST(ctx) {
@@ -13,17 +21,25 @@ export const handler = define.handlers({
       const url = new URL(ctx.req.url);
       const language = url.searchParams.get("lang");
       const category = url.searchParams.get("category");
-      const basePath = url.searchParams.get("basePath") ||
-        "./static/content/quotes";
+      const cache = getQuoteCache();
 
       let result;
 
       if (language && category) {
-        result = await refreshCacheSection(basePath, language, category);
+        result = await refreshCacheSection(
+          cache,
+          QUOTES_BASE_PATH,
+          language,
+          category,
+        );
       } else if (language) {
-        result = await refreshCacheSection(basePath, language);
+        result = await refreshCacheSection(
+          cache,
+          QUOTES_BASE_PATH,
+          language,
+        );
       } else {
-        result = await buildQuoteCache(basePath);
+        result = await buildQuoteCache(QUOTES_BASE_PATH);
       }
 
       if (!result.success) {
@@ -40,20 +56,15 @@ export const handler = define.handlers({
       }
 
       // Get updated cache metrics
-      const cache = getQuoteCache();
-      const metrics = getCachePerformanceMetrics(cache);
+      const metrics = getCachePerformanceMetrics(getQuoteCache());
 
       return new Response(
         JSON.stringify({
           success: true,
           refreshed: { language, category },
           cache: {
-            size: cache.size,
-            hitRate: metrics.hitRate,
-            missRate: metrics.missRate,
-            totalHits: metrics.totalHits,
-            totalMisses: metrics.totalMisses,
-            lastRefreshed: cache.lastUpdated,
+            stats: metrics.stats,
+            memoryUsage: metrics.memoryUsage,
           },
         }),
         {
@@ -77,19 +88,15 @@ export const handler = define.handlers({
   },
 
   /** Gets current cache status and metrics. */
-  GET(_ctx) {
+  GET() {
     try {
       const cache = getQuoteCache();
       const metrics = getCachePerformanceMetrics(cache);
 
       return new Response(
         JSON.stringify({
-          size: cache.size,
-          hitRate: metrics.hitRate,
-          missRate: metrics.missRate,
-          totalHits: metrics.totalHits,
-          totalMisses: metrics.totalMisses,
-          lastRefreshed: cache.lastUpdated,
+          stats: metrics.stats,
+          memoryUsage: metrics.memoryUsage,
         }),
         {
           headers: { "Content-Type": "application/json" },

@@ -86,5 +86,14 @@ HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
   CMD wget -qO- http://127.0.0.1:8000/ >/dev/null || exit 1
 
 # --unstable-kv is required by initializeQuoteCache() in main.ts.
-# -A grants all permissions; tighten later if the app's needs shrink.
-CMD ["deno", "serve", "--unstable-kv", "-A", "_fresh/server.js"]
+# Permissions are scoped to what the app actually does (audit
+# 2026-11-20): read the app tree and the Deno cache, write only the
+# Deno cache (KV + caches), read PORT/DENO_ENV, listen on 8000 and
+# fetch raw.githubusercontent.com (the /api/github-content proxy).
+CMD ["deno", "serve", "--unstable-kv", \
+     "--allow-read=/app,/home/deno/.cache/deno", \
+     "--allow-write=/home/deno/.cache/deno", \
+     "--allow-env=PORT,DENO_ENV", \
+     "--allow-sys", \
+     "--allow-net=:8000,raw.githubusercontent.com", \
+     "_fresh/server.js"]
