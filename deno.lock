@@ -42,7 +42,7 @@
     "npm:@prefresh/vite@^2.4.8": "2.4.12_preact@10.29.8_vite@7.3.8",
     "npm:@remix-run/node-fetch-server@0.12": "0.12.0",
     "npm:@tailwindcss/vite@^4.3.5": "4.3.5_vite@7.3.8",
-    "npm:@testing-library/preact@^3.2.4": "3.2.6_preact@10.29.8_preact-render-to-string@6.8.3",
+    "npm:@testing-library/preact@^3.2.6": "3.2.6_preact@10.29.8",
     "npm:@types/babel__core@^7.20.5": "7.20.5",
     "npm:clsx@2.1.1": "2.1.1",
     "npm:esbuild-wasm@~0.25.11": "0.25.12",
@@ -1085,7 +1085,7 @@
         "pretty-format"
       ]
     },
-    "@testing-library/preact@3.2.6_preact@10.29.8_preact-render-to-string@6.8.3": {
+    "@testing-library/preact@3.2.6_preact@10.29.8": {
       "integrity": "sha512-qvl5x9zxY50sY3XukHT874eGK5Q7k+JzWrC1bQIN0vbiXWPfVGjHtBmT78cEQpI6NoDoN8bUbwLvOXDK5p5Fzw==",
       "dependencies": [
         "@testing-library/dom",
@@ -1714,7 +1714,7 @@
       "jsr:@std/fs@^1.0.24",
       "jsr:@std/path@^1.1.6",
       "npm:@tailwindcss/vite@^4.3.5",
-      "npm:@testing-library/preact@^3.2.4",
+      "npm:@testing-library/preact@^3.2.6",
       "npm:@types/babel__core@^7.20.5",
       "npm:clsx@2.1.1",
       "npm:preact@^10.29.8",
