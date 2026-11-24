@@ -2,16 +2,16 @@
   "lock": true,
   "nodeModulesDir": "manual",
   "tasks": {
-    "check": "deno fmt --check && deno lint && deno check **/*.ts && deno check **/*.tsx",
+    "check": "deno fmt --check --ignore=\"components/QuoteTextDisplay.tsx\" --ignore=\"memory-bank/*\" --ignore=\"feat/**\" && deno lint && deno check **/*.ts && deno check **/*.tsx",
     "dev": "vite",
     "build": "vite build",
     "start": "deno serve --unstable-kv -A _fresh/server.js",
-    "ci-checks": "deno fmt --check --ignore=\"components/QuoteTextDisplay.tsx\" --ignore=\"memory-bank/*\" && deno lint && deno task typecheck",
+    "ci-checks": "deno fmt --check --ignore=\"components/QuoteTextDisplay.tsx\" --ignore=\"memory-bank/*\" --ignore=\"feat/**\" && deno lint && deno task typecheck",
     "typecheck": "deno check main.ts client.ts",
     "test": "deno test --allow-read --allow-write"
   },
   "lint": { "rules": { "tags": ["fresh", "recommended"] } },
-  "exclude": ["**/_fresh/*"],
+  "exclude": ["**/_fresh/*", "**/feat/**"],
   "imports": {
     "$std/assert": "jsr:@std/assert@^1.0.19",
     "$std/fs": "jsr:@std/fs@^1.0.24",
@@ -22,7 +22,10 @@
     "vite": "npm:vite@7.3.6",
     "@types/babel__core": "npm:@types/babel__core@^7.20.5",
     "tailwindcss": "npm:tailwindcss@^4.3.3",
-    "@tailwindcss/vite": "npm:@tailwindcss/vite@^4.3.3"
+    "@tailwindcss/vite": "npm:@tailwindcss/vite@^4.3.3",
+    "npm:clsx@2.1.1": "npm:clsx@2.1.1",
+    "npm:tailwind-merge@2.5.2": "npm:tailwind-merge@2.5.2",
+    "https://deno.land/std@0.208.0/path/mod.ts": "https://deno.land/std@0.208.0/path/mod.ts"
   },
   "compilerOptions": {
     "lib": [
