@@ -32,25 +32,26 @@
     "jsr:@std/path@^1.1.1": "1.1.6",
     "jsr:@std/path@^1.1.2": "1.1.6",
     "jsr:@std/path@^1.1.5": "1.1.6",
+    "jsr:@std/path@^1.1.6": "1.1.6",
     "jsr:@std/semver@^1.0.6": "1.0.8",
     "jsr:@std/uuid@^1.0.9": "1.1.2",
     "npm:@babel/core@^7.28.0": "7.29.13",
     "npm:@babel/preset-react@^7.27.1": "7.29.7_@babel+core@7.29.13",
     "npm:@opentelemetry/api@^1.9.0": "1.10.0",
-    "npm:@preact/signals@^2.5.1": "2.11.4_preact@10.29.8__preact-render-to-string@6.8.3___preact@10.29.8_preact-render-to-string@6.8.3__preact@10.29.8___preact-render-to-string@6.8.3",
-    "npm:@prefresh/vite@^2.4.8": "2.4.12_preact@10.29.8__preact-render-to-string@6.8.3___preact@10.29.8_vite@7.3.6__picomatch@4.0.7_@babel+core@7.29.13_preact-render-to-string@6.8.3__preact@10.29.8___preact-render-to-string@6.8.3",
+    "npm:@preact/signals@^2.5.1": "2.11.4_preact@10.29.8_preact-render-to-string@6.8.3",
+    "npm:@prefresh/vite@^2.4.8": "2.4.12_preact@10.29.8_vite@7.3.6_@babel+core@7.29.13_preact-render-to-string@6.8.3",
     "npm:@remix-run/node-fetch-server@0.12": "0.12.0",
-    "npm:@tailwindcss/vite@^4.3.3": "4.3.5_vite@7.3.6__picomatch@4.0.7",
-    "npm:@testing-library/preact@^3.2.4": "3.2.6_preact@10.29.8__preact-render-to-string@6.8.3___preact@10.29.8_preact-render-to-string@6.8.3__preact@10.29.8___preact-render-to-string@6.8.3",
+    "npm:@tailwindcss/vite@^4.3.3": "4.3.5_vite@7.3.6",
+    "npm:@testing-library/preact@^3.2.4": "3.2.6_preact@10.29.8_preact-render-to-string@6.8.3",
     "npm:@types/babel__core@^7.20.5": "7.20.5",
     "npm:clsx@2.1.1": "2.1.1",
     "npm:esbuild-wasm@~0.25.11": "0.25.12",
     "npm:esbuild@0.25.7": "0.25.7",
     "npm:esbuild@~0.25.5": "0.25.12",
-    "npm:preact-render-to-string@^6.6.3": "6.8.3_preact@10.29.8__preact-render-to-string@6.8.3",
-    "npm:preact@^10.28.2": "10.29.8_preact-render-to-string@6.8.3__preact@10.29.8",
-    "npm:preact@^10.29.1": "10.29.8_preact-render-to-string@6.8.3__preact@10.29.8",
-    "npm:preact@^10.29.8": "10.29.8_preact-render-to-string@6.8.3__preact@10.29.8",
+    "npm:preact-render-to-string@^6.6.3": "6.8.3_preact@10.29.8",
+    "npm:preact@^10.28.2": "10.29.8_preact-render-to-string@6.8.3",
+    "npm:preact@^10.29.1": "10.29.8_preact-render-to-string@6.8.3",
+    "npm:preact@^10.29.8": "10.29.8_preact-render-to-string@6.8.3",
     "npm:rollup@^4.55.1": "4.68.7",
     "npm:tailwind-merge@2.5.2": "2.5.2",
     "npm:tailwindcss@^4.3.3": "4.3.5",
@@ -801,7 +802,7 @@
     "@preact/signals-core@1.14.5": {
       "integrity": "sha512-vcRv7Ityz5JVmeiVqIluLFzT/PDS/AlhHUpw3/aUWqcVUs6bDGIPXE/6RSC4evBNWYvnniozg5Syfj33al3gkg=="
     },
-    "@preact/signals@2.11.4_preact@10.29.8__preact-render-to-string@6.8.3___preact@10.29.8_preact-render-to-string@6.8.3__preact@10.29.8___preact-render-to-string@6.8.3": {
+    "@preact/signals@2.11.4_preact@10.29.8_preact-render-to-string@6.8.3": {
       "integrity": "sha512-Rb+5RPo9gWSaHtzJeauhHxiC8KP/IF2DEPkHPEOGOnuy2wnJzRqyeLRankUCYd6ADqtxS6GnWGv6Ie343d8aYw==",
       "dependencies": [
         "@preact/signals-core",
@@ -814,7 +815,7 @@
         "@babel/core"
       ]
     },
-    "@prefresh/core@1.5.11_preact@10.29.8__preact-render-to-string@6.8.3___preact@10.29.8_preact-render-to-string@6.8.3__preact@10.29.8___preact-render-to-string@6.8.3": {
+    "@prefresh/core@1.5.11_preact@10.29.8_preact-render-to-string@6.8.3": {
       "integrity": "sha512-Ml00PP8jeHaADxfQqxUs4+M5JS+T5J26UnvPVfsrmlpGw2I3e9XtM0DMeuzkmvg+Tn7VdHSMpLBrDPG0iHoDqQ==",
       "dependencies": [
         "preact"
@@ -823,7 +824,7 @@
     "@prefresh/utils@1.2.1": {
       "integrity": "sha512-vq/sIuN5nYfYzvyayXI4C2QkprfNaHUQ9ZX+3xLD8nL3rWyzpxOm1+K7RtMbhd+66QcaISViK7amjnheQ/4WZw=="
     },
-    "@prefresh/vite@2.4.12_preact@10.29.8__preact-render-to-string@6.8.3___preact@10.29.8_vite@7.3.6__picomatch@4.0.7_@babel+core@7.29.13_preact-render-to-string@6.8.3__preact@10.29.8___preact-render-to-string@6.8.3": {
+    "@prefresh/vite@2.4.12_preact@10.29.8_vite@7.3.6_@babel+core@7.29.13_preact-render-to-string@6.8.3": {
       "integrity": "sha512-FY1fzXpUjiuosznMV0YM7XAOPZjB5FIdWS0W24+XnlxYkt9hNAwwsiKYn+cuTEoMtD/ZVazS5QVssBr9YhpCQA==",
       "dependencies": [
         "@babel/core",
@@ -1062,7 +1063,7 @@
         "@tailwindcss/oxide-win32-x64-msvc"
       ]
     },
-    "@tailwindcss/vite@4.3.5_vite@7.3.6__picomatch@4.0.7": {
+    "@tailwindcss/vite@4.3.5_vite@7.3.6": {
       "integrity": "sha512-BCNiY0a1ZjdOHVqw7kyb7U72BwfMF3dfUuN+tQsLWky/J5JOI/r7abibglXfygrZhVO/3u3V+E25kkKTeMkXaQ==",
       "dependencies": [
         "@tailwindcss/node",
@@ -1084,7 +1085,7 @@
         "pretty-format"
       ]
     },
-    "@testing-library/preact@3.2.6_preact@10.29.8__preact-render-to-string@6.8.3___preact@10.29.8_preact-render-to-string@6.8.3__preact@10.29.8___preact-render-to-string@6.8.3": {
+    "@testing-library/preact@3.2.6_preact@10.29.8_preact-render-to-string@6.8.3": {
       "integrity": "sha512-qvl5x9zxY50sY3XukHT874eGK5Q7k+JzWrC1bQIN0vbiXWPfVGjHtBmT78cEQpI6NoDoN8bUbwLvOXDK5p5Fzw==",
       "dependencies": [
         "@testing-library/dom",
@@ -1448,13 +1449,13 @@
         "source-map-js"
       ]
     },
-    "preact-render-to-string@6.8.3_preact@10.29.8__preact-render-to-string@6.8.3": {
+    "preact-render-to-string@6.8.3_preact@10.29.8": {
       "integrity": "sha512-yg04edGH7f5yfBUV4uyL2brzPB3e26AimLO5WNfUtwoCv8LBJ7Z+dElG8P5v+o8UqMUM6kZhnn4I/HEXNyP0ZQ==",
       "dependencies": [
         "preact"
       ]
     },
-    "preact@10.29.8_preact-render-to-string@6.8.3__preact@10.29.8": {
+    "preact@10.29.8_preact-render-to-string@6.8.3": {
       "integrity": "sha512-ej2aVZ+vZ8WO7tvlQWRM9N63A0KzF9q4mWJfDUHgYaIofWY9hu74QdnQrjoPMmZi2/nZ5gN0bJCQF49xQqx09Q==",
       "dependencies": [
         "preact-render-to-string"
@@ -1711,6 +1712,7 @@
       "jsr:@fresh/plugin-vite@^1.1.2",
       "jsr:@std/assert@^1.0.19",
       "jsr:@std/fs@^1.0.24",
+      "jsr:@std/path@^1.1.6",
       "npm:@tailwindcss/vite@^4.3.3",
       "npm:@testing-library/preact@^3.2.4",
       "npm:@types/babel__core@^7.20.5",

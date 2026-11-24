@@ -1,7 +1,7 @@
 // Server-side translation cache system
 // Similar to quote cache but for translations
 
-import { join } from "https://deno.land/std@0.208.0/path/mod.ts";
+import { join } from "$std/path";
 
 export interface Translations {
   [key: string]: string | Translations;
