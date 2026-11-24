@@ -33,16 +33,16 @@ deno task build
 
 ## Deno version
 
-CI pins **Deno v2.9.5** in `.github/workflows/deploy.yml`. Use the same version
+CI pins **Deno v2.9.8** in `.github/workflows/deploy.yml`. Use the same version
 locally so `deno fmt` produces output that matches CI. Newer 2.x releases change
 formatter behavior (e.g. how CSS comma-separated selectors are wrapped), which
 causes avoidable CI failures.
 
 ```sh
 # Install the pinned version with the official installer
-curl -fsSL https://deno.land/install.sh | DENO_INSTALL=/home/runner/.deno sh -s -- -y v2.9.5
+curl -fsSL https://deno.land/install.sh | DENO_INSTALL=/home/runner/.deno sh -s -- -y v2.9.8
 # or, if you already have deno:
-deno upgrade --version 2.9.5
+deno upgrade --version 2.9.8
 ```
 
 ## Notes
