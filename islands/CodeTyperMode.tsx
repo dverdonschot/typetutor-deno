@@ -492,6 +492,11 @@ export default function CodeTyperMode() {
                 >
                   {content.currentSnippet.description}
                 </span>
+                {content.currentSnippet.tip && (
+                  <span class="caption-tip" title={content.currentSnippet.tip}>
+                    💡 {content.currentSnippet.tip}
+                  </span>
+                )}
               </>
             )}
             {sourceType === "github" && githubFileInfo && (

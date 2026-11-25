@@ -36,6 +36,8 @@ export interface CodeSnippet {
   difficulty: string;
   language: string;
   index: number;
+  // Optional teaching note shown while typing (data-driven, per snippet).
+  tip?: string;
 }
 
 // localStorage is only available client-side; islands also render on the

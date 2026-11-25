@@ -179,3 +179,13 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.caption-tip {
+  flex-basis: 100%;
+  max-width: 110ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #b45309;
+  font-style: italic;
+}

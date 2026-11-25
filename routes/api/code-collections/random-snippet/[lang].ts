@@ -8,6 +8,7 @@ interface CodeSnippet {
   difficulty: string;
   language: string;
   index: number;
+  tip?: string;
 }
 
 interface Collection {
@@ -62,31 +63,41 @@ export const handler = define.handlers({
       }> = [];
 
       try {
+        // Scan a single collection JSON file and add its snippets.
+        const addCollection = async (filePath: string) => {
+          try {
+            const colContent = await Deno.readTextFile(filePath);
+            const col: Collection = JSON.parse(colContent);
+            if (col.snippets && Array.isArray(col.snippets)) {
+              for (const snippet of col.snippets) {
+                allSnippets.push({
+                  snippet,
+                  collectionId: col.id,
+                  collectionName: col.name,
+                });
+              }
+            }
+          } catch {
+            // skip malformed
+          }
+        };
+
+        // Top-level collection files (e.g. rust/rust-basics.json) AND
+        // category subdirectories (e.g. python/basics/*.json). Previously
+        // only subdirectories were scanned, so top-level collections like
+        // Rust Basics were never picked by the random button.
         for await (const catEntry of Deno.readDir(languageDir)) {
-          if (!catEntry.isDirectory) continue;
-          const catDir = `${languageDir}/${catEntry.name}`;
-          for await (const colEntry of Deno.readDir(catDir)) {
-            if (
-              colEntry.isFile &&
-              colEntry.name.endsWith(".json") &&
-              colEntry.name !== "languages.json"
-            ) {
-              try {
-                const colContent = await Deno.readTextFile(
-                  `${catDir}/${colEntry.name}`,
-                );
-                const col: Collection = JSON.parse(colContent);
-                if (col.snippets && Array.isArray(col.snippets)) {
-                  for (const snippet of col.snippets) {
-                    allSnippets.push({
-                      snippet,
-                      collectionId: col.id,
-                      collectionName: col.name,
-                    });
-                  }
-                }
-              } catch {
-                // skip malformed
+          if (
+            catEntry.isFile &&
+            catEntry.name.endsWith(".json") &&
+            catEntry.name !== "languages.json"
+          ) {
+            await addCollection(`${languageDir}/${catEntry.name}`);
+          } else if (catEntry.isDirectory) {
+            const catDir = `${languageDir}/${catEntry.name}`;
+            for await (const colEntry of Deno.readDir(catDir)) {
+              if (colEntry.isFile && colEntry.name.endsWith(".json")) {
+                await addCollection(`${catDir}/${colEntry.name}`);
               }
             }
           }
