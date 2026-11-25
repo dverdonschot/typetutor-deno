@@ -21,21 +21,16 @@ export default function RenderedQuoteResult(results: TrainingChar[]) {
         </span>
       );
     } else if (item.state == "incorrect") {
+      // Inline error highlight (expected char on red background), matching
+      // QuoteTextDisplay. Must stay a single span: a nested <div> here becomes
+      // its own flex item and reflows the whole wrap on every mistake.
       return (
-        <div>
-          <div
-            class="text-green-500 text-3xl sm:text-4xl md:text-5xl typing-text"
-            key={`${index}-char`}
-          >
-            {item.char}
-          </div>
-          <span
-            class="text-red-500 text-3xl sm:text-4xl md:text-5xl typing-text"
-            key={`${index}-typed`}
-          >
-            {item.typedChar}
-          </span>
-        </div>
+        <span
+          class="text-red-500 bg-red-100 rounded text-3xl sm:text-4xl md:text-5xl typing-text"
+          key={index}
+        >
+          {item.char}
+        </span>
       );
     }
   });
