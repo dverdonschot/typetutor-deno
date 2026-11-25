@@ -2,11 +2,11 @@
   "lock": true,
   "nodeModulesDir": "manual",
   "tasks": {
-    "check": "deno fmt --check --ignore=\"components/QuoteTextDisplay.tsx\" --ignore=\"memory-bank/*\" --ignore=\"feat/**\" && deno lint && deno check **/*.ts && deno check **/*.tsx",
+    "check": "deno fmt --check --ignore=\"components/QuoteTextDisplay.tsx\" --ignore=\"memory-bank/*\" && deno lint && deno check **/*.ts && deno check **/*.tsx",
     "dev": "vite",
     "build": "vite build",
     "start": "deno serve --unstable-kv -A _fresh/server.js",
-    "ci-checks": "deno fmt --check --ignore=\"components/QuoteTextDisplay.tsx\" --ignore=\"memory-bank/*\" --ignore=\"feat/**\" && deno lint && deno task typecheck",
+    "ci-checks": "deno fmt --check --ignore=\"components/QuoteTextDisplay.tsx\" --ignore=\"memory-bank/*\" && deno lint && deno task typecheck",
     "typecheck": "deno check main.ts client.ts",
     "test": "deno test --allow-read --allow-write"
   },
