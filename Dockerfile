@@ -25,7 +25,7 @@
 # 8000 (TYPETUTOR_PORT=8000 in .env).
 
 # --- Stage 1: build ---------------------------------------------------------
-FROM denoland/deno:2.6.8 AS build
+FROM denoland/deno:2.9.8 AS build
 WORKDIR /app
 
 # Pre-copy deno config + lock so the dependency install is cacheable.
@@ -44,7 +44,7 @@ COPY . .
 RUN deno task build
 
 # --- Stage 2: runtime -------------------------------------------------------
-FROM denoland/deno:alpine AS runtime
+FROM denoland/deno:alpine-2.9.8 AS runtime
 WORKDIR /app
 
 # The Deno alpine image ships a `deno` user (uid 1000). Use it.
