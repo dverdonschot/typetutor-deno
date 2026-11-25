@@ -3,47 +3,38 @@ interface CodeSourceSelectorProps {
   onSourceChange: (source: "collections" | "github") => void;
 }
 
-export default function CodeSourceSelector({
-  selectedSource,
-  onSourceChange,
-}: CodeSourceSelectorProps) {
-  const handleChange = (event: Event) => {
-    const target = event.target as HTMLSelectElement;
-    onSourceChange(target.value as "collections" | "github");
-  };
-
+// Compact segmented control for the code source, toolbar-sized.
+export default function CodeSourceSelector(
+  { selectedSource, onSourceChange }: CodeSourceSelectorProps,
+) {
+  const base =
+    "px-3 py-2 text-sm font-medium transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-tt-lightblue focus:ring-inset";
   return (
-    <div class="source-selector-container">
-      <label
-        htmlFor="code-source-selector"
-        class="block text-sm font-medium text-gray-700 mb-1"
+    <div class="code-source-toggle" role="group" aria-label="Code source">
+      <button
+        type="button"
+        onClick={() => onSourceChange("collections")}
+        aria-pressed={selectedSource === "collections"}
+        class={`${base} rounded-l-md ${
+          selectedSource === "collections"
+            ? "bg-tt-darkblue text-white"
+            : "bg-white text-gray-700 hover:bg-gray-100"
+        }`}
       >
-        Code Source:
-      </label>
-      <select
-        id="code-source-selector"
-        value={selectedSource}
-        onChange={handleChange}
-        class="block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-tt-lightblue focus:border-tt-lightblue sm:text-sm rounded-md shadow-sm bg-white border transition-colors duration-200 hover:border-gray-400"
+        📁 Collections
+      </button>
+      <button
+        type="button"
+        onClick={() => onSourceChange("github")}
+        aria-pressed={selectedSource === "github"}
+        class={`${base} rounded-r-md ${
+          selectedSource === "github"
+            ? "bg-tt-darkblue text-white"
+            : "bg-white text-gray-700 hover:bg-gray-100"
+        }`}
       >
-        <option value="collections">📁 Predefined Collections</option>
-        <option value="github">🔗 GitHub Raw URL</option>
-      </select>
-
-      {selectedSource === "collections" && (
-        <div class="mt-2 text-sm text-gray-600">
-          <p>
-            Choose from curated code collections organized by programming
-            language
-          </p>
-        </div>
-      )}
-
-      {selectedSource === "github" && (
-        <div class="mt-2 text-sm text-gray-600">
-          <p>Paste a GitHub raw URL to type over any code file from GitHub</p>
-        </div>
-      )}
+        🔗 GitHub
+      </button>
     </div>
   );
 }

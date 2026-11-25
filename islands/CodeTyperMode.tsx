@@ -367,8 +367,114 @@ export default function CodeTyperMode() {
         </div>
       )}
 
-      {!githubLoading && !content.error && !githubError && (
+      {!content.error && !githubError && (
         <>
+          {/* Compact toolbar: all controls above the code panel */}
+          <div class="code-toolbar">
+            <CodeSourceSelector
+              selectedSource={sourceType}
+              onSourceChange={handleSourceTypeChange}
+            />
+
+            {sourceType === "collections" && (
+              <>
+                <CodeLanguageSelector
+                  languages={content.languages}
+                  selectedLanguage={content.selectedLanguage}
+                  onLanguageChange={content.selectLanguage}
+                />
+                <CodeCollectionSelector
+                  collections={content.collections}
+                  selectedCollectionId={content.selectedCollectionId}
+                  onCollectionChange={content.selectCollection}
+                />
+                <select
+                  aria-label="Code snippet"
+                  value={content.selectedSnippetIndex}
+                  onChange={(e) =>
+                    content.selectSnippet(parseInt(e.currentTarget.value, 10))}
+                  class="code-select code-select-snippet"
+                  disabled={isComplete}
+                >
+                  {content.snippets.map((snippet, index) => (
+                    <option key={`${snippet.title}-${index}`} value={index}>
+                      {index + 1}. {snippet.title}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  class="code-random-button"
+                  onClick={content.loadLanguageRandomSnippet}
+                  disabled={isComplete}
+                  aria-label="Random snippet from any collection"
+                  title="Random snippet from any collection of this language"
+                >
+                  🎲
+                </button>
+              </>
+            )}
+
+            {sourceType === "github" && (
+              <GitHubUrlInput
+                value={githubUrl}
+                onChange={handleGithubUrlChange}
+                onFetch={handleGithubFetch}
+                loading={githubLoading}
+                error={githubError}
+                disabled={showCompletion}
+              />
+            )}
+          </div>
+
+          {/* Caption line: what you're typing */}
+          <div class="code-caption">
+            {sourceType === "collections" && content.currentSnippet && (
+              <>
+                <span class="caption-position">
+                  {content.selectedSnippetIndex + 1} of{" "}
+                  {content.snippets.length}
+                </span>
+                <span class="caption-title">
+                  {content.currentSnippet.title}
+                </span>
+                <span class="caption-badge">
+                  {content.currentSnippet.difficulty}
+                </span>
+                {content.currentSnippet.tags.length > 0 && (
+                  <span class="caption-tags">
+                    {content.currentSnippet.tags.join(", ")}
+                  </span>
+                )}
+                <span
+                  class="caption-description"
+                  title={content.currentSnippet.description}
+                >
+                  {content.currentSnippet.description}
+                </span>
+              </>
+            )}
+            {sourceType === "github" && githubFileInfo && (
+              <>
+                <span class="caption-title">
+                  📁 {githubFileInfo.fileName}
+                </span>
+                <span class="caption-tags">
+                  {githubFileInfo.user}/{githubFileInfo.repo}
+                  #{githubFileInfo.branch}
+                </span>
+                <span class="caption-position">
+                  {targetText.length} chars
+                </span>
+                {githubFileInfo.fileExtension && (
+                  <span class="caption-badge">
+                    .{githubFileInfo.fileExtension}
+                  </span>
+                )}
+              </>
+            )}
+          </div>
+
           {targetText && (
             <div ref={overtypeRef}>
               <OvertypeContainer
@@ -377,129 +483,6 @@ export default function CodeTyperMode() {
                 onInputChange={handleInputChange}
                 disabled={showCompletion}
               />
-            </div>
-          )}
-
-          {/* Source type selector */}
-          <div class="code-selectors">
-            <div class="source-selector-container">
-              <CodeSourceSelector
-                selectedSource={sourceType}
-                onSourceChange={handleSourceTypeChange}
-              />
-            </div>
-
-            {/* Collection selectors - only show when collections mode */}
-            {sourceType === "collections" && (
-              <div class="selector-row">
-                <div class="selector-item">
-                  <CodeLanguageSelector
-                    languages={content.languages}
-                    selectedLanguage={content.selectedLanguage}
-                    onLanguageChange={content.selectLanguage}
-                  />
-                </div>
-                <div class="selector-item">
-                  <CodeCollectionSelector
-                    collections={content.collections}
-                    selectedCollectionId={content.selectedCollectionId}
-                    onCollectionChange={content.selectCollection}
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* GitHub URL input - only show when GitHub mode */}
-            {sourceType === "github" && (
-              <div class="github-input-container">
-                <GitHubUrlInput
-                  value={githubUrl}
-                  onChange={handleGithubUrlChange}
-                  onFetch={handleGithubFetch}
-                  loading={githubLoading}
-                  error={githubError}
-                  disabled={showCompletion}
-                />
-              </div>
-            )}
-          </div>
-
-          {/* GitHub file info */}
-          {sourceType === "github" && githubFileInfo && (
-            <div class="github-file-info">
-              <div class="file-info-header">
-                <h3 class="file-title">📁 {githubFileInfo.fileName}</h3>
-                <p class="file-path">
-                  <span class="repo-info">
-                    {githubFileInfo.user}/{githubFileInfo.repo}
-                  </span>
-                  <span class="branch-info">#{githubFileInfo.branch}</span>
-                </p>
-              </div>
-              <div class="file-stats">
-                <span class="char-count">{targetText.length} characters</span>
-                {githubFileInfo.fileExtension && (
-                  <span class="file-type">.{githubFileInfo.fileExtension}</span>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Snippet selector and info - only show for collections mode */}
-          {sourceType === "collections" && content.snippets.length > 0 && (
-            <div class="snippet-selector">
-              <label class="code-label">
-                Code Snippet ({content.selectedSnippetIndex + 1} of{" "}
-                {content.snippets.length}):
-              </label>
-              <select
-                value={content.selectedSnippetIndex}
-                onChange={(e) =>
-                  content.selectSnippet(parseInt(e.currentTarget.value, 10))}
-                class="code-select"
-                disabled={isComplete}
-              >
-                {content.snippets.map((snippet, index) => (
-                  <option key={`${snippet.title}-${index}`} value={index}>
-                    {snippet.title} ({snippet.difficulty})
-                  </option>
-                ))}
-              </select>
-
-              {content.currentSnippet && (
-                <div class="snippet-info">
-                  <p class="snippet-description">
-                    {content.currentSnippet.description}
-                  </p>
-                  {content.currentSnippet.tags.length > 0 && (
-                    <p class="snippet-tags">
-                      Tags: {content.currentSnippet.tags.join(", ")}
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Action buttons - only show for collections mode */}
-          {sourceType === "collections" && (
-            <div class="code-actions">
-              <button
-                onClick={content.randomSnippetInCollection}
-                class="code-button code-button-random"
-                type="button"
-                disabled={isComplete || content.snippets.length === 0}
-              >
-                Random Snippet
-              </button>
-              <button
-                onClick={content.nextSnippet}
-                class="code-button code-button-next"
-                type="button"
-                disabled={isComplete || content.snippets.length <= 1}
-              >
-                Next Snippet
-              </button>
             </div>
           )}
 
@@ -516,252 +499,6 @@ export default function CodeTyperMode() {
           )}
         </>
       )}
-
-      <style jsx>
-        {`
-        .code-mode-container {
-          max-width: 95vw;
-          margin: 0 auto;
-          padding: 0.5rem 1rem 1rem 1rem;
-        }
-
-        .code-header {
-          text-align: center;
-          margin-bottom: 2rem;
-        }
-
-        .code-title {
-          font-size: 2rem;
-          font-weight: bold;
-          color: #1f2937;
-          margin-bottom: 0.5rem;
-        }
-
-        .code-subtitle {
-          color: #6b7280;
-          font-size: 1rem;
-        }
-
-        .code-loading {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 1rem;
-          padding: 2rem;
-          color: #6b7280;
-        }
-
-        .code-spinner {
-          width: 20px;
-          height: 20px;
-          border: 2px solid #e5e7eb;
-          border-top: 2px solid #3b82f6;
-          border-radius: 50%;
-          animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        .code-error {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 1rem;
-          background-color: #fef2f2;
-          border: 1px solid #fecaca;
-          border-radius: 8px;
-          color: #dc2626;
-          margin-bottom: 1rem;
-        }
-
-        .code-selectors {
-          margin: 1rem 0;
-        }
-
-        .selector-row {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1rem;
-          margin-bottom: 1rem;
-        }
-
-        @media (max-width: 768px) {
-          .selector-row {
-            grid-template-columns: 1fr;
-            gap: 0.75rem;
-          }
-        }
-
-        .selector-item {
-          min-width: 0;
-        }
-
-        .snippet-selector {
-          margin: 1rem 0;
-        }
-
-        .code-label {
-          display: block;
-          font-weight: 500;
-          color: #374151;
-          margin-bottom: 0.5rem;
-        }
-
-        .code-select {
-          width: 100%;
-          padding: 0.5rem;
-          border: 1px solid #d1d5db;
-          border-radius: 6px;
-          background-color: white;
-          font-size: 1rem;
-        }
-
-        .code-select:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-
-        .snippet-info {
-          margin-top: 0.75rem;
-          padding: 0.75rem;
-          background-color: #f9fafb;
-          border: 1px solid #e5e7eb;
-          border-radius: 6px;
-          font-size: 0.875rem;
-        }
-
-        .snippet-description {
-          margin: 0 0 0.5rem 0;
-          color: #374151;
-          font-weight: 500;
-        }
-
-        .snippet-tags {
-          margin: 0;
-          color: #6b7280;
-          font-size: 0.8rem;
-        }
-
-        .code-actions {
-          display: flex;
-          gap: 1rem;
-          justify-content: center;
-          margin: 1rem 0;
-        }
-
-        .code-button {
-          padding: 0.75rem 1.5rem;
-          border: none;
-          border-radius: 6px;
-          font-size: 1rem;
-          font-weight: 500;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .code-button:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-
-        .code-button-random {
-          background-color: #0044aa;
-          color: white;
-        }
-
-        .code-button-random:hover:not(:disabled) {
-          background-color: #003388;
-        }
-
-        .code-button-next {
-          background-color: #5fbcd3;
-          color: white;
-        }
-
-        .code-button-next:hover:not(:disabled) {
-          background-color: #4aa8bd;
-        }
-
-        .code-button-focus {
-          background-color: #f59e0b;
-          color: white;
-        }
-
-        .code-button-focus:hover:not(:disabled) {
-          background-color: #d97706;
-        }
-
-        /* GitHub-specific styles */
-        .source-selector-container {
-          margin-bottom: 1rem;
-        }
-
-        .github-input-container {
-          margin-top: 1rem;
-        }
-
-        .github-file-info {
-          margin: 1rem 0;
-          padding: 1rem;
-          background-color: #f8fafc;
-          border: 1px solid #e2e8f0;
-          border-radius: 8px;
-        }
-
-        .file-info-header {
-          margin-bottom: 0.75rem;
-        }
-
-        .file-title {
-          font-size: 1.125rem;
-          font-weight: 600;
-          color: #1f2937;
-          margin: 0 0 0.25rem 0;
-        }
-
-        .file-path {
-          font-size: 0.875rem;
-          color: #6b7280;
-          margin: 0;
-          font-family: monospace;
-        }
-
-        .repo-info {
-          font-weight: 500;
-          color: #374151;
-        }
-
-        .branch-info {
-          margin-left: 0.5rem;
-          color: #059669;
-          font-weight: 500;
-        }
-
-        .file-stats {
-          display: flex;
-          gap: 1rem;
-          font-size: 0.875rem;
-          color: #6b7280;
-        }
-
-        .char-count {
-          font-weight: 500;
-        }
-
-        .file-type {
-          background-color: #e5e7eb;
-          padding: 0.125rem 0.375rem;
-          border-radius: 4px;
-          font-family: monospace;
-          font-weight: 500;
-          color: #374151;
-        }
-      `}
-      </style>
     </div>
   );
 }

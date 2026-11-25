@@ -43,3 +43,139 @@
 .animate-bounce-three {
   animation: bounce-three-times 1.5s ease-in-out;
 }
+
+/* ===== Code mode (/code): compact toolbar + caption ===== */
+.code-mode-container {
+  max-width: 95vw;
+  margin: 0 auto;
+  padding: 0.5rem 1rem 1rem 1rem;
+}
+
+.code-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  color: #6b7280;
+}
+
+.code-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e5e7eb;
+  border-top: 2px solid #3b82f6;
+  border-radius: 50%;
+  animation: code-spin 1s linear infinite;
+}
+
+@keyframes code-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.code-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  color: #dc2626;
+  margin-bottom: 1rem;
+}
+
+.code-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.code-source-toggle {
+  display: inline-flex;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.code-select {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: white;
+  font-size: 0.875rem;
+  max-width: 240px;
+  color: #111827;
+}
+
+.code-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.code-select-snippet {
+  min-width: 200px;
+}
+
+.code-random-button {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: white;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.15s;
+}
+
+.code-random-button:hover:not(:disabled) {
+  background-color: #f3f4f6;
+}
+
+.code-random-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.code-caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0 0 0.35rem;
+  min-height: 1.4em;
+}
+
+.caption-position {
+  font-variant-numeric: tabular-nums;
+}
+
+.caption-title {
+  font-weight: 600;
+  color: #374151;
+}
+
+.caption-badge {
+  background-color: #e5e7eb;
+  padding: 0.05rem 0.4rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-family: monospace;
+  color: #374151;
+}
+
+.caption-tags {
+  color: #9ca3af;
+}
+
+.caption-description {
+  max-width: 70ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

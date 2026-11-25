@@ -9,6 +9,8 @@ interface GitHubUrlInputProps {
   disabled?: boolean;
 }
 
+// Compact GitHub URL input for the code-mode toolbar. Validation and
+// blob→raw conversion happen locally; fetching is delegated to onFetch.
 export default function GitHubUrlInput({
   value,
   onChange,
@@ -114,93 +116,57 @@ export default function GitHubUrlInput({
     }
   };
 
-  const getPlaceholder = () => {
-    return "https://github.com/user/repo/blob/main/file.js or raw URL";
-  };
-
   const hasError = validationError || error;
 
   return (
-    <div class="github-url-input">
-      <label
-        htmlFor="github-url-input"
-        class="block text-sm font-medium text-gray-700 mb-1"
+    <div class="github-url-input flex gap-2 flex-1 min-w-[280px] items-start">
+      <input
+        id="github-url-input"
+        aria-label="GitHub file URL"
+        type="url"
+        value={localValue}
+        onInput={handleInputChange}
+        onKeyPress={handleKeyPress}
+        placeholder="https://github.com/user/repo/blob/main/file.js"
+        disabled={loading || disabled}
+        class={`flex-1 px-3 py-2 text-sm border rounded-md shadow-sm bg-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-tt-lightblue focus:border-tt-lightblue ${
+          hasError
+            ? "border-red-300 focus:ring-red-500 focus:border-red-500"
+            : "border-gray-300 hover:border-gray-400"
+        }`}
+        spellcheck={false}
+      />
+
+      <button
+        type="button"
+        onClick={handleFetch}
+        disabled={loading || disabled || !!validationError ||
+          !localValue.trim()}
+        class={`px-4 py-2 text-sm font-medium rounded-md border border-transparent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+          loading || disabled || !!validationError || !localValue.trim()
+            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+            : "bg-tt-lightblue hover:bg-blue-600 text-white focus:ring-blue-500"
+        }`}
       >
-        GitHub URL:
-      </label>
-
-      <div class="flex gap-2">
-        <div class="flex-1">
-          <input
-            id="github-url-input"
-            type="url"
-            value={localValue}
-            onInput={handleInputChange}
-            onKeyPress={handleKeyPress}
-            placeholder={getPlaceholder()}
-            disabled={loading || disabled}
-            class={`block w-full pl-3 pr-3 py-2.5 text-base border rounded-md shadow-sm bg-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-tt-lightblue focus:border-tt-lightblue ${
-              hasError
-                ? "border-red-300 focus:ring-red-500 focus:border-red-500"
-                : "border-gray-300 hover:border-gray-400"
-            }`}
-          />
-        </div>
-
-        <button
-          type="button"
-          onClick={handleFetch}
-          disabled={loading || disabled || !!validationError ||
-            !localValue.trim()}
-          class={`px-4 py-2.5 text-sm font-medium rounded-md border border-transparent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-            loading || disabled || !!validationError || !localValue.trim()
-              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-tt-lightblue hover:bg-blue-600 text-white focus:ring-blue-500"
-          }`}
-        >
-          {loading
-            ? (
-              <div class="flex items-center gap-1">
-                <div class="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full">
-                </div>
-                <span>Loading...</span>
+        {loading
+          ? (
+            <div class="flex items-center gap-1">
+              <div class="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full">
               </div>
-            )
-            : (
-              "Fetch"
-            )}
-        </button>
-      </div>
+              <span>Loading...</span>
+            </div>
+          )
+          : (
+            "Fetch"
+          )}
+      </button>
 
       {/* Error display */}
       {hasError && (
-        <div class="mt-2 text-sm text-red-600">
+        <div class="w-full text-sm text-red-600">
           <span class="inline-flex items-center gap-1">
             <span>⚠️</span>
             <span>{validationError || error}</span>
-          </span>
-        </div>
-      )}
-
-      {/* Help text */}
-      {!hasError && (
-        <div class="mt-2 text-sm text-gray-600">
-          <p>
-            Paste a GitHub file URL (will auto-convert to raw URL) or direct raw
-            URL. Example:{" "}
-            <code class="bg-gray-100 px-1 rounded text-xs">
-              https://github.com/user/repo/blob/main/file.js
-            </code>
-          </p>
-        </div>
-      )}
-
-      {/* URL conversion notice */}
-      {localValue !== value && value && (
-        <div class="mt-2 text-sm text-blue-600">
-          <span class="inline-flex items-center gap-1">
-            <span>ℹ️</span>
-            <span>URL converted to raw format for fetching</span>
           </span>
         </div>
       )}
