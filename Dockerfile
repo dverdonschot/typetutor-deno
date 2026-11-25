@@ -90,10 +90,12 @@ HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
 # 2026-11-20): read the app tree and the Deno cache, write only the
 # Deno cache (KV + caches), read PORT/DENO_ENV, listen on 8000 and
 # fetch raw.githubusercontent.com (the /api/github-content proxy).
+# VSCODE_TEXTMATE_DEBUG: read-only debug flag probed by @shikijs/vscode-textmate
+# when the /api/highlight endpoint loads its first grammar (2026-11-25).
 CMD ["deno", "serve", "--unstable-kv", \
      "--allow-read=/app,/home/deno/.cache/deno", \
      "--allow-write=/home/deno/.cache/deno", \
-     "--allow-env=PORT,DENO_ENV", \
+     "--allow-env=PORT,DENO_ENV,VSCODE_TEXTMATE_DEBUG", \
      "--allow-sys", \
      "--allow-net=:8000,raw.githubusercontent.com", \
      "_fresh/server.js"]
