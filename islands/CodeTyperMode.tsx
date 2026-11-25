@@ -1,12 +1,7 @@
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "preact/hooks";
+import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import { useOvertypeInput } from "../hooks/useOvertypeInput.ts";
 import { useTypingMetrics } from "../hooks/useTypingMetrics.ts";
+import { useCodeContent } from "../hooks/useCodeContent.ts";
 import OvertypeContainer from "../components/overtype/OvertypeContainer.tsx";
 import GameScoreDisplayIsland from "./GameScoreDisplayIsland.tsx";
 import { UserStatsManager } from "../utils/userStatsManager.ts";
@@ -15,32 +10,6 @@ import CodeLanguageSelector from "../components/CodeLanguageSelector.tsx";
 import CodeCollectionSelector from "../components/CodeCollectionSelector.tsx";
 import CodeSourceSelector from "../components/CodeSourceSelector.tsx";
 import GitHubUrlInput from "../components/GitHubUrlInput.tsx";
-
-interface Language {
-  code: string;
-  name: string;
-  icon: string;
-  description: string;
-}
-
-interface CodeCollectionMetadata {
-  id: string;
-  name: string;
-  snippetCount: number;
-  difficulty?: string;
-  tags?: string[];
-  description?: string;
-}
-
-interface CodeSnippet {
-  code: string;
-  title: string;
-  description: string;
-  tags: string[];
-  difficulty: string;
-  language: string;
-  index: number;
-}
 
 // localStorage keys for code mode - moved outside component to prevent re-creation
 const localStorageKeys = {
@@ -74,50 +43,29 @@ export default function CodeTyperMode() {
   );
   const [githubLoading, setGithubLoading] = useState<boolean>(false);
   const [githubError, setGithubError] = useState<string | null>(null);
-
-  // Selection state for new collection system
-  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
-  const [selectedLanguageData, setSelectedLanguageData] = useState<
-    Language | null
-  >(null);
-  const [selectedCollectionId, setSelectedCollectionId] = useState<
-    string | null
-  >(null);
-  const [selectedCollectionData, setSelectedCollectionData] = useState<
-    CodeCollectionMetadata | null
-  >(null);
-  const [codeSnippets, setCodeSnippets] = useState<CodeSnippet[]>([]);
-  const [selectedSnippetIndex, setSelectedSnippetIndex] = useState<number>(0);
-
-  // Random mode states
-  const [languageRandomMode] = useState<boolean>(false);
-  const [collectionRandomMode] = useState<boolean>(
-    false,
-  );
+  const [githubTarget, setGithubTarget] = useState<string>("");
 
   // Content and UI state
-  const [targetText, setTargetText] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [initialLoadComplete, setInitialLoadComplete] = useState<boolean>(
-    false,
-  );
   const [showCompletion, setShowCompletion] = useState<boolean>(false);
   const [gameResult, setGameResult] = useState<DetailedGameResult | null>(null);
   const [startTime, setStartTime] = useState<number | null>(null);
+
+  // Single owner of the languages → collections → snippets cascade
+  // (fetching, validation, localStorage restore, abort races).
+  const content = useCodeContent({
+    languageKey: localStorageKeys.language,
+    collectionKey: localStorageKeys.collection,
+    snippetKey: localStorageKeys.snippet,
+  });
+
+  const targetText = sourceType === "github"
+    ? githubTarget
+    : content.currentSnippet?.code ?? "";
 
   const finishedSentRef = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const overtypeRef = useRef<HTMLDivElement>(null);
   const _hasUserInteracted = useRef(false);
-
-  // Memoize current snippet to prevent re-renders
-  const currentSnippet = useMemo(() => {
-    if (codeSnippets.length > 0 && selectedSnippetIndex < codeSnippets.length) {
-      return codeSnippets[selectedSnippetIndex];
-    }
-    return null;
-  }, [codeSnippets, selectedSnippetIndex]);
 
   // Initialize overtype input hook
   const {
@@ -145,9 +93,11 @@ export default function CodeTyperMode() {
   // Focus management for overtype textarea
   useEffect(() => {
     if (
-      targetText && !isLoading && !githubLoading && !showCompletion && !error &&
+      targetText && content.status !== "loading" && !githubLoading &&
+      !showCompletion && !content.error &&
       !githubError &&
-      (selectedCollectionId || (sourceType === "github" && githubFileInfo))
+      (content.selectedCollectionId ||
+        (sourceType === "github" && githubFileInfo))
     ) {
       const timer = setTimeout(() => {
         if (overtypeRef.current) {
@@ -161,12 +111,12 @@ export default function CodeTyperMode() {
     }
   }, [
     targetText,
-    isLoading,
+    content.status,
     githubLoading,
     showCompletion,
-    error,
+    content.error,
     githubError,
-    selectedCollectionId,
+    content.selectedCollectionId,
     sourceType,
     githubFileInfo,
   ]);
@@ -189,7 +139,7 @@ export default function CodeTyperMode() {
   const fetchGitHubContent = useCallback(async (url: string) => {
     setGithubLoading(true);
     setGithubError(null);
-    setTargetText("");
+    setGithubTarget("");
     setShowCompletion(false);
     setGameResult(null);
     setStartTime(null);
@@ -212,7 +162,7 @@ export default function CodeTyperMode() {
         return;
       }
 
-      setTargetText(data.content);
+      setGithubTarget(data.content);
       setGithubFileInfo(data.fileInfo);
       setGithubError(null);
     } catch (error) {
@@ -245,13 +195,13 @@ export default function CodeTyperMode() {
       // Get the programming language and source info
       const programmingLanguage = sourceType === "github"
         ? (githubFileInfo?.fileExtension || "unknown")
-        : (selectedLanguage || "unknown");
+        : (content.selectedLanguage || "unknown");
 
       // Determine source for metadata
       const source = sourceType === "github"
         ? `GitHub: ${githubFileInfo?.user}/${githubFileInfo?.repo}/${githubFileInfo?.fileName}`
-        : `${selectedLanguageData?.name || programmingLanguage}/${
-          selectedCollectionData?.name || "unknown"
+        : `${content.selectedLanguageData?.name || programmingLanguage}/${
+          content.selectedCollectionData?.name || "unknown"
         }`;
 
       const gameResult: DetailedGameResult = {
@@ -289,9 +239,9 @@ export default function CodeTyperMode() {
     backspaceCount,
     keystrokeData,
     targetText,
-    selectedLanguage,
-    selectedLanguageData,
-    selectedCollectionData,
+    content.selectedLanguage,
+    content.selectedLanguageData,
+    content.selectedCollectionData,
     sourceType,
     githubFileInfo,
     getWrongCharactersArray,
@@ -300,7 +250,7 @@ export default function CodeTyperMode() {
   // Handle completion and stats tracking
   useEffect(() => {
     if (isComplete && !finishedSentRef.current) {
-      const programmingLanguage = selectedLanguage || "unknown";
+      const programmingLanguage = content.selectedLanguage || "unknown";
 
       fetch("/api/game-stats", {
         method: "POST",
@@ -323,135 +273,11 @@ export default function CodeTyperMode() {
       setShowCompletion(true);
       finishedSentRef.current = true;
     }
-  }, [isComplete, sendDetailedStats, selectedLanguage]);
+  }, [isComplete, sendDetailedStats, content.selectedLanguage]);
 
-  // Function to load next snippet
-  const loadNextSnippet = useCallback(() => {
-    if (codeSnippets.length === 0) return;
-
-    // Reset completion state when loading new content
-    setShowCompletion(false);
-    setGameResult(null);
-    setStartTime(null);
-    finishedSentRef.current = false;
-
-    const nextIndex = (selectedSnippetIndex + 1) % codeSnippets.length;
-    setSelectedSnippetIndex(nextIndex);
-    localStorage.setItem(localStorageKeys.snippet, nextIndex.toString());
-  }, [codeSnippets.length, selectedSnippetIndex]);
-
-  // Function to load a random snippet from current collection
-  const loadRandomSnippet = useCallback(() => {
-    if (codeSnippets.length === 0) return;
-
-    // Reset completion state when loading random content
-    setShowCompletion(false);
-    setGameResult(null);
-    setStartTime(null);
-    finishedSentRef.current = false;
-
-    const randomIndex = Math.floor(Math.random() * codeSnippets.length);
-    setSelectedSnippetIndex(randomIndex);
-    localStorage.setItem(localStorageKeys.snippet, randomIndex.toString());
-  }, [codeSnippets.length]);
-
-  // Function to load a random snippet from any collection in the language
-  const loadLanguageRandomSnippet = useCallback(async () => {
-    if (!selectedLanguage) return;
-
-    // Reset completion state when loading random content
-    setShowCompletion(false);
-    setGameResult(null);
-    setStartTime(null);
-    finishedSentRef.current = false;
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch(
-        `/api/code-collections/random-snippet/${selectedLanguage}`,
-      );
-      if (!response.ok) {
-        throw new Error(`Failed to fetch random snippet: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      // Set the target text directly from the random snippet
-      setTargetText(data.snippet.code);
-
-      // Update collection if it changed
-      if (data.collectionId !== selectedCollectionId) {
-        setSelectedCollectionId(data.collectionId);
-        localStorage.setItem(localStorageKeys.collection, data.collectionId);
-
-        // Find and set collection data
-        try {
-          const collectionResponse = await fetch(
-            `/api/code-collections/collections/${selectedLanguage}`,
-          );
-          if (collectionResponse.ok) {
-            const collections = await collectionResponse.json();
-            const collectionData = collections.find((
-              c: CodeCollectionMetadata,
-            ) => c.id === data.collectionId);
-            if (collectionData) {
-              setSelectedCollectionData(collectionData);
-            }
-          }
-        } catch (e) {
-          console.warn("Failed to update collection data:", e);
-        }
-
-        // Load the full collection to get other snippets
-        try {
-          const snippetsResponse = await fetch(
-            `/api/code-collections/snippets/${selectedLanguage}/${data.collectionId}`,
-          );
-          if (snippetsResponse.ok) {
-            const snippets = await snippetsResponse.json();
-            setCodeSnippets(snippets);
-
-            // Find the index of our random snippet
-            const snippetIndex = snippets.findIndex((s: CodeSnippet) =>
-              s.code === data.snippet.code
-            );
-            if (snippetIndex !== -1) {
-              setSelectedSnippetIndex(snippetIndex);
-              localStorage.setItem(
-                localStorageKeys.snippet,
-                snippetIndex.toString(),
-              );
-            }
-          }
-        } catch (e) {
-          console.warn("Failed to load collection snippets:", e);
-        }
-      } else {
-        // Same collection, just find the snippet index
-        const snippetIndex = codeSnippets.findIndex((s: CodeSnippet) =>
-          s.code === data.snippet.code
-        );
-        if (snippetIndex !== -1) {
-          setSelectedSnippetIndex(snippetIndex);
-          localStorage.setItem(
-            localStorageKeys.snippet,
-            snippetIndex.toString(),
-          );
-        }
-      }
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Unknown error";
-      setError(`Error loading random snippet: ${errorMessage}`);
-    }
-
-    setIsLoading(false);
-  }, [selectedLanguage, selectedCollectionId, codeSnippets]);
-
-  // Load initial state including random modes
+  // Load initial state for source type and GitHub URL. Language, collection
+  // and snippet selections are restored inside useCodeContent.
   useEffect(() => {
-    if (initialLoadComplete) return;
-
     // Ensure completely clean initial state
     setShowCompletion(false);
     setGameResult(null);
@@ -472,135 +298,16 @@ export default function CodeTyperMode() {
     if (savedGithubUrl) {
       setGithubUrl(savedGithubUrl);
     }
+  }, []);
 
-    setInitialLoadComplete(true);
-  }, [initialLoadComplete]);
-
-  // Fetch code snippets when collection changes
+  // Reset game state whenever the content changes (new snippet, collection,
+  // language, or a freshly fetched GitHub file).
   useEffect(() => {
-    if (!selectedLanguage || !selectedCollectionId) {
-      setCodeSnippets([]);
-      setTargetText("");
-      return;
-    }
-
-    const loadCollection = async () => {
-      setIsLoading(true);
-      setError(null);
-      setTargetText("");
-      setShowCompletion(false);
-      setGameResult(null);
-      setStartTime(null);
-      finishedSentRef.current = false;
-
-      try {
-        const response = await fetch(
-          `/api/code-collections/snippets/${selectedLanguage}/${selectedCollectionId}`,
-        );
-        if (!response.ok) {
-          throw new Error(`Failed to fetch collection: ${response.status}`);
-        }
-
-        const snippets: CodeSnippet[] = await response.json();
-        setCodeSnippets(snippets);
-
-        // Restore snippet selection from localStorage after snippets are loaded
-        const savedSnippetIndex = localStorage.getItem(
-          localStorageKeys.snippet,
-        );
-        if (savedSnippetIndex && snippets.length > 0) {
-          const parsedIndex = parseInt(savedSnippetIndex, 10);
-          if (parsedIndex >= 0 && parsedIndex < snippets.length) {
-            setSelectedSnippetIndex(parsedIndex);
-          } else {
-            // Saved index is out of bounds, reset to 0
-            setSelectedSnippetIndex(0);
-            localStorage.setItem(localStorageKeys.snippet, "0");
-          }
-        } else {
-          // No saved index, start with 0
-          setSelectedSnippetIndex(0);
-          localStorage.setItem(localStorageKeys.snippet, "0");
-        }
-      } catch (err) {
-        const errorMessage = err instanceof Error
-          ? err.message
-          : "Unknown error";
-        setError(`Error loading collection: ${errorMessage}`);
-        setCodeSnippets([]);
-      }
-
-      setIsLoading(false);
-    };
-
-    loadCollection();
-  }, [
-    selectedLanguage,
-    selectedCollectionId,
-  ]);
-
-  // Update target text when snippet selection changes
-  useEffect(() => {
-    if (codeSnippets.length === 0) {
-      setTargetText("");
-      return;
-    }
-
-    // Validate snippet index (defensive check)
-    if (
-      selectedSnippetIndex >= codeSnippets.length || selectedSnippetIndex < 0
-    ) {
-      console.warn(
-        `Invalid snippet index ${selectedSnippetIndex}, resetting to 0`,
-      );
-      setSelectedSnippetIndex(0);
-      localStorage.setItem(localStorageKeys.snippet, "0");
-      return; // Let the effect re-run with the corrected index
-    }
-
-    // Update target text with current snippet
-    const selectedSnippet = codeSnippets[selectedSnippetIndex];
-    if (selectedSnippet) {
-      setTargetText(selectedSnippet.code);
-    }
-
-    // Reset game state when changing snippets (only if not during initial load)
     setShowCompletion(false);
     setGameResult(null);
     setStartTime(null);
     finishedSentRef.current = false;
-  }, [codeSnippets, selectedSnippetIndex]);
-
-  // Selection handlers
-  const handleLanguageChange = useCallback(
-    (languageCode: string, language: Language) => {
-      setSelectedLanguage(languageCode);
-      setSelectedLanguageData(language);
-      setSelectedCollectionId(null);
-      setSelectedCollectionData(null);
-      setSelectedSnippetIndex(0);
-      localStorage.setItem(localStorageKeys.language, languageCode);
-      localStorage.removeItem(localStorageKeys.collection);
-      localStorage.removeItem(localStorageKeys.snippet);
-    },
-    [],
-  );
-
-  const handleCollectionChange = useCallback(
-    (collectionId: string, collection: CodeCollectionMetadata) => {
-      setSelectedCollectionId(collectionId);
-      setSelectedCollectionData(collection);
-      setSelectedSnippetIndex(0);
-      localStorage.setItem(localStorageKeys.collection, collectionId);
-      localStorage.setItem(localStorageKeys.snippet, "0");
-    },
-    [],
-  );
-
-  const handleSnippetChange = useCallback((index: number) => {
-    setSelectedSnippetIndex(index);
-    localStorage.setItem(localStorageKeys.snippet, index.toString());
-  }, []);
+  }, [targetText]);
 
   // Source type change handler
   const handleSourceTypeChange = useCallback(
@@ -609,7 +316,7 @@ export default function CodeTyperMode() {
       localStorage.setItem(localStorageKeys.sourceType, newSourceType);
 
       // Reset content when switching source types
-      setTargetText("");
+      setGithubTarget("");
       setShowCompletion(false);
       setGameResult(null);
       setStartTime(null);
@@ -643,61 +350,24 @@ export default function CodeTyperMode() {
     finishedSentRef.current = false;
   }, [resetInput]);
 
-  // Handle next exercise - use appropriate random mode
-  const handleNextExercise = useCallback(() => {
-    if (languageRandomMode) {
-      loadLanguageRandomSnippet();
-    } else if (collectionRandomMode) {
-      loadRandomSnippet();
-    } else {
-      loadNextSnippet();
-    }
-  }, [
-    languageRandomMode,
-    collectionRandomMode,
-    loadLanguageRandomSnippet,
-    loadRandomSnippet,
-    loadNextSnippet,
-  ]);
-
-  // Auto-trigger random snippet on completion if random modes are enabled
-  useEffect(() => {
-    if (isComplete && !finishedSentRef.current) {
-      const timeoutId = setTimeout(() => {
-        if (languageRandomMode) {
-          loadLanguageRandomSnippet();
-        } else if (collectionRandomMode) {
-          loadRandomSnippet();
-        }
-      }, 2000); // 2 second delay after completion
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [
-    isComplete,
-    languageRandomMode,
-    collectionRandomMode,
-    loadLanguageRandomSnippet,
-    loadRandomSnippet,
-  ]);
-
   return (
     <div class="code-mode-container" ref={containerRef}>
-      {(isLoading || githubLoading) && (
+      {((content.status === "loading" && !content.currentSnippet) ||
+        githubLoading) && (
         <div class="code-loading">
           <div class="code-spinner"></div>
           <span>Loading content...</span>
         </div>
       )}
 
-      {(error || githubError) && (
+      {(content.error || githubError) && (
         <div class="code-error">
           <span class="code-error-icon">⚠️</span>
-          <span>{error || githubError}</span>
+          <span>{content.error || githubError}</span>
         </div>
       )}
 
-      {!isLoading && !githubLoading && !error && !githubError && (
+      {!githubLoading && !content.error && !githubError && (
         <>
           {targetText && (
             <div ref={overtypeRef}>
@@ -724,15 +394,16 @@ export default function CodeTyperMode() {
               <div class="selector-row">
                 <div class="selector-item">
                   <CodeLanguageSelector
-                    selectedLanguage={selectedLanguage}
-                    onLanguageChange={handleLanguageChange}
+                    languages={content.languages}
+                    selectedLanguage={content.selectedLanguage}
+                    onLanguageChange={content.selectLanguage}
                   />
                 </div>
                 <div class="selector-item">
                   <CodeCollectionSelector
-                    languageCode={selectedLanguage}
-                    selectedCollectionId={selectedCollectionId}
-                    onCollectionChange={handleCollectionChange}
+                    collections={content.collections}
+                    selectedCollectionId={content.selectedCollectionId}
+                    onCollectionChange={content.selectCollection}
                   />
                 </div>
               </div>
@@ -775,34 +446,34 @@ export default function CodeTyperMode() {
           )}
 
           {/* Snippet selector and info - only show for collections mode */}
-          {sourceType === "collections" && codeSnippets.length > 0 && (
+          {sourceType === "collections" && content.snippets.length > 0 && (
             <div class="snippet-selector">
               <label class="code-label">
-                Code Snippet ({selectedSnippetIndex + 1} of{" "}
-                {codeSnippets.length}):
+                Code Snippet ({content.selectedSnippetIndex + 1} of{" "}
+                {content.snippets.length}):
               </label>
               <select
-                value={selectedSnippetIndex}
+                value={content.selectedSnippetIndex}
                 onChange={(e) =>
-                  handleSnippetChange(parseInt(e.currentTarget.value, 10))}
+                  content.selectSnippet(parseInt(e.currentTarget.value, 10))}
                 class="code-select"
                 disabled={isComplete}
               >
-                {codeSnippets.map((snippet, index) => (
+                {content.snippets.map((snippet, index) => (
                   <option key={`${snippet.title}-${index}`} value={index}>
                     {snippet.title} ({snippet.difficulty})
                   </option>
                 ))}
               </select>
 
-              {currentSnippet && (
+              {content.currentSnippet && (
                 <div class="snippet-info">
                   <p class="snippet-description">
-                    {currentSnippet.description}
+                    {content.currentSnippet.description}
                   </p>
-                  {currentSnippet.tags.length > 0 && (
+                  {content.currentSnippet.tags.length > 0 && (
                     <p class="snippet-tags">
-                      Tags: {currentSnippet.tags.join(", ")}
+                      Tags: {content.currentSnippet.tags.join(", ")}
                     </p>
                   )}
                 </div>
@@ -814,18 +485,18 @@ export default function CodeTyperMode() {
           {sourceType === "collections" && (
             <div class="code-actions">
               <button
-                onClick={loadRandomSnippet}
+                onClick={content.randomSnippetInCollection}
                 class="code-button code-button-random"
                 type="button"
-                disabled={isComplete || codeSnippets.length === 0}
+                disabled={isComplete || content.snippets.length === 0}
               >
                 Random Snippet
               </button>
               <button
-                onClick={loadNextSnippet}
+                onClick={content.nextSnippet}
                 class="code-button code-button-next"
                 type="button"
-                disabled={isComplete || codeSnippets.length <= 1}
+                disabled={isComplete || content.snippets.length <= 1}
               >
                 Next Snippet
               </button>
@@ -838,7 +509,7 @@ export default function CodeTyperMode() {
               metrics={metrics}
               isComplete
               onPracticeAgain={handlePracticeAgain}
-              onNextGame={handleNextExercise}
+              onNextGame={content.nextSnippet}
               gameType="code"
               gameResult={gameResult || undefined}
             />
