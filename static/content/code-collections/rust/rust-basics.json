@@ -31,12 +31,22 @@
       "language": "rust"
     },
     {
-      "code": "fn main() {\n    let mut tool_inventory = Vec::new();\n    tool_inventory.push(\"carbide insert\");\n    tool_inventory.push(\"coolant pump\");\n    tool_inventory.push(\"dial indicator\");\n    \n    println!(\"Inventory has {} items\", tool_inventory.len());\n    \n    // pop() removes and returns the last item (if any exists)\n    if let Some(item) = tool_inventory.pop() {\n        println!(\"Removed: {}\", item);\n    }\n}",
-      "title": "Vectors and Methods",
-      "description": "Dynamic arrays (vectors) and method calls",
-      "tags": ["vectors", "methods", "option"],
+      "code": "fn main() {\n    // Cutting tools used in today's milling job\n    let mut tool_rack: Vec<&str> = Vec::new();\n\n    // push() adds a value at the end of the vector\n    tool_rack.push(\"roughing end mill\");\n    tool_rack.push(\"finishing end mill\");\n    tool_rack.push(\"spot drill\");\n\n    // len() counts items, is_empty() checks for zero\n    println!(\"{} tools on the rack\", tool_rack.len());\n    println!(\"Rack empty? {}\", tool_rack.is_empty());\n\n    // pop() removes the last item and returns it as Option<&str>\n    if let Some(put_away) = tool_rack.pop() {\n        println!(\"Put away: {}\", put_away);\n    }\n    println!(\"{} left: {:?}\", tool_rack.len(), tool_rack);\n}",
+      "title": "Growing a Vector",
+      "description": "Create a vector, add tools with push, count with len, take the last one back with pop",
+      "tags": ["vectors", "push", "pop", "len"],
       "difficulty": "beginner",
-      "language": "rust"
+      "language": "rust",
+      "tip": "Vec<&str> only borrows its strings; Vec<String> would own them — that single choice is the borrow checker in action."
+    },
+    {
+      "code": "fn main() {\n    let mut speeds: Vec<u32> = Vec::new();\n    speeds.push(800); // roughing pass\n    speeds.push(1200);\n    speeds.push(2400); // finishing pass\n\n    // insert() places a value at an index, shifting the rest right\n    speeds.insert(1, 1000);\n    println!(\"{:?}\", speeds); // [800, 1000, 1200, 2400]\n\n    // remove() takes a value back out and returns it\n    let dropped = speeds.remove(1);\n    println!(\"dropped {}\", dropped); // dropped 1000\n\n    // get() returns Option — None when the index does not exist\n    println!(\"{:?}\", speeds.get(2)); // Some(2400)\n    println!(\"{:?}\", speeds.get(9)); // None\n}",
+      "title": "Reading and Modifying Vectors",
+      "description": "Change vectors in place with insert and remove, and read them safely with get",
+      "tags": ["vectors", "insert", "remove", "get", "option"],
+      "difficulty": "beginner",
+      "language": "rust",
+      "tip": "get() returns Option and never panics — indexing with speeds[9] instead would crash the whole program."
     },
     {
       "code": "fn calculate_machining_time(parts: u32, time_per_part: f64) -> f64 {\n    parts as f64 * time_per_part\n}\n\nfn main() {\n    let turning_time = calculate_machining_time(20, 4.5);\n    let milling_time = calculate_machining_time(15, 8.2);\n    \n    println!(\"Turning time: {:.2} minutes\", turning_time);\n    println!(\"Milling time: {:.2} minutes\", milling_time);\n}",
