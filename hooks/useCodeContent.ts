@@ -271,24 +271,31 @@ export function useCodeContent(
     [snippets, selectedSnippetIndex],
   );
 
+  // User-driven switches clear downstream content synchronously, in the same
+  // tick as the selection change. Waiting for the effects to do it leaves a
+  // painted window where the old language's snippets show under the new
+  // language's selects — the "menu is fighting me" experience.
   const selectLanguage = useCallback((code: string) => {
-    setSelectedLanguage((current) => {
-      if (current === code) return current;
-      // Language switch invalidates the collection; snippets follow.
-      setSelectedCollectionId(null);
-      setSelectedSnippetIndex(
-        resolveInitialSnippetIndex(
-          Number.MAX_SAFE_INTEGER,
-          readSaved(snippetKey),
-        ),
-      );
-      return code;
-    });
-  }, [snippetKey]);
+    if (selectedLanguage === code) return;
+    collectionsAbort.current?.abort();
+    snippetsAbort.current?.abort();
+    setCollections([]);
+    setSnippets([]);
+    setSelectedCollectionId(null);
+    // A saved snippet index belongs to the previous collection; a language
+    // switch always starts at the first snippet (the saved-index restore is
+    // only for the initial page load).
+    setSelectedSnippetIndex(0);
+    setSelectedLanguage(code);
+  }, [selectedLanguage]);
 
   const selectCollection = useCallback((id: string) => {
+    if (selectedCollectionId === id) return;
+    snippetsAbort.current?.abort();
+    setSnippets([]);
+    setSelectedSnippetIndex(0);
     setSelectedCollectionId(id);
-  }, []);
+  }, [selectedCollectionId]);
 
   const selectSnippet = useCallback((index: number) => {
     setSelectedSnippetIndex(index);
