@@ -121,6 +121,91 @@
   min-width: 200px;
 }
 
+/* Code dropdown: custom listbox replacing the native <select> popups.
+   Native popups get closed and reshuffled by re-renders while open (a
+   background refetch replacing the options, or change-per-arrow-key on
+   Linux Chrome), which made the menu feel broken. */
+.code-dropdown {
+  position: relative;
+  display: inline-flex;
+}
+
+.code-dropdown-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: white;
+  font-size: 0.875rem;
+  max-width: 240px;
+  color: #111827;
+  cursor: pointer;
+}
+
+.code-dropdown-button:hover:not(:disabled) {
+  background-color: #f9fafb;
+}
+
+.code-dropdown-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.code-dropdown-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.code-dropdown-caret {
+  font-size: 0.7rem;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.code-dropdown-popup {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 60;
+  margin: 0;
+  padding: 0.25rem 0;
+  list-style: none;
+  min-width: 100%;
+  max-width: 420px;
+  width: max-content;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.code-dropdown-item {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.875rem;
+  color: #111827;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.code-dropdown-item.highlighted {
+  background-color: #eef2ff;
+}
+
+.code-dropdown-item.selected {
+  font-weight: 600;
+}
+
+.code-dropdown-snippet .code-dropdown-button {
+  min-width: 200px;
+}
+
 .code-random-button {
   padding: 0.45rem 0.6rem;
   border: 1px solid #d1d5db;

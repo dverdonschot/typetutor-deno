@@ -7,8 +7,7 @@ import OvertypeContainer from "../components/overtype/OvertypeContainer.tsx";
 import GameScoreDisplayIsland from "./GameScoreDisplayIsland.tsx";
 import { UserStatsManager } from "../utils/userStatsManager.ts";
 import { DetailedGameResult } from "../types/userStats.ts";
-import CodeLanguageSelector from "../components/CodeLanguageSelector.tsx";
-import CodeCollectionSelector from "../components/CodeCollectionSelector.tsx";
+import CodeDropdown from "../components/CodeDropdown.tsx";
 import CodeSourceSelector from "../components/CodeSourceSelector.tsx";
 import GitHubUrlInput from "../components/GitHubUrlInput.tsx";
 
@@ -103,6 +102,12 @@ export default function CodeTyperMode() {
         (sourceType === "github" && githubFileInfo))
     ) {
       const timer = setTimeout(() => {
+        // Never steal focus from the code menu — the user may be browsing it
+        // with the keyboard. Typing focus resumes once the menu closes (the
+        // content change from the commit re-arms this timer).
+        if (document.querySelector('[data-code-menu][data-open="true"]')) {
+          return;
+        }
         if (overtypeRef.current) {
           const textarea = overtypeRef.current.querySelector("textarea");
           if (textarea && !textarea.disabled) {
@@ -418,30 +423,40 @@ export default function CodeTyperMode() {
 
             {sourceType === "collections" && (
               <>
-                <CodeLanguageSelector
-                  languages={content.languages}
-                  selectedLanguage={content.selectedLanguage}
-                  onLanguageChange={content.selectLanguage}
+                <CodeDropdown
+                  options={content.languages.map((lang) => ({
+                    value: lang.code,
+                    label: `${lang.icon} ${lang.name}`,
+                  }))}
+                  selected={content.selectedLanguage}
+                  onChange={content.selectLanguage}
+                  ariaLabel="Programming language"
+                  placeholder="-- Select a language --"
                 />
-                <CodeCollectionSelector
-                  collections={content.collections}
-                  selectedCollectionId={content.selectedCollectionId}
-                  onCollectionChange={content.selectCollection}
+                <CodeDropdown
+                  options={content.collections.map((coll) => ({
+                    value: coll.id,
+                    label:
+                      `${coll.name} (${coll.snippetCount} snippets) - ${coll.difficulty}`,
+                  }))}
+                  selected={content.selectedCollectionId}
+                  onChange={content.selectCollection}
+                  ariaLabel="Code collection"
+                  placeholder="-- Select a code collection --"
                 />
-                <select
-                  aria-label="Code snippet"
-                  value={content.selectedSnippetIndex}
-                  onChange={(e) =>
-                    content.selectSnippet(parseInt(e.currentTarget.value, 10))}
-                  class="code-select code-select-snippet"
+                <CodeDropdown
+                  options={content.snippets.map((snippet, index) => ({
+                    value: String(index),
+                    label: `${index + 1}. ${snippet.title}`,
+                  }))}
+                  selected={String(content.selectedSnippetIndex)}
+                  onChange={(value) =>
+                    content.selectSnippet(parseInt(value, 10))}
+                  ariaLabel="Code snippet"
                   disabled={isComplete}
-                >
-                  {content.snippets.map((snippet, index) => (
-                    <option key={`${snippet.title}-${index}`} value={index}>
-                      {index + 1}. {snippet.title}
-                    </option>
-                  ))}
-                </select>
+                  placeholder="-- Select a snippet --"
+                  className="code-dropdown-snippet"
+                />
                 <button
                   type="button"
                   class="code-random-button"
