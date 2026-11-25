@@ -7,6 +7,10 @@ interface OvertypeContainerProps {
   inputValue: string;
   onInputChange: (value: string) => void;
   disabled?: boolean;
+  // One color per character of the target text (server-side Shiki tokens).
+  // Applied to pending characters only; correct/incorrect/current keep their
+  // state styling for readability.
+  tokenColors?: (string | null)[];
 }
 
 export default function OvertypeContainer({
@@ -14,6 +18,7 @@ export default function OvertypeContainer({
   inputValue,
   onInputChange,
   disabled = false,
+  tokenColors,
 }: OvertypeContainerProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
@@ -57,8 +62,17 @@ export default function OvertypeContainer({
       : charState.original;
     const typedChar = charState.typed === " " ? "\u00A0" : charState.typed;
 
+    // Pending chars take their syntax color; typed-state styling wins.
+    const tokenColor = charState.state === "none"
+      ? tokenColors?.[index] ?? null
+      : null;
+
     return (
-      <span key={index} class={className}>
+      <span
+        key={index}
+        class={className}
+        style={tokenColor ? { color: tokenColor } : undefined}
+      >
         {charState.state === "incorrect" && charState.typed
           ? typedChar
           : displayChar}

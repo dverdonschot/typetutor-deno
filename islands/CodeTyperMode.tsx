@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import { useOvertypeInput } from "../hooks/useOvertypeInput.ts";
 import { useTypingMetrics } from "../hooks/useTypingMetrics.ts";
 import { useCodeContent } from "../hooks/useCodeContent.ts";
+import { colorByChar } from "../functions/syntaxTokens.ts";
 import OvertypeContainer from "../components/overtype/OvertypeContainer.tsx";
 import GameScoreDisplayIsland from "./GameScoreDisplayIsland.tsx";
 import { UserStatsManager } from "../utils/userStatsManager.ts";
@@ -49,6 +50,8 @@ export default function CodeTyperMode() {
   const [showCompletion, setShowCompletion] = useState<boolean>(false);
   const [gameResult, setGameResult] = useState<DetailedGameResult | null>(null);
   const [startTime, setStartTime] = useState<number | null>(null);
+  // One color per character of targetText (server-side Shiki tokens)
+  const [tokenColors, setTokenColors] = useState<(string | null)[]>([]);
 
   // Single owner of the languages → collections → snippets cascade
   // (fetching, validation, localStorage restore, abort races).
@@ -309,6 +312,43 @@ export default function CodeTyperMode() {
     finishedSentRef.current = false;
   }, [targetText]);
 
+  // Syntax highlighting: fetch server-side Shiki tokens for the current text.
+  useEffect(() => {
+    if (!targetText) {
+      setTokenColors([]);
+      return;
+    }
+    const lang = sourceType === "github"
+      ? githubFileInfo?.fileExtension || ""
+      : content.selectedLanguage || "";
+    if (!lang) {
+      setTokenColors([]);
+      return;
+    }
+    const controller = new AbortController();
+    (async () => {
+      try {
+        const response = await fetch("/api/highlight", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ lang, code: targetText }),
+          signal: controller.signal,
+        });
+        if (!response.ok) {
+          setTokenColors([]);
+          return;
+        }
+        const data = await response.json();
+        if (controller.signal.aborted) return;
+        setTokenColors(colorByChar(targetText.length, data.tokens ?? []));
+      } catch (err) {
+        if ((err as Error).name === "AbortError") return;
+        setTokenColors([]);
+      }
+    })();
+    return () => controller.abort();
+  }, [targetText, sourceType, githubFileInfo, content.selectedLanguage]);
+
   // Source type change handler
   const handleSourceTypeChange = useCallback(
     (newSourceType: "collections" | "github") => {
@@ -482,6 +522,7 @@ export default function CodeTyperMode() {
                 inputValue={inputValue}
                 onInputChange={handleInputChange}
                 disabled={showCompletion}
+                tokenColors={tokenColors}
               />
             </div>
           )}
