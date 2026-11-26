@@ -1,6 +1,7 @@
 import { ComponentChildren } from "preact";
 import { Logo } from "./Logo.tsx";
 import HamburgerMenu from "../islands/HamburgerMenu.tsx";
+import GameNavBar from "../islands/GameNavBar.tsx";
 import LanguageProvider from "./LanguageProvider.tsx";
 import GlobalLanguageSelector from "../islands/GlobalLanguageSelector.tsx";
 import ReactiveDescription from "../islands/ReactiveDescription.tsx";
@@ -29,6 +30,9 @@ export function Layout(
               <HamburgerMenu currentPath={currentPath} />
             </div>
           </header>
+
+          {/* Game navigation bar: every game one tap away */}
+          <GameNavBar currentPath={currentPath} />
 
           {/* Description Section - Hidden on mobile */}
           <section class="hidden sm:block p-4 bg-white rounded-lg shadow">

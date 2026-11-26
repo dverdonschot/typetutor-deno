@@ -14,6 +14,14 @@
   letter-spacing: 0.05em;
 }
 
+/* Game nav bar: hide the scrollbar, the faded edges are not worth it here */
+.gamebar-scroll {
+  scrollbar-width: none;
+}
+.gamebar-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 /* Custom bounce animation that stops after 3 bounces */
 @keyframes bounce-three-times {
   0%,
