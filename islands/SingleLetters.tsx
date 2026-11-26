@@ -265,15 +265,15 @@ export const SingleLetters: FC = () => {
   ]);
 
   return (
-    <div class="w-full min-h-[500px] rounded-lg bg-white shadow p-8">
+    <div class="game-card w-full min-h-[500px] rounded-lg bg-white shadow p-8">
       {/* Character Set Selector */}
-      <div class="mb-8 flex flex-wrap justify-center gap-3">
+      <div class="set-picker mb-8 flex flex-wrap justify-center gap-3">
         {(Object.keys(CHARACTER_SETS) as CharacterSet[]).map((set) => (
           <button
             type="button"
             key={set}
             onClick={() => handleCharacterSetChange(set)}
-            class={`px-6 py-3 rounded-lg font-semibold transition-all ${
+            class={`set-btn px-6 py-3 rounded-lg font-semibold transition-all ${
               selectedSet === set
                 ? "bg-tt-darkblue text-white shadow-lg"
                 : "bg-gray-200 text-gray-700 hover:bg-gray-300"

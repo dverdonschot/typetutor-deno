@@ -5,7 +5,10 @@ export default define.page(function App({ Component }) {
     <html>
       <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content"
+        />
         <title>TypeTutor - Improve Your Typing Skills</title>
         <link rel="icon" href="/favicon.ico" />
       </head>

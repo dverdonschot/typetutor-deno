@@ -154,11 +154,13 @@ export default function GameNavBar({ currentPath }: GameNavBarProps) {
             class={chipClass(active)}
           >
             {game.icon}
-            <span class={game.shortLabel ? "hidden sm:inline" : ""}>
+            <span
+              class={`chip-label ${game.shortLabel ? "hidden sm:inline" : ""}`}
+            >
               {game.label}
             </span>
             {game.shortLabel && (
-              <span class="sm:hidden">{game.shortLabel}</span>
+              <span class="chip-label sm:hidden">{game.shortLabel}</span>
             )}
           </a>
         );
@@ -179,8 +181,8 @@ export default function GameNavBar({ currentPath }: GameNavBarProps) {
         {strokeIcon(
           "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z",
         )}
-        <span class="hidden sm:inline">User Stats</span>
-        <span class="sm:hidden">Stats</span>
+        <span class="chip-label hidden sm:inline">User Stats</span>
+        <span class="chip-label sm:hidden">Stats</span>
       </a>
     </nav>
   );

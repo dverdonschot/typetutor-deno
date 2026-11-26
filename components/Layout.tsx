@@ -2,6 +2,7 @@ import { ComponentChildren } from "preact";
 import { Logo } from "./Logo.tsx";
 import HamburgerMenu from "../islands/HamburgerMenu.tsx";
 import GameNavBar from "../islands/GameNavBar.tsx";
+import MobileKeyboardMode from "../islands/MobileKeyboardMode.tsx";
 import LanguageProvider from "./LanguageProvider.tsx";
 import GlobalLanguageSelector from "../islands/GlobalLanguageSelector.tsx";
 import ReactiveDescription from "../islands/ReactiveDescription.tsx";
@@ -19,6 +20,7 @@ export function Layout(
   return (
     <LanguageProvider>
       <TranslationInitializer>
+        <MobileKeyboardMode />
         <div class="flex flex-col gap-6 flex-grow min-h-screen">
           {/* Header Section */}
           <header class="flex flex-col sm:flex-row justify-between items-center p-4 bg-white rounded-lg shadow">
